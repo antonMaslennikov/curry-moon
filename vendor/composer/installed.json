@@ -1,0 +1,162 @@
+[
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "dd2b4bc5fb4a988ca080b5613903d04c88d410c1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/dd2b4bc5fb4a988ca080b5613903d04c88d410c1",
+            "reference": "dd2b4bc5fb4a988ca080b5613903d04c88d410c1",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "doctrine/annotations": "1.2.*",
+            "friendsofphp/php-cs-fixer": "^2.2",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "^4.8 || ^5.7",
+            "zendframework/zend-eventmanager": "3.0.*",
+            "zendframework/zend-i18n": "2.7.3",
+            "zendframework/zend-serializer": "2.7.*"
+        },
+        "suggest": {
+            "ext-mbstring": "Needed to send email in multibyte encoding charset",
+            "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+            "psr/log": "For optional PSR-3 debug logging",
+            "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
+            "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
+        },
+        "time": "2017-11-17T11:24:17+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "PHPMailer\\PHPMailer\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "smarty/smarty",
+        "version": "v3.1.31",
+        "version_normalized": "3.1.31.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/smarty-php/smarty.git",
+            "reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
+            "reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "time": "2016-12-14T21:57:25+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "libs/bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Monte Ohrt",
+                "email": "monte@ohrt.com"
+            },
+            {
+                "name": "Uwe Tews",
+                "email": "uwe.tews@googlemail.com"
+            },
+            {
+                "name": "Rodney Rehm",
+                "email": "rodney.rehm@medialize.de"
+            }
+        ],
+        "description": "Smarty - the compiling PHP template engine",
+        "homepage": "http://www.smarty.net",
+        "keywords": [
+            "templating"
+        ]
+    },
+    {
+        "name": "itlessons/php-routing",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/itlessons/php-routing",
+            "reference": "2ad28c942e0797d877cf6c79e24c5bd713036e48"
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2015-01-17T10:22:06+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Routing\\": "src/Routing"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "itlessons",
+                "homepage": "http://www.itlessons.info"
+            }
+        ],
+        "description": "PHP Routing Library",
+        "homepage": "https://github.com/itlessons/php-routing",
+        "keywords": [
+            "URI",
+            "URL",
+            "router",
+            "routing"
+        ]
+    }
+]

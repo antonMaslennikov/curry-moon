@@ -1,0 +1,35 @@
+<p>Поступил ответ менеджера</p>
+
+<blockquote>
+    <?= $comment ?>
+</blockquote> 
+
+<p>на Вашу заявку:</p>
+
+<blockquote>
+    <?= $request->text ?>
+</blockquote>
+
+<table border="0" cellspacing="0" cellpadding="0" style="font-size:12.8px;color:rgb(80,0,80);border-collapse:collapse">
+<tbody>
+<tr style="height:63.35pt">
+    <td width="115" valign="top" style="width:86.4pt;padding:0cm 5.4pt;height:63.35pt">
+        <p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px"><br></p>
+        <p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px">
+            <img src="https://ci5.googleusercontent.com/proxy/_8SxhNhU5rVVAmkXp0sQqbi8ZjxQSXBfDljIazf8LhRBOjt36GHYAuTDGIRfeBNwy8CnfdvTZQ8tzfXYeHJ_LRtdM5URRn3GtWuDgE-gCyTT2FuKO7qoKHbkK9NsqaNiaAaGvQUb-896vstySboMqk8YRGBthCXiqoIuG4iqxV4imeyqFNHz8--L3nRgydAuEMUFyYckBxnvICo=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=0B9-mK1BIgPO4RXBzbDZCT3cwckE&amp;revid=0B9-mK1BIgPO4YTh5ak9sZ21tdGk3TjRGMWFJUFlWZGtPRlVvPQ" style="color:black;font-family:Arial,sans-serif;font-size:11pt;line-height:16.8667px" class="CToWUd">
+            <a href="http://www.maryjane.ru/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=ru&amp;q=http://www.maryjane.ru/&amp;source=gmail&amp;ust=1497614994281000&amp;usg=AFQjCNF7CWara3ebkU87O2J9YumKI2Fv2w"><br><br></a>
+        </p>
+    </td>
+    <td width="402" style="width:301.75pt;padding:0cm 5.4pt;height:63.35pt">
+        <p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px">
+            <b><span lang="DE" style="font-size:11pt;line-height:16.8667px;font-family:Arial,sans-serif;color:black"><br></span></b>
+        </p>
+        <p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px">
+            <b style="font-size:12pt;line-height:18.4px"><span lang="DE" style="font-size:11pt;line-height:16.8667px;font-family:Arial,sans-serif;color:black"><br></span></b>
+        </p>
+        <p style="margin:0cm 0cm 0.0001pt;line-height:18.4px"><font color="#000000" face="Arial, sans-serif"><span style="font-size:14.6667px"><b><?= $manager->user_name ?></b></span></font></p>
+        <p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;times new roman&quot;,serif;line-height:18.4px"><b style="font-size:12pt;line-height:18.4px"><span lang="DE" style="font-size:11pt;line-height:16.8667px;font-family:arial,sans-serif;color:black"><a href="http://www.maryjane.ru/" style="color:rgb(17,85,204)" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=ru&amp;q=http://www.maryjane.ru/&amp;source=gmail&amp;ust=1497614994281000&amp;usg=AFQjCNF7CWara3ebkU87O2J9YumKI2Fv2w">www.maryjane.ru</a>&nbsp;</span></b></p>
+        <p style="font-size:12.8px;margin:0cm 0cm 0.0001pt"><font color="#000000" face="Arial, sans-serif"><span style="font-size:13.3333px;line-height:15.3333px">Производство трикотажных изделий</span></font></p>
+    </td>
+</tr>
+<tr style="height:22.1pt"><td width="518" colspan="2" valign="top" style="width:388.15pt;padding:0cm 5.4pt;height:22.1pt"><p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px"><img src="https://ci5.googleusercontent.com/proxy/8xowBFSAwUlye3RGL-60pUcQI9a_XNd7p_azvSkiLb9kJBFBjQMqmgT6jnWTNPjBWQFjNb7grqVvGz93-LZxpA=s0-d-e1-ft#http://www.maryjane.ru/images/image002.png" style="color:black;font-family:Arial,sans-serif;font-size:11pt;line-height:16.8667px" class="CToWUd"><span style="color:black;font-family:Arial,sans-serif;font-size:11pt;line-height:16.8667px">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span><br><u></u></p><p style="margin:0cm 0cm 0.0001pt"><font color="#000000" face="Arial, sans-serif"><span style="font-size:14.6667px;line-height:16.8667px"><b>Швейно-печатное производство</b></span></font></p><p style="margin:0cm 0cm 0.0001pt"><font color="#000000" face="Arial, sans-serif"><span style="font-size:14.6667px;line-height:16.8667px"><b><br></b></span></font></p><p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px"><span lang="EN-US" style="font-size:10pt;line-height:15.3333px;font-family:Arial,sans-serif;color:black">г. Москва, Малая Почтовая 12 стр.3<br><span lang="EN-US" style="font-size:10pt;line-height:15.3333px">Оптовый отдел: +7 499 653-59-29 &nbsp;</span><span lang="EN-US" style="font-size:10pt;line-height:15.3333px">l</span><span lang="EN-US" style="font-size:10pt;line-height:15.3333px;color:rgb(31,73,125)">&nbsp;</span><span style="font-size:10pt;line-height:15.3333px">&nbsp;<a href="http://www.maryjane.ru/dealer/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=ru&amp;q=http://www.maryjane.ru/dealer/&amp;source=gmail&amp;ust=1497614994281000&amp;usg=AFQjCNGhS-nHkMfybJPxxRnNG06s8EnkCw">www.maryjane.ru/dealer/</a></span><span style="color:rgb(31,73,125);font-size:11pt;line-height:16.8667px">&nbsp;&nbsp;</span><br></span></p><p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px"><span style="color:rgb(31,73,125);font-family:Arial,sans-serif;font-size:11pt;line-height:16.8667px">&nbsp; &nbsp;</span></p><p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px"><br></p><p style="margin:0cm 0cm 0.0001pt;font-size:12pt;font-family:&quot;Times New Roman&quot;,serif;line-height:18.4px"><a href="https://www.facebook.com/maryjaneisonmybrain/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=ru&amp;q=https://www.facebook.com/maryjaneisonmybrain/&amp;source=gmail&amp;ust=1497614994281000&amp;usg=AFQjCNHoS-557OD0Nl_COHCc8IhWEe1E6A"><img src="https://ci4.googleusercontent.com/proxy/dg3q9FVwcl-f853aeEJwPYN5NhW0-x-l8-neZnxU4BirXrLsPQabDDhpXyyeFj0i2Mf7_v0mUFIp9Q=s0-d-e1-ft#http://www.maryjane.ru/images/fb.png" class="CToWUd"></a>&nbsp;&nbsp;<a href="https://vk.com/maryjaneru" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=ru&amp;q=https://vk.com/maryjaneru&amp;source=gmail&amp;ust=1497614994281000&amp;usg=AFQjCNF09Tka2IVnRLvzkLGl-kyWbO780w"><img src="https://ci4.googleusercontent.com/proxy/0XJ6WJpvfJd2gEhufs6Usw4iV-TWW1jWBx08QthNzC2d9VuclkbD_Eb9UqrbuX6og7ZyQiNWTysmww=s0-d-e1-ft#http://www.maryjane.ru/images/vk.png" class="CToWUd"></a>&nbsp;&nbsp;<a href="https://www.instagram.com/maryjane_ru/" target="_blank" data-saferedirecturl="https://www.google.com/url?hl=ru&amp;q=https://www.instagram.com/maryjane_ru/&amp;source=gmail&amp;ust=1497614994281000&amp;usg=AFQjCNG7MUeweRmo6-tiK-4LdMCWf400_g"><img src="https://ci4.googleusercontent.com/proxy/Kwks_5rp9CRHIqIREYqI2N8ISteapBf42ykUQM6GUdx3qs3d1Kml4XF0B5gQBn9MTW2bu4zT-pdzogIh=s0-d-e1-ft#http://www.maryjane.ru/images/inst.png" class="CToWUd"></a></p><div><br></div></td></tr></tbody></table>

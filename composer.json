@@ -1,0 +1,26 @@
+{
+    "repositories":[
+        {
+            "type":"git",
+            "url":"https://github.com/itlessons/php-routing"
+        }
+    ],
+    "require": {
+        "php":">=5.3.0",
+        "smarty/smarty": "^3.1",
+        "phpmailer/phpmailer": "dev-master",
+        "itlessons/php-routing":"dev-master"
+    },
+    "autoload": {
+        "psr-0": { 
+            "smashEngine": "vendor/smashEngine",
+            "application": "application/"
+        },
+        "classmap": [
+            "vendor/classes"
+        ],
+        "files": [
+            "vendor/functions/functions.php"
+        ]
+    }
+}

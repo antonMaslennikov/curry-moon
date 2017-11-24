@@ -1,0 +1,1 @@
+<p><a href="<?= mainUrl ?>/index_admin.php?module=admin_goods&action=trash&filter[status]=approved&filter[good_id]=<?= $good->id ?>">Просмотреть и отредактировать работу</a></p>

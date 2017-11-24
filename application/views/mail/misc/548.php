@@ -1,0 +1,1 @@
+От пользователя <a href="http://www.maryjane.ru/index_admin.php?module=users&action=view&id=<?= $user_id ?>"><?= $user_login ?></a> (<?= $user_email ?> <?= $user_phone ?>) поступил заказ на наклейку на диск, цвет - <?= $color ?>.

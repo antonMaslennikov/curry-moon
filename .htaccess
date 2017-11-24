@@ -1,0 +1,47 @@
+DirectoryIndex index.php index.html
+
+ErrorDocument 403 /403/
+ErrorDocument 404 /404/
+
+AddType image/vnd.microsoft.icon .cur .ico
+AddType image/svg+xml .svg
+AddType application/x-font-truetype .ttf
+AddType application/font/otf .otf
+AddType application/x-font-woff .woff
+AddType application/vnd.ms-fontobject .eot
+
+<ifModule mod_php.c>
+	php_flag register_globals off
+</ifModule>
+
+<IfModule mod_rewrite.c>
+
+	RewriteEngine On
+
+	RewriteBase /
+	
+	# обрабатываем отсутствие www
+	RewriteCond %{HTTP_HOST} !^www\.(.*) [NC]
+	RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L] 
+
+	# обрабатываем отсутствие закрывающего слэша
+	RewriteBase /
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_URI} !(.*)/$
+	RewriteCond %{REQUEST_URI} !/mango(.*)$
+	RewriteCond %{REQUEST_URI} !/payments(.*)$
+	RewriteCond %{REQUEST_URI} !/s3(.*)$
+	RewriteRule ^(.*[^/])$ $1/ [L,R=301]
+
+	# убираем index.html|php в конце урла
+	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+	RewriteRule ^index\.html$ http://www.maryjane.ru [R=301,L]
+	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+	RewriteRule ^index\.php$ http://www.maryjane.ru [R=301,L]
+
+	RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js)$
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*) index.php [L,qsappend]
+	
+</IfModule>

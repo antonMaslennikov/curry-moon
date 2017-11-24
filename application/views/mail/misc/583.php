@@ -1,0 +1,1 @@
+http://www.maryjane.ru/admin/index.php?module=stock&action=audit&year=<?= date('Y') ?>&month=<?= date('m')?>

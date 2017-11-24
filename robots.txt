@@ -1,0 +1,29 @@
+User-agent: *
+Crawl-delay: 30
+
+Disallow: /*ajax
+Disallow: /*page
+Disallow: /*sort
+Disallow: /*%sort%*
+Disallow: /js/
+Disallow: /css/
+Disallow: /admin/
+Disallow: /*index.php?
+Disallow: /*.tpl$
+Disallow: /*.rar$
+Disallow: /ps_src/
+Disallow: /*.psd$
+Disallow: /*.doc$
+Disallow: /*.docx$
+Disallow: /*.pl$
+Disallow: /*.cgi$
+Disallow: /*.ai$
+Disallow: /*.eps$
+Disallow: /*.lck$
+Disallow: /*.ttf$
+Disallow: /*.lck$
+Disallow: /*.gz$
+Disallow: /403/
+Disallow: /404/
+
+Host: www.maryjane.ru

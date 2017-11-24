@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pagemeta>
+	<about>
+	    <title>About Us</title>
+	    <description>About Us</description>
+	    <!-- unique>
+	      <page url="XXX">
+	        <title>YYY</title>
+	      </page>
+	    </unique -->
+	</about>
+	<main>
+		<title>Main page</title>
+		<keywords></keywords>
+		<description></description>
+	</main>
+</pagemeta>

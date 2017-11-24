@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pagemeta>
+	<about>
+	    <title>О нас</title>
+	    <description>О нас</description>
+	    <!-- unique>
+	      <page url="XXX">
+	        <title>YYY</title>
+	      </page>
+	    </unique -->
+	</about>
+	<main>
+		<title>Главная страница</title>
+		<keywords></keywords>
+		<description></description>
+	</main>
+</pagemeta>

@@ -1,0 +1,1 @@
+Звонили с телефона <?= $phoneFrom ?> на телефон <?= $phoneTo ?>. <a href="http://www.maryjane.ru/admin/?module=dealers_requests&action=contacts&user_id=<?= $request->contact_id ?>">Заявка</a>

@@ -1,0 +1,1 @@
+Менеджер <?= $manager ?> закрыла смену с суммой <a href="www.maryjane.ru/admin/index.php?module=money"><?= $sum ?></a> (в кассе <?= $real_sum ?>). <a href="www.maryjane.ru/admin/index.php?module=safe&task=closeSessionApprove&code=<?= $code ?>">Подтверждаете</a>?
