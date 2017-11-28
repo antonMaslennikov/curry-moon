@@ -1,2 +1,5 @@
 /application/configs
+/admin/application/configs
+/application/views/templates_c
+/admin/application/views/templates_c
 /.idea

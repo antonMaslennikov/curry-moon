@@ -4,7 +4,6 @@
 	require '/vendor/autoload.php';
     
     // регистрируем класс обработки ошибок
-	$handler = new smashEngine\core\errorHandler();
-	$handler->register();
+	(new smashEngine\core\errorHandler())->register();
     
     smashEngine\core\App::run(new application\routings);

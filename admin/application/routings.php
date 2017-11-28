@@ -14,7 +14,7 @@
             ],
 
             'authorization' => [
-                'pattern' => '/authorization/', 
+                'pattern' => '/admin/authorization/', 
                 'action' => 'Controller_authorization:action_index', 
                 'schemas' => 'GET|POST'
             ],
