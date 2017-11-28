@@ -71,8 +71,7 @@
             {
                 // импортируем статику на страницу (только не для ajax)
                 $this->page->import(array(
-                    '/public/js/main.js', 
-                    '/public/js/basket.quick.js',
+                    '/public/js/main.js',
                 )); 
             }
             

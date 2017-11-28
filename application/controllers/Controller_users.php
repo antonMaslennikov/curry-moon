@@ -16,6 +16,9 @@
             Controller_common::execute($this);
         }
         
+        /**
+         * Вход
+         */
         public function action_login()
         {
             $this->page->index_tpl = 'index.tpl';
@@ -25,6 +28,9 @@
             $this->view->generate($this->page->index_tpl);
         }
         
+        /**
+         * регистрация
+         */
         public function action_registration()
         {
             $this->page->index_tpl = 'index.tpl';
@@ -32,4 +38,27 @@
             
             $this->view->generate($this->page->index_tpl);
         }
+        
+        /**
+         * забыли пароль
+         */
+        public function action_forgot_password()
+        {
+            $this->page->index_tpl = 'index.tpl';
+            $this->page->tpl = 'users/forgot_password.tpl';
+            
+            $this->view->generate($this->page->index_tpl);
+        }
+        
+        /**
+         * забыли логин
+         */
+        public function action_forgot_username()
+        {
+            $this->page->index_tpl = 'index.tpl';
+            $this->page->tpl = 'users/forgot_username.tpl';
+            
+            $this->view->generate($this->page->index_tpl);
+        }    
+            
     }

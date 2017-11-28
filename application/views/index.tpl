@@ -41,6 +41,14 @@
     <link href="/public/module_default.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/facebox.css?vmver=a30bd70d" rel="stylesheet" type="text/css" />
 
+    {foreach $PAGE->js item="path" name="jsforeach"}
+        <script type='text/javascript' src="{$path}"></script>
+    {/foreach}
+    
+    {foreach $PAGE->css item="path" name="cssforeach"}
+         <link href="{$path}" rel="stylesheet" type="text/css" />
+    {/foreach}
+   
     {literal}
     <style type="text/css">
 
@@ -268,43 +276,43 @@
         });
 
         function updateButton(response) {
-        var button = document.getElementById('fb-auth');
+            var button = document.getElementById('fb-auth');
 
-        if(button) {   
-        if (response.authResponse) {
-        // user is already logged in and connected
-        button.onclick = function() {
-        if(jQuery('#login-form').length > 0){
-        jQuery('#modlgn-username').val('Facebook');
-        jQuery('#modlgn-passwd').val('Facebook');
-        jQuery('#login-form').submit();
-        } else if(jQuery('#com-login-form').length > 0) {
-        jQuery('#username').val('Facebook');
-        jQuery('#password').val('Facebook');
-        jQuery('#com-login-form').submit();
-        }
-        }
-        } else {
-        //user is not connected to your app or logged out
-        button.onclick = function() {
-        FB.login(function(response) {
-        if (response.authResponse) {
-        if(jQuery('#login-form').length > 0){
-        jQuery('#modlgn-username').val('Facebook');
-        jQuery('#modlgn-passwd').val('Facebook');
-        jQuery('#login-form').submit();
-        } else if(jQuery('#com-login-form').length > 0) {
-        jQuery('#username').val('Facebook');
-        jQuery('#password').val('Facebook');
-        jQuery('#com-login-form').submit();
-        }
-        } else {
-        //user cancelled login or did not grant authorization
-        }
-        }, {scope:'email'});   
-        }
-        }
-        }
+            if(button) {   
+                if (response.authResponse) {
+                // user is already logged in and connected
+                button.onclick = function() {
+                    if(jQuery('#login-form').length > 0){
+                    jQuery('#modlgn-username').val('Facebook');
+                    jQuery('#modlgn-passwd').val('Facebook');
+                    jQuery('#login-form').submit();
+                    } else if(jQuery('#com-login-form').length > 0) {
+                    jQuery('#username').val('Facebook');
+                    jQuery('#password').val('Facebook');
+                    jQuery('#com-login-form').submit();
+                    }
+                    }
+                } else {
+                    //user is not connected to your app or logged out
+                    button.onclick = function() {
+                        FB.login(function(response) {
+                        if (response.authResponse) {
+                        if(jQuery('#login-form').length > 0){
+                        jQuery('#modlgn-username').val('Facebook');
+                        jQuery('#modlgn-passwd').val('Facebook');
+                        jQuery('#login-form').submit();
+                        } else if(jQuery('#com-login-form').length > 0) {
+                        jQuery('#username').val('Facebook');
+                        jQuery('#password').val('Facebook');
+                        jQuery('#com-login-form').submit();
+                        }
+                        } else {
+                        //user cancelled login or did not grant authorization
+                        }
+                        }, {scope:'email'});   
+                    }
+                }
+            }
         }
         // run once with current status and whenever the status changes
         FB.getLoginStatus(updateButton);
@@ -312,17 +320,17 @@
         };
         //      
         jQuery(window).load(function() {
-        (function(){
-        if(!document.getElementById('fb-root')) {
-        var root = document.createElement('div');
-        root.id = 'fb-root';
-        document.getElementById('gkfb-root').appendChild(root);
-        var e = document.createElement('script');
-        e.src = document.location.protocol + '//connect.facebook.net/ru_RU/all.js';
-        e.async = true;
-        document.getElementById('fb-root').appendChild(e);
-        }  
-        }());
+            (function(){
+            if(!document.getElementById('fb-root')) {
+                var root = document.createElement('div');
+                root.id = 'fb-root';
+                document.getElementById('gkfb-root').appendChild(root);
+                var e = document.createElement('script');
+                e.src = document.location.protocol + '//connect.facebook.net/ru_RU/all.js';
+                e.async = true;
+                document.getElementById('fb-root').appendChild(e);
+            }  
+            }());
         });
         //]]>
     </script>
@@ -337,11 +345,11 @@
     <div id="gkPopupLogin">	
         <div class="gkPopupWrap">
             <div id="loginForm">
-                <h3>Войдите <small>или <a href="https://curry-moon.com/index.php?option=com_users&amp;view=registration">зарегистрируйтесь</a></small></h3>
+                <h3>Войдите <small>или <a href="/ru/users/registration">зарегистрируйтесь</a></small></h3>
 
                 <div class="clear overflow">
                    
-                    <form action="https://curry-moon.com/ru" method="post" id="login-form" >
+                    <form action="/ru" method="post" id="login-form" >
                         <fieldset class="userdata">
                         <p id="form-login-username">
                         <label for="modlgn-username">Логин</label>
