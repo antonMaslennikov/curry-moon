@@ -9,6 +9,7 @@
             
             Controller_common::execute($this);
             
+            printr($this->page->reqUrl[0]);
             printr($this->page->reqUrl[1]);
         }
         

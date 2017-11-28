@@ -18,20 +18,15 @@
         
         public function action_index()
         {
-            $tp_folder = 'main/';
-    
             $this->page->index_tpl = 'index.tpl';
             $this->page->ogImage = mainUrl . '';
             $this->page->ogUrl = '/';
             
             if (($this->user->client->ismobiledevice == '1' && $this->user->client->istablet == 0) || $_COOKIE['MobilePageVersion']) {
-                $this->page->tpl = $tp_folder . 'main.mobile.tpl';
+                $this->page->tpl = 'main/main.mobile.tpl';
             } else {
-                $this->page->tpl = $tp_folder . 'main.tpl';
+                $this->page->tpl = 'main/main.tpl';
             }
-        
-            $this->view->setVar('mobile_tpl', $tp_folder. 'main.mobile.tpl');
-            $this->view->setVar('desktop_tpl', $tp_folder . 'main.tpl');
             
             $this->page->import(array(
                 '/public/js/p/main.js',

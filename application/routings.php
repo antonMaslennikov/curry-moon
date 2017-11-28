@@ -43,6 +43,31 @@
                 'schemas' => 'GET'
             ],
             
+            'shop' => [
+                'pattern' => '/(ru|en)/shop(/?)(.*)', 
+                'action' => 'Controller_shop:action_index', 
+                'schemas' => 'GET'
+            ],
+            
+            'aktcii' => [
+                'pattern' => '/(ru|en)/aktcii(/?)(.*)', 
+                'action' => 'Controller_aktcii:action_index', 
+                'schemas' => 'GET'
+            ],
+            
+            'blog' => [
+                'pattern' => '/(ru|en)/blog(/?)(.*)', 
+                'action' => 'Controller_blog:action_index', 
+                'schemas' => 'GET'
+            ],
+            
+            'lookbook' => [
+                'pattern' => '/(ru|en)/lookbook(/?)(.*)', 
+                'action' => 'Controller_lookbook:action_index', 
+                'schemas' => 'GET'
+            ],
+            
+            
             'about' => [
                 'pattern' => '/(ru|en)/about', 
                 'action' => 'Controller_static_page:action_index', 
