@@ -88,13 +88,13 @@
 			{
 				$long_ip = sprintf("%u\n", ip2long($this->ip));
 				
-				$r = App::db()->query("SELECT * FROM `geo__base` WHERE `long_ip1`<='{$long_ip}' AND `long_ip2`>='{$long_ip}' LIMIT 1");
+				$r = \smashEngine\core\App::db()->query("SELECT * FROM `geo__base` WHERE `long_ip1`<='{$long_ip}' AND `long_ip2`>='{$long_ip}' LIMIT 1");
 				
 				if ($r->rowCount() > 0)
 				{
 					$res1 = $r->fetch();
 					
-					$r = App::db()->query("SELECT * FROM `geo__cities` WHERE `city_id`='" . $res1['city_id'] . "' LIMIT 1");
+					$r = \smashEngine\core\App::db()->query("SELECT * FROM `geo__cities` WHERE `city_id`='" . $res1['city_id'] . "' LIMIT 1");
 					
 					if ($r->rowCount() > 0)
 					{

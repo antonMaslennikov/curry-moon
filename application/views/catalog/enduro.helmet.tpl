@@ -1,1 +1,0 @@
-catalog/enduro.helmet.tpl

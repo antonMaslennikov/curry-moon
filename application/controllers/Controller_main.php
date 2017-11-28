@@ -1,9 +1,7 @@
-<?
+<?php
     namespace application\controllers;
     
     use \smashEngine\core\App AS App;
-    use \application\models\good AS good;
-    use \application\models\user AS user;
     
     use \PDO;
     use \Exception;
@@ -14,11 +12,13 @@
         public function __construct(\Routing\Router $router)
         {
             parent::__construct($router);
+            
+            Controller_common::execute($this);
         }
         
         public function action_index()
         {
-            $tp_folder = 'main/2017/09/';
+            $tp_folder = 'main/';
     
             $this->page->index_tpl = 'index.tpl';
             $this->page->ogImage = mainUrl . '';

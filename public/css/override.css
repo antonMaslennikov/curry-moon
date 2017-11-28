@@ -1,0 +1,452 @@
+body {
+    font-size: 16px;
+}
+
+div.krizalys_breadcrumb  {
+	font-size: 13px;
+	color: #999;
+	margin-left: -10px;
+}
+
+div.krizalys_breadcrumb a.pathway, div.krizalys_breadcrumb span.pathway {
+	padding: 0 10px 0 10px;
+}
+
+#gkMainbody .box {
+    margin-bottom: 0;
+}
+
+#gkMainMenu {
+    width: 100%;
+    border-bottom: 1px solid #111;
+}
+
+#gkBottom3 > div {
+    border-top: 1px solid #111;
+}
+
+p {
+    margin: 1em 0;
+}
+
+.gkMenu > ul > li {
+    font-size: 20px;
+}
+
+.gkMenu > ul li div.childcontent li {
+    font-size: 18px;
+	text-transform: uppercase;
+}
+
+div.ProdTitleBlock {
+	width: 250px;
+	margin: 0 auto;
+	display: inline-block;
+}
+
+
+
+.catProductPrice {
+	margin: 5px 0 20px;
+}
+
+
+.product.vertical-separator {
+    padding-bottom: 5px !important;
+}
+
+h3.catProductTitle {
+    padding: 6px 0 0;
+}
+
+.additional-images img {
+    margin: 0 0 0 6px;
+    width: 31.7%;
+}
+
+a.product-image.image-0 img.product-image {
+	margin-left: 0px;
+}
+
+a.product-image.image-3 img.product-image {
+	margin-right: 0px;
+}
+
+.featured-view .spacer h3, .latest-view .spacer h3, .topten-view .spacer h3, .related-products-view .spacer h3, .browse-view .row .product .spacer h2, .category-view .row .category .spacer h2, h3.catProductTitle {
+    text-transform: none;
+	font-weight: 400;
+}
+
+
+#gkLogo {
+    width: 280px;
+height: 73px;
+margin: 24px  0 25px 0;
+}
+
+
+#gkMainbody b, #gkMainbody strong {
+    font-weight: 700;
+}
+
+div.product-short-description {
+	margin-top: 15px;
+}
+
+.product-related-products > div, .product-related-categories > div {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 12px 0;
+    padding: 0 10px;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: top;
+    width: 120px;
+}
+
+.featured-view .spacer h3, .latest-view .spacer h3, .topten-view .spacer h3, .related-products-view .spacer h3, .browse-view .row .product .spacer h2, .category-view .row .category .spacer h2, h3.catProductTitle {
+    font-size: 18px;
+}
+
+div.spacer h2 {
+	padding: 5px 0 20px 0 !important;
+	color: #000;
+}
+
+div.spacer h2 a {
+	color: #000 !important;
+}
+
+#gkUserArea {
+    font-size: 14px;
+}
+
+#gkTopMenu li {
+    font-size: 14px;
+}
+
+#gkHeader {
+    margin: 0 0 40px;
+}
+
+.orderlistcontainer div.title {
+   width: 90px;
+}
+
+select {
+    font-size: 16px;
+    height: auto;
+}
+
+select {
+    padding: 5px 20px !important;
+}
+
+div.browse-view h1 {
+    font-size: 20px;
+	text-transform: uppercase;
+}
+
+.category > div > a:hover > img,
+.product > div > div > a:hover > img {
+	-webkit-transform: none;
+	-moz-transform: none;
+	-ms-transform: none;
+	-o-transform: none;
+	transform: none;
+}
+
+
+.product-related-products > div, .product-related-categories > div {
+    width: 170px;
+}
+
+
+.itemBody > ul, .itemBody > div > ul, ul.gkBullet1, ul.gkBullet2, ul.gkBullet3, ul.gkBullet4 {
+    margin: 0.5em 0;
+    padding: 0;
+}
+
+article header h1, article header h2 {
+    font-size: 28px;
+}
+
+article header {
+    text-align: left;
+}
+
+#gkSocialAPI {
+    padding: 0 0 0px;
+}
+
+.gkBanner > h2 {
+	top: auto;
+	bottom: 40px;
+    font-size: 40px;
+}
+
+
+
+div.lookbook-block {
+	width: 19%;
+	float: left;
+	padding-right: 1%;
+}
+
+#facebox .popup > div > div > a {
+    font-size: 14px;
+}
+
+
+.gkTotal {
+    font-size: 28px;
+}
+
+label {
+    font-size: 16px;
+}
+
+select, textarea, input[type="text"], input[type="password"], input[type="url"], input[type="email"] {
+    font-family:  "Open Sans Condensed", Arial,sans-serif;
+}
+
+.vmpayment_description, .vmshipment_description {
+    color: #000;
+    font-size: 16px;
+}
+
+#ajaxshipping {
+	margin-bottom: 15px;
+}
+
+#gkBottom3 > div {
+    padding: 20px 0;
+}
+
+#gkBottom3 {
+    margin: 20px 0;
+}
+
+#gkBottom3 .box, #gkBottom3 .box .header {
+    font-size: 18px;
+}
+
+button, .button, input.button, span.button, button.button, div.button, input[type="submit"], input[type="button"], .pagenav-prev a, .pagenav-next a, .readon, #gkMainbody .itemReadMore, #gkMainbody .readmore > a, .button.invert:active, .button.invert:focus, .button.invert:hover {
+    line-height: 36px;
+}
+
+td.acyfield_email.acy_requiredField, td.acysubbuttons {
+	padding-left: 0px;
+}
+
+td.acyfield_email.acy_requiredField input {
+	padding: 6px 10px !important;
+}
+
+div.orderby-displaynumber {
+	display: none;
+}
+
+.browse-view h1 {
+    margin-bottom: 22px;
+	padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+
+
+
+div.spacer-buy-area div.uptolike {
+	margin-top: 40px;
+}
+
+#gkBreadcrumb {
+    margin-bottom: 15px;
+}
+
+.userView article, .genericView article, .itemList article {
+    margin-bottom: 15px !important;
+}
+
+.itemList article {
+    padding-top: 18px;
+}
+
+
+
+
+h3.catProductTitle {
+	text-align: center;
+}
+
+div.box.bigtitle.products.gkmod-1 h3.header {
+	margin-top: 15px;
+}
+
+.bigtitle .header {
+    font-size: 30px;
+}
+
+
+.box .header {
+    font-size: 20px;
+}
+
+div.vm-product-details-container div.PricesalesPrice.vm-display.vm-price-value {
+	text-align: left;
+}
+
+.contact-address, .contact-contactinfo {
+    margin: 0 92px 220px 0;
+}
+
+
+
+div.acymailing_introtext, div.acymailing_finaltext {
+	font-size: 15px;
+	line-height: 20px;
+}
+
+.availability {
+    float: left;
+    margin: 10px 0;
+	width: 200px;
+}
+
+
+#gkCopyrights {
+    float: left;
+}
+
+
+div.payicon img {
+    float: left;
+    padding: 3px 6px 3px 0;
+	line-height: 2;
+}
+
+div.bottom-soc-icons {
+	margin-bottom: 10px;
+}
+
+select, textarea, input[type="text"], input[type="password"], input[type="url"], input[type="email"] {
+    padding: 8px 20px !important;
+}
+
+input.addtocart-button {
+    min-width: 180px;
+}
+
+
+label.quantity_box {
+    line-height: 32px;
+    margin: 0 0px 0 20px;
+}
+
+div.PricesalesPrice {
+    background: transparent none repeat scroll 0 0;
+    color: #DD4B39;
+    font-size: 32px;
+    font-weight: 300;
+    margin: 5px 0 1px;
+    padding: 0px 0px;
+	text-align: center;
+	line-height: 1.4;
+}
+
+.product-price {
+    color: #222;
+    font-size: 32px;
+    line-height: 1.4em;
+}
+
+.product-price span.PricesalesPrice {
+    color: #DD4B39;
+    font-size: 32px;
+    font-weight: 300;
+}
+
+span.PricebasePrice {
+	text-decoration: line-through;
+	margin-left: 80px;
+}
+
+div.ProdTitleBlock span.PricebasePrice {
+	text-decoration: line-through;
+	margin-left: 0px !important;
+}
+
+.catProductPrice div.PricesalesPrice {
+    color: #DD4B39;
+	font-weight: 600;
+}
+
+.catProductPrice div.PricebasePrice {
+    color: #222;
+	font-weight: 100;
+}
+
+form#contact-form.form-validate fieldset dl dt label#jform_captcha-lbl {
+	display: none;
+}
+
+input.quantity-input {
+    width: 62px;
+}
+
+#vmMainPageOPC span.vmpayment_description {
+    clear: both;
+    color: #4f41c2;
+    float: left;
+    font-size: 14px;
+}
+
+#gkLogo img {
+    margin-bottom: 10px;
+}
+
+.TopPhone {
+	padding-bottom: 15px;
+}
+
+
+#gkTopMenu {
+    float: right;
+    margin-top: -97px;
+}
+
+#gkTopMenu.phone {
+    float: right;
+    margin-top: -97px !important;
+}
+
+a.gk-cart span.image-title {
+	margin-left: 15px;
+}
+
+span.gkLogoSlogan {
+	color: #000 !important;
+}
+
+.browse-view .product .spacer, .productDetails .main-image {
+    overflow: visible;
+}
+
+
+.productdetails-view .addtocart-bar, .write-reviews, ul#tabs {
+    margin: 20px 0 20px;
+}
+
+.gkBanner > h2 > a {
+    text-transform: uppercase;
+}
+
+span.vmshipment_description {
+    float: none !important;
+}
+
+.availability {
+    font-size: 34px;
+	color: #000;
+}

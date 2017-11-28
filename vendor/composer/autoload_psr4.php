@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'smashEngine\\' => array($vendorDir . '/smashEngine'),
+    'application\\' => array($baseDir . '/application'),
+    'admin\\application\\' => array($baseDir . '/admin/application'),
     'Routing\\' => array($vendorDir . '/itlessons/php-routing/src/Routing'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
 );

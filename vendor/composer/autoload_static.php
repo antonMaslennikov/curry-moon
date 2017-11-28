@@ -12,6 +12,15 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
     );
 
     public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'smashEngine\\' => 12,
+        ),
+        'a' => 
+        array (
+            'application\\' => 12,
+            'admin\\application\\' => 18,
+        ),
         'R' => 
         array (
             'Routing\\' => 8,
@@ -23,6 +32,18 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
     );
 
     public static $prefixDirsPsr4 = array (
+        'smashEngine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/smashEngine',
+        ),
+        'application\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/application',
+        ),
+        'admin\\application\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/admin/application',
+        ),
         'Routing\\' => 
         array (
             0 => __DIR__ . '/..' . '/itlessons/php-routing/src/Routing',
@@ -30,23 +51,6 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-    );
-
-    public static $prefixesPsr0 = array (
-        's' => 
-        array (
-            'smashEngine' => 
-            array (
-                0 => __DIR__ . '/..' . '/smashEngine',
-            ),
-        ),
-        'a' => 
-        array (
-            'application' => 
-            array (
-                0 => __DIR__ . '/../..' . '/application',
-            ),
         ),
     );
 
@@ -63,6 +67,9 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         'Routing\\UrlGenerator' => __DIR__ . '/..' . '/itlessons/php-routing/src/Routing/UrlGenerator.php',
         'Routing\\UrlMatcher' => __DIR__ . '/..' . '/itlessons/php-routing/src/Routing/UrlMatcher.php',
         'Routing\\Utils' => __DIR__ . '/..' . '/itlessons/php-routing/src/Routing/Utils.php',
+        'admin\\application\\controllers\\Controller_dashboard' => __DIR__ . '/../..' . '/admin/application/controllers/Controller_dashboard.php',
+        'admin\\application\\models\\order' => __DIR__ . '/../..' . '/admin/application/models/order.php',
+        'admin\\application\\routing' => __DIR__ . '/../..' . '/admin/application/routing.php',
         'application\\controllers\\Controller_404' => __DIR__ . '/../..' . '/application/controllers/Controller_404.php',
         'application\\controllers\\Controller_503' => __DIR__ . '/../..' . '/application/controllers/Controller_503.php',
         'application\\controllers\\Controller_Login' => __DIR__ . '/../..' . '/application/controllers/Controller_login.php',
@@ -116,10 +123,12 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         'application\\models\\styleCategory' => __DIR__ . '/../..' . '/application/models/styleCategory.php',
         'application\\models\\user' => __DIR__ . '/../..' . '/application/models/user.php',
         'application\\models\\vk' => __DIR__ . '/../..' . '/application/models/vk.php',
+        'application\\routing' => __DIR__ . '/../..' . '/application/routing.php',
         'smashEngine\\core\\App' => __DIR__ . '/..' . '/smashEngine/core/App.php',
         'smashEngine\\core\\Controller' => __DIR__ . '/..' . '/smashEngine/core/Controller.php',
         'smashEngine\\core\\Model' => __DIR__ . '/..' . '/smashEngine/core/Model.php',
         'smashEngine\\core\\Page' => __DIR__ . '/..' . '/smashEngine/core/Page.php',
+        'smashEngine\\core\\Routing' => __DIR__ . '/..' . '/smashEngine/core/Routing.php',
         'smashEngine\\core\\View' => __DIR__ . '/..' . '/smashEngine/core/View.php',
         'smashEngine\\core\\errorHandler' => __DIR__ . '/..' . '/smashEngine/core/errorHandler.php',
         'smashEngine\\core\\exception\\appException' => __DIR__ . '/..' . '/smashEngine/core/exception/appException.php',
@@ -134,7 +143,6 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitb40310e37915b0c32370293f384e069c::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitb40310e37915b0c32370293f384e069c::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb40310e37915b0c32370293f384e069c::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitb40310e37915b0c32370293f384e069c::$classMap;
 
         }, null, ClassLoader::class);

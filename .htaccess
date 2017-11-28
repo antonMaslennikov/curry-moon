@@ -25,19 +25,23 @@ AddType application/vnd.ms-fontobject .eot
 	RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L] 
 
 	# обрабатываем отсутствие закрывающего слэша
-	RewriteBase /
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_URI} !(.*)/$
-	RewriteCond %{REQUEST_URI} !/mango(.*)$
-	RewriteCond %{REQUEST_URI} !/payments(.*)$
-	RewriteCond %{REQUEST_URI} !/s3(.*)$
-	RewriteRule ^(.*[^/])$ $1/ [L,R=301]
+	# RewriteBase /
+	# RewriteCond %{REQUEST_FILENAME} !-f
+	# RewriteCond %{REQUEST_URI} !(.*)/$
+	#RewriteRule ^(.*[^/])$ $1/ [L,R=301]
 
 	# убираем index.html|php в конце урла
 	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
 	RewriteRule ^index\.html$ http://www.maryjane.ru [R=301,L]
 	RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-	RewriteRule ^index\.php$ http://www.maryjane.ru [R=301,L]
+	RewriteRule ^index\.php$ http://www.shop.loc [R=301,L]
+
+    # админка
+    RewriteCond %{REQUEST_URI} ^\/admin\/(.*)
+    RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js)$
+    RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*) \/admin\/index\.php [L,qsappend]
 
 	RewriteCond %{REQUEST_FILENAME} !\.(jpg|jpeg|gif|png|css|js)$
 	RewriteCond %{REQUEST_FILENAME} !-f

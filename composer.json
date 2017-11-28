@@ -12,9 +12,10 @@
         "itlessons/php-routing":"dev-master"
     },
     "autoload": {
-        "psr-0": { 
-            "smashEngine": "vendor/smashEngine",
-            "application": "application/"
+        "psr-4": { 
+            "smashEngine\\": "vendor/smashEngine",
+            "application\\": "application/",
+            "admin\\application\\": "admin/application/"
         },
         "classmap": [
             "vendor/classes"

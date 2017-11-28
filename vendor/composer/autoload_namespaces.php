@@ -6,6 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'smashEngine' => array($vendorDir . '/smashEngine'),
-    'application' => array($baseDir . '/application'),
 );

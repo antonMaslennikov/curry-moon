@@ -1,2 +1,0 @@
-<p>Пользователь <a href="http://www.maryjane.ru/index_admin.php?module=users&task=view&id=<?= $User->user_id ?>"><?= $User->user_login ?></a> только что ввёл промо-фразу "<?= $phrase ?>" в корзине.</p>
-<p><a href="http://www.maryjane.ru/index_admin.php?module=orders&id=<?= $basket->id ?>">Потенциальный заказ</a></p>

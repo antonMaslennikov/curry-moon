@@ -1,1 +1,0 @@
-<p>Аннулирован оптовый заказ <a href="http://www.maryjane.ru/index_admin.php?module=orders&id=<?= $order->id ?>"><?= $order->id ?></a></p>

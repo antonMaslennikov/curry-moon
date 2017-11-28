@@ -1,2 +1,0 @@
-<p><a href="http://www.maryjane.ru/index_admin.php?module=stock&action=view&category_parent=allskins-nositeli"><?= $style['style_name'] ?> "<?= $style['style_description'] ?>"</a> списан со склада в количестве <?= $quantity ?> шт. с формулировкой</p>
-<p>"<?= $customtext ?>"</p>

@@ -13,7 +13,7 @@
     define('DBUSER', 'shop');
     define('DBPASS', 'root');
     define('DB_CHARSET', 'utf-8');
-    define('DB_PREFIX', '');
+    define('DB_PREFIX', 'se_');
     
     // ADMIN
     define('ADMIN_login', 'admin');

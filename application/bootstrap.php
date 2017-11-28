@@ -6,4 +6,4 @@
     // регистрируем класс обработки ошибок
     (new smashEngine\core\errorHandler())->register();
     
-    smashEngine\core\App::run();
+    smashEngine\core\App::run(new application\routings);
