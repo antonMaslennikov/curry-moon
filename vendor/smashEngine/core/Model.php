@@ -13,11 +13,13 @@
         protected static $dbtable;
         
         
-        function __construct($id)
+        function __construct($id = null)
         { 
             $this->getDbTableName();
             
-            $this->id = (int) $id;
+            if ($id) {
+                $this->id = (int) $id;
+            }
             
             if (!empty($this->id))
             {
