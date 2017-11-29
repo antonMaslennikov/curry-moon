@@ -3,3 +3,4 @@
 /application/views/templates_c
 /admin/application/views/templates_c
 /.idea
+/composer.lock
