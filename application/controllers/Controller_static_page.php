@@ -14,7 +14,10 @@
             {
                 $page = staticPage::findBySlug($this->page->reqUrl[1]);
                 
+                $this->page->breadcrump[] = ['link' => $this->page->url, 'caption' => $page->h1];
+                
                 $this->view->setVar('sPage', $page);
+                $this->view->setVar('PAGE', $this->page);
             }
             catch (appException $e)
             {

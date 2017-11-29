@@ -14,7 +14,9 @@
         {
             parent::__construct($id);
             
-            
+            // ДОДЕЛАТЬ !!!
+            $this->h1   = $this->h1_ru;
+            $this->text = $this->text_ru;
         }
         
         public function findBySlug($slug) 

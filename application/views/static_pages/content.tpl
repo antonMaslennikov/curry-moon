@@ -3,14 +3,14 @@
     <article class="item-page" itemscope="" itemtype="http://schema.org/Article">
 
         <header>
-            <h1>{$sPage->h1_ru}</h1>
+            <h1>{$sPage->h1}</h1>
         </header>
 
         <div id="gkSocialAPI"></div>
 
         <div class="itemBody">
             <span itemprop="articleBody">
-                {$sPage->text_ru}
+                {$sPage->text}
             </span>
         </div>
 
