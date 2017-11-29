@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Ошибка 404 - Страницы не существует</title>
-</head>
+{include file="adminlte/header.tpl"}
+<div class="error-page">
+    <h2 class="headline text-yellow"> 404</h2>
+    <div class="error-content">
+        <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
 
-<body bgcolor="#FFFFFF" text="#000000">
-	
-	404.tpl
-
-</body>
-</html>
+        <p>
+            We could not find the page you were looking for.
+            Meanwhile, you may <a href="/admin/.html">return to home</a> or try using the search form.
+        </p>
+    </div>
+    <!-- /.error-content -->
+</div>
+{include file="adminlte/footer.tpl"}
