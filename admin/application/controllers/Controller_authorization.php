@@ -7,15 +7,8 @@
     use \Exception;
     use \DateTime;
     
-    class Controller_authorization extends \smashEngine\core\Controller
-    {
-        public function __construct(\Routing\Router $router)
-        {
-            parent::__construct($router);
-            
-            Controller_common::execute($this);
-        }
-        
+    class Controller_authorization extends Controller_
+    {   
         public function action_index()
         {
             $this->page->index_tpl = 'index.tpl';

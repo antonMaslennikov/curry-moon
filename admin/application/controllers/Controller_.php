@@ -7,10 +7,15 @@
     use \Exception;
     use \DateTime;
     
-    class Controller_common extends \smashEngine\core\Controller
+    class Controller_ extends \smashEngine\core\Controller
     {
-        public function execute(\smashEngine\core\Controller $c)
+        public function __construct(\Routing\Router $router)
         {
+            parent::__construct($router);
+            
+            // Текущий пользователь
+            $this->user = \application\models\user::load();
+            
             // кэшируем переменные
             if (!$this->VARS = App::memcache()->get('VARS')) 
             {
@@ -30,17 +35,7 @@
                 '/public/js/jquery-migrate-1.1.1.min.js',
                 '/public/js/jquery.cookie.min.js',
                 '/public/js/jquery-ui.js',
-                '/public/css/styles.css', 
             ));
-            
-            if (!$this->page->isAjax) 
-            {
-                // импортируем статику на страницу (только не для ajax)
-                $this->page->import(array(
-                    '/public/js/main.js', 
-                    '/public/js/basket.quick.js',
-                )); 
-            }
             
             // =====================================================================================================================
             // Отправляем все глобальные объекты в шаблон

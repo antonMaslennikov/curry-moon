@@ -4,7 +4,7 @@
     /**
      * смена языка страниц
      */    
-    class Controller_language extends \smashEngine\core\Controller
+    class Controller_language extends Controller_
     {
         public function action_index()
         {

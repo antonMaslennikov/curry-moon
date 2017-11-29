@@ -7,10 +7,12 @@
     use \Exception;
     use \DateTime;
     
-    class Controller_common extends \smashEngine\core\Controller
+    class Controller_ extends \smashEngine\core\Controller
     {
-        public function execute(\smashEngine\core\Controller $c)
+        public function __construct(\Routing\Router $router)
         {
+            parent::__construct($router);
+            
             // Текущий пользователь
             $this->user = \application\models\user::load();
             

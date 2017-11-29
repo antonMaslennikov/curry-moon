@@ -7,15 +7,8 @@
     use \Exception;
     use \DateTime;
     
-    class Controller_blog extends \smashEngine\core\Controller
+    class Controller_blog extends Controller_
     {
-        public function __construct(\Routing\Router $router)
-        {
-            parent::__construct($router);
-            
-            Controller_common::execute($this);
-        }
-        
         public function action_index()
         {
             $this->page->index_tpl = 'index.tpl';

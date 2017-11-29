@@ -1,13 +1,11 @@
 <?php
     namespace application\controllers;
     
-    class Controller_static_page extends \smashEngine\core\Controller
+    class Controller_static_page extends Controller_
     {
         public function __construct(\Routing\Router $router)
         {
             parent::__construct($router);
-            
-            Controller_common::execute($this);
             
             printr($this->page->reqUrl[0]);
             printr($this->page->reqUrl[1]);

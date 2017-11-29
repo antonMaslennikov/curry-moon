@@ -5,7 +5,7 @@
     use \smashEngine\core\App AS App;
     use \Exception;
         
-    class Controller_subscribe extends \smashEngine\core\Controller
+    class Controller_subscribe extends Controller_
     {
         /**
          * Подписаться на рассылку 
