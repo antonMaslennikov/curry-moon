@@ -13,8 +13,10 @@ class Controller_example extends Controller_{
 
 	public function action_index()
 	{
-		$this->page->index_tpl = 'adminlte/index.tpl';
-		$this->page->tpl = 'adminlte/page/index.tpl';
+		$this->page->index_tpl = 'index.tpl';
+		$this->page->tpl = 'example/index.tpl';
+
+		$this->page->title = "Пример";
 
 		/*
 		$this->page->import(array(
