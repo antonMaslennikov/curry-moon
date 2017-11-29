@@ -22,8 +22,6 @@
             }
             
             $this->page->import(array(
-                '/public/js/p/main.js',
-                '/public/css/p/main.css', 
             ));
             
             $this->view->generate($this->page->index_tpl);

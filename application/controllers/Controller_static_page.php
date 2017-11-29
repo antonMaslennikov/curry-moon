@@ -16,6 +16,9 @@
                 
                 $this->page->breadcrump[] = ['link' => $this->page->url, 'caption' => $page->h1];
                 
+                $this->page->keywords = $page->meta_keywords;
+                $this->page->description = $page->meta_description;
+                
                 $this->view->setVar('sPage', $page);
                 $this->view->setVar('PAGE', $this->page);
             }

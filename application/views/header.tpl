@@ -45,7 +45,7 @@
                     <div class="uk-margin-small-top">&nbsp;</div>
 
                     <ul class="menu">
-                        <li class="item-1064"><a href="/ru/shop/cart" class="gk-cart uk-width-1-1"><img src="/images/icons/cart16.png" alt="Корзина" /><span class="image-title">Корзина</span></a></li>
+                        <li class="item-1064"><a href="/ru/shop/cart" class="gk-cart uk-width-1-1"><img src="/public/images/icons/cart16.png" alt="Корзина" /><span class="image-title">Корзина</span></a></li>
                     </ul>
 
                 </div>

@@ -38,7 +38,7 @@
     <link href="/public/css/typography/typography.style3.css" rel="stylesheet" type="text/css" />
     
     <link href="//fonts.googleapis.com/css?family=Open+Sans+Condensed:300&subset=latin,cyrillic" rel="stylesheet" type="text/css" />
-    <link href="/public/module_default.css" rel="stylesheet" type="text/css" />
+    <link href="/public/css/module_default.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/facebox.css?vmver=a30bd70d" rel="stylesheet" type="text/css" />
 
     {foreach $PAGE->js item="path" name="jsforeach"}
@@ -117,7 +117,7 @@
 
     </style>
 
-    <script src="/public/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/public/packages/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="/public/js/jquery-noconflict.js" type="text/javascript"></script>
     <script src="/public/js/jquery-migrate.min.js" type="text/javascript"></script>
     
@@ -139,8 +139,9 @@
     <script src="/public/js/gk_shop_and_buy/engine.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-
+        {/literal}
         {if $appMode == 'production'}
+        {literal}
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -148,7 +149,9 @@
 
             ga('create', 'UA-64589637-1', 'auto');
             ga('send', 'pageview');
+        {/literal}
         {/if}
+        {literal}
          
         if (typeof RokBoxSettings == 'undefined') RokBoxSettings = {pc: '100'};
 
@@ -432,7 +435,7 @@
     var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);})();</script>
     <!-- {/literal} END JIVOSITE CODE -->
 
-    <script src="/plugins/system/superuikit/assets/js/uikit.min.js" type="text/javascript"></script>
+    <script src="/public/js/uikit.min.js" type="text/javascript"></script>
     {/literal}
     
 </body>

@@ -37,6 +37,13 @@
                 'schemas' => 'GET|POST'
             ],
             
+            'subscribe' => [
+                'pattern' => '/(ru|en)/users/subscribe', 
+                'action' => 'Controller_users:action_subscribe', 
+                'schemas' => 'GET|POST'
+            ],
+            
+            
             'contact-us' => [
                 'pattern' => '/(ru|en)/contact-us', 
                 'action' => 'Controller_contact_us:action_index', 

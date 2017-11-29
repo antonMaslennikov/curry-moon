@@ -88,10 +88,20 @@
                     <div class="gkCols4 gkNoMargin">
 
                         <div style="margin: 0 -10px">
+                           
                             <div class="box banner gkmod-4">
-                            <div class="spacer">
-                            <a href="/ru/shop/jewellery/silver/koltco-iz-serebra-s-tcirkoniem-sr083" title="Кольцо из серебра с цирконием"><img src="/images/shop/product/resized/silver-ring-cirkoniy-41_250x325.gif" alt="kolco-serebro-cirkoniy" class="featuredProductImage" border="0" /></a><div class="clear"></div>					<h3 class="catProductTitle"><a href="/ru/shop/jewellery/silver/koltco-iz-serebra-s-tcirkoniem-sr083">Кольцо из серебра с цирконием</a></h3>        <div class="clear"></div><div class="PricesalesPrice vm-display vm-price-value" ><span class="PricesalesPrice" >3200 руб</span></div>				</div>
-
+                                <div class="spacer">
+                                    <a href="/ru/shop/jewellery/silver/koltco-iz-serebra-s-tcirkoniem-sr083" title="Кольцо из серебра с цирконием">
+                                        <img src="/images/shop/product/resized/silver-ring-cirkoniy-41_250x325.gif" alt="kolco-serebro-cirkoniy" class="featuredProductImage" border="0" />
+                                    </a>
+                                    <div class="clear"></div>					
+                                    <h3 class="catProductTitle">
+                                        <a href="/ru/shop/jewellery/silver/koltco-iz-serebra-s-tcirkoniem-sr083">Кольцо из серебра с цирконием</a>
+                                    </h3>        
+                                    <div class="clear"></div>
+                                    <div class="PricesalesPrice vm-display vm-price-value" ><span class="PricesalesPrice" >3200 руб</span></div>				
+                                </div>
+    
                             </div>
 
                         </div>
@@ -99,14 +109,6 @@
                         <br style='clear:both;'/>
 
                     </div>
-
-                    <script id="ready.vmprices_js" type="text/javascript">
-                        //<![CDATA[ 
-                        jQuery(document).ready(function($) {
-
-                        Virtuemart.product($("form.product"));
-                        }); //]]>
-                    </script>
                 </div>
             </div>
         </div>

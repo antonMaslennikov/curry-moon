@@ -38,34 +38,49 @@
             <div class="content">
                <div class="acymailing_module" id="acymailing_module_formAcymailing84821">
                     <div class="acymailing_fulldiv" id="acymailing_fulldiv_formAcymailing84821"  >
-                        <form id="formAcymailing84821" action="https://curry-moon.com/ru" onsubmit="return submitacymailingform('optin','formAcymailing84821')" method="post" name="formAcymailing84821"  >
+                        <form id="formAcymailing84821" action="/ru/users/subscribe" method="post" name="formAcymailing84821"  >
                             <div class="acymailing_module_form" >
                                 <div class="acymailing_introtext">Будьте в курсе новинок нашего магазина. Узнавайте первыми о промо-акциях и распродажах.</div>			
                                 <table class="acymailing_form">
                                 <tr>
                                     <td class="acyfield_email acy_requiredField">
-                                        <input id="user_email_formAcymailing84821"  onfocus="if(this.value == 'Адрес эл. почты') this.value = '';" onblur="if(this.value=='') this.value='Адрес эл. почты';" class="inputbox" type="text" name="user[email]" style="width:100%" value="Адрес эл. почты" title="Адрес эл. почты"/>
+                                        <input id="user_email_formAcymailing84821" class="inputbox" type="text" name="user[email]" style="width:100%" placeholder="Адрес эл. почты" title="Адрес эл. почты"/>
                                     </td> 
 
                                     <td  class="acysubbuttons">
-                                        {literal}
-                                        <input class="button subbutton btn btn-primary" type="submit" value="Подписаться" name="Submit" onclick="try{ return submitacymailingform('optin','formAcymailing84821'); }catch(err){alert('The form could not be submitted '+err);return false;}"/>
-                                        {/literal}
+                                        <input class="button subbutton btn btn-primary" type="submit" value="Подписаться" name="Submit" />
                                     </td>
                                 </tr>
                                 </table>
 
-                                <div class="acymailing_finaltext">Мы гарантируем отсутствие спама и конфиденциальность ваших данных.  </div>			<input type="hidden" name="ajax" value="0" />
-                                <input type="hidden" name="acy_source" value="module_718" />
-                                <input type="hidden" name="ctrl" value="sub"/>
-                                <input type="hidden" name="task" value="notask"/>
-                                <input type="hidden" name="redirect" value="https%3A%2F%2Fcurry-moon.com%2Fru"/>
-                                <input type="hidden" name="redirectunsub" value="https%3A%2F%2Fcurry-moon.com%2Fru"/>
-                                <input type="hidden" name="option" value="com_acymailing"/>
-                                <input type="hidden" name="hiddenlists" value="1"/>
-                                <input type="hidden" name="acyformname" value="formAcymailing84821" />
+                                <div class="acymailing_finaltext">Мы гарантируем отсутствие спама и конфиденциальность ваших данных.  </div>			
+                                <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                             </div>
                         </form>
+                        
+                        {literal}
+                        <script>
+                            jQuery(document).ready(function(){
+                                jQuery('#formAcymailing84821').submit(function() {
+                                    
+                                    if (jQuery(this).find('input[name=user\\\[email\\\]]').val().length == 0) {
+                                        alert('Укажите адрес электронной почты');
+                                        return false;
+                                    }
+                                    
+                                    jQuery.post(jQuery(this).attr('action'), jQuery(this).serialize(), function(r) {
+                                        r = jQuery.parseJSON(r);
+                                        if (r.status == 'ok') {
+                                            alert('Ваша подписка оформлена. Спасибо');
+                                        } else {
+                                            alert(r.message);
+                                        }
+                                    });
+                                    return false;
+                                }); 
+                            });
+                        </script>
+                        {/literal}
                     </div>
                 </div>
             </div>
@@ -82,31 +97,31 @@
             {if $appMode == 'production'}
                 <!-- Yandex.Metrika counter -->
                 <script type="text/javascript">
-                (function (d, w, c) {
-                (w[c] = w[c] || []).push(function() {
-                try {
-                w.yaCounter31148776 = new Ya.Metrika({
-                id:31148776,
-                clickmap:true,
-                trackLinks:true,
-                accurateTrackBounce:true,
-                webvisor:true,
-                ut:"noindex"
-                });
-                } catch(e) { }
-                });
+                    (function (d, w, c) {
+                    (w[c] = w[c] || []).push(function() {
+                    try {
+                    w.yaCounter31148776 = new Ya.Metrika({
+                    id:31148776,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    ut:"noindex"
+                    });
+                    } catch(e) { }
+                    });
 
-                var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = "https://mc.yandex.ru/metrika/watch.js";
+                    var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () { n.parentNode.insertBefore(s, n); };
+                    s.type = "text/javascript";
+                    s.async = true;
+                    s.src = "https://mc.yandex.ru/metrika/watch.js";
 
-                if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-                } else { f(); }
-                })(document, window, "yandex_metrika_callbacks");
+                    if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                    } else { f(); }
+                    })(document, window, "yandex_metrika_callbacks");
                 </script>
                 <noscript><div><img src="https://mc.yandex.ru/watch/31148776?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
                 <!-- /Yandex.Metrika counter -->	
@@ -115,7 +130,7 @@
             </div>
         </div>
 
-        <p id="gkCopyrights">©2015 <a href="http://curry-moon.com">Curry Moon</a>
+        <p id="gkCopyrights">©{$datetime.year} <a href="http://curry-moon.com">Curry Moon</a>
         <small>Все права защищены</small>
         </p>			
     </div>

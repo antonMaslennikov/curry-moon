@@ -31,10 +31,6 @@
             
             // импортируем статику на страницу
             $this->page->import(array(
-                '/public/js/jquery.2.2.4.min.js', 
-                '/public/js/jquery-migrate-1.1.1.min.js',
-                '/public/js/jquery.cookie.min.js',
-                '/public/js/jquery-ui.js',
             ));
             
             // =====================================================================================================================
