@@ -256,6 +256,32 @@
         <div class="gkPage">
             <section id="gkContent">					
                 <div id="gkContentWrap" class="gkSidebarLeft">
+                   
+                    {if $PAGE->breadcrump|count > 0}
+                    <section id="gkBreadcrumb">
+                        <div class="krizalys_breadcrumb">
+                            <span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb-container">
+                                <a href="/" itemprop="url" class="pathway">
+                                    <span itemprop="title">CurryMoon</span>
+                                </a> 
+                                / 
+                                <span itemprop="child" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="breadcrumb-container">
+                                    {foreach from=$PAGE->breadcrump item="bc" name="bc_foreach"}
+                                        {if $smarty.foreach.bc_foreach.last}
+                                            <span class="pathway">{$bc.caption}</span>
+                                        {else}
+                                            <a href="{$bc.link}" itemprop="url" class="pathway">
+                                                <span itemprop="title">{$bc.caption}</span>
+                                            </a> / 
+                                        {/if}
+                                    {/foreach}
+                                    
+                                </span>
+                            </span>
+                        </div>
+                    </section>
+                    {/if}
+                    
                     {if $PAGE->tpl} 
                         {include file=$PAGE->tpl}
                     {else}
