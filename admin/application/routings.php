@@ -18,5 +18,11 @@
                 'action' => 'Controller_authorization:action_index', 
                 'schemas' => 'GET|POST'
             ],
+
+	        'example' => [
+		        'pattern'=>'/admin/example',
+		        'action'=> 'Controller_example:action_index',
+		        'schemas' => 'GET|POST'
+	        ],
         ];
     }
