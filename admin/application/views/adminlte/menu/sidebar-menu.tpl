@@ -7,7 +7,7 @@
     </li>
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-fw fa-shopping-bag"></i>
+            <i class="fa fa-fw fa-shopping-cart"></i>
             <span>Заказы</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -33,7 +33,7 @@
     </li>
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-fw fa-shopping-cart"></i>
+            <i class="fa fa-fw fa-shopping-bag"></i>
             <span>Категории товаров</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
