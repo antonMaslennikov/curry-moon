@@ -252,11 +252,19 @@
 
     {include file="header.tpl"}
     
-    {if $PAGE->tpl} 
-        {include file=$PAGE->tpl}
-    {else}
-        Не указан шаблон страницы
-    {/if}
+    <div id="gkPageContent">
+        <div class="gkPage">
+            <section id="gkContent">					
+                <div id="gkContentWrap" class="gkSidebarLeft">
+                    {if $PAGE->tpl} 
+                        {include file=$PAGE->tpl}
+                    {else}
+                        Не указан шаблон страницы
+                    {/if}
+                </div>
+            </section>
+        </div>
+    </div>
    
     {include file="footer.tpl"}  	
 

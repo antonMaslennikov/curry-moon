@@ -2,12 +2,52 @@
     namespace smashEngine\core;
 
     use \Exception;
-    
+    use \smashEngine\core\exception\appException;
+
     class Model
     {
         public $id = 0;
         
         public $info = array();
+        
+        protected static $dbtable;
+        
+        
+        function __construct($id)
+        { 
+            $this->getDbTableName();
+            
+            $this->id = (int) $id;
+            
+            if (!empty($this->id))
+            {
+                $r = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `id` = ? LIMIT 1");
+                
+                $r->execute([$this->id]);
+                
+                if ($r->rowCount() == 1) 
+                {
+                    $this->info = $r->fetch();
+                    
+                    return $this->info;
+                } 
+                else 
+                    throw new appException(__CLASS__ . ' ' . $this->id . ' не найден');
+            }
+        }
+        
+        /**
+         * ищем у пронаследовавшей модели свойство dbtable, содержащее имя таблицы
+         */
+        static function getDbTableName() {
+            foreach (get_class_vars(get_called_class()) AS $k => $v) {
+                if ($k == 'dbtable') {
+                    self::$dbtable = $v;
+                }
+            }
+            
+            return self::$dbtable;
+        }
         
         public function __set($name, $value) 
         {
@@ -48,14 +88,7 @@
          */
         public function save()
         {
-            // ищем у пронаследовавшей модели свойство dbtable, содержащее имя таблицы
-            foreach (get_class_vars(get_called_class()) AS $k => $v) {
-                if ($k == 'dbtable') {
-                    $dbtable = $v;
-                }
-            }
-
-            if (!$dbtable) {
+            if (!self::$dbtable) {
                 throw new Exception('Не известна таблица для сохранения данных', 1);
             }
             
@@ -64,7 +97,7 @@
             }
             
             // вырезаем все поля которых нет в схеме таблицы
-            $r = App::db()->query(sprintf("SHOW COLUMNS FROM `%s`", $dbtable));
+            $r = App::db()->query(sprintf("SHOW COLUMNS FROM `%s`", self::$dbtable));
             
             foreach ($r->fetchAll() AS $f) {
                 $fields[$f['Field']] = $f['Field'];
@@ -76,12 +109,12 @@
             // редактирование
             if (!empty($this->id))
             {
-                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", $dbtable, implode(',', $rows), $this->id));
+                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", self::$dbtable, implode(',', $rows), $this->id));
             }
             // создание
             else
             {
-                App::db()->query(sprintf("INSERT INTO `%s` SET %s", $dbtable, implode(',', $rows)));
+                App::db()->query(sprintf("INSERT INTO `%s` SET %s", self::$dbtable, implode(',', $rows)));
                 $this->id = App::db()->lastInsertId();
             }
         }
