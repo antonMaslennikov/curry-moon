@@ -3,21 +3,32 @@
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
     </a>
+    <div class="navbar-custom-menu pull-left">
+        {include file="adminlte/menu/system-menu.tpl"}
+    </div>
     <!-- Navbar Right Menu -->
     <div class="navbar-custom-menu">
+
         <ul class="nav navbar-nav">
-            <?php /* * ?>
+            {* *}
             <!-- Messages: style can be found in dropdown.less-->
-            <li class="dropdown messages-menu"><?php require 'messages-menu.php'?></li>
-            <?php /* */ ?>
-            <?php /* * ?>
+            <li class="dropdown messages-menu">
+                {include file="adminlte/menu/messages-menu.tpl"}
+            </li>
+            {* *}
+            {* *
             <!-- Notifications: style can be found in dropdown.less -->
-            <li class="dropdown notifications-menu"><?php require 'notifications-menu.php'?></li>
-            <?php /* */ ?>
-            <?php /* * ?>
+            <li class="dropdown notifications-menu">
+                {include file="adminlte/menu/notifications-menu.tpl"}
+            </li>
+            </li>
+            {* *}
+            {* *
             <!-- Tasks: style can be found in dropdown.less -->
-            <li class="dropdown tasks-menu"><?php require 'tasks-menu.php'?></li>
-            <?php /* */ ?>
+            <li class="dropdown tasks-menu">
+                {include file="adminlte/menu/tasks-menu.tpl"}
+            </li>
+            {* *}
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -27,8 +38,7 @@
                 <ul class="dropdown-menu">
                     <!-- User image -->
                     <li class="user-header">
-                        <img src="/public/images/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                        {* <img src="/public/images/user2-160x160.jpg" class="img-circle" alt="User Image"> *}
                         <p>
                             Alexander Pierce - Web Developer
                             <small>Member since Nov. 2012</small>
@@ -66,5 +76,4 @@
             </li>
         </ul>
     </div>
-
 </nav>
