@@ -1,5 +1,43 @@
 [
     {
+        "name": "itlessons/php-routing",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/itlessons/php-routing",
+            "reference": "2ad28c942e0797d877cf6c79e24c5bd713036e48"
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2015-01-17T10:22:06+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Routing\\": "src/Routing"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "itlessons",
+                "homepage": "http://www.itlessons.info"
+            }
+        ],
+        "description": "PHP Routing Library",
+        "homepage": "https://github.com/itlessons/php-routing",
+        "keywords": [
+            "URI",
+            "URL",
+            "router",
+            "routing"
+        ]
+    },
+    {
         "name": "phpmailer/phpmailer",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -91,7 +129,7 @@
                 "dev-master": "3.1.x-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "files": [
                 "libs/bootstrap.php"
@@ -119,44 +157,6 @@
         "homepage": "http://www.smarty.net",
         "keywords": [
             "templating"
-        ]
-    },
-    {
-        "name": "itlessons/php-routing",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/itlessons/php-routing",
-            "reference": "2ad28c942e0797d877cf6c79e24c5bd713036e48"
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2015-01-17T10:22:06+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Routing\\": "src/Routing"
-            }
-        },
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "itlessons",
-                "homepage": "http://www.itlessons.info"
-            }
-        ],
-        "description": "PHP Routing Library",
-        "homepage": "https://github.com/itlessons/php-routing",
-        "keywords": [
-            "URI",
-            "URL",
-            "router",
-            "routing"
         ]
     }
 ]
