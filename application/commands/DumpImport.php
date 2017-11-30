@@ -40,7 +40,8 @@ class DumpImport extends Command {
 			'main.php'
 		]);
 
-		$this->import($output);
+		$output->writeln("Что-то не пашет, загрузи через pma");
+		//$this->import($output);
 	}
 
 
@@ -57,7 +58,10 @@ class DumpImport extends Command {
 				$this->basePath().DIRECTORY_SEPARATOR.'dump.sql'
 			);
 
+			//exec($cmd);
+			$output->writeln("Run command: $cmd");
 			exec($cmd);
+
 			$output->writeln("Import success!");
 
 
