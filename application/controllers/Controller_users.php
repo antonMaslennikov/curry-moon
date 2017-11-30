@@ -4,6 +4,8 @@
     use \smashEngine\core\App AS App;
     use \smashEngine\core\exception\appException;
 
+    use \application\models\mailSubscription;
+
     use \PDO;
     use \Exception;
     use \DateTime;
@@ -18,7 +20,6 @@
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/login.tpl';
            
-            
             $this->view->generate($this->page->index_tpl);
         }
         
@@ -29,6 +30,9 @@
         {
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/registration.tpl';
+            $this->page->import(['/public/css/onepage.css']);
+            
+            $this->page->breadcrump[] = ['caption' => 'Регистрация'];
             
             $this->view->generate($this->page->index_tpl);
         }
@@ -74,7 +78,11 @@
                     throw new appException('То что вы указали не похоже на адрес электронной почты', 3);
                 }
                 
+                if (mailSubscription::checkEmailSubscriptionStatus($_POST['user']['email']) > 0) {
+                    throw new appException('Спасибо, Вы уже оформили подписку на новости', 4);
+                }
                 
+                mailSubscription::addEmailSubscription($_POST['user']['email']);
                 
                 if ($this->page->isAjax) {
                     exit(json_encode(['status' => 'ok']));
