@@ -76,9 +76,6 @@
 
                 $this->user_phone_truncated = substr($this->user_phone, -4);
                     
-                // ожидающие выплаты бонусы
-                $this->info['user_bonuses_wait'] = $this->getBonuses(0);
-            
                 if (!empty($this->user_url)) {
                     $this->user_url = trim(str_replace('http://', '', stripslashes($this->user_url)), '/');
                 }

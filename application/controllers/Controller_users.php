@@ -122,7 +122,12 @@
          */
         public function action_registration_finish()
         {
+            $this->page->index_tpl = 'index.tpl';
+            $this->page->tpl = 'users/registration-finish.tpl';
             
+            $this->page->breadcrump[] = ['caption' => 'Регистрации подтверждена'];
+            
+            $this->view->generate($this->page->index_tpl);   
         }
         
         /**
@@ -135,6 +140,28 @@
             
             $this->page->breadcrump[] = ['caption' => 'Подтверждение регистрации'];
             
+            try
+            {
+                if ($_GET['userid'] && $_GET['key']) {
+                    if (md5(SALT . $_GET['userid']) != $_GET['key']) {
+                        throw new appException('Указан неверный код активации');
+                    }
+                    
+                    $U = new user($_GET['userid']);
+                    $U->activate();
+                    
+                    $this->user->setSessionValue(['user_id' => $U->id, 'session_logged' => 1]);
+                    
+                    $this->page->go('/ru/users/registration-finish');
+                    
+                } else {
+                    throw new appException('Не достаточно данных для активации');
+                }
+            }
+            catch (appException $e)
+            {
+                $this->view->setVar('error', $e->getMessage());
+            }
             
             $this->view->generate($this->page->index_tpl);
         }

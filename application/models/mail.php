@@ -3,6 +3,7 @@
 namespace application\models;
     
 use \smashEngine\core\App AS App; 
+use \PHPMailer\PHPMailer\PHPMailer;
 use \PDO;
 
 class mail extends \smashEngine\core\Model
@@ -57,7 +58,7 @@ class mail extends \smashEngine\core\Model
                 $message .= '</body></html>';
                 
                 
-                $mail = new \PHPMailer\PHPMailer;
+                $mail = new PHPMailer;
                 $mail->CharSet = "utf-8";
                 $mail->setFrom($row['from'], $row['from_name']);
                 $mail->addAddress($to);

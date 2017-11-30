@@ -5,7 +5,7 @@
     
     define('adminEmail', 'anton.maslennikov@gmail.com');
     
-    define('AppDomain', '.shop.loc');
+    define('AppDomain', '.curry-moon.loc');
 
     // DB
     define('DBHOST', 'localhost');
@@ -27,7 +27,7 @@
     
     define('ROOTDIR', DS . 'home' . DS . 'vhosts' . DS . 'www.maryjane.ru' . DS . 'public_html');
     
-    define('mainUrl', 'http://www.shop.loc');
+    define('mainUrl', 'http://www.curry-moon.loc');
     define('siteName', 'curry-moon.com');
         
     define('SALT', 'SALT');

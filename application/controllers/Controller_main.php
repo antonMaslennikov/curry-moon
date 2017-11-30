@@ -10,7 +10,7 @@
     class Controller_main extends Controller_
     {
         public function action_index()
-        {
+        {   
             $this->page->index_tpl = 'index.tpl';
             $this->page->ogImage = mainUrl . '';
             $this->page->ogUrl = '/';

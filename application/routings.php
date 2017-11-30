@@ -25,15 +25,15 @@
                 'schemas' => 'GET|POST'
             ],
             
-            'registration-success' => [
-                'pattern' => '/(ru|en)/users/registration-success', 
-                'action' => 'Controller_users:action_registration_success', 
+            'registration-finish' => [
+                'pattern' => '/(ru|en)/users/registration-finish', 
+                'action' => 'Controller_users:action_registration_finish', 
                 'schemas' => 'GET|POST'
             ],
             
             
             'activate' => [
-                'pattern' => '/(ru|en)/users/activate/(id:num)(\/?)(.*)', 
+                'pattern' => '/(ru|en)/users/activate/(.*)', 
                 'action' => 'Controller_users:action_activate', 
                 'schemas' => 'GET'
             ],
