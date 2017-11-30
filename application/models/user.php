@@ -294,9 +294,9 @@
                 $data['user_is_fake'] = 'true';
             }
             
-            if (!$data['user_password_md5'])
+            if (!$data['user_password'])
             {
-                $data['user_password_md5'] = md5(SALT . $this->getPassword());
+                $data['user_password'] = md5(SALT . $this->getPassword());
             }
             
             $data['user_status'] = 'active';
@@ -332,10 +332,10 @@
                 $U->user_is_fake = 'true';
             }
             
-            if (!$data['user_password_md5'])
+            if (!$data['user_password'])
             {
                 $U->password = substr(md5(time()), 0, 10);
-                $U->user_password_md5 = md5(SALT . $U->password);
+                $U->user_password = md5(SALT . $U->password);
             }
             
             $U->user_status = 'active';
@@ -427,7 +427,7 @@
         {
             try
             {
-                $this->change(array('user_password_md5' => md5(SALT . trim($pass))));
+                $this->change(array('user_password' => md5(SALT . trim($pass))));
             }
             catch (exception $e) {}
         }
