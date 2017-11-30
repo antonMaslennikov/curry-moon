@@ -1426,6 +1426,23 @@
     
         return $r;
     }
+
+    function cityName2id($city, $country = null, $add = 0, $strict = 0) {
+    
+        $sth = App::db()->prepare("SELECT `id` FROM `city` WHERE `name` = :name " . (($strict) ? " AND `status` = '1'" : '') . " LIMIT 1");
+        $sth->execute(['name' => trim($city)]);
+        $city = $sth->fetch();
+        
+        if (empty($city['id']) && $add)
+        {
+            $sth = App::db()->prepare("insert into `city` set `name` = :name, `country` = '" . intval(trim($country)) . "'");
+            $sth->execute(['name' => trim($city)]);
+            
+            $city['id'] = App::db()->lastInsertId();
+        } 
+        
+        return $city['id'];
+    }
     
     
     function SpiderDetect($USER_AGENT){

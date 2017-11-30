@@ -137,7 +137,7 @@ class mail extends \smashEngine\core\Model
                     $tmptext = str_ireplace("%unsubscribeLink%", "http://www.maryjane.ru/unsubscribe/$u/$code", $tmptext);
                 
                     
-                    $result = App::db()->query("INSERT INTO `mail_messages` 
+                    $result = App::db()->query("INSERT INTO `mail` 
                                 (`mail_message_template_id`, `mail_message_subject`, `mail_message_text`, `user_id`, `raiting`, `from`) 
                               VALUES 
                                 ('{$tpl}', '" . addslashes($tmpsubj) . "','" . addslashes($tmptext) . "', '" . $u . "', '$raiting', '$form')");
@@ -169,7 +169,7 @@ class mail extends \smashEngine\core\Model
             $tmpsubj = str_ireplace("%userName%", "Гость", $tmpsubj);
             $tmpsubj = str_ireplace("%userLogin%", "Гость", $tmpsubj);
             
-            $result = App::db()->query("INSERT INTO `mail_messages` 
+            $result = App::db()->query("INSERT INTO `mail` 
                         (`mail_message_template_id`, `mail_message_subject`, `mail_message_text`, `mail_message_email`, `raiting`, `from`) 
                       VALUES 
                         ('$tpl', '" . addslashes($tmpsubj) . "','" . addslashes($tmptext) . "', '" . $emails[$i] . "', '$raiting', '$form')");
@@ -191,9 +191,9 @@ class mail extends \smashEngine\core\Model
         require ROOTDIR . '/vendor/PHPMailer/PHPMailerAutoload.php';
                     
         $result = App::db()->query("SELECT mm.*, u.`user_email`, mt.`mail_template_order`
-                               FROM `mail_messages` mm
+                               FROM `mail` mm
                                     LEFT JOIN `users` u ON u.`user_id` = mm.`user_id`
-                                    LEFT JOIN `mail_templates` mt ON mt.`mail_template_id` = mm.`mail_message_template_id`    
+                                    LEFT JOIN `mail__templates` mt ON mt.`mail_template_id` = mm.`mail_message_template_id`    
                                WHERE `mail_message_status` = 'awaiting' AND `raiting` IN ('" . implode("', '", $raiting) . "')
                                ORDER BY `raiting` DESC 
                                LIMIT $count");
@@ -204,7 +204,7 @@ class mail extends \smashEngine\core\Model
         }
         
         if (count($mids) > 0)
-          $resultt = App::db()->query("UPDATE `mail_messages` SET `mail_message_status` = 'sent' WHERE `mail_message_id` IN (" . implode(',', $mids) . ") LIMIT $count");
+          $resultt = App::db()->query("UPDATE `mail` SET `mail_message_status` = 'sent' WHERE `mail_message_id` IN (" . implode(',', $mids) . ") LIMIT $count");
         
         foreach ($messages AS $row)
         {
@@ -309,7 +309,7 @@ class mail extends \smashEngine\core\Model
     function send($userarray, $templateid, $reparray = null, $form = 'info@xxx.ru', $raiting = 10, $attachments = null)
     {
         if (!self::$templates[$templateid]) {
-            $tpl = App::db()->query("SELECT * FROM `mail_templates` WHERE `mail_template_id` = '" . $templateid . "'")->fetch();
+            $tpl = App::db()->query("SELECT * FROM `mail__templates` WHERE `mail_template_id` = '" . $templateid . "'")->fetch();
             self::$templates[$tpl['mail_template_id']] = $tpl;
         } else {
             $tpl = self::$templates[$templateid];
@@ -338,86 +338,13 @@ class mail extends \smashEngine\core\Model
             }
         }
 
-        if (empty($tpl['mail_template_file'])) 
-        {
-            /**
-             * замена шаблонов в тексте
-             */
-            foreach ($reparray as $i => $val)
-            {
-                // замена простых переменных
-                if (!is_array($val) && !is_object($val))
-                {
-                    $subject = str_ireplace("%" . $i . "%", $val, $subject);
-                    
-                    $spatern = '[IF ' . $i . ']';
-                    $epatern = '[ENDIF ' . $i . ']';
-                    
-                    $spos = strpos($text, $spatern);
-                    $epos = strpos($text, $epatern);
-                    
-                    if ($spos !== false)
-                    {
-                        while($spos !== false)
-                        {
-                            if ($val)
-                            {
-                                $block = substr($text, $spos + strlen($spatern), ($epos - ($spos + strlen($spatern))));
-                                $block = str_ireplace("%" . $i . "%", $val, $block);
-                            }
-                            else
-                            {
-                                $block = '';
-                            }
-                            
-                            $text = substr_replace($text, $block, $spos, $epos - $spos + strlen($epatern));
-                            
-                            $spos = strpos($text, $spatern);
-                            $epos = strpos($text, $epatern);
-                        }
-                    }
-                    else
-                        $text = str_ireplace("%" . $i . "%", $val, $text);
-                }
-                // замена массивов
-                else
-                {
-                    $spatern = '[BEGIN ' . $i . ']';
-                    $epatern = '[END ' . $i . ']';
-    
-                    $spos = strpos($text, $spatern);
-                    $epos = strpos($text, $epatern);
-    
-                    if ($spos !== false)
-                    {
-                        $block = substr($text, $spos + strlen($spatern), ($epos - ($spos + strlen($spatern))));
-                        $blocks = array();
-    
-                        foreach ($val AS $kk => $v)
-                        {
-                            $blocks[$kk] = $block;
-    
-                            foreach ($v AS $k => $ii)
-                            {
-                                $blocks[$kk] = str_ireplace("%" . $i . '.' . $k . "%", $ii, $blocks[$kk]);
-                            }
-                        }
-    
-                        $text = substr_replace($text, implode('', $blocks), $spos, $epos - $spos + strlen($epatern));
-                    }
-                }
-            }
-        }
-        else
-        {
-            extract($reparray);
-            
-            ob_start();
-            require self::$tpl_folder . $tpl['mail_template_file'];
-            $text = ob_get_contents();
-            
-            ob_end_clean();
-        }
+        extract($reparray);
+
+        ob_start();
+        require self::$tpl_folder . $tpl['mail_template_file'];
+        $text = ob_get_contents();
+
+        ob_end_clean();
 
         /**
          * для рассылок оборачиваем ссылки в трекингкоды и автологины
@@ -495,7 +422,7 @@ class mail extends \smashEngine\core\Model
 
         $i = 0;
 
-        $sth = App::db()->prepare("INSERT INTO `mail_messages`
+        $sth = App::db()->prepare("INSERT INTO `mail`
                  SET
                     `mail_message_template_id` = :templateid, 
                     `mail_message_subject` = :tmpsubj,
@@ -528,12 +455,12 @@ class mail extends \smashEngine\core\Model
                 } 
             }
                 
-            if ($us['user_subscription_status'] == 'active' || $tpl['mail_template_order'] == 'misc')
+            if ($us['user_subscription_status'] == 'active')
             {
                 $sth->execute([
                     'templateid'  => $templateid,
-                    'tmpsubj'     => $tmpsubj,
-                    'tmptext'     => $tmptext,
+                    'tmpsubj'     => $subject,
+                    'tmptext'     => $text,
                     'u'           => $u,
                     'email'       => $us['user_email'],
                     'raiting'     => $raiting,

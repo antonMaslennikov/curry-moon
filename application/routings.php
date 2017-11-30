@@ -25,6 +25,19 @@
                 'schemas' => 'GET|POST'
             ],
             
+            'registration-success' => [
+                'pattern' => '/(ru|en)/users/registration-success', 
+                'action' => 'Controller_users:action_registration_success', 
+                'schemas' => 'GET|POST'
+            ],
+            
+            
+            'activate' => [
+                'pattern' => '/(ru|en)/users/activate/(id:num)(\/?)(.*)', 
+                'action' => 'Controller_users:action_activate', 
+                'schemas' => 'GET'
+            ],
+            
             'forgot-password' => [
                 'pattern' => '/(ru|en)/users/forgot-password', 
                 'action' => 'Controller_users:action_forgot_password', 
