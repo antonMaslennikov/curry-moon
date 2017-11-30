@@ -1,18 +1,25 @@
 <?php
 namespace application\commands;
 
-use Rah\Danpu\Dump;
-use Rah\Danpu\Export;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DumpImport extends Command {
 
+	protected function basePath(){
+
+		return (implode(DIRECTORY_SEPARATOR, [
+			dirname(__FILE__),
+			'..',
+			'..',
+		]));
+	}
+
 	protected function configure()
 	{
 		$this
-			->setName('app:dump-import')
+			->setName('import-sql')
 			->setDescription('Import dump sql in database')
 			->setHelp('This command import dump sql in database"');
 	}
@@ -21,17 +28,42 @@ class DumpImport extends Command {
 	{
 		// outputs multiple lines to the console (adding "\n" at the end of each line)
 		$output->writeln([
-			'Create dump',
+			'Import dump',
 			'============',
 			'',
 		]);
 
+		require_once implode(DIRECTORY_SEPARATOR, [
+			$this->basePath(),
+			'application',
+			'configs',
+			'main.php'
+		]);
 
-
-		// outputs a message without adding a "\n" at the end of the line
-		$output->write('You are about to create a dump.');
+		$this->import($output);
 	}
 
 
+	protected function import(OutputInterface $output) {
 
+		try {
+
+			$cmd = sprintf(
+				'mysql -h %s -u %s --password=%s %s < %s;',
+				DBHOST,
+				DBUSER,
+				DBPASS,
+				DBNAME,
+				$this->basePath().DIRECTORY_SEPARATOR.'dump.sql'
+			);
+
+			exec($cmd);
+			$output->writeln("Import success!");
+
+
+		} catch (\Exception $e) {
+
+			$output->writeln('Import failed with message: ' . $e->getMessage());
+		}
+	}
 }
