@@ -64,15 +64,12 @@ class DumpExport extends Command {
 				DBUSER,
 				DBPASS,
 				DBNAME,
-				$this->basePath().DIRECTORY_SEPARATOR.'runtime'.DIRECTORY_SEPARATOR.'example.sql'
+				$this->basePath().DIRECTORY_SEPARATOR.'dump.sql'
 				);
 			exec($cmd);
 
-			$zip = new \ZipArchive();
-			
-
 			// outputs a message without adding a "\n" at the end of the line
-			$output->writeln('Create a dump success!');
+			$output->writeln('Created a dump success!');
 
 		} catch (\Exception $e) {
 			$output->writeln('Export failed with message: ' . $e->getMessage());
