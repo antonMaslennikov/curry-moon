@@ -49,7 +49,7 @@ class DumpImport extends Command {
 		try {
 
 			$cmd = sprintf(
-				'mysql -h %s -u %s --password=%s %s < %s;',
+				'mysql --host=%s --user=%s --password=%s %s < %s;',
 				DBHOST,
 				DBUSER,
 				DBPASS,
@@ -57,8 +57,14 @@ class DumpImport extends Command {
 				$this->basePath().DIRECTORY_SEPARATOR.'dump.sql'
 			);
 
-			exec($cmd);
-			$output->writeln("Import success!");
+			//exec($cmd);
+			$output->writeln("Run command: $cmd");
+			exec($cmd ,$out, $status);
+
+			if ($status)
+				$output->writeln("Import success!");
+			else
+				$output->writeln(implode(PHP_EOL, $out));
 
 
 		} catch (\Exception $e) {
