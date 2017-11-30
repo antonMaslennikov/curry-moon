@@ -40,7 +40,8 @@ class DumpImport extends Command {
 			'main.php'
 		]);
 
-		$this->import($output);
+		$output->writeln("Что-то не пашет, загрузи через pma");
+		//$this->import($output);
 	}
 
 
@@ -49,7 +50,7 @@ class DumpImport extends Command {
 		try {
 
 			$cmd = sprintf(
-				'mysql --host=%s --user=%s --password=%s %s < %s;',
+				'mysql -h %s -u %s --password=%s %s < %s;',
 				DBHOST,
 				DBUSER,
 				DBPASS,
@@ -59,12 +60,9 @@ class DumpImport extends Command {
 
 			//exec($cmd);
 			$output->writeln("Run command: $cmd");
-			exec($cmd ,$out, $status);
+			exec($cmd);
 
-			if ($status)
-				$output->writeln("Import success!");
-			else
-				$output->writeln(implode(PHP_EOL, $out));
+			$output->writeln("Import success!");
 
 
 		} catch (\Exception $e) {
