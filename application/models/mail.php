@@ -15,147 +15,8 @@ class mail extends \smashEngine\core\Model
     
     public static $tpl_folder = 'application/views/mail/';
     
-    public static $mailLists = array(
-        2 => array('type' => 'notify', 'name' => 'Новая работа избранного автора', 'active' => 1),
-        3 => array('type' => 'notify', 'name' => 'Новые работы на голосовании', 'active' => 1),
-        10 => array('type' => 'notify', 'name' => 'Победа избранного на голосовании', 'active' => 1),
-        
-        4 => 'Новые посты в блогах',
-        5 => 'Дизайнерам',
-        6 => 'Новости',
-        7 => 'Новинки каталога',
-        8 => 'Акции maryjane.ru',
-        9 => 'Новости allskins.ru',
-        10 => 'Диллер-блог',
     
-        20 => array('type' => 'announcement', 'name' => 'Аннонс чехлов на iPhone 4 mj', 'active' => 0),
-        22 => array('type' => 'announcement', 'name' => 'Аннонс чехлов на iPhone 4 allskins', 'active' => 0),
-        21 => array('type' => 'announcement', 'name' => 'Аннонс наклеек на iPhone 5 mj', 'active' => 0),
-        23 => array('type' => 'announcement', 'name' => 'Аннонс наклеек на iPhone 5 allskins', 'active' => 0),
-        
-        354 => array('type' => 'announcement', 'name' => 'Предзаказ чехлов на iPhone 5', 'active' => 0, 'mailtpl' => 534),
-        482 => array('type' => 'announcement', 'name' => 'Предзаказ чехлов на iPad mini', 'active' => 0, 'mailtpl' => 552),
-        
-        643 => array('type' => 'announcement', 'name' => 'Предзаказ чехлов на iPhone 6', 'active' => 0, 'mailtpl' => 622),
-        644 => array('type' => 'announcement', 'name' => 'Предзаказ чехлов на iPhone 6 Plus', 'active' => 0, 'mailtpl' => 622),
-        
-        700 => array('type' => 'notify', 'name' => 'Просмотреть отложенное', 'active' => 1),
-    );
-            
-    
-    function __construct() {
-    }
-    
-    /**
-     * Заменить в тексте все переменные для конкретного юзера
-     * @param string $text - текст
-     * @param int $u - номер пользователя 
-     */
-    static function precessText($text, $u, $args)
-    {
-        $us = new User($u);
-                
-        $ubw = $us->getBonuses(0);
-        
-        $code = md5($u . $us->user_email . $us->user_register_date);
-        
-        $text = str_ireplace("%userId%", $u, $text);
-        $text = str_ireplace("%userName%", $us->user_name, $text);
-        $text = str_ireplace("%userEmail%", $us->user_email, $text);
-        $text = str_ireplace("%userLogin%", $us->user_login, $text);
-        $text = str_ireplace("%userNameLogin%", ((!empty($us->user_name)) ? $us->user_name : $us->user_login), $text);
-        $text = str_ireplace("%userEmailLogin%", ((!empty($us->user_email)) ? $us->user_email : (($us->user_login) ? $us->user_login : '')), $text);
-        
-        $text = str_ireplace("%userBonuses%", (($us->user_bonus > 0) ? "Позвольте сообщить Вам состояние Вашего Лицевого счёта в нашем магазине.<br><br>На вашем счету: {$us->user_bonus} РУБ.<br>Эти деньги Вы можете потратить на любые товары в нашем интернет-магазине, чтобы сэкономить на следующей покупке. Для этого при оформлении нового заказа на странице ШАГ 3 поставьте галочку напротив пункта:<br><br><ВЫ ХОТИТЕ ИСПОЛЬЗОВАТЬ ИМЕЮЩИЕСЯ У ВАС НА СЧЕТУ БОНУСЫ ДЛЯ ОПЛАТЫ ЭТОГО ЗАКАЗА?><br>Стоимость Вашего нового заказа будет уменьшена на {$us->user_bonus} РУБ. <br><br>Посмотреть историю всех операций Вы можете в Профиле на странице Заказов: <a href='http://www.maryjane.ru/orderhistory/?utm_source=mail&utm_medium=notifier&utm_campaign=mailuserbonuses'>http://www.maryjane.ru/orderhistory</a><br>Состояние бонусного счета отражено на главной странице Профиля<br><a href='http://www.maryjane.ru/orderhistory/?utm_source=mail&utm_medium=notifier&utm_campaign=mailuserbonuses'>http://www.maryjane.ru/profile</a>" : ''), $text);
-        $text = str_ireplace("%userBonusesText%", (($us->user_bonus > 0) ? '<span style="color:#666;line-height: 33px;font-size: 12px;">На вашем бонусном счету </span><a href="http://www.maryjane.ru/login/quick/?user_id=' . $u . '&code=' . $ql_code . '&next=http://www.maryjane.ru/bonuses/%3Futm_source%3Dnewsletter%26utm_medium%3Demail%26utm_campaign%3Dmailsender_' . $tpl . '" style="color:#2f98ce;border:0px;margin:0px;padding:0px;line-height: 33px;font-size: 12px;" target="_blank">' . $us->user_bonus . ' р.</a>' : ''), $text);
-        $text = str_ireplace("%userBonusesCount%", $us->user_bonus, $text);
-        $text = str_ireplace("%userBonusesWait%", intval($ubw), $text);
-        
-        $text = str_ireplace("%operation_time_1%", getVariableValue('operation_time_1'), $text);
-        $text = str_ireplace("%operation_time_2%", getVariableValue('operation_time_2'), $text);
-        $text = str_ireplace("%operation_time_3%", getVariableValue('operation_time_3'), $text);
-        
-        // код подписки
-        $text = str_ireplace("%subscribeCode%", $code, $text);
-        $text = str_ireplace("%subscribeLink%", "http://www.maryjane.ru/subscribe/$u/$code/8/", stripslashes($text));
-        
-        // код полного отключения подписки 
-        $text = str_ireplace("%unsubscribeCode%", $code, $text);
-        $text = str_ireplace("%unsubscribeLink%", "http://www.maryjane.ru/unsubscribe/$u/$code/", $text);
-        
-        /**
-         * замена переменных в тексте
-         */
-        foreach ($args as $i => $val)
-        {
-            // замена простых переменных
-            if (!is_array($val))
-            {
-                $text = str_ireplace("%" . $i . "%", $val, $text);
-                
-                $spatern = '[IF ' . $i . ']';
-                $epatern = '[ENDIF ' . $i . ']';
-                
-                $spos = strpos($text, $spatern);
-                $epos = strpos($text, $epatern);
-                
-                if ($spos !== false)
-                {
-                    while($spos !== false)
-                    {
-                        if ($val)
-                        {
-                            $block = substr($text, $spos + strlen($spatern), ($epos - ($spos + strlen($spatern))));
-                            $block = str_ireplace("%" . $i . "%", $val, $block);
-                        }
-                        else
-                        {
-                            $block = '';
-                        }
-                        
-                        $text = substr_replace($text, $block, $spos, $epos - $spos + strlen($epatern));
-                        
-                        $spos = strpos($text, $spatern);
-                        $epos = strpos($text, $epatern);
-                    }
-                }
-                else
-                    $text = str_ireplace("%" . $i . "%", $val, $text);
-            }
-            // замена массивов
-            else
-            {
-                $spatern = '[BEGIN ' . $i . ']';
-                $epatern = '[END ' . $i . ']';
-
-                $spos = strpos($text, $spatern);
-                $epos = strpos($text, $epatern);
-
-                if ($spos !== false)
-                {
-                    $block = substr($text, $spos + strlen($spatern), ($epos - ($spos + strlen($spatern))));
-                    $blocks = array();
-
-                    foreach ($val AS $kk => $v)
-                    {
-                        $blocks[$kk] = $block;
-
-                        foreach ($v AS $k => $ii)
-                        {
-                            $blocks[$kk] = str_ireplace("%" . $i . '.' . $k . "%", $ii, $blocks[$kk]);
-                        }
-                    }
-
-                    $text = substr_replace($text, implode('', $blocks), $spos, $epos - $spos + strlen($epatern));
-                }
-            }
-        }
-        
-        return $text;
-    }
-    
-    
-    function addMessage($list, $user, $tpl, $text, $subject = null, $emails = null, $raiting = 10, $mm_from = null)
+    function addMessage($list, $user, $tpl, $text, $subject = null, $emails = null, $raiting = 10, $form = null)
     {
         if (count($list) > 0)
         {
@@ -195,7 +56,7 @@ class mail extends \smashEngine\core\Model
             }
             
             $raiting = 0;
-            $mm_from    = 'noreply@maryjane.ru';
+            $form    = 'noreply@maryjane.ru';
         }
         
         $i=0;
@@ -279,7 +140,7 @@ class mail extends \smashEngine\core\Model
                     $result = App::db()->query("INSERT INTO `mail_messages` 
                                 (`mail_message_template_id`, `mail_message_subject`, `mail_message_text`, `user_id`, `raiting`, `from`) 
                               VALUES 
-                                ('{$tpl}', '" . addslashes($tmpsubj) . "','" . addslashes($tmptext) . "', '" . $u . "', '$raiting', '$mm_from')");
+                                ('{$tpl}', '" . addslashes($tmpsubj) . "','" . addslashes($tmptext) . "', '" . $u . "', '$raiting', '$form')");
                     
                     $results[] = App::db()->lastInsertId();
                     
@@ -311,7 +172,7 @@ class mail extends \smashEngine\core\Model
             $result = App::db()->query("INSERT INTO `mail_messages` 
                         (`mail_message_template_id`, `mail_message_subject`, `mail_message_text`, `mail_message_email`, `raiting`, `from`) 
                       VALUES 
-                        ('$tpl', '" . addslashes($tmpsubj) . "','" . addslashes($tmptext) . "', '" . $emails[$i] . "', '$raiting', '$mm_from')");
+                        ('$tpl', '" . addslashes($tmpsubj) . "','" . addslashes($tmptext) . "', '" . $emails[$i] . "', '$raiting', '$form')");
             
             $results[] = App::db()->lastInsertId();
             
@@ -324,133 +185,7 @@ class mail extends \smashEngine\core\Model
         return $results;
     }
 
-    /**
-     * Получить код шаблона
-     * @param int $id - номер шаблона
-     * @return string - код шаблона
-     */
-    function viewMailTemplate($id)
-    {
-        $row = App::db()->query(sprintf("SELECT `mail_template_text`, `mail_template_file` FROM `mail_templates` WHERE `mail_template_id` = '%d' LIMIT 1", $id))->fetch();
-        
-        if (!empty($row['mail_template_file']))
-        {
-            ob_start();
-            require_once (self::$tpl_folder . $row['mail_template_file']);
-            $text = ob_get_contents();
-            ob_end_clean();
-            return $text;
-        }   
-        else
-            return stripslashes($row['mail_template_text']);
-    }
-
-    function addMailTemplateForm()
-    {
-    }
     
-    function addMailTemplate($name, $text, $subject, $order)
-    {
-        $query = "INSERT INTO mail_templates(mail_template_name, mail_template_text,mail_template_subject, mail_template_order) VALUES ('" . $name . "', '" . $text . "', '" . $subject . "', '" . $order . "')";
-        $result = App::db()->query($query);
-    }
-
-    function editMailTemplateForm($id)
-    {
-    }
-
-    function editMailTemplate($id, $name, $text, $subject, $order)
-    {
-        $query = "UPDATE mail_templates SET mail_template_name='" . $name . "', mail_template_text='" . $text . "', mail_template_subject='" . $subject . "', mail_template_order='" . $order . "' WHERE mail_template_id='" . $id . "'";
-        $result = App::db()->query($query);
-    }
-
-    function deleteMailTemplate($id)
-    {
-        $query = "DELETE FROM mail_templates WHERE mail_template_id='" . $id . "'";
-        $result = App::db()->query($query);
-    }
-
-    function listMailTemplates($cat)
-    {
-        global $t;
-        
-        $query = "SELECT * FROM mail_templates WHERE mail_template_order='$cat' ORDER BY `mail_template_id` DESC";
-        $result = App::db()->query($query);
-
-        $order[0]['value'] = "good";
-        $order[0]['label'] = "Для работ";
-
-        $order[1]['value'] = "basket";
-        $order[1]['label'] = "Для заказов";
-
-        $order[2]['value'] = "misc";
-        $order[2]['label'] = "Служебные";
-
-        $order[3]['value'] = "actions";
-        $order[3]['label'] = "Акции";
-
-        $order[4]['value'] = "news";
-        $order[4]['label'] = "Новости";
-
-        $order[5]['value'] = "newsCatalog";
-        $order[5]['label'] = "Новости в каталоге";
-
-        $order[6]['value'] = "forDesigners";
-        $order[6]['label'] = "Дизайнерам";
-
-        $output = '<table width="100%" border="1" cellpadding="3" cellspacing="1" bgcolor="#999999">';
-        $output .= '<tr bgcolor="#F1F1F1">';
-        foreach ($order as $v)
-        {
-            if ($cat ==$v['value'] )
-            {
-                $output .= "<td align=center><b>" . $v['label'] . "</b></td>";
-            } else {
-                $output .= "<td align=center><a href=/index_admin.php?action=listmailtemplates&cat=" . $v['value'] . ">" . $v['label'] . "</a></td>";
-            }
-        }
-        $output .= "</tr>";
-        $output .= "</table><br><br>";
-
-        $output .= '<table width="100%" border="1" cellpadding="3" cellspacing="1" bgcolor="#999999">';
-        $output .= '<tr bgcolor="#F1F1F1">';
-        $output .= "<td align=center><b>Имя</b></td>";
-        $output .= "<td align=center><b>Заголовок</b></td>";
-        $output .= "<td align=center><b>Текст</b></td>";
-        $output .= "<td align=center><b></b></td>";
-        $output .= "</tr>";
-        
-        foreach ($result AS $row)
-        {
-            $output .= '<tr bgcolor="#FFFFFF">';
-            $output .= "<td align=center>" . $row['mail_template_name'] . "</td>";
-            $output .= "<td align=center>" . $row['mail_template_subject'] . "</td>";
-            $output .= "<td align=center>" . $row['mail_template_text'] . "</td>";
-            $output .= "<td align=center><a href=?action=editmailtemplate&id=$row[0]>Редактировать</a> <a  onClick=\"return confirm('Удалить позицию?');\" href=?action=deletemailtemplate&id=$row[0]>Удалить</a> </td>";
-            $output .= "</tr>";
-        }
-        
-        $output .= "</table>";
-        $t->parseit($output, "content");
-    }
-
-    function listMailLists()
-    {
-    }
-    
-    function deleteMailListSubscriber($id)
-    {
-        $query = "DELETE FROM mail_list_subscribers WHERE mail_list_subscriber_id='" . $id . "'";
-        $result = App::db()->query($query);
-    }
-
-    function deleteMailMessage($id)
-    {
-        $query = "DELETE FROM mail_messages WHERE mail_message_id='" . $id . "'";
-        $result = App::db()->query($query);
-    }
-
     function sendAllMessages($count = 30, $raiting = array(0, 10))
     {
         require ROOTDIR . '/vendor/PHPMailer/PHPMailerAutoload.php';
@@ -567,13 +302,11 @@ class mail extends \smashEngine\core\Model
      * @param mixed $userarray массив id или email получателей письма
      * @param int $templateid номер шаблона
      * @param array $reparray список переменных подставляемых в шаблоне
-     * @param array $emails список email получателей (не используется)
-     * @param string $text текст письма (для отправки без шаблона)
-     * @param string $mm_from отправитель письма
+     * @param string $from отправитель письма
      * @param int $raiting приоритет отправки письма
      * @param mixed $attachments вложения
      */
-    function send($userarray, $templateid, $reparray = null, $emails = null, $text = '', $mm_from = 'info@maryjane.ru', $raiting = 10, $attachments = null)
+    function send($userarray, $templateid, $reparray = null, $form = 'info@xxx.ru', $raiting = 10, $attachments = null)
     {
         if (!self::$templates[$templateid]) {
             $tpl = App::db()->query("SELECT * FROM `mail_templates` WHERE `mail_template_id` = '" . $templateid . "'")->fetch();
@@ -587,8 +320,8 @@ class mail extends \smashEngine\core\Model
         if (empty($text))
             $text = $tpl['mail_template_text'];
 
-        if (empty($mm_from))
-            $mm_from = 'info@maryjane.ru';
+        if (empty($form))
+            $form = 'info@maryjane.ru';
 
         preg_match_all ("/%(.*)%/U", $subject, $vararrays);
 
@@ -779,7 +512,7 @@ class mail extends \smashEngine\core\Model
                 continue;
             
             if (is_numeric($u)) {
-                $rr = App::db()->query("SELECT * FROM `users` WHERE `user_id` = '{$u}' LIMIT 1");
+                $rr = App::db()->query("SELECT * FROM `users` WHERE `id` = '{$u}' LIMIT 1");
                 if ($rr->rowCount() == 0)
                     continue;
                 else
@@ -795,75 +528,8 @@ class mail extends \smashEngine\core\Model
                 } 
             }
                 
-                
             if ($us['user_subscription_status'] == 'active' || $tpl['mail_template_order'] == 'misc')
             {
-                $ub  = $us['user_bonus'];
-                $un  = $us['user_name'];
-                $ul  = $us['user_login'];
-                $um  = $us['user_email'];
-                
-                if ($us['user_id']) 
-                {
-                    $foo = App::db()->query("SELECT SUM(`user_bonus_count`) AS s FROM `user_bonuses` WHERE `user_id` = '" . $us['user_id'] . "' AND `user_bonus_status` = '0'")->fetch();
-                    $ubw = $foo['s'];
-                    $ql_code = md5($us['user_password'] . rand() . time());
-                }
-                
-                $tmptext = stripslashes($text);
-                $tmpsubj = $subject;
-                
-                $tmptext = str_ireplace("%userId%", $u, $tmptext);
-                $tmptext = str_ireplace("%userName%", $un, $tmptext);
-                $tmptext = str_ireplace("%userEmail%", $um, $tmptext);
-                $tmptext = str_ireplace("%userLogin%", $ul, $tmptext);
-                $tmptext = str_ireplace("%userPassword%", $us['user_password'], $tmptext);
-                $tmptext = str_ireplace("%userNameLogin%", ((!empty($un)) ? $un : $ul), $tmptext);
-                $tmptext = str_ireplace("%userEmailLogin%", ((!empty($um)) ? $um : (($us['user_login']) ? $us->user_login : '')), $tmptext);
-                
-                $tmptext = str_ireplace("%userBonuses%", (($ub > 0) ? "Позвольте сообщить Вам состояние Вашего Лицевого счёта в нашем магазине.<br><br>На вашем счету: $ub РУБ.<br>Эти деньги Вы можете потратить на любые товары в нашем интернет-магазине, чтобы сэкономить на следующей покупке. Для этого при оформлении нового заказа на странице ШАГ 3 поставьте галочку напротив пункта:<br><br><ВЫ ХОТИТЕ ИСПОЛЬЗОВАТЬ ИМЕЮЩИЕСЯ У ВАС НА СЧЕТУ БОНУСЫ ДЛЯ ОПЛАТЫ ЭТОГО ЗАКАЗА?><br>Стоимость Вашего нового заказа будет уменьшена на $ub РУБ. <br><br>Посмотреть историю всех операций Вы можете в Профиле на странице Заказов: <a href='http://www.maryjane.ru/orderhistory/?utm_source=mail&utm_medium=notifier&utm_campaign=mailuserbonuses'>http://www.maryjane.ru/orderhistory</a><br>Состояние бонусного счета отражено на главной странице Профиля<br><a href='http://www.maryjane.ru/orderhistory/?utm_source=mail&utm_medium=notifier&utm_campaign=mailuserbonuses'>http://www.maryjane.ru/profile</a>" : ''), $tmptext);
-                $tmptext = str_ireplace("%userBonusesCount%", intval($ub), $tmptext);
-                $tmptext = str_ireplace("%userBonusesWait%", intval($ubw), $tmptext);
-                
-                $tmpsubj = str_ireplace("%userName%", $un, $tmpsubj);
-                $tmpsubj = str_ireplace("%userLogin%", $ul, $tmpsubj);
-                $tmpsubj = str_ireplace("%userNameLogin%", ((!empty($un)) ? $un : $ul), $tmpsubj);
-                $tmpsubj = str_ireplace("%userEmailLogin%", ((!empty($um)) ? $um : (($us['user_login']) ? $us['user_login'] : '')), $tmpsubj);
-                $tmpsubj = str_ireplace("%userBonusesWait%", intval($ubw), $tmpsubj);
-                
-                $tmptext = str_ireplace("%operation_time_1%", getVariableValue('operation_time_1'), $tmptext);
-                $tmptext = str_ireplace("%operation_time_2%", getVariableValue('operation_time_2'), $tmptext);
-                $tmptext = str_ireplace("%operation_time_3%", getVariableValue('operation_time_3'), $tmptext);
-                
-                
-                $tmptext = str_ireplace("%bprice_11%", ((40 - $ub) < 0) ? 0 : 40 - $ub, $tmptext);
-                $tmptext = str_ireplace("%bprice_12%", ((600 - $ub) < 0) ? 0 : 600 - $ub, $tmptext);
-                $tmptext = str_ireplace("%bprice_13%", ((790 - $ub) < 0) ? 0 : 790 - $ub, $tmptext);
-                $tmptext = str_ireplace("%bprice_21%", ((990 - $ub) < 0) ? 0 : 990 - $ub, $tmptext);
-                $tmptext = str_ireplace("%bprice_22%", ((1090 - $ub) < 0) ? 0 : 1090 - $ub, $tmptext);
-                $tmptext = str_ireplace("%bprice_23%", ((1990 - $ub) < 0) ? 0 : 1990 - $ub, $tmptext);
-                
-                $tmptext = str_ireplace("%ql_code%", $ql_code, $tmptext);
-                
-                if (strpos($tmptext, '%quickLoginLink%') !== false)
-                {
-                    App::db()->query("INSERT INTO `user_quick_login` SET `hash` = '$ql_code', `user_id` = '$u'");
-                    $tmptext = str_ireplace("%quickLoginLink%", 'http://www.maryjane.ru/login/quick/?user_id=' . $u . '&code=' . $ql_code, $tmptext);
-                }
-                
-                $tmptext = str_ireplace("%userBonusesText%", (($ub > 0) ? '<span style="color:#666;line-height: 33px;font-size: 12px;">На вашем бонусном счету </span><a href="http://www.maryjane.ru/login/quick/?user_id=' . $u . '&code=' . $ql_code . '&next=http://www.maryjane.ru/bonuses/%3Futm_source%3Dnewsletter%26utm_medium%3Demail%26utm_campaign%3Dmailsender_' . $templateid . '" style="color:#2f98ce;border:0px;margin:0px;padding:0px;line-height: 33px;font-size: 12px;" target="_blank">' . $ub . ' р.</a>' : ''), $tmptext);
-                
-                
-                $code    = md5($u . $um . $us['user_register_date']);
-    
-                // код подписки
-                $tmptext = str_ireplace("%subscribeCode%", $code, $tmptext);
-                $tmptext = str_ireplace("%subscribeLink%", "http://www.maryjane.ru/subscribe/$u/$code/8/", stripslashes($tmptext));
-                
-                // код полного отключения подписки 
-                $tmptext = str_ireplace("%unsubscribeCode%", $code, $tmptext);
-                $tmptext = str_ireplace("%unsubscribeLink%", "http://www.maryjane.ru/unsubscribe/$u/$code", $tmptext);
-            
                 $sth->execute([
                     'templateid'  => $templateid,
                     'tmpsubj'     => $tmpsubj,
@@ -871,7 +537,7 @@ class mail extends \smashEngine\core\Model
                     'u'           => $u,
                     'email'       => $us['user_email'],
                     'raiting'     => $raiting,
-                    'from'        => $mm_from,
+                    'from'        => $form,
                     'attachments' => (count($attachments) > 0) ? json_encode($attachments) : '']);
                 
                 $results[] = App::db()->lastInsertId();

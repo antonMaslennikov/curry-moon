@@ -121,9 +121,10 @@
     <script src="/public/js/jquery-noconflict.js" type="text/javascript"></script>
     <script src="/public/js/jquery-migrate.min.js" type="text/javascript"></script>
     
+    <script src="/public/js/core.js" type="text/javascript"></script>
+    
     <script src="/public/js/k2.frontend.js?v2.7.1&amp;sitepath=/" type="text/javascript"></script>
     <script src="/public/js/mootools-core.js" type="text/javascript"></script>
-    <script src="/public/js/core.js" type="text/javascript"></script>
     <script src="/public/js/mootools-more.js" type="text/javascript"></script>
     <script src="/public/js/rokbox.js" type="text/javascript"></script>
     

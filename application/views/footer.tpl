@@ -57,30 +57,6 @@
                                 <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                             </div>
                         </form>
-                        
-                        {literal}
-                        <script>
-                            jQuery(document).ready(function(){
-                                jQuery('#formAcymailing84821').submit(function() {
-                                    
-                                    if (jQuery(this).find('input[name=user\\\[email\\\]]').val().length == 0) {
-                                        alert('Укажите адрес электронной почты');
-                                        return false;
-                                    }
-                                    
-                                    jQuery.post(jQuery(this).attr('action'), jQuery(this).serialize(), function(r) {
-                                        r = jQuery.parseJSON(r);
-                                        if (r.status == 'ok') {
-                                            alert('Ваша подписка оформлена. Спасибо');
-                                        } else {
-                                            alert(r.message);
-                                        }
-                                    });
-                                    return false;
-                                }); 
-                            });
-                        </script>
-                        {/literal}
                     </div>
                 </div>
             </div>
