@@ -39,7 +39,6 @@
             // сохранение
             if ($_POST['submit'])
             {
-                printr($_POST);
                 try
                 {
                     if ($_POST['csrf_token'] != $_SESSION['csrf_token']) {
@@ -57,19 +56,11 @@
                     $user_email = substr(strtolower(trim(strip_tags($_POST['email']))), 0, 50);
                     $user_phone = normalizePhone(substr(trim(strip_tags($_POST['phone_1'])), 0, 20));
                     $user_name  = substr(trim(strip_tags($_POST['last_name'])), 0, 50) . ' ' . substr(trim(strip_tags($_POST['first_name'])), 0, 50) . ' ' . substr(trim(strip_tags($_POST['middle_name'])), 0, 50);
-
-                    /*
-                    if (!empty($_POST['city'])) {
-                        $user_city = cityName2id($_POST['city'], 0, true);
-                    }
-                    */
-                    /*
-                    address_1
-                    zip
-                    country_id
-                    */
-
-                    $sth = App::db()->prepare("SELECT `user_email` FROM `" . user::$dbtable . "` WHERE `user_email` = ?");
+                    $user_zip = substr(strtolower(trim(strip_tags($_POST['zip']))), 0, 50);
+                    $user_address = substr(strtolower(trim(strip_tags($_POST['address_1']))), 0, 200);
+                    $user_country_id = intval($_POST['country_id']);
+                    
+                    $sth = App::db()->prepare("SELECT * FROM `" . user::$dbtable . "` WHERE `user_email` = ?");
                     $sth->execute([$user_email]);
 
                     $users = $sth->rowCount();
@@ -105,18 +96,12 @@
                             'user_login'        => $user_login,
                             'user_email'        => $user_email,
                             'user_name'         => $user_name,
-                            'user_city'         => $user_city,
+                            'user_zip'          => $user_zip,
+                            'user_address'      => $user_address,
+                            'user_country_id'   => $user_country_id,
                         ));
-
-                        $code = md5(SALT .  $this->user->id);
-
-                        $vararray['activateLink'] = mainUrl . "/ru/users/activate/?userid=" . $this->user->id . "&key=" . $code;
-                        $vararray['activateCode'] = $vararray['code'] = $code;
-                        $vararray['mail']         = $user_email;
-                        $vararray['user_id']      = $this->user->id;
-                        $vararray['userLogin']    = $vararray['user_login'] = $user_login;
-
-                        App::mail()->send($this->user->id, 1, $vararray);
+                        
+                        $this->page->go('/ru/users/activate/' . $this->user->id);
                     }
                 }
                 catch (appException $e) 
@@ -131,11 +116,25 @@
         }
         
         /**
+         * успешное окончание регистрации
+         */
+        public function action_registration_finish()
+        {
+            
+        }
+        
+        /**
          * подтверждение регистрации пользователя
          */ 
         public function action_activate() 
         {
+            $this->page->index_tpl = 'index.tpl';
+            $this->page->tpl = 'users/registration-activate.tpl';
             
+            $this->page->breadcrump[] = ['caption' => 'Подтверждение регистрации'];
+            
+            
+            $this->view->generate($this->page->index_tpl);
         }
         
         /**
