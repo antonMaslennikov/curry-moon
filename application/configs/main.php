@@ -27,8 +27,9 @@
     
     define('ROOTDIR', DS . 'home' . DS . 'vhosts' . DS . 'www.maryjane.ru' . DS . 'public_html');
     
-    define('mainUrl',     'http://www.shop.loc');
-    
+    define('mainUrl', 'http://www.shop.loc');
+    define('siteName', 'curry-moon.com');
+        
     define('SALT', 'SALT');
     define('CSRF_SALT', 'CSRF_SALT');
     

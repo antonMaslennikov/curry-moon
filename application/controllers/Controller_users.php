@@ -59,7 +59,8 @@
                     $user_zip = substr(strtolower(trim(strip_tags($_POST['zip']))), 0, 50);
                     $user_address = substr(strtolower(trim(strip_tags($_POST['address_1']))), 0, 200);
                     $user_country_id = intval($_POST['country_id']);
-                    
+                    $user_city_id = cityName2id($_POST['city'], '', true);
+                        
                     $sth = App::db()->prepare("SELECT * FROM `" . user::$dbtable . "` WHERE `user_email` = ?");
                     $sth->execute([$user_email]);
 
@@ -99,6 +100,7 @@
                             'user_zip'          => $user_zip,
                             'user_address'      => $user_address,
                             'user_country_id'   => $user_country_id,
+                            'user_city_id'      => $user_city_id,
                         ));
                         
                         $this->page->go('/ru/users/activate/' . $this->user->id);
