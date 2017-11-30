@@ -18,9 +18,9 @@ class DumpExport extends Command {
 	protected function configure()
 	{
 		$this
-			->setName('app:dump-export')
+			->setName('dump-sql')
 			->setDescription('Create dump database MySQL')
-			->setHelp('This command create dump databa /dump.sql"');
+			->setHelp('This command create dump database /dump.sql"');
 	}
 
 	protected function basePath(){
