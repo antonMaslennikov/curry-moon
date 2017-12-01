@@ -29,7 +29,12 @@
 
             <div id="gkTopNav">
                 <div id="gkUserArea" class=" uk-hidden-small">
-                    Здравствуйте, вы можете <a href="/ru/users/login" id="gkLogin">войти</a> или создать <a href="/ru/users/registration">аккаунт</a>
+                    Здравствуйте, 
+                    {if $USER->authorized}
+                        {$USER->user_name}, вы можете <a href="/ru/users/logout">выйти</a>
+                    {else}
+                        вы можете <a href="/ru/users/login" id="gkLogin">войти</a> или создать <a href="/ru/users/registration">аккаунт</a>
+                    {/if}
                 </div>
 
                 <div id="gkTopMenu" class="uk-hidden-small">

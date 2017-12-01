@@ -357,7 +357,7 @@
                     // ищем последний недоделанный заказ в предыдущей сессии и перекидываем его в текущую сессию
                     if ($this->session['session_id'] && empty($this->session['user_basket_id']))
                     {
-                        $sth = App::db()->prepare("SELECT ub.`user_basket_id` FROM `user_baskets` ub, `user_basket_goods` ubg WHERE ub.`id` = :user AND ub.`user_basket_status` = 'active' AND ubg.`user_basket_id` = ub.`user_basket_id` ORDER BY ub.`user_basket_id` DESC LIMIT 1");
+                        $sth = App::db()->prepare("SELECT ub.`id` FROM `" . basket::$dbtable . "` ub, `" . basketItem::$dbtable . "` ubg WHERE ub.`id` = :user AND ub.`user_basket_status` = 'active' AND ubg.`user_basket_id` = ub.`id` ORDER BY ub.`id` DESC LIMIT 1");
                         
                         $sth->execute(array('user' => $this->id));
                         

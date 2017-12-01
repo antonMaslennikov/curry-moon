@@ -383,4 +383,19 @@
         {
             require_once ROOTDIR . '/404.html';
         }
+        
+        /**
+         * Добавить пункт в хлебные крошки
+         */
+        public function addBreadCrump($caption, $link = null)
+        {
+            if (!$caption) {
+                return;
+            }
+            
+            $this->breadcrump[] = array(
+                'link' => $link, 
+                'caption' => $caption,
+            );
+        }
     }

@@ -22,7 +22,72 @@
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/login.tpl';
            
+            if ($_POST['login'])
+            {
+                if (!empty($_POST['password']))
+                {   
+                    $sth = App::db()->prepare("SELECT `id`, `user_login`, `user_status`, `user_email`, `user_phone`, `user_activation`
+                                      FROM `users` 
+                                      WHERE 
+                                            (`user_login` = :login OR `user_email` = :login OR `user_phone` = :login) 
+                                        AND `user_password` = :password
+                                        AND `user_status` != 'deleted' 
+                                      LIMIT 1");
+
+                    $sth->execute(array(
+                        'login' => $_POST['login'],
+                        'password' => md5(SALT . $_POST['password']),
+                    ));
+
+                    if (!$row = $sth->fetch())
+                    {
+                        $this->page->setFlashMessage('Указан неправильный логин или пароль');
+
+                        $this->page->refresh();
+                    } 
+                    else 
+                    {
+                        if ($row['user_status'] == 'banned')
+                        {
+                            $this->page->setFlashMessage('Данный пользователь забанен');
+
+                            $this->page->refresh();
+                        }
+                        else
+                        {
+                            if (!empty($row['user_email']) && $row['user_activation'] != 'done')
+                            {
+                                $this->page->setFlashMessage('Активация данного профиля ещё не выполнена');
+
+                                $this->page->refresh();
+                            }
+                            else
+                            {
+                                $this->user->id = $row['id'];
+                                $this->user->authorize();
+                                
+                                if (!$_POST['remember']) 
+                                    $this->user->setSessionValue(['session_short' => '1']);
+
+                                $this->page->refresh();
+                            }
+                        }
+                    }
+                } else {
+                    $this->view->setVar('ERROR', array('text' => 'Пароль не можен быть пустым.'));
+                }
+            }
+            
             $this->view->generate($this->page->index_tpl);
+        }
+        
+        public function action_logout()
+        {
+            App::memcache()->delete('user' . $this->user->id);
+    
+            $this->user->setSessionValue(['user_id' => -1, 'session_logged' => 0]);
+            
+            $this->page->refresh();
         }
         
         /**
@@ -142,20 +207,22 @@
             
             try
             {
-                if ($_GET['userid'] && $_GET['key']) {
-                    if (md5(SALT . $_GET['userid']) != $_GET['key']) {
-                        throw new appException('Указан неверный код активации');
+                if ($_GET['key']) {
+                    if ($_GET['userid'] && $_GET['key']) {
+                        if (md5(SALT . $_GET['userid']) != $_GET['key']) {
+                            throw new appException('Указан неверный код активации');
+                        }
+
+                        $U = new user($_GET['userid']);
+                        $U->activate();
+
+                        $this->user->setSessionValue(['user_id' => $U->id, 'session_logged' => 1]);
+
+                        $this->page->go('/ru/users/registration-finish');
+
+                    } else {
+                        throw new appException('Не достаточно данных для активации');
                     }
-                    
-                    $U = new user($_GET['userid']);
-                    $U->activate();
-                    
-                    $this->user->setSessionValue(['user_id' => $U->id, 'session_logged' => 1]);
-                    
-                    $this->page->go('/ru/users/registration-finish');
-                    
-                } else {
-                    throw new appException('Не достаточно данных для активации');
                 }
             }
             catch (appException $e)
