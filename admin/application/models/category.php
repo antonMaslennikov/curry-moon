@@ -16,14 +16,10 @@ namespace admin\application\models;
  * @property int $picture_id
  * @property int $status
  */
-class category extends \smashEngine\core\Model {
-
-
+class category extends \smashEngine\core\models\NSModel {
 
 	/**
 	 * @var имя таблицы в БД для хранения экземпляров класса
 	 */
-	public static $dbtable = 'category';
-
-
+	public static $dbtable = 'categorys';
 }

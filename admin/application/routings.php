@@ -24,5 +24,17 @@
 		        'action'=> 'Controller_example:action_index',
 		        'schemas' => 'GET|POST'
 	        ],
+
+	        'product_category_list' => [
+		        'pattern'=>'/admin/product_category/list',
+		        'action'=> 'Controller_category:action_index',
+		        'schemas' => 'GET'
+	        ],
+
+	        'product_category_create_tree' => [
+		        'pattern'=>'/admin/product_category/createTree',
+		        'action'=> 'Controller_category:action_createTree',
+		        'schemas' => 'GET|POST'
+	        ]
         ];
     }
