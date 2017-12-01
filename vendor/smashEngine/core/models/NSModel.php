@@ -21,7 +21,7 @@ use smashEngine\core\services\AdapterInterface;
  * @property int $parent_id;
  * @property int $lft;
  * @property int $rgt;
- * @property int $depth;
+ * @property int $level;
  */
 class NSModel extends Model implements AdapterInterface {
 
@@ -59,7 +59,7 @@ class NSModel extends Model implements AdapterInterface {
 	 * @param int $value
 	 * @return bool
 	 */
-	private function resizeAt(int $position, int $value)
+	protected function resizeAt(int $position, int $value)
 	{
 		$sql = <<<EOD
 update {$this->tableName()}node
@@ -84,20 +84,20 @@ EOD;
 	 *
 	 * @return bool
 	 */
-	private function insertNode(NSModel $node)
+	protected function insertNode(NSModel $node)
 	{
-		throw new \RuntimeException("Реализуйте данный метод");
+		throw new \RuntimeException("Реализуйте метод insertNode");
 
 		$sql = <<<EOD
-insert into {$this->tableName()} (parent_id, lft, rgt, depth)
-values (:parent_id, :left, :right, :depth)
+insert into {$this->tableName()} (parent_id, lft, rgt, level)
+values (:parent_id, :left, :right, :level)
 EOD;
 		$stmt = App::db()->prepare($sql);
 		$res = $stmt->execute([
 			':parent_id' => $node->parent_id,
 			':left' => $node->lft,
 			':right' => $node->rgt,
-			':depth' => $node->depth
+			':level' => $node->level
 		]);
 
 		$node->id = App::db()->lastInsertId();
@@ -178,7 +178,7 @@ and rgt <= :right
 
 		$child->lft = $parent->rgt;
 		$child->rgt = $child->lft + 1;
-		$child->depth = $parent->depth + 1;
+		$child->level = $parent->level + 1;
 		$child->parent_id = $parentId;
 
 		$r1 = $this->resizeAt($parent->rgt - 1, 2);
@@ -200,14 +200,14 @@ select *
 from {$this->tableName()}
 where lft > :left
     and rgt < :right
-    and depth = :depth
+    and level = :level
 EOD;
 
 		$stmt = App::db()->prepare($sql);
 		$stmt->execute([
 			':left' => $parent->lft,
 			':right' => $parent->rgt,
-			':depth' => $parent->depth + 1,
+			':level' => $parent->level + 1,
 		]);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -255,17 +255,17 @@ EOD;
 
 	public function createTree() {
 
-		throw new \RuntimeException("Реализуйте данный метод");
+		throw new \RuntimeException("Реализуйте метод createTree");
 
 		$className = get_called_class();
 
 		$class = new $className;
-		$class->setAttributes([
-			'lft' => Node::INITIAL_LEFT,
-			'rgt' => Node::INITIAL_RIGHT,
-			'depth' => Node::INITIAL_DEPTH,
+		$class->setAttributes(array_merge([
+			'lft' => self::INITIAL_LEFT,
+			'rgt' => self::INITIAL_RIGHT,
+			'level' => self::INITIAL_level,
 			'parent_id'=>0,
-		]);
+		], $data));
 
 		$this->insertNode($class);
 	}
@@ -286,7 +286,7 @@ EOD;
 		$r1 = $this->resizeAt($target->rgt - 1, $growth);
 
 		$moveDelta = $target->rgt + $growth - $node->rgt - 1;
-		$depthDelta = $target->depth + 1 - $node->depth;
+		$levelDelta = $target->level + 1 - $node->level;
 
 		//update parent_id
 		$sql = <<<EOD
@@ -307,7 +307,7 @@ update {$this->tableName()}
 set
     lft = lft + :move_delta_1,
     rgt = rgt + :move_delta_2,
-    depth = depth + :depth_delta
+    level = level + :level_delta
 where lft >= :left
 and rgt <= :right
 EOD;
@@ -317,7 +317,7 @@ EOD;
 			':move_delta_2' => $moveDelta,
 			':left' => $node->lft,
 			':right' => $node->rgt,
-			':depth_delta' => $depthDelta,
+			':level_delta' => $levelDelta,
 		]);
 
 		// remove the leftover space after moving the node

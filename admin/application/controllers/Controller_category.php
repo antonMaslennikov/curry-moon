@@ -30,6 +30,10 @@ class Controller_category extends Controller_ {
 
 	public function action_createTree() {
 
+		$category = new category();
+
+		if (count($category->getTree())) $this->page404();
+
 		$this->setTemplate('category/form.tpl');
 		$this->setTitle("Создание дерева каталогов");
 
@@ -42,7 +46,11 @@ class Controller_category extends Controller_ {
 
 			if ($model->validate()) {
 
-				printr($model, 1);
+				$category->setAttributes($model->getData());
+
+				if ($category->createTree())
+
+					$this->page->go('/admin/product_category/list', 301);
 			}
 		}
 
