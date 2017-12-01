@@ -6,3 +6,11 @@
     border-left: 4px solid red;
     border-radius: 5px;
 }
+
+.clearfix:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}

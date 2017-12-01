@@ -14,7 +14,7 @@
     <meta property="og:description" content="Интернет-магазин аксессуаров, сумок и украшений." />
     <meta name="description" content="Интернет-магазин аксессуаров, сумок и украшений." />
     
-    <title>{$PAGE->title}</title>
+    <title>{$PAGE->title} - Curry Moon</title>
     
     <link href="/public/images/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
     

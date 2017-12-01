@@ -91,7 +91,8 @@
             $this->view->setVar('PAGE', $this->page);
             $this->view->setVar('L', $this->page->translate);
             $this->view->setVar('basket', $this->basket);
-
+            $this->view->setVar('VARS', $this->VARS);
+            
             $this->view->setVar('CURRENT_URL', urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
             $this->view->setVar('REQUEST_URI', $_SERVER['REQUEST_URI']);
             $this->view->setVar('HTTP_REFERER', $_SERVER['HTTP_REFERER']);
@@ -109,6 +110,7 @@
             $this->view->setVar('operation_time_1', $this->VARS['operation_time_1']);
             $this->view->setVar('operation_time_2', $this->VARS['operation_time_2']);
             $this->view->setVar('operation_time_3', $this->VARS['operation_time_3']);
+            $this->view->setVar('contact_email', $this->VARS['contactEmail']);
             
             $this->view->setVar('session_name', session_name());
             $this->view->setVar('session_id', session_id());
