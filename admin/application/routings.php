@@ -29,6 +29,12 @@
 		        'pattern'=>'/admin/product_category/list',
 		        'action'=> 'Controller_category:action_index',
 		        'schemas' => 'GET'
+	        ],
+
+	        'product_category_create_tree' => [
+		        'pattern'=>'/admin/product_category/createTree',
+		        'action'=> 'Controller_category:action_createTree',
+		        'schemas' => 'GET|POST'
 	        ]
         ];
     }

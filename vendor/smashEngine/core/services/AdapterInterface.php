@@ -44,10 +44,6 @@ interface AdapterInterface
      */
     public function getAllChildren($id);
 
-    /**
-     * @return NSModel[]
-     */
-    public function getTree();
 
     /**
      * @param int $id
@@ -56,4 +52,6 @@ interface AdapterInterface
      */
     public function moveNode($id, $parent_id);
 
+
+	public function getTree();
 }

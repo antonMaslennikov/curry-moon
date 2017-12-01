@@ -10,26 +10,45 @@ namespace admin\application\controllers;
 
 
 use admin\application\models\category;
+use admin\application\models\CategoryFormModel;
+use smashEngine\core\helpers\Html;
 
-class Controller_category {
+class Controller_category extends Controller_ {
+
+	protected $layout = 'index.tpl';
 
 	public function action_index()
 	{
-		$this->page->index_tpl = 'index.tpl';
-		$this->page->tpl = 'category/index.tpl';
+		$this->setTemplate('category/index.tpl');
+		$this->setTitle("Категории товаров");
 
-		$this->page->title = "Пример";
+		$this->view->setVar('tree', (new category())->getTree());
 
-		$model = new category();
-		printr($model, 1);
+		$this->render();
+	}
 
-		/*
-		$this->page->import(array(
-			'/public/js/p/main.js',
-			'/public/css/p/main.css',
-		));
-		*/
 
-		$this->view->generate($this->page->index_tpl);
+	public function action_createTree() {
+
+		$this->setTemplate('category/form.tpl');
+		$this->setTitle("Создание дерева каталогов");
+
+		$model = new CategoryFormModel();
+		$postModel = Html::modelName($model);
+
+		if (isset($_POST[$postModel])) {
+
+			$model->setAttributes($_POST[$postModel]);
+
+			if ($model->validate()) {
+
+				printr($model, 1);
+			}
+		}
+
+		$this->view->setVar('model', $model->getDataForTemplate());
+		$this->view->setVar('button', 'Сформировать дерево');
+
+		$this->render();
 	}
 }

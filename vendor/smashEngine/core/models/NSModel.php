@@ -8,6 +8,7 @@
 
 namespace smashEngine\core\models;
 
+use PDO;
 use smashEngine\core\App;
 use smashEngine\core\Model;
 use smashEngine\core\services\AdapterInterface;
@@ -323,5 +324,28 @@ EOD;
 		$r3 = $this->resizeAt($node->rgt, $node->tree_id, -$growth);
 
 		return $r1 && $r2 && $r3 && $r4;
+	}
+
+
+	public function getTree() {
+
+		$sql = <<<EOD
+SELECT *
+FROM {$this->tableName()}
+ORDER BY lft
+EOD;
+
+		$stmt = App::db()->prepare($sql);
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return array_map(function($row) {
+
+			$className = get_called_class();
+			$class = new $className;
+			$class->setAttributes($row);
+
+			return $class;
+		}, $data);
 	}
 }
