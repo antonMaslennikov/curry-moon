@@ -35,10 +35,10 @@
         public function save()
         {
             parent::save();
-                
+            /*    
             App::mail()->send(
                 $users,
-                220, 
+                2, 
                 array(
                     'fid'     => $this->id,
                     'mid'     => $mid,
@@ -50,5 +50,6 @@
                     'text'    => stripslashes($this->feedback_text),
                     'order'   => ($last_order) ? $last_order : '#',
                     'attach'  => (!empty($this->feedback_pict) ? 'http://www.maryjane.ru' . pictureId2path($this->feedback_pict) : '')));
+            */
         }
     }

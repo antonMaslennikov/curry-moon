@@ -20,6 +20,10 @@
                         throw new appException('Ошибка при проверке токена', 1);
                     }
                     
+                    if (time() - $_SESSION['feedback_accepted'] < 60) {
+                        throw new appException('Вы отправляете сообщения слишком часто', 2);
+                    }
+                    
                     $f = new feedback;
 
                     $f->setAttributes($_POST['jform']);
@@ -32,12 +36,18 @@
                         
                     }
                     
+                    $_SESSION['feedback_accepted'] = time();
+                    
                     $this->page->refresh();
                 }
                 catch (appException $e)
                 {
-                    
+                    $this->page->setFlashMessage($e->getMessage());
                 }
+            }
+            
+            if ($_SESSION['feedback_accepted']) {
+                $this->view->setVar('feedback_accepted', true);
             }
             
             $this->view->generate('index.tpl'); 

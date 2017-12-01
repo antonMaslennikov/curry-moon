@@ -7,6 +7,15 @@
     border-radius: 5px;
 }
 
+.successMessage {
+    background: #defce6;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: green;
+    border-left: 4px solid green;
+    border-radius: 5px;
+}
+
 .clearfix:after {
     clear: both;
     content: ".";
