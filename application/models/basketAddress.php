@@ -18,7 +18,7 @@
         /**
          * @var имя таблицы в БД для хранения экземпляров класса
          */ 
-        public static $dbtable = 'user_basket_address';
+        public static $dbtable = 'basket__address';
         
         public function __construct($id = null)
         {

@@ -11,7 +11,7 @@
         public $id   = 0;
         public $info = array();
         
-        public static $dbtable = 'basket_items';
+        public static $dbtable = 'basket__items';
         
         function __construct($id = null)
         {

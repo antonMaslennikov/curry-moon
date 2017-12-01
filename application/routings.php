@@ -19,6 +19,12 @@
                 'schemas' => 'GET|POST'
             ],
             
+            'logout' => [
+                'pattern' => '/(ru|en)/users/logout', 
+                'action' => 'Controller_users:action_logout', 
+                'schemas' => 'GET'
+            ],
+            
             'registration' => [
                 'pattern' => '/(ru|en)/users/registration', 
                 'action' => 'Controller_users:action_registration', 
