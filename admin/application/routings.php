@@ -24,5 +24,11 @@
 		        'action'=> 'Controller_example:action_index',
 		        'schemas' => 'GET|POST'
 	        ],
+
+	        'product_category_list' => [
+		        'pattern'=>'/admin/product_category/list',
+		        'action'=> 'Controller_category:action_index',
+		        'schemas' => 'GET'
+	        ]
         ];
     }
