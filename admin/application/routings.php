@@ -34,7 +34,7 @@
             'product_create' => [
 		        'pattern'=>'/admin/product/create',
 		        'action'=> 'Controller_product:action_create',
-		        'schemas' => 'GET'
+		        'schemas' => 'GET|POST|FILES'
 	        ],
             
 	        'product_category_list' => [
