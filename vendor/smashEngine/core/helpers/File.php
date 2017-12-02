@@ -34,7 +34,49 @@ class File {
 	}
 
 
-	public static function uploadedPath() {
+	public static function getUrlForAbsolutePath($path) {
+
+		$path = str_replace($_SERVER['DOCUMENT_ROOT'], '', $path);
+		$path = str_replace(DS, '/', $path);
+
+		return $path;
+	}
+
+
+	public function getAbsolutePathForUrl($url) {
+
+		$url = str_replace('/', DS, $url);
+
+		$url  = $_SERVER['DOCUMENT_ROOT'].$url;
+
+		return $url;
+	}
+
+
+	public static function deletePicture($id)
+	{
+		if (!empty($id))
+		{
+			$r = App::db()->query("SELECT `picture_path` FROM `pictures` WHERE `picture_id` = '" . abs(intval($id)) . "' LIMIT 1");
+
+			$row = $r->fetch();
+
+			$path = self::getAbsolutePathForUrl($row['picture_path']);
+
+			if (file_exists($path)) {
+				@unlink($path);
+			}
+
+			App::db()->query("DELETE FROM pictures WHERE `picture_id` = '" . abs(intval($id)) ."' LIMIT 1");
+
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+	public static function uploadedPath($basePath = null) {
 
 		return implode(DS, [
 			$_SERVER['DOCUMENT_ROOT'],

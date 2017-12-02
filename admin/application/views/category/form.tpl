@@ -19,7 +19,7 @@
             </div>
             {/if}
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group {if isset($model.error.slug)}has-error{/if}">
                         <label for="{$model.id.slug}">
                             {$model.label.slug}
@@ -36,7 +36,7 @@
                         {/if}
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group {if isset($model.error.title)}has-error{/if}">
                         <label for="{$model.id.title}">
                             {$model.label.title}
@@ -53,7 +53,10 @@
                         {/if}
                     </div>
                 </div>
-                <div class="col-sm-4">
+            </div>
+            {if ($model.value.newRecord)}
+            <div class="row">
+                <div class="col-sm-12">
                     <div class="form-group {if isset($model.error.picture)}has-error{/if}">
                         <label for="{$model.id.picture}">
                             {$model.label.picture}
@@ -70,6 +73,37 @@
                     </div>
                 </div>
             </div>
+            {else}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group {if isset($model.error.picture)}has-error{/if}">
+                            <label for="{$model.id.picture}">
+                                {$model.label.picture}
+                            </label>
+                            <input
+                                    type="file"
+                                    id="{$model.id.picture}"
+                                    name="{$model.name.picture}"
+                                    value=""
+                                    placeholder="Введите название">
+                            {if isset($model.error.picture)}
+                                <p class="help-block">{' '|implode:$model.error.picture}</p>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Загруженное изображение</label>
+                            <p class="form-control-static">
+                                {if $model.value.picture_id>0}
+                                    <img src="{$model.value.picture_id|pictureId2path}" style="width: 50px">
+                                {else}
+                                    Нет изображения
+                                {/if}
+                        </div>
+                    </div>
+                </div>
+            {/if}
             <div class="row">
                 <div class="col-sm-12">
                     <div class="checkbox">
@@ -77,6 +111,7 @@
                             <input
                                 type="checkbox"
                                 name="{$model.name.status}"
+                                {if $model.value.status}checked{/if}
                                 value="true"
                             > {$model.label.status}
                         </label>
@@ -86,7 +121,10 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-            <button type="submit" class="btn btn-primary">{$button}</button>
+            <button type="submit" class="btn btn-primary">{$button}</button>&nbsp;
+            {if isset($cancel)}
+            <a href="list" class="btn btn-default">{$cancel}</a>
+            {/if}
         </div>
     </form>
 </div>

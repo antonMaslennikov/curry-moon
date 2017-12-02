@@ -159,7 +159,7 @@ class FormModel {
     }
 
 
-    public final function setAttributes($values, $safeOnly=true)
+	public function setAttributes($values, $safeOnly=true)
     {
         if(!is_array($values)) return;
 

@@ -11,6 +11,7 @@ namespace admin\application\controllers;
 
 use admin\application\models\category;
 use admin\application\models\CategoryFormModel;
+use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\Html;
 
 class Controller_category extends Controller_ {
@@ -20,7 +21,11 @@ class Controller_category extends Controller_ {
 	public function action_index()
 	{
 		$this->setTemplate('category/index.tpl');
-		$this->setTitle("Категории товаров");
+		$this->setTitle('<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров');
+
+		$this->setBreadCrumbs([
+			'<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров',
+		]);
 
 		$this->view->setVar('tree', (new category())->getTree());
 
@@ -35,7 +40,11 @@ class Controller_category extends Controller_ {
 		if (count($category->getTree())) $this->page404();
 
 		$this->setTemplate('category/form.tpl');
-		$this->setTitle("Создание дерева каталогов");
+		$this->setTitle("Создание дерева");
+
+		$this->setBreadCrumbs([
+			'/admin/product_category/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров',
+		]);
 
 		$model = new CategoryFormModel();
 		$postModel = Html::modelName($model);
@@ -55,7 +64,44 @@ class Controller_category extends Controller_ {
 		}
 
 		$this->view->setVar('model', $model->getDataForTemplate());
-		$this->view->setVar('button', 'Сформировать дерево');
+		$this->view->setVar('button', 'Создать дерево');
+
+		$this->render();
+	}
+
+
+	public function action_update() {
+
+		$category = new category((int) $_GET['id']);
+
+		$this->setTemplate('category/form.tpl');
+		$this->setTitle('<i class="fa fa-fw fa-pencil"></i> Изменение категории');
+
+		$this->setBreadCrumbs([
+			'/admin/product_category/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров',
+		]);
+
+		$model = new CategoryFormModel();
+		$model->setAttributes($category->info, false);
+		$model->newRecord = false;
+
+		$postModel = Html::modelName($model);
+
+		if (isset($_POST[$postModel])) {
+
+			$model->setAttributes($_POST[$postModel]);
+
+			if ($model->validate()) {
+
+				$category->setAttributes($model->getData());
+
+				printr($category, 1);
+			}
+		}
+
+		$this->view->setVar('model', $model->getDataForTemplate());
+		$this->view->setVar('button', 'Изменить');
+		$this->view->setVar('cancel', 'Отмена');
 
 		$this->render();
 	}

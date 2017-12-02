@@ -7,6 +7,10 @@ class Controller_ extends \smashEngine\core\Controller
 {
 	protected $layout = null;
 
+	protected $breadcrumbs = [
+		'/' => '<i class="fa fa-dashboard"></i> Админка',
+	];
+
 	public function __construct(\Routing\Router $router)
 	{
 		parent::__construct($router);
@@ -81,7 +85,45 @@ class Controller_ extends \smashEngine\core\Controller
 		$this->page->title = $title;
 	}
 
+	/**
+	 * @param array $data Массив в виде url=> Расшифровка
+	 */
+	protected function setBreadCrumbs($data) {
+
+		$this->breadcrumbs = array_merge($this->breadcrumbs, $data);
+	}
+
+
+	protected function generateBreadcrumbs() {
+
+		$breadcrumbs = '';
+		if (count($this->breadcrumbs)) {
+
+			$this->breadcrumbs = array_merge($this->breadcrumbs, [$this->page->title]);
+
+			foreach ($this->breadcrumbs as $url => $label) {
+
+				if (is_string($url)) {
+
+					$breadcrumbs  .= sprintf('<li><a href="%s">%s</a></li>', $url, $label);
+				} else {
+
+					$breadcrumbs .= sprintf('<li class="active">%s</li>', $label);
+				}
+			}
+		}
+
+		$this->view->setVar('breadcrumbs', $breadcrumbs);
+	}
+
+	protected function isAssocKey() {
+
+		return ;
+	}
+
 	public function render() {
+
+		$this->generateBreadcrumbs();
 
 		$this->view->generate($this->page->index_tpl);
 	}

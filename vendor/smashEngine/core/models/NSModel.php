@@ -189,7 +189,7 @@ and rgt <= :right
 
 	/**
 	 * @param int $id
-	 * @return NSModel[]
+	 * @return []
 	 */
 	public function getChildren($id) {
 
@@ -211,19 +211,12 @@ EOD;
 		]);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return array_map(function($row) {
-
-			$className = get_called_class();
-			$class = new $className;
-			$class->setAttributes($row);
-
-			return $class;
-		}, $data);
+		return array_map([$this, 'transformData'], $data);
 	}
 
 	/**
 	 * @param int $id
-	 * @return NSModel[]
+	 * @return array
 	 */
 	public function getAllChildren($id) {
 
@@ -242,14 +235,7 @@ EOD;
 		]);
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return array_map(function($row) {
-
-			$className = get_called_class();
-			$class = new $className;
-			$class->setAttributes($row);
-
-			return $class;
-		}, $data);
+		return array_map([$this, 'transformData'], $data);
 	}
 
 
@@ -327,6 +313,18 @@ EOD;
 	}
 
 
+	/**
+	 * Трансформирование данных для вывода
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function transformData($data) {
+
+		return $data;
+	}
+
+
 	public function getTree() {
 
 		$sql = <<<EOD
@@ -339,13 +337,6 @@ EOD;
 		$stmt->execute();
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return array_map(function($row) {
-
-			$className = get_called_class();
-			$class = new $className;
-			$class->setAttributes($row);
-
-			return $class;
-		}, $data);
+		return array_map([$this, 'transformData'], $data);
 	}
 }

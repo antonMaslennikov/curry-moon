@@ -220,7 +220,7 @@
             $this->ogUrl = rtrim($this->url, '/');
         }
 
-        function go($href, $v)
+        function go($href, $v = 301)
         {
             if ($v == 301)
                 header("HTTP/1.1 301 Moved Permanently");

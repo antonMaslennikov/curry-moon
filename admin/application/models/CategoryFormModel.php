@@ -24,7 +24,9 @@ use smashEngine\core\models\FormModel;
  */
 class CategoryFormModel extends FormModel {
 
-	protected $newRecord = true;
+	public $newRecord = true;
+
+	public $picture_id;
 
 	public $slug;
 
@@ -58,10 +60,21 @@ class CategoryFormModel extends FormModel {
 
 			$uploadedFile->saveAs($imgPath);
 
-			$attributes['picture_id'] = file2db($imgPath);
+			if ($attributes['picture_id']) {
+
+				File::deletePicture($attributes['picture_id']);
+			}
+
+			$attributes['picture_id'] = file2db(File::getUrlForAbsolutePath($imgPath));
 		};
 
 		return $attributes;
+	}
+
+
+	public function setPost($data) {
+
+		printr($data, 1);
 	}
 
 
@@ -81,6 +94,8 @@ class CategoryFormModel extends FormModel {
 	}
 
 	public function uniqueSlug($attribute, $params) {
+
+		if (!$this->newRecord) return;
 
 		$r = App::db()->prepare("SELECT id FROM `" . category::getDbTableName() . "` WHERE `slug` = ? LIMIT 1");
 

@@ -35,6 +35,12 @@
 		        'pattern'=>'/admin/product_category/createTree',
 		        'action'=> 'Controller_category:action_createTree',
 		        'schemas' => 'GET|POST'
+	        ],
+
+	        [
+		        'pattern'=>'/admin/product_category/update',
+		        'action'=> 'Controller_category:action_update',
+		        'schemas' => 'GET|POST'
 	        ]
         ];
     }

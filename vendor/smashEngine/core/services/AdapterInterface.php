@@ -34,13 +34,13 @@ interface AdapterInterface
 
     /**
      * @param int $nodeId
-     * @return NSModel[]
+     * @return []
      */
     public function getChildren($id);
 
     /**
      * @param int $nodeId
-     * @return NSModel[]
+     * @return []
      */
     public function getAllChildren($id);
 

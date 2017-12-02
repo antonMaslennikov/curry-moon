@@ -17,8 +17,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3 -->
-<script src="/public/packages/jquery/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/public/packages/bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->
@@ -28,14 +26,12 @@
 <!-- Sparkline -->
 <script src="/public/packages/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
 <!-- jvectormap  -->
-<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/public/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="/public/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
 <!-- SlimScroll -->
 <script src="/public/packages/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- ChartJS -->
 <script src="/public/packages/Chart.js/Chart.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/public/pages/dashboard2.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/public/packages/adminlte/js/skins.js"></script>
 </body>

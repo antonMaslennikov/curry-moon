@@ -25,6 +25,8 @@
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!-- jQuery 3 -->
+    <script src="/public/packages/jquery/jquery.min.js"></script>
     <![endif]-->
 
     <!-- Google Font -->
@@ -62,10 +64,11 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>{$PAGE->title}</h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>
+            {if isset($breadcrumbs) && strlen($breadcrumbs)}
+                <ol class="breadcrumb">
+                    {$breadcrumbs}
+                </ol>
+            {/if}
         </section>
 
         <!-- Main content -->
