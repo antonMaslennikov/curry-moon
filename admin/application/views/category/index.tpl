@@ -40,6 +40,12 @@
                             <a href="delete?id={$node.id}" class="btn btn-danger btn-xs delete-js" title="Удалить категорию"><i class="fa fa-fw fa-times"></i></a>
                         </span>
                     </td>
+                    <td>{$node->id}</td>
+                    <td>{$node->slug}</td>
+                    <td>{$node->title}</td>
+                    <td>{$node->picture}</td>
+                    <td>{$node->status}</td>
+                    <td></td>
                 </tr>
                 {/foreach}
                 </tbody>

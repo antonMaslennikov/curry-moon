@@ -51,7 +51,7 @@ class Controller_category extends Controller_ {
 
 		if (isset($_POST[$postModel])) {
 
-			$model->setAttributes($_POST[$postModel]);
+			$model->setPost($_POST[$postModel]);
 
 			if ($model->validate()) {
 
@@ -89,7 +89,7 @@ class Controller_category extends Controller_ {
 
 		if (isset($_POST[$postModel])) {
 
-			$model->setAttributes($_POST[$postModel]);
+			$model->setPost($_POST[$postModel]);
 
 			if ($model->validate()) {
 

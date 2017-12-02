@@ -70,6 +70,7 @@ class Controller_ extends \smashEngine\core\Controller
 		$this->view->setVar('appMode', appMode);
 	}
 
+
 	public function setTemplate($page) {
 
 		if ($this->layout !== null) {
