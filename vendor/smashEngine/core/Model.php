@@ -88,9 +88,9 @@
 
 		            $this->$k = $v;
 	            }
+                
+                $this->info[$k] = $v;
 			}
-
-	        foreach ($attr as $k => $v) $this->info[$k] = $v;
         }
     
         /**

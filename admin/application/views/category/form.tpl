@@ -20,23 +20,6 @@
             {/if}
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="form-group {if isset($model.error.slug)}has-error{/if}">
-                        <label for="{$model.id.slug}">
-                            {$model.label.slug}
-                        </label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="{$model.id.slug}"
-                                name="{$model.name.slug}"
-                                value="{$model.value.slug}"
-                                placeholder="Введите slug">
-                        {if isset($model.error.slug)}
-                            <p class="help-block">{' '|implode:$model.error.slug}</p>
-                        {/if}
-                    </div>
-                </div>
-                <div class="col-sm-6">
                     <div class="form-group {if isset($model.error.title)}has-error{/if}">
                         <label for="{$model.id.title}">
                             {$model.label.title}
@@ -50,6 +33,23 @@
                                 placeholder="Введите название">
                         {if isset($model.error.title)}
                             <p class="help-block">{' '|implode:$model.error.title}</p>
+                        {/if}
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                   <div class="form-group {if isset($model.error.slug)}has-error{/if}">
+                        <label for="{$model.id.slug}">
+                            {$model.label.slug}
+                        </label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="{$model.id.slug}"
+                                name="{$model.name.slug}"
+                                value="{$model.value.slug}"
+                                placeholder="Введите slug">
+                        {if isset($model.error.slug)}
+                            <p class="help-block">{' '|implode:$model.error.slug}</p>
                         {/if}
                     </div>
                 </div>

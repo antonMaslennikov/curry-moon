@@ -9,6 +9,6 @@ use smashEngine\core\App;
  *
  * @property int $id ID
  */
-class adminProduct extends \application\models\product {
+class product extends \application\models\product {
     
 }

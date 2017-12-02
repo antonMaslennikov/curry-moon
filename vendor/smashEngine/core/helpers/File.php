@@ -8,6 +8,7 @@
 
 namespace smashEngine\core\helpers;
 
+use smashEngine\core\App;
 
 class File {
 
@@ -43,7 +44,7 @@ class File {
 	}
 
 
-	public function getAbsolutePathForUrl($url) {
+	public static function getAbsolutePathForUrl($url) {
 
 		$url = str_replace('/', DS, $url);
 

@@ -25,6 +25,7 @@
 		        'schemas' => 'GET|POST'
 	        ],
 
+            
             'product_list' => [
 		        'pattern'=>'/admin/product/list',
 		        'action'=> 'Controller_product:action_index',
@@ -36,6 +37,13 @@
 		        'action'=> 'Controller_product:action_create',
 		        'schemas' => 'GET|POST|FILES'
 	        ],
+            
+            [
+		        'pattern'=>'/admin/product/update',
+		        'action'=> 'Controller_product:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+            
             
 	        'product_category_list' => [
 		        'pattern'=>'/admin/product_category/list',

@@ -14,8 +14,8 @@
             <table class="table table-hover">
                 <tbody><tr>
                     <th>ID</th>
-                    <th>slug</th>
                     <th>Название</th>
+                    <th>slug</th>
                     <th>Изображение</th>
                     <th>Статус</th>
                     <th></th>
@@ -23,8 +23,8 @@
                 {foreach from=$tree item=node}
                 <tr>
                     <td>{$node.id}</td>
-                    <td>{$node.slug}</td>
                     <td>{str_repeat('&nbsp;-',$node.level)} {$node.title}</td>
+                    <td>{$node.slug}</td>
                     <td>{if $node.picture_id}
                         <img src="{$node.picture_id}" style="width: 24px" />
                         {/if}
