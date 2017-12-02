@@ -25,6 +25,18 @@
 		        'schemas' => 'GET|POST'
 	        ],
 
+            'product_list' => [
+		        'pattern'=>'/admin/product/list',
+		        'action'=> 'Controller_product:action_index',
+		        'schemas' => 'GET'
+	        ],
+            
+            'product_create' => [
+		        'pattern'=>'/admin/product/create',
+		        'action'=> 'Controller_product:action_create',
+		        'schemas' => 'GET'
+	        ],
+            
 	        'product_category_list' => [
 		        'pattern'=>'/admin/product_category/list',
 		        'action'=> 'Controller_category:action_index',

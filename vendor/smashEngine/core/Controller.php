@@ -50,5 +50,26 @@
             $this->view->generate('404.tpl');
             exit();
         }
+        
+        
+        public function setTemplate($page) {
+
+            if ($this->layout !== null) {
+
+                $this->page->index_tpl = $this->layout;
+            }
+
+            $this->page->tpl = $page;
+        }
+
+        public function setTitle($title) {
+
+            $this->page->title = $title;
+        }
+
+        public function render() {
+
+            $this->view->generate($this->page->index_tpl);
+        }
     }
 ?>

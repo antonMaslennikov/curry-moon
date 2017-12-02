@@ -22,11 +22,11 @@
                 </tr>
                 {foreach from=$tree item=node}
                 <tr>
-                    <td>{$node.id}</td>
-                    <td>{$node.slug}</td>
-                    <td>{$node.title}</td>
-                    <td>{$node.picture}</td>
-                    <td>{$node.status}</td>
+                    <td>{$node->id}</td>
+                    <td>{$node->slug}</td>
+                    <td>{$node->title}</td>
+                    <td>{$node->picture}</td>
+                    <td>{$node->status}</td>
                     <td></td>
                 </tr>
                 {/foreach}

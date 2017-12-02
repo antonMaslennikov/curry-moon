@@ -65,24 +65,4 @@ class Controller_ extends \smashEngine\core\Controller
 		$this->view->setVar('csrf_token', $_SESSION['csrf_token']);
 		$this->view->setVar('appMode', appMode);
 	}
-
-	public function setTemplate($page) {
-
-		if ($this->layout !== null) {
-
-			$this->page->index_tpl = $this->layout;
-		}
-
-		$this->page->tpl = $page;
-	}
-
-	public function setTitle($title) {
-
-		$this->page->title = $title;
-	}
-
-	public function render() {
-
-		$this->view->generate($this->page->index_tpl);
-	}
 }
