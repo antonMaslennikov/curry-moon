@@ -92,12 +92,16 @@ class CategoryFormModel extends FormModel {
 	public function rules() {
 
 		return [
-			[['slug', 'title'], 'required',],
+			['title', 'required',],
+
 			['status', 'required', 'requiredValue' => 'true', 'allowEmpty'=>true],
+
+			['slug', 'safe'],
+			['slug', 'uniqueSlug', 'allowEmpty'=>false],
 			['slug', 'filter', 'filter'=>'mb_strtolower'],
 			['slug', 'filter', 'filter'=>'textToTranslit'],
-			['slug', 'uniqueSlug', 'allowEmpty'=>false],
 			['slug', 'length', 'max'=>100],
+
 			['title', 'length', 'max'=>150],
 			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
 			['newRecord', 'unsafe'],
@@ -105,6 +109,8 @@ class CategoryFormModel extends FormModel {
 	}
 
 	public function uniqueSlug($attribute, $params) {
+
+		if (!$this->slug) $this->slug = textToTranslit($this->title);
 
 		if (!$this->newRecord) {
 
