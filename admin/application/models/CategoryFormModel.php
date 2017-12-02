@@ -28,6 +28,10 @@ class CategoryFormModel extends FormModel {
 
 	public $picture_id;
 
+	protected $old_slug;
+
+	protected $id;
+
 	public $slug;
 
 	public $title;
@@ -40,6 +44,8 @@ class CategoryFormModel extends FormModel {
 	public function setUpdate() {
 
 		$this->newRecord = false;
+
+		$this->old_slug = $this->slug;
 	}
 
 
@@ -48,7 +54,7 @@ class CategoryFormModel extends FormModel {
 
 		$attributes = $this->getAttributes();
 
-		$attributes['status'] = is_null($attributes['status'])?0:1;
+		$attributes['status'] = $attributes['status']=='true'?1:0;
 
 		unset($attributes['picture']);
 
@@ -74,7 +80,12 @@ class CategoryFormModel extends FormModel {
 
 	public function setPost($data) {
 
-		printr($data, 1);
+		if (!isset($data['status'])) {
+
+			$data['status'] = 0;
+		}
+
+		$this->setAttributes($data);
 	}
 
 
@@ -95,7 +106,10 @@ class CategoryFormModel extends FormModel {
 
 	public function uniqueSlug($attribute, $params) {
 
-		if (!$this->newRecord) return;
+		if (!$this->newRecord) {
+
+			if ($this->slug == $this->old_slug)	 return;
+		}
 
 		$r = App::db()->prepare("SELECT id FROM `" . category::getDbTableName() . "` WHERE `slug` = ? LIMIT 1");
 

@@ -76,12 +76,20 @@
         {
             return isset($this->info[$name]);
         }
-        
+
+
         public function setAttributes(array $attr)
         {
-            foreach ($attr as $k => $v)
+	        $reflection = new \ReflectionClass(get_called_class());
+
+	        foreach ($attr as $k => $v)
             {
-                $this->info[$k] = $v;
+	            if ($reflection->hasProperty($k) && $k != 'info') {
+
+		            $this->$k = $v;
+	            }
+
+	            $this->info = $attr;
             }
         }
     

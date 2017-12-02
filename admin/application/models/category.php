@@ -58,6 +58,31 @@ class category extends \smashEngine\core\models\NSModel {
 	}
 
 
+	public function update() {
+
+		$sql = <<<EOD
+update {$this->tableName()}
+set
+    slug = :slug,
+    title = :title,
+    picture_id = :picture_id,
+    status = :status
+
+where id = :id
+limit 1;
+EOD;
+
+		$stmt = App::db()->prepare($sql);
+		return $stmt->execute([
+			':slug' => $this->slug,
+			':title' => $this->title,
+			':picture_id'=> $this->picture_id,
+			':status' => $this->status,
+			':id'=>$this->id,
+		]);
+	}
+
+
 	/**
 	 * @param category $node
 	 *
@@ -71,13 +96,13 @@ values (:slug, :title, :picture_id, :status, :parent_id, :left, :right, :level)
 EOD;
 		$stmt = App::db()->prepare($sql);
 		$res = $stmt->execute([
-			':parent_id' => $node->parent_id,
-			':left' => $node->lft,
-			':right' => $node->rgt,
-			':level' => $node->level,
+			':parent_id' => (int) $node->parent_id,
+			':left' => (int) $node->lft,
+			':right' => (int) $node->rgt,
+			':level' => (int) $node->level,
 			':slug' => $node->slug,
 			':title' => $node->title,
-			':picture_id'=> $node->picture_id,
+			':picture_id'=> (int) $node->picture_id,
 			':status' => $node->status
 		]);
 
