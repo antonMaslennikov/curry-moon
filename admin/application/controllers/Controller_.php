@@ -100,7 +100,7 @@ class Controller_ extends \smashEngine\core\Controller
 		$breadcrumbs = '';
 		if (count($this->breadcrumbs)) {
 
-			$this->breadcrumbs = array_merge($this->breadcrumbs, [$this->page->title]);
+			//$this->breadcrumbs = array_merge($this->breadcrumbs, [$this->page->title]);
 
 			foreach ($this->breadcrumbs as $url => $label) {
 

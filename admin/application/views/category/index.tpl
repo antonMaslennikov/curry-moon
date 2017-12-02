@@ -24,12 +24,18 @@
                 <tr>
                     <td>{$node.id}</td>
                     <td>{$node.slug}</td>
-                    <td>{$node.title}</td>
+                    <td>{str_repeat('&nbsp;-',$node.level)} {$node.title}</td>
                     <td>{if $node.picture_id}
                         <img src="{$node.picture_id}" style="width: 24px" />
                         {/if}
                     </td>
-                    <td>{$node.status}</td>
+                    <td>
+                        {if $node.status}
+                            <span class="label label-success">Активен</span>
+                        {else}
+                            <span class="label label-danger">Не активен</span>
+                        {/if}
+                    </td>
                     <td>
                         <span class="pull-right">
                             {if $node.parent_id}
@@ -40,12 +46,6 @@
                             <a href="delete?id={$node.id}" class="btn btn-danger btn-xs delete-js" title="Удалить категорию"><i class="fa fa-fw fa-times"></i></a>
                         </span>
                     </td>
-                    <td>{$node->id}</td>
-                    <td>{$node->slug}</td>
-                    <td>{$node->title}</td>
-                    <td>{$node->picture}</td>
-                    <td>{$node->status}</td>
-                    <td></td>
                 </tr>
                 {/foreach}
                 </tbody>

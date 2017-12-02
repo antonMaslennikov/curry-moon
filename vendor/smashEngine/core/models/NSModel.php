@@ -36,11 +36,6 @@ class NSModel extends Model implements AdapterInterface {
 		return self::$dbtable;
 	}
 
-	/**
-	 * @var int
-	 */
-	public $id;
-
 
 	/**
 	 * @return int
@@ -59,14 +54,16 @@ class NSModel extends Model implements AdapterInterface {
 	 * @param int $value
 	 * @return bool
 	 */
-	protected function resizeAt(int $position, int $value)
+	protected function resizeAt($position, $value)
 	{
+		$position = (int) $position;
+		$value = (int) $value;
+
 		$sql = <<<EOD
-update {$this->tableName()}node
+update {$this->tableName()}
 set
     lft = (select case when lft > :position_1 then lft + :value_1 else lft end),
     rgt = (select case when rgt > :position_2 then rgt + :value_2 else rgt end)
-where tree_id = :tree_id
 EOD;
 
 		$stmt = App::db()->prepare($sql);
@@ -123,11 +120,13 @@ EOD;
 	        throw new \RuntimeException("Node with id {$id} not found");
         }
 
+
+
 	    $className = get_called_class();
 	    $class = new $className;
 	    $class->setAttributes($data);
 
-        return $class;
+	    return $class;
     }
 
 
@@ -139,15 +138,14 @@ EOD;
 	public function deleteNode($id)
 	{
 		$node = $this->getNode($id);
-		$sql = '
+		$sql = <<<EOD
 delete from {$this->tableName()}
-where lft >= :left
-and rgt <= :right
-';
+where lft >= :left and rgt <= :right
+EOD;
 		$stmt = App::db()->prepare($sql);
 		$r1 = $stmt->execute([
-			':left' => $node->lft,
-			':right' => $node->rgt,
+			':left' => (int) $node->lft,
+			':right' =>(int) $node->rgt,
 		]);
 
 		// since a node was deleted we must shrink the tree to remove the gap
@@ -172,14 +170,14 @@ and rgt <= :right
 	 * @param NSModel $child
 	 * @return bool
 	 */
-	public function addChild($parentId, NSModel $child) {
+	public function addChild($parent_id, NSModel $child) {
 
-		$parent = $this->getNode($parentId);
+		$parent = $this->getNode($parent_id);
 
 		$child->lft = $parent->rgt;
 		$child->rgt = $child->lft + 1;
 		$child->level = $parent->level + 1;
-		$child->parent_id = $parentId;
+		$child->parent_id = $parent->id;
 
 		$r1 = $this->resizeAt($parent->rgt - 1, 2);
 		$r2 = $this->insertNode($child);

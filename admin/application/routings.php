@@ -53,6 +53,18 @@
 		        'pattern'=>'/admin/product_category/update',
 		        'action'=> 'Controller_category:action_update',
 		        'schemas' => 'GET|POST'
+	        ],
+
+	        [
+		        'pattern'=>'/admin/product_category/create',
+		        'action'=> 'Controller_category:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        [
+		        'pattern'=>'/admin/product_category/delete',
+		        'action'=> 'Controller_category:action_delete',
+		        'schemas' => 'GET'
 	        ]
         ];
     }
