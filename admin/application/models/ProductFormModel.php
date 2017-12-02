@@ -27,22 +27,29 @@ class ProductFormModel extends FormModel {
 	public $newRecord = true;
 
 	public $picture_id;
+    public $picture;
 	public $slug;
 	public $product_name;
-	public $picture;
+    public $product_sku;
+    public $category;
+    public $quantity;
+    public $product_price;
+    public $product_discount;
+    public $manufacturer;
+    public $description_short;
+    public $description_long;
+    public $meta_keywords;
+    public $meta_description;
 	public $status;
     public $product_width;
     public $product_height;
     public $product_length;
-
-
+   
 	public function setUpdate() {
 		$this->newRecord = false;
 	}
 
-
-
-	public function getData() {
+    public function getData() {
 
 		$attributes = $this->getAttributes();
 
