@@ -7,26 +7,26 @@
         var $classesBase = 'admin\application\controllers\\';
         
         var $data = [
+
+	        'api_transliterate' =>[
+		        'pattern' => '/admin/api/transliterate',
+		        'action' => 'Controller_api:action_transliterate',
+		        'schemas' => 'GET'
+		    ],
+
             'dashboard' => [
                 'pattern' => '/admin/', 
                 'action' => 'Controller_dashboard:action_index', 
                 'schemas' => 'GET'
             ],
 
-            'authorization' => [
+	        'authorization' => [
                 'pattern' => '/admin/authorization/', 
                 'action' => 'Controller_authorization:action_index', 
                 'schemas' => 'GET|POST'
             ],
 
-	        'example' => [
-		        'pattern'=>'/admin/example',
-		        'action'=> 'Controller_example:action_index',
-		        'schemas' => 'GET|POST'
-	        ],
-
-            
-            'product_list' => [
+	        'product_list' => [
 		        'pattern'=>'/admin/product/list',
 		        'action'=> 'Controller_product:action_index',
 		        'schemas' => 'GET'

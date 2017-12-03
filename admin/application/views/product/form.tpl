@@ -128,9 +128,7 @@
                                             name="{$model.name.manufacturer}">
                                         {foreach from=$manufacturers item="m" key="k"}
                                             <option value="{$k}"
-                                                    {if $k == $model.value.manufacturer}selected="selected"{/if}>
-                                                {$m.name}
-                                            </option>
+                                                    {if $k == $model.value.manufacturer}selected="selected"{/if}>{$m.name}</option>
                                         {/foreach}
                                     </select>
                                     {if isset($model.error.manufacturer)}

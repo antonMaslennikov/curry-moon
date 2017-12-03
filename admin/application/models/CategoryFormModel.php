@@ -17,13 +17,6 @@ use smashEngine\core\models\FormModel;
  * Class CategoryFormModel
  * @package admin\application\models
  *
- * @property string $slug
- * @property string $title
- * @property UploadedFile $picture_id
- * @property int $status
- * @property string $description
- * @property string $meta_keywords
- * @property string $meta_description
  */
 class CategoryFormModel extends FormModel {
 
@@ -69,8 +62,6 @@ class CategoryFormModel extends FormModel {
 
 		$attributes = $this->getAttributes();
 
-		$attributes['status'] = $attributes['status']=='true'?1:0;
-
 		unset($attributes['picture']);
 
 		if (($uploadedFile = UploadedFile::getInstance($this, 'picture')) !== null) {
@@ -93,23 +84,12 @@ class CategoryFormModel extends FormModel {
 	}
 
 
-	public function setPost($data) {
-
-		if (!isset($data['status'])) {
-
-			$data['status'] = 0;
-		}
-
-		$this->setAttributes($data);
-	}
-
-
 	public function rules() {
 
 		return [
 			[['title'], 'required',],
 
-			['status', 'required', 'requiredValue' => 'true', 'allowEmpty'=>true],
+			['status', 'in', 'range'=>array_keys($this->getListStatus())],
 
 			['parent_id', 'in', 'range'=>array_keys($this->getListNode()), 'allowEmpty'=>$this->newTree],
 
@@ -160,6 +140,16 @@ class CategoryFormModel extends FormModel {
 	}
 
 
+	protected function getListStatus() {
+
+		return [
+			1 => 'Опубликован',
+			0 => 'Черновик',
+		];
+	}
+
+
+
 	public function attributeLabels() {
 
 		return [
@@ -167,7 +157,7 @@ class CategoryFormModel extends FormModel {
 			'title'=>'Название',
 			'picture'=>'Изображение (jpg, gif, png)',
 			'parent_id'=>'Родительская категория',
-			'status'=>'Опубликован',
+			'status'=>'Статус',
 			'description'=>'Описание',
 			'meta_keywords'=>'Meta ключевые слова',
 			'meta_description'=>'Meta описание',
@@ -180,6 +170,7 @@ class CategoryFormModel extends FormModel {
 		$data = parent::getDataForTemplate();
 
 		$data['listNode'] = $this->getListNode();
+		$data['listStatus'] = $this->getListStatus();
 
 		return $data;
 	}

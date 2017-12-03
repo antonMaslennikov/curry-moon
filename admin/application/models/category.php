@@ -108,7 +108,7 @@ EOD;
 			':slug' => $this->slug,
 			':title' => $this->title,
 			':picture_id'=> $this->picture_id,
-			':status' => $this->status,
+			':status' => (int) $this->status,
 			':id'=>(int) $this->id,
 			':description' => $this->description,
             ':meta_keywords' => $this->meta_keywords,

@@ -51,7 +51,7 @@ class Controller_category extends Controller_ {
 
 		if (isset($_POST[$postModel])) {
 
-			$model->setPost($_POST[$postModel]);
+			$model->setAttributes($_POST[$postModel]);
 
 			if ($model->validate()) {
 
@@ -83,7 +83,7 @@ class Controller_category extends Controller_ {
 		$parent_id = $category->parent_id;
 
 		$this->setTemplate('category/form.tpl');
-		$this->setTitle(sprintf('<i class="fa fa-fw fa-pencil"></i> Изменение категории "%s"', $category->title));
+		$this->setTitle(sprintf('Изменение категории "%s"', $category->title));
 
 		$this->setBreadCrumbs([
 			'/admin/product_category/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров',
@@ -97,7 +97,7 @@ class Controller_category extends Controller_ {
 
 		if (isset($_POST[$postModel])) {
 
-			$model->setPost($_POST[$postModel]);
+			$model->setAttributes($_POST[$postModel]);
 
 			if ($model->validate()) {
 
@@ -156,7 +156,7 @@ class Controller_category extends Controller_ {
 
 		if (isset($_POST[$postModel])) {
 
-			$model->setPost($_POST[$postModel]);
+			$model->setAttributes($_POST[$postModel]);
 
 			if ($model->validate()) {
 

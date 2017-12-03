@@ -33,9 +33,9 @@
                     </td>
                     <td>
                         {if $node.status}
-                            <span class="label label-success">Активен</span>
+                            <span class="label label-success">Опубликован</span>
                         {else}
-                            <span class="label label-danger">Не активен</span>
+                            <span class="label label-danger">Черновик</span>
                         {/if}
                     </td>
                     <td>

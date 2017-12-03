@@ -86,9 +86,7 @@
                                             name="{$model.name.parent_id}">
                                         {foreach from=$model.listNode item="m" key="k"}
                                             <option value="{$k}"
-                                                    {if $k == $model.value.parent_id}selected="selected"{/if}>
-                                                {$m}
-                                            </option>
+                                                    {if $k == $model.value.parent_id}selected="selected"{/if}>{$m}</option>
                                         {/foreach}
                                     </select>
                                     {if isset($model.error.parent_id)}
@@ -98,16 +96,22 @@
                             </div>
                         {/if}
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label></label>
-
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" class="flat-red" name="{$model.name.status}"
-                                                   {if $model.value.status}checked{/if} value="true">
-                                            {$model.label.status}
-                                        </label>
-                                    </div>
+                                <div class="form-group {if isset($model.error.status)}has-error{/if}">
+                                    <label for="{$model.id.status}">
+                                        {$model.label.status}
+                                    </label>
+                                    <select
+                                            class="form-control"
+                                            id="{$model.id.status}"
+                                            name="{$model.name.status}">
+                                        {foreach from=$model.listStatus item="m" key="k"}
+                                            <option value="{$k}"
+                                                    {if $k == $model.value.status}selected="selected"{/if}>{$m}</option>
+                                        {/foreach}
+                                    </select>
+                                    {if isset($model.error.status)}
+                                        <p class="help-block">{' '|implode:$model.error.status}</p>
+                                    {/if}
                                 </div>
                             </div>
                         </div>
@@ -233,9 +237,43 @@
         !function ($) {
             $(function() {
 
+                {/literal}
+                var sourceField = $('#{$model.id.title}'),
+                    targetField = $('#{$model.id.slug}');
+                {literal}
+
                 tinymce.init({
                     selector: '.tinymce-textarea',
                     menubar: false
+                });
+
+                var timer,
+                    updateUrl = "/admin/api/transliterate",
+                    editable = targetField.val().length == 0,
+                    value = sourceField.val();
+
+                if (targetField.val().length !== 0) {
+                    $.get(updateUrl, {data: sourceField.val()}, function (r) {
+                        editable = targetField.val() == r;
+                    });
+                }
+
+                sourceField.on('keyup blur copy paste cut start', function () {
+                    clearTimeout(timer);
+
+                    if (editable && value != sourceField.val()) {
+                        timer = setTimeout(function () {
+                            value = sourceField.val();
+                            targetField.attr('disabled', 'disabled');
+                            $.get(updateUrl, {data: sourceField.val()}, function (r) {
+                                targetField.val(r).removeAttr('disabled');
+                            });
+                        }, 300);
+                    }
+                });
+
+                targetField.on('change', function () {
+                    editable = $(this).val().length == 0;
                 });
             })
         }(window.jQuery)
