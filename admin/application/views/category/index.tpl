@@ -5,6 +5,8 @@
             <div class="box-tools">
                 {if empty($tree)}
                     <a href="createTree" class="btn btn-success btn-sm">Создать дерево</a>
+                {else}
+                    <a href="create" class="btn btn-success btn-sm">Добавить категорию</a>
                 {/if}
             </div>
         </div>
@@ -38,10 +40,6 @@
                     </td>
                     <td>
                         <span class="pull-right">
-                            {if $node.parent_id}
-                            <a href="move?id={$node.id}" class="btn btn-default btn-xs" title="Изменить  расположение"><i class="fa fa-fw fa-arrows-alt"></i></a>
-                            {/if}
-                            <a href="create?id={$node.id}" class="btn btn-default btn-xs" title="Добавить категорию"><i class="fa fa-fw fa-plus"></i></a>
                             <a href="update?id={$node.id}" class="btn btn-warning btn-xs" title="Изменить данные"><i class="fa fa-fw fa-pencil"></i></a>
                             <a href="delete?id={$node.id}" class="btn btn-danger btn-xs delete-js" title="Удалить категорию"><i class="fa fa-fw fa-times"></i></a>
                         </span>

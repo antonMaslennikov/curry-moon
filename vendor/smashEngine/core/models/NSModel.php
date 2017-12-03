@@ -276,13 +276,13 @@ EOD;
 		$sql = <<<EOD
 update {$this->tableName()}
 set
-    parent_id = :parent,
+    parent_id = :parent
 	where id = :node
 EOD;
 		$stmt = App::db()->prepare($sql);
 		$r4 = $stmt->execute([
-			':parent' => $target->id,
-			':node' => $node->id,
+			':parent' =>(int) $target->id,
+			':node' =>(int) $node->id,
 		]);
 
 		// use the deltas to move the node and its children to the parent
@@ -297,11 +297,11 @@ and rgt <= :right
 EOD;
 		$stmt = App::db()->prepare($sql);
 		$r2 = $stmt->execute([
-			':move_delta_1' => $moveDelta,
-			':move_delta_2' => $moveDelta,
-			':left' => $node->lft,
-			':right' => $node->rgt,
-			':level_delta' => $levelDelta,
+			':move_delta_1' =>(int) $moveDelta,
+			':move_delta_2' =>(int) $moveDelta,
+			':left' =>(int) $node->lft,
+			':right' =>(int) $node->rgt,
+			':level_delta' =>(int) $levelDelta,
 		]);
 
 		// remove the leftover space after moving the node

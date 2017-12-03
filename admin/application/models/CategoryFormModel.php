@@ -21,24 +21,39 @@ use smashEngine\core\models\FormModel;
  * @property string $title
  * @property UploadedFile $picture_id
  * @property int $status
+ * @property string $description
+ * @property string $meta_keywords
+ * @property string $meta_description
  */
 class CategoryFormModel extends FormModel {
+
+	private $_listNode = null;
+
+	protected $old_slug;
+
+	public $id;
+
+	public $newTree = false;
 
 	public $newRecord = true;
 
 	public $picture_id;
 
-	protected $old_slug;
-
-	protected $id;
-
 	public $slug;
+
+	public $parent_id;
 
 	public $title;
 
 	public $picture;
 
 	public $status;
+
+	public $description;
+
+	public $meta_keywords;
+
+	public $meta_description;
 
 
 	public function setUpdate() {
@@ -92,9 +107,11 @@ class CategoryFormModel extends FormModel {
 	public function rules() {
 
 		return [
-			['title', 'required',],
+			[['title'], 'required',],
 
 			['status', 'required', 'requiredValue' => 'true', 'allowEmpty'=>true],
+
+			['parent_id', 'in', 'range'=>array_keys($this->getListNode()), 'allowEmpty'=>$this->newTree],
 
 			['slug', 'safe'],
 			['slug', 'uniqueSlug', 'allowEmpty'=>false],
@@ -104,13 +121,16 @@ class CategoryFormModel extends FormModel {
 
 			['title', 'length', 'max'=>150],
 			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
-			['newRecord', 'unsafe'],
+
+			['newRecord, newTree', 'unsafe'],
+
+			[['description', 'meta_keywords', 'meta_description'], 'safe'],
 		];
 	}
 
 	public function uniqueSlug($attribute, $params) {
 
-		if (!$this->slug) $this->slug = textToTranslit($this->title);
+		if (!$this->slug) $this->slug = toTranslit($this->title);
 
 		if (!$this->newRecord) {
 
@@ -128,13 +148,39 @@ class CategoryFormModel extends FormModel {
 	}
 
 
+	protected function getListNode() {
+
+		if ($this->_listNode === null) {
+
+			$category = new category();
+			$this->_listNode = $category->getList(!$this->newRecord?$this->id:0);
+		}
+
+		return $this->_listNode;
+	}
+
+
 	public function attributeLabels() {
 
 		return [
-			'slug'=>'Slug (для URL)',
+			'slug'=>'Псевдоним',
 			'title'=>'Название',
 			'picture'=>'Изображение (jpg, gif, png)',
-			'status'=>'Статус',
+			'parent_id'=>'Родительская категория',
+			'status'=>'Опубликован',
+			'description'=>'Описание',
+			'meta_keywords'=>'Meta ключевые слова',
+			'meta_description'=>'Meta описание',
 		];
+	}
+
+
+	public function getDataForTemplate() {
+
+		$data = parent::getDataForTemplate();
+
+		$data['listNode'] = $this->getListNode();
+
+		return $data;
 	}
 }

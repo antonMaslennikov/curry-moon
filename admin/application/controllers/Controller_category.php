@@ -46,6 +46,7 @@ class Controller_category extends Controller_ {
 		]);
 
 		$model = new CategoryFormModel();
+		$model->newTree = true;
 		$postModel = Html::modelName($model);
 
 		if (isset($_POST[$postModel])) {
@@ -56,9 +57,15 @@ class Controller_category extends Controller_ {
 
 				$category->setAttributes($model->getData());
 
-				if ($category->createTree())
+				if ($category->createTree()) {
 
-					$this->page->go('/admin/product_category/list');
+					if (isset($_POST['apply'])) {
+
+						$this->page->go('/admin/product_category/update?id='.$category->id);
+					} else {
+						$this->page->go('/admin/product_category/list');
+					}
+				}
 			}
 		}
 
@@ -73,8 +80,10 @@ class Controller_category extends Controller_ {
 
 		$category = new category((int) $_GET['id']);
 
+		$parent_id = $category->parent_id;
+
 		$this->setTemplate('category/form.tpl');
-		$this->setTitle('<i class="fa fa-fw fa-pencil"></i> Изменение категории');
+		$this->setTitle(sprintf('<i class="fa fa-fw fa-pencil"></i> Изменение категории "%s"', $category->title));
 
 		$this->setBreadCrumbs([
 			'/admin/product_category/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров',
@@ -94,15 +103,23 @@ class Controller_category extends Controller_ {
 
 				$category->setAttributes($model->getData());
 
-				if ($category->update())
+				$status = ($parent_id == $category->parent_id)?$category->update():$category->updateMove();
 
-					$this->page->go('/admin/product_category/list');
+				if ($status) {
+
+					if (isset($_POST['apply'])) {
+
+						$this->page->go('/admin/product_category/update?id='.$category->id);
+					} else {
+
+						$this->page->go('/admin/product_category/list');
+					}
+				}
 			}
 		}
 
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Изменить');
-		$this->view->setVar('cancel', 'Отмена');
 
 		$this->render();
 	}
@@ -125,17 +142,15 @@ class Controller_category extends Controller_ {
 	public function action_create() {
 
 		$category = new category();
-		$parent = new category((int) $_GET['id']);
 
 		$this->setTemplate('category/form.tpl');
-		$this->setTitle(sprintf('<i class="fa fa-fw fa-plus"></i> Добавление в категорию "%s"', $parent->slug));
+		$this->setTitle('Создание категории');
 
 		$this->setBreadCrumbs([
 			'/admin/product_category/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Категории товаров',
 		]);
 
 		$model = new CategoryFormModel();
-		$model->setAttributes($category->info, false);
 
 		$postModel = Html::modelName($model);
 
@@ -147,16 +162,21 @@ class Controller_category extends Controller_ {
 
 				$category->setAttributes($model->getData());
 
-				if ($category->addChild($parent->id, $category)) {
+				if ($category->addChild($category->parent_id, $category)) {
 
-					$this->page->go('/admin/product_category/list');
+					if (isset($_POST['apply'])) {
+
+						$this->page->go('/admin/product_category/update?id='.$category->id);
+					} else {
+
+						$this->page->go('/admin/product_category/list');
+					}
 				}
 			}
 		}
 
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Создать');
-		$this->view->setVar('cancel', 'Отмена');
 
 		$this->render();
 	}
