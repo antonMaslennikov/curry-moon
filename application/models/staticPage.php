@@ -18,10 +18,11 @@
             $this->h1   = $this->h1_ru;
             $this->text = $this->text_ru;
         }
-        
+
+
         public function findBySlug($slug) 
         {
-            $sth = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `slug` = ? LIMIT 1");
+            $sth = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `slug` = ? AND status = 1 LIMIT 1");
             
             $sth->execute([urldecode($slug)]);
             

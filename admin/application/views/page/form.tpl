@@ -8,7 +8,6 @@
 
                 <ul class="nav nav-tabs pull-right">
                     <li><a href="#meta" data-toggle="tab">META данные</a></li>
-                    <li><a href="#image" data-toggle="tab">Изображение</a></li>
                     <li class="active"><a href="#main" data-toggle="tab">Основные данные</a></li>
                     <li class="pull-left header">{$PAGE->title}</li>
                 </ul>
@@ -38,22 +37,41 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.title)}has-error{/if}">
-                                    <label for="{$model.id.title}">
-                                        {$model.label.title} <span class="text-danger">*</span>
+                                <div class="form-group {if isset($model.error.h1_ru)}has-error{/if}">
+                                    <label for="{$model.id.h1_ru}">
+                                        {$model.label.h1_ru} <span class="text-danger">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         class="form-control"
-                                        id="{$model.id.title}"
-                                        name="{$model.name.title}"
-                                        value="{$model.value.title}"
+                                        id="{$model.id.h1_ru}"
+                                        name="{$model.name.h1_ru}"
+                                        value="{$model.value.h1_ru}"
                                         placeholder="Введите название">
-                                    {if isset($model.error.title)}
-                                        <p class="help-block">{' '|implode:$model.error.title}</p>
+                                    {if isset($model.error.h1_ru)}
+                                        <p class="help-block">{' '|implode:$model.error.h1_ru}</p>
                                     {/if}
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.h1_en)}has-error{/if}">
+                                    <label for="{$model.id.h1_en}">
+                                        {$model.label.h1_en}
+                                    </label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="{$model.id.h1_en}"
+                                            name="{$model.name.h1_en}"
+                                            value="{$model.value.h1_en}"
+                                            placeholder="Введите название">
+                                    {if isset($model.error.h1_en)}
+                                        <p class="help-block">{' '|implode:$model.error.h1_en}</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group {if isset($model.error.slug)}has-error{/if}">
                                     <label for="{$model.id.slug}">
@@ -71,30 +89,6 @@
                                     {/if}
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                        {if !$model.value.newTree}
-                            <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.parent_id)}has-error{/if}">
-                                    <label for="{$model.id.parent_id}">
-                                        {$model.label.parent_id} <span class="text-danger">*</span>
-                                    </label>
-                                    <select
-                                            class="form-control"
-                                            id="{$model.id.parent_id}"
-                                            name="{$model.name.parent_id}">
-                                        {foreach from=$model.listNode item="m" key="k"}
-                                            <option value="{$k}"
-                                                    {if $k == $model.value.parent_id}selected="selected"{/if}>{$m}</option>
-                                        {/foreach}
-                                    </select>
-                                    {if isset($model.error.parent_id)}
-                                        <p class="help-block">{' '|implode:$model.error.parent_id}</p>
-                                    {/if}
-                                </div>
-                            </div>
-                        {/if}
                             <div class="col-sm-6">
                                 <div class="form-group {if isset($model.error.status)}has-error{/if}">
                                     <label for="{$model.id.status}">
@@ -118,64 +112,45 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group {if isset($model.error.description)}has-error{/if}">
-                                    <label for="{$model.id.description}">
-                                        {$model.label.description}
+                                <div class="form-group {if isset($model.error.text_ru)}has-error{/if}">
+                                    <label for="{$model.id.text_ru}">
+                                        {$model.label.text_ru}
                                     </label>
                                     <textarea
                                             type="text"
                                             class="form-control tinymce-textarea"
-                                            id="{$model.id.description}"
-                                            name="{$model.name.description}"
-                                            placeholder="Введите описание">{$model.value.description}</textarea>
-                                {if isset($model.error.description)}
-                                    <p class="help-block">{' '|implode:$model.error.description}</p>
-                                {/if}
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="tab-pane" id="image">
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.picture)}has-error{/if}">
-                                    <label for="{$model.id.picture}">
-                                        {$model.label.picture}
-                                    </label>
-                                    <input
-                                            type="file"
-                                            id="{$model.id.picture}"
-                                            name="{$model.name.picture}"
-                                            value="">
-                                    {if isset($model.error.picture)}
-                                        <p class="help-block">{' '|implode:$model.error.picture}</p>
+                                            id="{$model.id.text_ru}"
+                                            name="{$model.name.text_ru}"
+                                            placeholder="Введите текст">{$model.value.text_ru}</textarea>
+                                    {if isset($model.error.text_ru)}
+                                        <p class="help-block">{' '|implode:$model.error.text_ru}</p>
                                     {/if}
                                 </div>
                             </div>
+                        </div>
 
-                            {if (!$model.value.newRecord)}
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Загруженное изображение</label>
-                                        <p class="form-control-static">
-                                            {if $model.value.picture_id>0}
-                                                <img src="{$model.value.picture_id|pictureId2path}" style="width: 50px">
-                                            {else}
-                                                Нет изображения
-                                            {/if}
-                                    </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group {if isset($model.error.text_en)}has-error{/if}">
+                                    <label for="{$model.id.text_en}">
+                                        {$model.label.text_en}
+                                    </label>
+                                    <textarea
+                                            type="text"
+                                            class="form-control tinymce-textarea"
+                                            id="{$model.id.text_en}"
+                                            name="{$model.name.text_en}"
+                                            placeholder="Введите текст">{$model.value.text_en}</textarea>
+                                    {if isset($model.error.text_en)}
+                                        <p class="help-block">{' '|implode:$model.error.text_en}</p>
+                                    {/if}
                                 </div>
-                            {/if}
+                            </div>
                         </div>
 
                     </div>
 
-                    <div class="tab-pane" id="meta">
+                     <div class="tab-pane" id="meta">
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -238,7 +213,7 @@
             $(function() {
 
                 {/literal}
-                var sourceField = $('#{$model.id.title}'),
+                var sourceField = $('#{$model.id.h1_ru}'),
                     targetField = $('#{$model.id.slug}');
                 {literal}
 

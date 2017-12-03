@@ -57,7 +57,6 @@ class CategoryFormModel extends FormModel {
 	}
 
 
-
 	public function getData() {
 
 		$attributes = $this->getAttributes();
@@ -102,7 +101,7 @@ class CategoryFormModel extends FormModel {
 			['title', 'length', 'max'=>150],
 			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
 
-			['newRecord, newTree', 'unsafe'],
+			[['newRecord', 'newTree'], 'unsafe'],
 
 			[['description', 'meta_keywords', 'meta_description'], 'safe'],
 		];

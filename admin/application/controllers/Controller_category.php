@@ -134,7 +134,7 @@ class Controller_category extends Controller_ {
 			$this->page->go('/admin/product_category/list');
 		} else {
 
-			throw new Exception('Не известная ошибка');
+			throw new Exception('Неизвестная ошибка');
 		}
 	}
 

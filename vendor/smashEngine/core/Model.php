@@ -11,8 +11,12 @@
         public $info = array();
         
         protected static $dbtable;
-        
-        
+
+	    protected $_initial_data = [];
+
+	    protected $modified_data = [];
+
+
         function __construct($id = null)
         { 
             $this->getDbTableName();
@@ -30,13 +34,61 @@
                 if ($r->rowCount() == 1) 
                 {
                     $this->info = $r->fetch();
-                    
+
+	                $this->_initial_data = $this->info;
+
                     return $this->info;
                 } 
                 else 
                     throw new appException(__CLASS__ . ' ' . $this->id . ' не найден');
             }
         }
+
+
+	    public function update() {
+
+		    if (count($this->modified_data)) {
+
+			    $update_query = [];
+			    $update_array = [':id'=>(int) $this->id];
+
+			    foreach ($this->modified_data as $key => $function_cast) {
+
+				    if ($this->info[$key] != $this->_initial_data[$key]) {
+
+					    $update_query[] = sprintf("%s = :%s", $key, $key);
+					    $update_array[':'.$key] = $function_cast?call_user_func($function_cast, $this->info[$key]):$this->info[$key];
+				    }
+				}
+
+			    if (count($update_query)) {
+
+				    $sql = 'update ' . self::$dbtable . ' set ' . implode(', ', $update_query) . ' where id = :id limit 1;';
+
+				    // printr($sql);
+				    // printr($update_array, 1);
+
+				    $stmt = App::db()->prepare($sql);
+
+				    return $stmt->execute($update_array);
+			    }
+
+			    return true;
+		    }
+
+		    return false;
+	    }
+
+
+	    public function delete() {
+
+		    $sql = 'delete from '.self::$dbtable.' where id = :id limit 1;';
+
+		    $stmt = App::db()->prepare($sql);
+
+		    return $stmt->execute([':id'=>(int) $this->id]);
+	    }
+
         
         /**
          * ищем у пронаследовавшей модели свойство dbtable, содержащее имя таблицы

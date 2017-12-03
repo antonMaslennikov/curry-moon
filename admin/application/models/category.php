@@ -26,7 +26,17 @@ class category extends \smashEngine\core\models\NSModel {
 	/**
 	 * @var имя таблицы в БД для хранения экземпляров класса
 	 */
-	public static $dbtable = 'categorys';
+	protected static $dbtable = 'categorys';
+
+	protected $modified_data = [
+		'slug' => false,
+        'title' => false,
+        'picture_id' => 'intval',
+        'status' => 'intval',
+        'description' => false,
+        'meta_keywords' => false,
+        'meta_description' => false,
+	];
 
 
 	public function getList($id = 0) {
@@ -82,38 +92,6 @@ class category extends \smashEngine\core\models\NSModel {
 		$data['picture_id'] = pictureId2path($data['picture_id']);
 
 		return $data;
-	}
-
-
-	public function update() {
-
-		$sql = <<<EOD
-update {$this->tableName()}
-set
-    slug = :slug,
-    title = :title,
-    picture_id = :picture_id,
-    status = :status,
-    description = :description,
-    meta_keywords = :meta_keywords,
-    meta_description = :meta_description
-
-where id = :id
-limit 1;
-EOD;
-
-		$stmt = App::db()->prepare($sql);
-
-		return $stmt->execute([
-			':slug' => $this->slug,
-			':title' => $this->title,
-			':picture_id'=> $this->picture_id,
-			':status' => (int) $this->status,
-			':id'=>(int) $this->id,
-			':description' => $this->description,
-            ':meta_keywords' => $this->meta_keywords,
-            ':meta_description' => $this->meta_description,
-		]);
 	}
 
 
