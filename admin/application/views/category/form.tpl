@@ -6,11 +6,10 @@
 
             <div class="nav-tabs-custom ">
 
-                <ul class="nav nav-tabs pull-right">
-                    <li><a href="#meta" data-toggle="tab">META данные</a></li>
-                    <li><a href="#image" data-toggle="tab">Изображение</a></li>
+                <ul class="nav nav-tabs">
                     <li class="active"><a href="#main" data-toggle="tab">Основные данные</a></li>
-                    <li class="pull-left header">{$PAGE->title}</li>
+                    <li><a href="#image" data-toggle="tab">Изображение</a></li>
+                    <li><a href="#meta" data-toggle="tab">META данные</a></li>
                 </ul>
 
                 <div class="tab-content">
