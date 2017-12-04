@@ -46,7 +46,27 @@ class menu extends Model{
 
 		$stmt = App::db()->prepare($sql);
 		$stmt->execute();
+		$temp = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$data = [];
+		foreach ($temp as $v) {
+
+			$data[$v['id']] = $v;
+		}
+
+		return $data;
+	}
+
+
+	public function getMinID() {
+
+		$sql = 'SELECT MIN(id) as min_id FROM '.self::$dbtable;
+
+		$stmt = App::db()->prepare($sql);
+		$stmt->execute();
+
+		$temp = $stmt->fetch();
+
+		return $temp['min_id'];
 	}
 }

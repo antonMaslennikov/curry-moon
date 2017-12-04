@@ -27,9 +27,13 @@ class PageFormModel extends FormModel{
 
 	protected $old_slug;
 
+	protected $old_status;
+
 	public $id;
 
 	public $newRecord = true;
+
+	public $menu;
 
 	public $h1_ru;
 
@@ -54,6 +58,19 @@ class PageFormModel extends FormModel{
 
 		$this->old_slug = $this->slug;
 	}
+
+
+	public function getOldSlug() {
+
+		return $this->old_slug;
+	}
+
+
+	public function getOldStatus() {
+
+		return $this->old_slug;
+	}
+
 
 	public function getData() {
 
@@ -114,6 +131,7 @@ class PageFormModel extends FormModel{
 	public function attributeLabels() {
 
 		return [
+			'menu'=>'Меню',
 			'slug'=>'URL',
 			'h1_ru'=>'Заголовок (ru)',
 			'h1_en'=>'Заголовок (en)',
@@ -123,6 +141,11 @@ class PageFormModel extends FormModel{
 			'meta_keywords'=>'Meta ключевые слова',
 			'meta_description'=>'Meta описание',
 		];
+	}
+
+	public function getMenu() {
+
+
 	}
 
 

@@ -11,8 +11,7 @@
 
             <table class="table table-hover">
                 <tbody><tr>
-                    <th>Заголовок (ru)</th>
-                    <th>Заголовок (en)</th>
+                    <th>Заголовок</th>
                     <th>URL</th>
                     <th>Статус</th>
                     <th></th>
@@ -20,7 +19,6 @@
                 {foreach from=$static_pages item=static}
                 <tr>
                     <td>{$static.h1_ru}</td>
-                    <td>{$static.h1_en}</td>
                     <td>{$static.slug}</td>
                     <td>
                         {if $static.status}

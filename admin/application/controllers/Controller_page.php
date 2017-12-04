@@ -8,6 +8,7 @@
 
 namespace admin\application\controllers;
 
+use admin\application\models\menuItem;
 use admin\application\models\PageFormModel;
 use admin\application\models\staticPage;
 use smashEngine\core\helpers\Html;
