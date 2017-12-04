@@ -11,8 +11,11 @@
             <li><a tabindex="-1" href="/admin/page/create"><i class="fa fa-fw fa-plus"></i> Создать страницу</a></li>
             <li role="separator" class="divider nav-header" visible="1"><a href="#"></a></li>
             <li class="nav-header"><a href="#">МЕНЮ</a></li>
-            <li><a tabindex="-1" href="/admin/menu"><i class="fa fa-fw fa-list-alt"></i> Редактор меню</a></li>
-            <li><a tabindex="-1" href="/admin/menu/create"><i class="fa fa-fw fa-plus"></i> Добавить пункт меню</a></li>
+            <li><a tabindex="-1" href="/admin/menu"><i class="fa fa-fw fa-list-alt"></i> Меню</a></li>
+            <li><a tabindex="-1" href="/admin/menu/create"><i class="fa fa-fw fa-plus"></i> Добавить меню</a></li>
+            <li role="separator" class="divider nav-header" visible="1"><a href="#"></a></li>
+            <li><a tabindex="-1" href="/admin/menu/item"><i class="fa fa-fw fa-list-alt"></i>Пункты меню</a></li>
+            <li><a tabindex="-1" href="/admin/menu/item/create"><i class="fa fa-fw fa-plus"></i> Добавить меню</a></li>
         </ul>
     </li>
     <li class="dropdown">

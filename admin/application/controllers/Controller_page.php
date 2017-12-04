@@ -51,7 +51,7 @@ class Controller_page extends Controller_ {
 		$page = new staticPage((int) $_GET['id']);
 
 		$this->setTemplate('page/form.tpl');
-		$this->setTitle(sprintf('Страницы "%s"', $page->h1_ru));
+		$this->setTitle(sprintf('Страница "%s"', $page->h1_ru));
 
 		$this->setBreadCrumbs([
 			'/admin/page'=>'<i class="fa fa-fw fa-files-o"></i> Список страниц',

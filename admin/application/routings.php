@@ -98,5 +98,53 @@
 		        'action'=> 'Controller_page:action_delete',
 		        'schemas' => 'GET'
 	        ],
+
+	        'menu_list' =>[
+		        'pattern'=>'/admin/menu',
+		        'action'=> 'Controller_menu:action_index',
+		        'schemas' => 'GET'
+	        ],
+
+	        'menu_update' =>[
+		        'pattern'=>'/admin/menu/update',
+		        'action'=> 'Controller_menu:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'menu_create' =>[
+		        'pattern'=>'/admin/menu/create',
+		        'action'=> 'Controller_menu:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'menu_delete' =>[
+		        'pattern'=>'/admin/menu/delete',
+		        'action'=> 'Controller_menu:action_delete',
+		        'schemas' => 'GET'
+	        ],
+
+	        'menu_item_list' =>[
+		        'pattern'=>'/admin/menu/item',
+		        'action'=> 'Controller_menu:action_item',
+		        'schemas' => 'GET'
+	        ],
+
+	        'menu_item_update' =>[
+		        'pattern'=>'/admin/menu/item/update',
+		        'action'=> 'Controller_menu:action_item_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'menu_item_create' =>[
+		        'pattern'=>'/admin/menu/item/create',
+		        'action'=> 'Controller_menu:action_item_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'menu_item_delete' =>[
+		        'pattern'=>'/admin/menu/item/delete',
+		        'action'=> 'Controller_menu:action_item_delete',
+		        'schemas' => 'GET'
+	        ],
         ];
     }
