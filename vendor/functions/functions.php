@@ -600,7 +600,7 @@
             $result = App::db()->query("SELECT * FROM `pictures` WHERE `picture_id` = '{$id}' LIMIT 1");
             
             if ($row = $result->fetch()) {
-                return $row['picture_path'];
+                return \smashEngine\core\helpers\File::getUrlForAbsolutePath($row['picture_path']);
             }
         }
         catch (Exception $e)

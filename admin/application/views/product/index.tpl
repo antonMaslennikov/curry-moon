@@ -25,7 +25,7 @@
                     <td>{$node.product_name}</td>
                     <td>
                         {if $node.picture_id}
-                        <img src="{$node.picture_id}" style="width: 24px" />
+                        <img src="{$node.picture_id|pictureId2path}" style="width: 24px" />
                         {/if}
                     </td>
                     <td>

@@ -89,8 +89,6 @@ class category extends \smashEngine\core\models\NSModel {
 	 */
 	public function transformData($data) {
 
-		$data['picture_id'] = pictureId2path($data['picture_id']);
-
 		return $data;
 	}
 

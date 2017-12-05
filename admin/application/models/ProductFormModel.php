@@ -26,6 +26,8 @@ class ProductFormModel extends FormModel {
 
 	public $newRecord = true;
 
+	private $_listCategory = null;
+
 	protected $id;
     protected $old_slug;
     
@@ -92,11 +94,16 @@ class ProductFormModel extends FormModel {
 		return [
 			[['product_name'], 'required',],
 			['status', 'required', 'requiredValue' => 'true', 'allowEmpty'=>true],
+
+			['category', 'in', 'range'=>array_keys($this->getListCategory())],
+
 			['slug', 'filter', 'filter'=>'mb_strtolower'],
 			['slug', 'filter', 'filter'=>'textToTranslit'],
 			['slug', 'uniqueSlug', 'allowEmpty'=>false],
 			['slug', 'length', 'max'=>150],
+
 			['product_name', 'length', 'max'=>255],
+
 			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
 			['newRecord', 'unsafe'],
 		];
@@ -144,5 +151,32 @@ class ProductFormModel extends FormModel {
             'product_length' => 'Длина',
             'product_weight' => 'Вес',
 		];
+	}
+
+
+	protected function getListCategory() {
+
+		if ($this->_listCategory === null) {
+
+			$this->setListCategory();
+		}
+
+		return $this->_listCategory;
+	}
+
+
+	public function getDataForTemplate() {
+
+		$data = parent::getDataForTemplate();
+
+		$data['listCategory'] = $this->getListCategory();
+
+		return $data;
+	}
+
+
+	protected function setListCategory() {
+
+		$this->_listCategory =  (new category())->getList();
 	}
 }

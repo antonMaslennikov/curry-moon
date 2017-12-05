@@ -99,16 +99,23 @@ class Controller_product extends Controller_
 
 			if ($model->validate()) {
 
-                // если загружаем не первое изображение к товару, тов сам товар новое изображение уже не сохраняем
-                if (!empty($product->picture_id) && $model->picture_id) {
-                    $model->picture_id = 0;
-                }
+				$old_picture = $product->picture_id;
+				$new_picture = 0;
 
 				$product->setAttributes($model->getData());
-                $product->save();
-                
-                if (!empty($product->picture_id)) {
-                    $product->appPicture($product->picture_id);
+
+				if ($product->picture_id && $old_picture) {
+
+					$new_picture = $product->picture_id;
+					$product->picture_id = $old_picture;
+				}
+
+				$product->save();
+
+				$picture_id = $new_picture?$new_picture:$product->picture_id;
+
+				if (!empty($picture_id)) {
+                    $product->appPicture($picture_id);
                 }
                 
 				$this->page->go('/admin/product/list');

@@ -2,6 +2,8 @@
 
 namespace application\models;
 use smashEngine\core\App;
+use smashEngine\core\helpers\File;
+use smashEngine\core\helpers\Thumbnailer;
 
 /**
  * Class product
@@ -29,17 +31,28 @@ class product extends \smashEngine\core\Model {
      */
     public function appPicture($pic_id) {
         
-        if (empty($pic_id)) {
-            return;
-        }
+        if (empty($pic_id)) {return;}
+
+	    $thumb_id = $this->createThumb($pic_id);
         
         $sth = App::db()->prepare("INSERT INTO `" . self::$dbtable_pictures . "` SET 
                 `product_id` = ?,
-                `big_id` = ?
+                `orig_id` = ?,
+                `thumb_id` = ?
             ");
         
-        $sth->execute([$this->id, $pic_id]);
+        $sth->execute([$this->id, $pic_id, $thumb_id]);
     }
+
+
+	public function createThumb($pic_id) {
+
+		$orig_url = File::getAbsolutePathForUrl(pictureId2path($pic_id));
+
+		$thumb_url = (new Thumbnailer())->thumbnail($orig_url, File::uploadedPath(), 250, 325);
+
+		return file2db($thumb_url);
+	}
     
     public function getAll() {
         
