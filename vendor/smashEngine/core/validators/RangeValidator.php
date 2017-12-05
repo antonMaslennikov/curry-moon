@@ -69,11 +69,11 @@ class RangeValidator extends Validator {
 
         else
         {
-            foreach($this->range as $r)
-            {
-                $result = $r === '' || $value === '' ? $r === $value : $r == $value;
+	        foreach($this->range as $r)
+	        {
+	            $result = $r === '' || $value === '' ? $r === $value : $r == $value;
 
-                if($result) break;
+	            if($result) break;
             }
         }
 

@@ -95,12 +95,15 @@
                                     <label for="{$model.id.url}">
                                         {$model.label.url}
                                     </label>
-                                    <input
-                                            type="text"
+                                    <select
                                             class="form-control"
                                             id="{$model.id.url}"
-                                            name="{$model.name.url}"
-                                            value="{if $model.value.url}{$model.value.url}{else}/{/if}">
+                                            name="{$model.name.url}">
+                                        {foreach from=$model.listRoute item="m" key="k"}
+                                            <option value="{$k}"
+                                                    {if $k == $model.value.url}selected="selected"{/if}>{$m} ({$k})</option>
+                                        {/foreach}
+                                    </select>
                                     {if isset($model.error.url)}
                                         <p class="help-block">{' '|implode:$model.error.url}</p>
                                     {/if}

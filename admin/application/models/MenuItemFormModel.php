@@ -16,6 +16,8 @@ class MenuItemFormModel extends FormModel{
 
 	protected $old_url;
 
+	private $_routeList = null;
+
 	private $_menuList = [];
 
 	public $id;
@@ -48,6 +50,8 @@ class MenuItemFormModel extends FormModel{
 	}
 
 
+
+
 	public function rules() {
 
 		return [
@@ -57,7 +61,7 @@ class MenuItemFormModel extends FormModel{
 
 			['menu_id', 'in', 'range'=>array_keys($this->getListMenu())],
 
-			['url', 'uniqueUrl', 'allowEmpty'=>false],
+			['url', 'in', 'range'=>array_keys($this->getListRoute())],
 
 			[['title_ru', 'title_en'], 'length', 'max'=>100],
 			[['url'], 'length', 'max'=>200],
@@ -66,26 +70,6 @@ class MenuItemFormModel extends FormModel{
 
 			[['sort'], 'getSort', 'allowEmpty'=>false],
 		];
-	}
-
-
-	public function uniqueUrl($attribute, $params) {
-
-		if (!$this->url) $this->url = '/';
-
-		if (!$this->newRecord) {
-
-			if ($this->url == $this->old_url)	 return;
-		}
-
-		$r = App::db()->prepare("SELECT id FROM `" . menuItem::getDbTableName() . "` WHERE `url` = ? LIMIT 1");
-
-		$r->execute([$this->url]);
-
-		if ($r->rowCount() == 1)
-		{
-			$this->addError('slug', sprintf('Атрибут "%s" уже существует в пунктах меню!', $this->getAttributeLabel('url')));
-		}
 	}
 
 
@@ -127,6 +111,28 @@ class MenuItemFormModel extends FormModel{
 	}
 
 
+	protected function getListRoute() {
+
+		if ($this->_routeList === null) {
+
+			$this->_routeList = $this->setListRoute();
+		}
+
+		return $this->_routeList;
+	}
+
+
+	protected function setListRoute() {
+
+		$menu = array_merge(
+			(new \application\routings())->getMenuRoute(),
+			(new staticPage())->getMenuRoute()
+		);
+
+		return $menu;
+	}
+
+
 	protected function getListMenu() {
 
 		return $this->_menuList;
@@ -138,6 +144,7 @@ class MenuItemFormModel extends FormModel{
 		$data = parent::getDataForTemplate();
 
 		$data['listStatus'] = $this->getListStatus();
+		$data['listRoute'] = $this->getListRoute();
 		$data['listMenu'] = $this->getListMenu();
 
 		return $data;

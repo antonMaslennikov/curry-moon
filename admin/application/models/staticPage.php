@@ -53,5 +53,22 @@ class staticPage extends Model {
 	}
 
 
+	public function getMenuRoute() {
+
+		$list = $this->getList();
+
+		$menu = [];
+		foreach ($list as $page) {
+
+			//if (!$page['status']) continue;
+
+			$title = 'Статическая страница "'.$page['h1_ru'].'"';
+			$url = '/(ru|en)/'.$page['slug'];
+			$menu[$url] = $title;
+		}
+
+		return $menu;
+	}
+
 
 }

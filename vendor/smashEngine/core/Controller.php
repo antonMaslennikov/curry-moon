@@ -17,8 +17,8 @@
         function __construct(\Routing\Router $router)
         {
             session_start();
-            
-            if (!$_SESSION['csrf_token']) {
+
+	        if (!$_SESSION['csrf_token']) {
                 $_SESSION['csrf_token'] = md5(session_id() . CSRF_SALT);
             }
 
