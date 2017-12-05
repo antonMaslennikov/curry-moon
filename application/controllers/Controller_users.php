@@ -240,6 +240,36 @@
         {
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/forgot_password.tpl';
+            $this->page->title = 'Восстановить пароль';
+            $this->page->addBreadCrump('Восстановить пароль');
+            
+            try
+            {
+                if ($_POST['csrf_token'] != $_SESSION['csrf_token']) {
+                    throw new appException('Ошибка при проверке токена', 1);
+                }
+                
+                // подтверждение
+                if ($this->page->reqUrl[3] == 'confirm') 
+                {
+                    if ($_POST['jform']['token'] || $_GET['token']) 
+                    {
+
+                    }
+                }
+                // отправка кода
+                elseif (empty($this->page->reqUrl[3]))
+                {
+                    if ($_POST['jform']['email']) 
+                    {
+
+                    }
+                }
+            }
+            catch (appException $e)
+            {
+                $this->view->setVar('error', $e->getMessage());
+            }
             
             $this->view->generate($this->page->index_tpl);
         }

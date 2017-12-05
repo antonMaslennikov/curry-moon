@@ -68,7 +68,7 @@
                  </div>
                  
                  {if $error}
-                 <div class="registration-error">Ошибка: {$error}</div>
+                 <div class="new-error-block">Ошибка: {$error}</div>
                  {/if}
                  
                  <div class="confirmbtn_button-wrapper">
@@ -84,13 +84,6 @@
 
 {literal}
 <style>
-    .registration-error {
-        margin:20px 0;
-        padding:20px;
-        background-color: antiquewhite;
-        color: red;
-    }
-    
     .confirmbtn_button-wrapper {
         margin-top:20px;
     }

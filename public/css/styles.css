@@ -23,3 +23,10 @@
     height: 0;
     visibility: hidden;
 }
+
+.new-error-block {
+    margin:20px 0;
+    padding:20px;
+    background-color: antiquewhite;
+    color: red;
+}

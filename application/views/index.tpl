@@ -6,13 +6,13 @@
     
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     
-    <meta name="keywords" content="Женские шарфы, палантины и накидки, пончо, сумки из кожи, сумки из замши, серебряные кольца, кольца с натуральными камнями" />
+    <meta name="keywords" content="{$PAGE->keywords}" />
     <meta property="og:type" content="product" />
     <meta property="og:title" content="Интернет-магазин одежды и украшений - Curry Moon" />
     <meta property="og:url" content="https://curry-moon.com/ru" />
     <meta property="og:site_name" content="Curry Moon" />
-    <meta property="og:description" content="Интернет-магазин аксессуаров, сумок и украшений." />
-    <meta name="description" content="Интернет-магазин аксессуаров, сумок и украшений." />
+    <meta property="og:description" content="{$PAGE->description}" />
+    <meta name="description" content="{$PAGE->description}" />
     
     <title>{$PAGE->title} - Curry Moon</title>
     
