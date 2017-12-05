@@ -77,7 +77,7 @@ class MenuItemFormModel extends FormModel{
 
 		if ($this->sort) return;
 
-		$r = App::db()->prepare("SELECT MAX(sort) as max_sort FROM `" . menuItem::getDbTableName() . "` WHERE `menu_id` = ? AND LIMIT 1");
+		$r = App::db()->prepare("SELECT MAX(sort) as max_sort FROM `" . menuItem::db() . "` WHERE `menu_id` = ? LIMIT 1");
 
 		$r->execute([$this->menu_id]);
 

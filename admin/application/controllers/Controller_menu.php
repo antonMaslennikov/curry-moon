@@ -167,6 +167,7 @@ class Controller_menu extends Controller_ {
 
 		$model = new MenuItemFormModel();
 		$model->menu_id = $menu->id;
+		$model->status = 1;
 		$model->setListMenu($menu->getList());
 
 		$postModel = Html::modelName($model);
@@ -246,6 +247,14 @@ class Controller_menu extends Controller_ {
 
 	public function action_item_delete() {
 
+		$menuItem = new menuItem((int) $_GET['id']);
 
+		if ($menuItem->delete()) {
+
+			$this->page->go('/admin/menu/item?menu_id='.$menuItem->menu_id);
+		} else {
+
+			throw new Exception('Неизвестная ошибка');
+		}
 	}
 }
