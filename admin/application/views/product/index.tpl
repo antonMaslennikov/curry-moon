@@ -1,7 +1,7 @@
 <div class="col-xs-12">
     <div class="box">
         <div class="box-header">
-            <h3 class="box-title">Дерево категорий</h3>
+            <h3 class="box-title">Список товаров</h3>
             <div class="box-tools">
                 {if empty($tree)}
                     <a href="create" class="btn btn-success btn-sm">Добавить товар</a>
@@ -25,7 +25,7 @@
                     <td>{$node.product_name}</td>
                     <td>
                         {if $node.picture_id}
-                        <img src="{$node.picture_id}" style="width: 24px" />
+                        <img src="{$node.picture_id|pictureId2path}" style="width: 24px" />
                         {/if}
                     </td>
                     <td>

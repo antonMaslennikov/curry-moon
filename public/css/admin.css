@@ -1,0 +1,40 @@
+.nav-tabs-custom>.nav-tabs>li>a.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.nav-tabs-custom>.nav-tabs>li>.btn-group-sm>a.btn, .nav-tabs-custom>.nav-tabs>li>a.btn-sm {
+	padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.nav-tabs-custom>.nav-tabs>li>a.btn-success {
+	color: #fff;
+    background-color: #00a65a;
+    border-color: #008d4c;
+}
+
+.nav-tabs-custom>.nav-tabs>li>a.btn-success:hover {
+    color: #fff;
+    background-color: #008d4c;
+    border-color: #398439;
+}

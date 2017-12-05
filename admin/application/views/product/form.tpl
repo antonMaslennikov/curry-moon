@@ -108,6 +108,10 @@
                                             class="form-control"
                                             id="{$model.id.category}"
                                             name="{$model.name.category}">
+                                        {foreach from=$model.listCategory item="m" key="k"}
+                                            <option value="{$k}"
+                                                    {if $k == $model.value.category}selected="selected"{/if}>{$m}</option>
+                                        {/foreach}
                                     </select>
                                     {if isset($model.error.category)}
                                         <p class="help-block">{' '|implode:$model.error.category}</p>
@@ -162,7 +166,7 @@
                                         {$model.label.description_long}
                                     </label>
                                     <textarea
-                                            class="form-control"
+                                            class="form-control tinymce-textarea"
                                             id="{$model.id.description_long}"
                                             name="{$model.name.description_long}">{$model.value.description_long}</textarea>
                                     {if isset($model.error.description_short)}
@@ -197,12 +201,17 @@
 
                              <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Загруженное изображение</label>
+                                    <label>Загруженные изображение</label>
                                     <p class="form-control-static">
-                                    {if $model.value.picture_id>0}
-                                        <img src="{$model.value.picture_id|pictureId2path}" style="width: 50px">
+                                    
+                                    {if $product->pictures|count > 0}
+                                        {foreach from=$product->pictures item="p"}
+                                        <a href="{$p.orig_path}" target="blank">
+                                            <img src="{$p.thumb_path}" style="max-height: 100px; margin-right:10px;border:1px solid #ccc;border-radius:3px;{if $p.thumb_id == $model.value.picture_id}border-color:red{/if}">
+                                        </a>
+                                        {/foreach}
                                     {else}
-                                        Нет изображения
+                                        Нет изображений
                                     {/if}
                                 </div>
                              </div>
@@ -350,10 +359,51 @@
     <pre>{$model|print_r}</pre>
 {/if}
 
+{literal}
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script>
-    tinymce.init({
-        selector: '#admin_application_models_ProductFormModel_description_long',
-        menubar: false
-    });
+<script type="text/javascript">
+    !function ($) {
+        $(function() {
+
+            {/literal}
+            var sourceField = $('#{$model.id.product_name}'),
+                    targetField = $('#{$model.id.slug}');
+            {literal}
+
+            tinymce.init({
+                selector: '.tinymce-textarea',
+                menubar: false
+            });
+
+            var timer,
+                    updateUrl = "/admin/api/transliterate",
+                    editable = targetField.val().length == 0,
+                    value = sourceField.val();
+
+            if (targetField.val().length !== 0) {
+                $.get(updateUrl, {data: sourceField.val()}, function (r) {
+                    editable = targetField.val() == r;
+                });
+            }
+
+            sourceField.on('keyup blur copy paste cut start', function () {
+                clearTimeout(timer);
+
+                if (editable && value != sourceField.val()) {
+                    timer = setTimeout(function () {
+                        value = sourceField.val();
+                        targetField.attr('disabled', 'disabled');
+                        $.get(updateUrl, {data: sourceField.val()}, function (r) {
+                            targetField.val(r).removeAttr('disabled');
+                        });
+                    }, 300);
+                }
+            });
+
+            targetField.on('change', function () {
+                editable = $(this).val().length == 0;
+            });
+        })
+    }(window.jQuery)
 </script>
+{/literal}

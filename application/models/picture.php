@@ -12,6 +12,8 @@ class Picture {
 	public $path;				// относительный путь до картинки
 	public $errors = array();	// массив ошибок при обработке изображения
 	
+    public static $dbtable = 'pictures';
+    
 	function __construct($id = 0)
 	{
 		if (!empty($id))

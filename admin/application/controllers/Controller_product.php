@@ -58,8 +58,10 @@ class Controller_product extends Controller_
 				$product->setAttributes($model->getData());
                 $product->save();
                 
-                if (!empty($product->picture_id)) {
-                    $product->appPicture($product->picture_id);
+                if (!empty($product->picture_temp)) {
+                    $product->addPicture($product->picture_temp);
+                    $product->picture_id = $product->pictures[0]['thumb_id'];
+                    $product->save();
                 }
                 
 				$this->page->go('/admin/product/list');
@@ -99,17 +101,18 @@ class Controller_product extends Controller_
 
 			if ($model->validate()) {
 
-                // если загружаем не первое изображение к товару, тов сам товар новое изображение уже не сохраняем
-                if (!empty($product->picture_id) && $model->picture_id) {
-                    $model->picture_id = 0;
-                }
-
 				$product->setAttributes($model->getData());
-                $product->save();
-                
-                if (!empty($product->picture_id)) {
-                    $product->appPicture($product->picture_id);
+
+                if ($product->picture_temp) {
+                    $product->addPicture($product->picture_temp);
                 }
+                
+                // основная картинка ещё не создана, загружается первая картинка
+				if (!$product->picture_id && $product->picture_temp) {
+					$product->picture_id = $product->pictures[0]['thumb_id'];
+				}
+                
+                $product->save();
                 
 				$this->page->go('/admin/product/list');
 			}
@@ -117,6 +120,7 @@ class Controller_product extends Controller_
 
 		$this->view->setVar('model', $model->getDataForTemplate());
         $this->view->setVar('manufacturers', product::$manufacturers);
+        $this->view->setVar('product', $product);
         
 		$this->render();
     }

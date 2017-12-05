@@ -24,9 +24,12 @@
     visibility: hidden;
 }
 
+<<<<<<< HEAD
 .new-error-block {
     margin:20px 0;
     padding:20px;
     background-color: antiquewhite;
     color: red;
 }
+=======
+>>>>>>> c8d91ca85ee0bf1f799a670031ef04ccf4cafb11

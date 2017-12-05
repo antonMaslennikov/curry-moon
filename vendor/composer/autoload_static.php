@@ -78,6 +78,16 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'I' => 
+        array (
+            'Imagine' => 
+            array (
+                0 => __DIR__ . '/..' . '/imagine/imagine/lib',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Geo' => __DIR__ . '/..' . '/classes/Geo.php',
     );
@@ -87,6 +97,7 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitb40310e37915b0c32370293f384e069c::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitb40310e37915b0c32370293f384e069c::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb40310e37915b0c32370293f384e069c::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitb40310e37915b0c32370293f384e069c::$classMap;
 
         }, null, ClassLoader::class);

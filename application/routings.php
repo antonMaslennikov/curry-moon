@@ -68,7 +68,8 @@
             'contact-us' => [
                 'pattern' => '/(ru|en)/contact-us', 
                 'action' => 'Controller_contact_us:action_index', 
-                'schemas' => 'GET|POST'
+                'schemas' => 'GET|POST',
+                'title' => 'Контакты',
             ],
             
             'shop' => [

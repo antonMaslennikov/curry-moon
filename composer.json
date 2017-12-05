@@ -10,7 +10,8 @@
         "smarty/smarty": "^3.1",
         "phpmailer/phpmailer": "dev-master",
         "itlessons/php-routing":"dev-master",
-        "symfony/console": "^3.3"
+        "symfony/console": "^3.3",
+		"imagine/imagine": "~0.6.0"
     },
     "autoload": {
         "psr-4": { 

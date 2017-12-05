@@ -7,7 +7,22 @@
 
 <body bgcolor="#FFFFFF" text="#000000">
 	
-	404.tpl
+	<section id="gkMainbody" style="font-size: 100%;">
+
+        <article class="item-page " itemscope="" itemtype="http://schema.org/Article">
+            <meta itemprop="inLanguage" content="ru-RU">
+
+            <div class="itemBody">
+
+            <span itemprop="articleBody">
+                <h1 style="text-align: center;"><strong>404</strong></h1>
+                <h2 style="text-align: center;">Запрошенная страница не найдена</h2>                     
+            </span>
+
+            </div>
+
+        </article>
+    </section>
 
 </body>
 </html>
