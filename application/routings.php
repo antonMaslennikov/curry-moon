@@ -10,7 +10,9 @@
             'home' => [
                 'pattern' => '/', 
                 'action' => 'Controller_main:action_index', 
-                'schemas' => 'GET'
+                'schemas' => 'GET',
+	            'title' => 'Главная',
+	            'url' => '/',
             ],
             
             'login' => [
@@ -72,28 +74,37 @@
             'shop' => [
                 'pattern' => '/(ru|en)/shop(/?)(.*)', 
                 'action' => 'Controller_shop:action_index', 
-                'schemas' => 'GET'
+                'schemas' => 'GET',
+	            'title' => 'Каталог',
             ],
             
             'aktcii' => [
                 'pattern' => '/(ru|en)/aktcii(/?)(.*)', 
                 'action' => 'Controller_aktcii:action_index', 
-                'schemas' => 'GET'
+                'schemas' => 'GET',
+	            'title' => 'Акции',
             ],
             
             'blog' => [
                 'pattern' => '/(ru|en)/blog(/?)(.*)', 
                 'action' => 'Controller_blog:action_index', 
-                'schemas' => 'GET'
+                'schemas' => 'GET',
+	            'title'=>'Блог',
             ],
             
             'lookbook' => [
                 'pattern' => '/(ru|en)/lookbook(/?)(.*)', 
                 'action' => 'Controller_lookbook:action_index', 
-                'schemas' => 'GET'
+                'schemas' => 'GET',
+	            'title'=>'Lookbook',
             ],
-            
-            
+
+	        'generate_page'=>[
+		        'pattern'=> '/(ru|en)/(.*)',
+		        'action' => 'Controller_static_page:action_index',
+		        'schemas' => 'GET'
+	        ],
+            /*
             'about' => [
                 'pattern' => '/(ru|en)/about', 
                 'action' => 'Controller_static_page:action_index', 
@@ -123,8 +134,27 @@
                 'pattern' => '/(ru|en)/terms-and-conditions', 
                 'action' => 'Controller_static_page:action_index', 
                 'schemas' => 'GET'
-            ],
-            
-            
+            ],*/
         ];
-    }
+
+
+	    public function getMenuRoute() {
+
+		    $menu = [];
+		    foreach ($this->data as $route) {
+
+			    if (isset($route['title'])) {
+
+					$url = str_replace('(ru|en)', 'ru_en', $route['pattern']);
+				    $url = preg_replace('/\(.*?\)/', '', $url);
+				    $url = str_replace('ru_en', '(ru|en)', $url);
+
+				    $menu[$url] = 'Страница сайта "'.$route['title'].'"';
+			    }
+		    }
+
+		    ksort($menu);
+
+		    return $menu;
+		}
+	}

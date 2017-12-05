@@ -12,10 +12,11 @@
         
         protected static $dbtable;
 
+        protected static $db_table;
+
 	    protected $_initial_data = [];
 
 	    protected $modified_data = [];
-
 
         function __construct($id = null)
         { 
@@ -27,7 +28,7 @@
             
             if (!empty($this->id))
             {
-                $r = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `id` = ? LIMIT 1");
+	            $r = App::db()->prepare("SELECT * FROM `" . self::db() . "` WHERE `id` = ? LIMIT 1");
                 
                 $r->execute([$this->id]);
                 
@@ -56,17 +57,17 @@
 
 				    if ($this->info[$key] != $this->_initial_data[$key]) {
 
-					    $update_query[] = sprintf("%s = :%s", $key, $key);
+					    $update_query[] = sprintf("`%s` = :%s", $key, $key);
 					    $update_array[':'.$key] = $function_cast?call_user_func($function_cast, $this->info[$key]):$this->info[$key];
 				    }
 				}
 
 			    if (count($update_query)) {
 
-				    $sql = 'update ' . self::$dbtable . ' set ' . implode(', ', $update_query) . ' where id = :id limit 1;';
+				    $sql = 'update ' . self::db() . ' set ' . implode(', ', $update_query) . ' where id = :id limit 1;';
 
-				    // printr($sql);
-				    // printr($update_array, 1);
+				   // printr($sql);
+				   // printr($update_array, 1);
 
 				    $stmt = App::db()->prepare($sql);
 
@@ -82,7 +83,7 @@
 
 	    public function delete() {
 
-		    $sql = 'delete from '.self::$dbtable.' where id = :id limit 1;';
+		    $sql = 'delete from '.self::db().' where id = :id limit 1;';
 
 		    $stmt = App::db()->prepare($sql);
 
@@ -94,6 +95,7 @@
          * ищем у пронаследовавшей модели свойство dbtable, содержащее имя таблицы
          */
         static function getDbTableName() {
+
             foreach (get_class_vars(get_called_class()) AS $k => $v) {
                 if ($k == 'dbtable') {
                     self::$dbtable = $v;
@@ -102,8 +104,16 @@
             
             return self::$dbtable;
         }
-        
-        public function __set($name, $value) 
+
+
+	    static function db() {
+
+		    $class = get_called_class();
+		    return $class::$dbtable;
+	    }
+
+
+        public function __set($name, $value)
         {
             $this->info[$name] = $value;
         }
@@ -159,7 +169,7 @@
             }
             
             // вырезаем все поля которых нет в схеме таблицы
-            $r = App::db()->query(sprintf("SHOW COLUMNS FROM `%s`", self::$dbtable));
+            $r = App::db()->query(sprintf("SHOW COLUMNS FROM `%s`", self::db()));
             
             foreach ($r->fetchAll() AS $f) {
                 $fields[$f['Field']] = $f['Field'];
@@ -171,12 +181,12 @@
             // редактирование
             if (!empty($this->id))
             {
-                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", self::$dbtable, implode(',', $rows), $this->id));
+                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", self::db(), implode(',', $rows), $this->id));
             }
             // создание
             else
             {
-                App::db()->query(sprintf("INSERT INTO `%s` SET %s", self::$dbtable, implode(',', $rows)));
+                App::db()->query(sprintf("INSERT INTO `%s` SET %s", self::db(), implode(',', $rows)));
                 $this->id = App::db()->lastInsertId();
             }
         }

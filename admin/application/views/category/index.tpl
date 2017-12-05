@@ -18,19 +18,14 @@
                     <th>ID</th>
                     <th>Название</th>
                     <th>slug</th>
-                    <th>Изображение</th>
                     <th>Статус</th>
                     <th></th>
                 </tr>
                 {foreach from=$tree item=node}
                 <tr>
                     <td>{$node.id}</td>
-                    <td>{str_repeat('&nbsp;-',$node.level)} {$node.title}</td>
+                    <td>{str_repeat('&mdash;',$node.level)} {$node.title}</td>
                     <td>{$node.slug}</td>
-                    <td>{if $node.picture_id}
-                        <img src="{$node.picture_id}" style="width: 24px" />
-                        {/if}
-                    </td>
                     <td>
                         {if $node.status}
                             <span class="label label-success">Опубликован</span>
