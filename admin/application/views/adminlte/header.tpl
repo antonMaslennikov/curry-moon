@@ -14,6 +14,10 @@
     <link rel="stylesheet" href="/public/packages/ionicons/css/ionicons.min.css">
     <!-- jvectormap -->
     <link rel="stylesheet" href="/public/packages/jvectormap/jquery-jvectormap.css">
+
+{foreach $PAGE->css item="path" name="cssforeach"}
+    <link href="{$path}" rel="stylesheet" type="text/css" />
+{/foreach}
     <!-- Theme style -->
     <link rel="stylesheet" href="/public/packages/adminlte/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -21,6 +25,8 @@
     <link rel="stylesheet" href="/public/packages/adminlte/css/skins/_all-skins.min.css">
 
     <link rel="stylesheet" href="/public/css/admin.css">
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,9 +37,15 @@
     <script src="/public/packages/jquery/jquery.min.js"></script>
     <![endif]-->
 
+    {foreach $PAGE->js item="path" name="jsforeach"}
+        <script type='text/javascript' src="{$path}"></script>
+    {/foreach}
+
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <script type='text/javascript' src="/public/js/admin.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">

@@ -95,18 +95,19 @@
                                     <label for="{$model.id.url}">
                                         {$model.label.url}
                                     </label>
-                                    <select
+                                    <input
+                                            type="text"
                                             class="form-control"
                                             id="{$model.id.url}"
-                                            name="{$model.name.url}">
-                                        {foreach from=$model.listRoute item="m" key="k"}
-                                            <option value="{$k}"
-                                                    {if $k == $model.value.url}selected="selected"{/if}>{$m} ({$k})</option>
-                                        {/foreach}
-                                    </select>
-                                    {if isset($model.error.url)}
-                                        <p class="help-block">{' '|implode:$model.error.url}</p>
+                                            name="{$model.name.url}"
+                                            value="{$model.value.url}"
+                                            placeholder="Введите {$model.label.url|mb_strtolower}">
+                                    <input type="hidden">
+                                    <p class="help-block">
+                                    {if isset($model.error.title_en)}
+                                        {' '|implode:$model.error.url}
                                     {/if}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +160,6 @@
         </form>
     </div>
 </div>
-
 {if $smarty.const.appMode eq 'dev'}
     <pre>{$model|print_r}</pre>
 {/if}

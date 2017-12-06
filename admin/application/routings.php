@@ -146,5 +146,29 @@
 		        'action'=> 'Controller_menu:action_item_delete',
 		        'schemas' => 'GET'
 	        ],
+
+	        'blog_list'=>[
+		        'pattern'=>'/admin/blog/list',
+		        'action'=> 'Controller_blog:action_index',
+		        'schemas' => 'GET'
+	        ],
+
+	        'blog_create'=>[
+		        'pattern'=>'/admin/blog/create',
+		        'action'=> 'Controller_blog:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'blog_update'=>[
+		        'pattern'=>'/admin/blog/update',
+		        'action'=> 'Controller_blog:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'blog_delete'=>[
+		        'pattern'=>'/admin/blog/delete',
+		        'action'=> 'Controller_blog:action_delete',
+		        'schemas' => 'GET'
+	        ],
         ];
     }
