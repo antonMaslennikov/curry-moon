@@ -7,7 +7,8 @@
                 <span class="gkLogoSlogan">СТИЛЬНЫЕ АКСЕССУАРЫ И УКРАШЕНИЯ</span>
             </a>
 
-            <div id="gkMobileMenu" class="gkPage"> <i id="mobile-menu-toggler" class="fa fa-bars"></i>
+            <div id="gkMobileMenu" class="gkPage"> 
+                <i id="mobile-menu-toggler" class="fa fa-bars"></i>
                 <select id="mobileMenu" onChange="window.location.href=this.value;" class="chzn-done">
                     <option selected="selected"  value="/">Главная</option>
                     <option  value="/ru/shop">Каталог</option>
@@ -61,16 +62,19 @@
             <div id="gkMainMenu" class="gkPage gkMenuClassic">
                 <nav id="gkExtraMenu" class="gkMenu">
                     <ul class="gkmenu level0">
-                        <li class="first active"><a href="/"  class=" first active" id="menu640" title=" Home Menu Item" >Главная</a></li>
-                        <li class="haschild"><a href="/ru/shop"  class=" haschild" id="menu938"  >Каталог</a>
+                        <li class="first active">
+                           <a href="/"  class=" first active" id="menu640" title=" Home Menu Item" >Главная</a>
+                        </li>
+                        <li class="haschild">
+                           <a href="/ru/shop" class="haschild" id="menu938">Каталог</a>
                            <div class="childcontent">
                                <div class="childcontent-inner">
                                    <div class="gkcol gkcol1  first">
                                        <ul class="gkmenu level1">
-                                           <li  class="first">
+                                           <li class="first">
                                                <a href="/ru/shop/scarves"  class=" first" id="menu1037"  >Шарфы</a>
                                            </li>
-                                           <li  class="haschild">
+                                           <li class="haschild">
                                                <a href="/ru/shop/jewellery"  class=" haschild" id="menu1038"  >Украшения</a>
                                                <div class="childcontent">
                                                    <div class="childcontent-inner">

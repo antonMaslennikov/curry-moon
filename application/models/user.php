@@ -696,7 +696,25 @@
                 if ($r->rowCount() == 1) 
                 {
                     $foo = $r->fetch();
-                    return new self($foo['user_id']);
+                    return new self($foo['id']);
+                } 
+            }
+        }
+        
+        public static function findByEmail($search)
+        {
+            if (!empty($search))
+            {
+                $search = addslashes($search);
+                
+                $r = App::db()->prepare("SELECT `id` FROM `" . self::$dbtable . "` WHERE `user_email` LIKE ? LIMIT 1");
+                
+                $r->execute([$search]);
+                
+                if ($r->rowCount() == 1) 
+                {
+                    $foo = $r->fetch();
+                    return new self($foo['id']);
                 } 
             }
         }
@@ -747,6 +765,32 @@
             }
             
             return $phone;
+        }
+        
+        protected function getRecoverCode() {
+            return substr(md5(SALT . $this->user_login . $this->user_email . date('Y-m-d')), 2, 8);
+        }
+        
+        public function sendRecoverEmail() {
+            $code = $this->getRecoverCode();
+            App::mail()->send($this->id, 2, ['uid' => $this->id, 'code' => $code, 'token' => md5($code)]);
+        }
+        
+        public function compareRecoverCode($str) {
+            return $str == $this->getRecoverCode();
+        }
+        
+        public function compareRecoverToken($str) {
+            return $str == md5($this->getRecoverCode());
+        }
+        
+        public function resetPassword()
+        {
+            $this->password = substr(md5(time()), 0, 10);
+            $this->user_password = md5(SALT . $this->password);
+            $this->save();
+            
+            App::mail()->send($this->id, 3, ['user' => $this]);
         }
     }
 

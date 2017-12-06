@@ -6,6 +6,6 @@
 
 <p>Для ввода кода подтверждения перейдите на страницу по ссылке ниже.</p>
 
-<p><?= mainUlr ?>/ru/users/forgot-password/confirm?token=<?= $token ?></p>
+<p><?= mainUrl ?>/ru/users/forgot-password/confirm/<?= $uid ?>/?token=<?= $token ?></p>
 
 <p>Спасибо.</p>

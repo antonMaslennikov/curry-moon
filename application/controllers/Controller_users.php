@@ -21,7 +21,13 @@
         {
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/login.tpl';
-           
+            $this->page->title = 'Вход на сайт';
+            $this->page->addBreadCrump('Вход на сайт');
+            
+            if ($this->user->authorized) {
+                $this->page->go('/');
+            }
+            
             if ($_POST['login'])
             {
                 if (!empty($_POST['password']))
@@ -245,25 +251,68 @@
             
             try
             {
-                if ($_POST['csrf_token'] != $_SESSION['csrf_token']) {
+                if (!empty($_POST['csrf_token']) && $_POST['csrf_token'] != $_SESSION['csrf_token']) {
                     throw new appException('Ошибка при проверке токена', 1);
                 }
                 
                 // подтверждение
                 if ($this->page->reqUrl[3] == 'confirm') 
                 {
+                    $this->view->setVar('confirm', true);
+                    
+                    if (!$U = new user($this->page->reqUrl[4])) {
+                        throw new appException('Не известен пользователь для восстановления пароля');
+                    }
+                    
+                    $this->view->setVar('U', $U);
+                    
                     if ($_POST['jform']['token'] || $_GET['token']) 
                     {
+                        if ($_POST['jform']['token']) {
+                            if (!$U->compareRecoverCode($_POST['jform']['token'])) {
+                                throw new appException('Указан не верный проверочный код');
+                            }
+                        }
 
+                        if ($_GET['token']) {
+                            if (!$U->compareRecoverToken($_GET['token'])) {
+                                throw new appException('Указан не верный проверочный код или ссылка на восстановление уже не активна');
+                            }
+                        }
+
+                        $U->resetPassword();
+
+                        $this->page->go('/ru/users/forgot-password/success/');
                     }
                 }
                 // отправка кода
-                elseif (empty($this->page->reqUrl[3]))
+                elseif ($this->page->reqUrl[3] == 'request')
                 {
+                    $this->view->setVar('request', true);
+                    
                     if ($_POST['jform']['email']) 
                     {
-
+                        if (validateEmail($_POST['jform']['email'])) 
+                        {
+                            if ($U = user::findByEmail($_POST['jform']['email'])) {
+                                $U->sendRecoverEmail();
+                                $this->page->go('/ru/users/forgot-password/confirm/' . $U->id);
+                            } else {
+                                throw new appException('Пользователь с email ' . $_POST['jform']['email'] . ' не найден в нашей базе');
+                            }
+                        } else {
+                            throw new appException('То что вы указали не похоже на адрес электронной почты');
+                        }
+                    } else {
+                        throw new appException('Для отправки кода для восстановления нужно указать ваш Email');
                     }
+                }
+                // успешный сброс пароля
+                elseif ($this->page->reqUrl[3] == 'success') 
+                {
+                    $this->view->setVar('success', true);
+                    
+                    
                 }
             }
             catch (appException $e)

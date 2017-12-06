@@ -9,7 +9,7 @@
                     <fieldset class="userdata">
                     <p id="form-login-username">
                     <label for="modlgn-username">Логин</label>
-                    <input id="modlgn-username" type="text" name="login" class="inputbox" required="required"  size="24" />
+                    <input id="modlgn-username" type="text" name="login" class="inputbox" required="required"  size="24" placeholder="Логин или Email" />
                     </p>
                     <p id="form-login-password">
                     <label for="modlgn-passwd">Пароль</label>
@@ -29,9 +29,11 @@
                     </fieldset>
                     <ul>
                     <li> <a href="/ru/users/forgot-password"> Забыли пароль?</a> </li>
-                    <li> <a href="/ru/users/forgot-username"> Забыли логин?</a> </li>
+                    <li>{* <a href="/ru/users/forgot-username"> Забыли логин?</a> *} </li>
                     </ul>
-                    <div class="posttext">  </div>
+                    <div class="posttext"></div>
+                    
+                    <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                 </form>
             </div>
         </div>	     

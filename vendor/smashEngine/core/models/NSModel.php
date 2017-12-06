@@ -199,6 +199,7 @@ from {$this->tableName()}
 where lft > :left
     and rgt < :right
     and level = :level
+order by lft
 EOD;
 
 		$stmt = App::db()->prepare($sql);
@@ -337,4 +338,21 @@ EOD;
 
 		return array_map([$this, 'transformData'], $data);
 	}
+    
+    /**
+     * получить полную цепочку узлов от вышележащего узла до выбранного
+     * @param node $to узел назначения
+     */
+    public function getChain($to) {     
+        $sql = <<<EOD
+SELECT * 
+FROM {$this->tableName()} 
+WHERE lft <= :lk AND rgt >= :rk ORDER BY lft
+EOD;
+		$stmt = App::db()->prepare($sql);
+		$stmt->execute(['lk' => $to->lft, 'rk' => $to->rgt]);
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return array_map([$this, 'transformData'], $data);
+    }
 }

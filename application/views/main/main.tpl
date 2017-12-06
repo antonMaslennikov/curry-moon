@@ -68,14 +68,31 @@
                 <div class="custom banner"  >
                     <div class="gkBanner">
                         <h2><a href="/ru/shop/bags" title="Сумки">сумки</a></h2>
-                        <a href="/ru/shop/bags" title="Сумки"><img src="/images/homepage/sumki-zenskie.jpg" alt="Сумки" /></a>
+                        <a href="/ru/shop/bags" title="Сумки"><img src="/public/images/homepage/sumki-zenskie.jpg" alt="Сумки" /></a>
                     </div>	
                 </div>
             </div>
         </div>
-
-
-
+        <div class="box banner gkmod-3">
+           <div class="content">
+               <div class="custom banner">
+                    <div class="gkBanner">
+                        <h2><a href="/ru/shop/jewellery" title="Украшения">украшения</a></h2>
+                        <a href="/ru/shop/jewellery" title="Украшения"><img src="/public/images/homepage/ukrasheniya-zenskie.jpg" alt="Украшения"></a>
+                    </div>	
+               </div>
+           </div>
+        </div>
+        <div class="box banner gkmod-3">
+            <div class="content">
+                <div class="custom banner">
+                    <div class="gkBanner">
+                        <h2><a href="/ru/shop/scarves" title="Шарфы">шарфы</a></h2>
+                        <a href="/ru/shop/scarves" title="Шарфы"><img src="/public/images/homepage/sharfi-palantini.jpg" alt="Шарфы"></a>
+                    </div>	
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
