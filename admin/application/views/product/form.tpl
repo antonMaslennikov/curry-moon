@@ -9,6 +9,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#tab1" data-toggle="tab">Основные данные</a></li>
                     <li><a href="#tab2" data-toggle="tab">Изображения</a></li>
+                    <li><a href="#tab5" data-toggle="tab">Склад</a></li>
                     <li><a href="#tab3" data-toggle="tab">Габариты</a></li>
                     <li><a href="#tab4" data-toggle="tab">META данные</a></li>
                 </ul>
@@ -341,6 +342,66 @@
                             </div>
                         </div>
 
+                    </div>
+                    
+                    <div class="tab-pane" id="tab5">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.quantity)}has-error{/if}">
+                                    <label for="{$model.id.quantity}">
+                                        {$model.label.quantity}
+                                    </label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="{$model.id.quantity}"
+                                            name="{$model.name.quantity}"
+                                            value="{$model.value.quantity}">
+                                    {if isset($model.error.quantity)}
+                                        <p class="help-block">{' '|implode:$model.error.quantity}</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.product_price)}has-error{/if}">
+                                    <label for="{$model.id.product_price}">
+                                        {$model.label.product_price}
+                                    </label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="{$model.id.product_price}"
+                                            name="{$model.name.product_price}"
+                                            value="{$model.value.product_price}">
+                                    {if isset($model.error.product_price)}
+                                        <p class="help-block">{' '|implode:$model.error.product_price}</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.product_discount)}has-error{/if}">
+                                    <label for="{$model.id.product_discount}">
+                                        {$model.label.product_discount}
+                                    </label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="{$model.id.product_discount}"
+                                            name="{$model.name.product_discount}"
+                                            value="{$model.value.product_discount}">
+                                    {if isset($model.error.product_discount)}
+                                        <p class="help-block">{' '|implode:$model.error.product_discount}</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
