@@ -25,6 +25,7 @@
             // корень каталога
             if (empty($this->page->reqUrl[2])) {
                 $parent = 1;
+                $this->page->title = 'Добро пожаловать в Curry Moon';
             } else {
                 if (!$parent = category::findNodeBySlug($this->page->reqUrl[count($this->page->reqUrl) - 1])) {
                     $this->page404();
@@ -46,6 +47,9 @@
                 $this->page->addBreadCrump($c['title'], $base);
             }
             
+            if ($parent > 1) {
+                $this->page->title = $category->title;
+            }
             
             // список товаров
             
