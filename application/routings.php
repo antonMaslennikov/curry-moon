@@ -47,7 +47,7 @@
             ],
             
             'forgot-password' => [
-                'pattern' => '/(ru|en)/users/forgot-password', 
+                'pattern' => '/(ru|en)/users/forgot-password(.*)', 
                 'action' => 'Controller_users:action_forgot_password', 
                 'schemas' => 'GET|POST'
             ],
