@@ -105,21 +105,23 @@
                     <div class="gkCols4 gkNoMargin">
 
                         <div style="margin: 0 -10px">
-                           
+                            
+                            {foreach from=$products item="p"}
                             <div class="box banner gkmod-4">
                                 <div class="spacer">
-                                    <a href="/ru/shop/jewellery/silver/koltco-iz-serebra-s-tcirkoniem-sr083" title="Кольцо из серебра с цирконием">
-                                        <img src="/images/shop/product/resized/silver-ring-cirkoniy-41_250x325.gif" alt="kolco-serebro-cirkoniy" class="featuredProductImage" border="0" />
+                                    <a href="#" title="{$p.product_name}">
+                                        <img src="{$p.picture_path}" alt="{$p.slug}" class="featuredProductImage" border="0" />
                                     </a>
                                     <div class="clear"></div>					
                                     <h3 class="catProductTitle">
-                                        <a href="/ru/shop/jewellery/silver/koltco-iz-serebra-s-tcirkoniem-sr083">Кольцо из серебра с цирконием</a>
+                                        <a href="#">{$p.product_name}</a>
                                     </h3>        
                                     <div class="clear"></div>
-                                    <div class="PricesalesPrice vm-display vm-price-value" ><span class="PricesalesPrice" >3200 руб</span></div>				
+                                    <div class="PricesalesPrice vm-display vm-price-value" ><span class="PricesalesPrice" >{if $p.product_price != $p.total_price}<s>{$p.product_price}</s>{/if} {$p.total_price} руб</span></div>				
                                 </div>
     
                             </div>
+                            {/foreach}
 
                         </div>
 

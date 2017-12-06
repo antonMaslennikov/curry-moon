@@ -2,7 +2,8 @@
     namespace application\controllers;
     
     use \smashEngine\core\App AS App;
-    
+    use \application\models\product;
+
     use \PDO;
     use \Exception;
     use \DateTime;
@@ -24,7 +25,15 @@
             $this->page->import(array(
             ));
             
+            $products = product::getAll([
+                'status' => 'active', 
+                'picture' => true,
+                'orderBy' => 'pr.`id`',
+                'orderDir' => 'DESC',
+                'limit' => 4,
+            ]);
             
+            $this->view->setVar('products', $products);
             
             $this->view->generate($this->page->index_tpl);
         }

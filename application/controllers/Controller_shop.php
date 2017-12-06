@@ -55,7 +55,12 @@
             // список товаров
             $onpage = 18;
             
-            $products = product::getAll(['category' => $category->id, 'status' => 'active', 'picture' => true]);
+            $products = product::getAll([
+                'category' => $category->id, 
+                'status' => 'active', 
+                'picture' => true,
+                'limit' => $onpage,
+            ]);
             
             $this->view->setVar('base', $base);
             $this->view->setVar('parentCategory', $category);

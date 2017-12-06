@@ -112,6 +112,15 @@ class product extends \smashEngine\core\Model {
             FROM `" . self::$dbtable . "` pr" . ($at ? ', ' . implode(', ', $at) : '') . "
             WHERE 1 " . ($aq ? ' AND ' . implode(' AND ', $aq) : '');
         
+        if ($filters['orderBy']) {
+            // ёбаный стыд))) 
+            $q .= " ORDER BY " . addslashes($filters['orderBy']) . ' ' . (in_array($filters['orderDir'], ['ASC', 'DESC']) ? $filters['orderDir'] : 'DESC');
+        }
+        
+        if ($filters['limit']) {
+            $q .= " LIMIT " . ($filters['offset'] ? intval($filters['offset']) : 0) . ", " . intval($filters['limit']);
+        }
+          
         //printr($q, 1);
         
         $sth = App::db()->prepare($q);
