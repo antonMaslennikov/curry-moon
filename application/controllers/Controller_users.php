@@ -21,7 +21,13 @@
         {
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/login.tpl';
-           
+            $this->page->title = 'Вход на сайт';
+            $this->page->addBreadCrump('Вход на сайт');
+            
+            if ($this->user->authorized) {
+                $this->page->go('/');
+            }
+            
             if ($_POST['login'])
             {
                 if (!empty($_POST['password']))

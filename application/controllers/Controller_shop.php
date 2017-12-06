@@ -2,7 +2,8 @@
     namespace application\controllers;
     
     use \smashEngine\core\App AS App;
-    
+    use \application\models\category;
+
     use \PDO;
     use \Exception;
     use \DateTime;
@@ -19,7 +20,39 @@
                 '/public/css/p/catalog.css', 
             ));
             
-            printr($this->page->reqUrl);
+            $tree = new category;
+            
+            // корень каталога
+            if (empty($this->page->reqUrl[2])) {
+                $parent = 1;
+            } else {
+                if (!$parent = category::findNodeBySlug($this->page->reqUrl[count($this->page->reqUrl) - 1])) {
+                    $this->page404();
+                }
+            }
+            
+            // информация о текущем узле
+            $category = $tree->getNode($parent);
+            // дочерние категории текущего узла
+            $childrens = $tree->getChildren($parent);
+            // вся цепочка категорий от корня до текущего узла
+            $chain = array_slice($tree->getChain($category), 1);
+                
+            // хлебная крошка
+            $base = '/ru/shop/';
+                
+            foreach ($chain AS $c) {
+                $base .= $c['slug'] . '/';
+                $this->page->addBreadCrump($c['title'], $base);
+            }
+            
+            
+            // список товаров
+            
+            
+            $this->view->setVar('base', $base);
+            $this->view->setVar('parentCategory', $category);
+            $this->view->setVar('childrenCategorys', $childrens);
             
             $this->view->generate($this->page->index_tpl);
         }

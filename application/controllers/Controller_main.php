@@ -12,8 +12,8 @@
         public function action_index()
         {   
             $this->page->index_tpl = 'index.tpl';
-            $this->page->ogImage = mainUrl . '';
             $this->page->ogUrl = '/';
+            $this->page->title = 'Интернет-магазин одежды и украшений';
             
             if (($this->user->client->ismobiledevice == '1' && $this->user->client->istablet == 0) || $_COOKIE['MobilePageVersion']) {
                 $this->page->tpl = 'main/main.mobile.tpl';
@@ -23,6 +23,8 @@
             
             $this->page->import(array(
             ));
+            
+            
             
             $this->view->generate($this->page->index_tpl);
         }
