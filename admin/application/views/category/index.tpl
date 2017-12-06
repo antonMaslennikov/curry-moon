@@ -26,7 +26,7 @@
                 {foreach from=$tree item=node}
                 <tr>
                     <td>{$node.id}</td>
-                    <td>{str_repeat('&mdash;',$node.level)} {$node.title}</td>
+                    <td>{str_repeat('&mdash;',$node.level)} {if $node.id == 1}<a href="/admin/product/list">{else}<a href="/admin/product/list?filter[categoryfull]={$node.id}">{/if}{$node.title}</a></td>
                     <td>
                         {if $node.picture_id}
                         <img src="{$node.picture_id|pictureId2path}" style="width: 24px" />

@@ -26,7 +26,7 @@ class Controller_product extends Controller_
 			'/admin/product/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Товары',
 		]);
         
-        $this->view->setVar('products', product::getAll());
+        $this->view->setVar('products', product::getAll($_GET['filter']));
 
 		$this->render();
 	}
@@ -64,7 +64,11 @@ class Controller_product extends Controller_
                     $product->save();
                 }
                 
-				$this->page->go('/admin/product/list');
+				if (isset($_POST['apply'])) {
+                    $this->page->refresh();
+                } else {
+				    $this->page->go('/admin/product/list');
+                }
 			}
 		}
 
@@ -114,7 +118,11 @@ class Controller_product extends Controller_
                 
                 $product->save();
                 
-				$this->page->go('/admin/product/list');
+                if (isset($_POST['apply'])) {
+                    $this->page->refresh();
+                } else {
+				    $this->page->go('/admin/product/list');
+                }
 			}
 		}
 

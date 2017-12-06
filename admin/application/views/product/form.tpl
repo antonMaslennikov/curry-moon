@@ -408,6 +408,7 @@
 
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-info" name="apply">Применить</button>
                 </div>
 
             </div>

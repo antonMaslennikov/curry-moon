@@ -3,6 +3,7 @@
     
     use \smashEngine\core\App AS App;
     use \application\models\category;
+    use \application\models\product;
 
     use \PDO;
     use \Exception;
@@ -52,11 +53,14 @@
             }
             
             // список товаров
+            $onpage = 18;
             
+            $products = product::getAll(['category' => $category->id, 'status' => 'active', 'picture' => true]);
             
             $this->view->setVar('base', $base);
             $this->view->setVar('parentCategory', $category);
             $this->view->setVar('childrenCategorys', $childrens);
+            $this->view->setVar('products', $products);
             
             $this->view->generate($this->page->index_tpl);
         }

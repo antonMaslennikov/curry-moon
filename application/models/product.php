@@ -75,12 +75,53 @@ class product extends \smashEngine\core\Model {
 		return file2db($thumb_url);
 	}
     
-    public function getAll() {
+    /**
+     * Получить список товаров
+     * @param  mixed $filters массив с параметрами поиска
+     * @return array массив с товарами
+     */
+    public function getAll($filters = null) {
         
-        $sth = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE 1");
+        if ($filters['categoryfull'])
+        {
+            $cats = [$filters['categoryfull']];
+            foreach ((new category)->getAllChildren($filters['categoryfull']) AS $c) {
+                $cats[] = $c['id'];
+            }
+            
+            $aq[] = "pr.`category` IN ('" . implode("', '", $cats) . "')";
+        }
+        
+        if ($filters['category'])
+        {
+            $aq[] = "pr.`category` = '" . intval($filters['category']) . "'";
+        }
+        
+        if ($filters['status'] == 'active')
+        {
+            $aq[] = "pr.`status` = '1'";
+        }
+        
+        if ($filters['picture'])
+        {
+            $aq[] = "p.`picture_id` = pr.`picture_id`";
+            $at[] = 'pictures AS p';
+        }
+        
+        $q = "SELECT * 
+            FROM `" . self::$dbtable . "` pr" . ($at ? ', ' . implode(', ', $at) : '') . "
+            WHERE 1 " . ($aq ? ' AND ' . implode(' AND ', $aq) : '');
+        
+        //printr($q, 1);
+        
+        $sth = App::db()->prepare($q);
         
         $sth->execute();
         $rows = $sth->fetchAll();
+        
+        foreach ($rows AS $k => $p) {
+            $rows[$k]['total_price'] = round($p['product_price'] - $p['product_price'] / 100 * $p['product_discount']);
+        }
         
         return $rows;
     }
