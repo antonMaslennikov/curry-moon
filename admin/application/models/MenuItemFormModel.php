@@ -61,7 +61,7 @@ class MenuItemFormModel extends FormModel{
 
 			['menu_id', 'in', 'range'=>array_keys($this->getListMenu())],
 
-			['url', 'in', 'range'=>array_keys($this->getListRoute())],
+			['url', 'safe'],
 
 			[['title_ru', 'title_en'], 'length', 'max'=>100],
 			[['url'], 'length', 'max'=>200],
@@ -144,7 +144,6 @@ class MenuItemFormModel extends FormModel{
 		$data = parent::getDataForTemplate();
 
 		$data['listStatus'] = $this->getListStatus();
-		$data['listRoute'] = $this->getListRoute();
 		$data['listMenu'] = $this->getListMenu();
 
 		return $data;
