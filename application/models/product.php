@@ -1,6 +1,7 @@
 <?php
 
 namespace application\models;
+use admin\application\models\TagsTrait;
 use smashEngine\core\App;
 use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\Thumbnailer;
@@ -13,6 +14,8 @@ use smashEngine\core\helpers\Thumbnailer;
  */
 class product extends \smashEngine\core\Model {
 
+	const TYPE_TAGS = 'product';
+
 	/**
 	 * @var имя таблицы в БД для хранения экземпляров класса
 	 */
@@ -20,11 +23,22 @@ class product extends \smashEngine\core\Model {
     
     public static $dbtable_pictures = 'product__pictures';
 
+	use TagsTrait;
+
     public static $manufacturers = [
         0 => ['name' => 'Мы'],
         1 => ['name' => 'ZARA', 'email' => 'instyle@gavick.com'],
         2 => ['name' => 'inStyle', 'email' => ''],
     ];
+
+
+	public function addPictures($pictures) {
+
+		foreach ($pictures as $pic_id) {
+
+			$this->addPicture($pic_id);
+		}
+	}
     
     /**
      * @param int $pic_id добавить изображение для товара
@@ -64,6 +78,35 @@ class product extends \smashEngine\core\Model {
         
         return $this->info['pictures'];
     }
+
+
+	public function mainPicture($thumb_id) {
+
+		$stmt = App::db()->prepare("UPDATE `" . self::$dbtable . "` SET
+            `picture_id` = :picture WHERE id = :id LIMIT 1");
+
+		return $stmt->execute([':picture'=>(int) $thumb_id, ':id'=> (int) $this->id]);
+	}
+
+
+	public function deletePicture($thumb_id) {
+
+
+		$stmt = App::db()->prepare("SELECT orig_id FROM `" . self::$dbtable_pictures . "` WHERE product_id = :id AND thumb_id = :img LIMIT 1");
+
+		$stmt->execute([':id'=>(int) $this->id, ':img'=> (int) $thumb_id]);
+		$original = $stmt->fetch();
+
+		$stmt = App::db()->prepare("DELETE FROM `" . self::$dbtable_pictures . "` WHERE product_id = :id AND thumb_id = :img LIMIT 1");
+
+		$stmt->execute([':id'=>(int) $this->id, ':img'=> (int) $thumb_id]);
+
+		deletepicture($original['orig_id']);
+
+		deletepicture($thumb_id);
+
+		return true;
+	}
 
 
 	public function createThumb($pic_id) {

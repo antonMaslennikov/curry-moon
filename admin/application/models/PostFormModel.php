@@ -8,6 +8,7 @@
 
 namespace admin\application\models;
 
+use application\models\product;
 use smashEngine\core\App;
 use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\UploadedFile;
@@ -111,7 +112,7 @@ class PostFormModel extends FormModel {
 			$tag = trim($tag,  " \t\n\r\0\x0B,");
 			if (!isset($all_tags[$tag])) {
 
-				$this->tags[$key] = post::createTag($tag);
+				$this->tags[$key] = product::createTag($tag);
 				$this->all_tags[$key] = $tag;
 			}
 		}

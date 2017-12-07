@@ -59,7 +59,11 @@ class Controller_product extends Controller_
                 $product->save();
                 
                 if (!empty($product->picture_temp)) {
-                    $product->addPicture($product->picture_temp);
+
+	                if (count($product->picture_temp)) {
+		                $product->addPictures($product->picture_temp);
+	                }
+
                     $product->picture_id = $product->pictures[0]['thumb_id'];
                     $product->save();
                 }
@@ -74,10 +78,15 @@ class Controller_product extends Controller_
 
 		$this->view->setVar('model', $model->getDataForTemplate());
         $this->view->setVar('manufacturers', product::$manufacturers);
+
+		$this->page->import(['/public/packages/select2/css/select2.min.css']);
+		$this->page->import(['/public/packages/select2/js/select2.min.js']);
+		$this->page->import(['/public/packages/select2/js/i18n/ru.js']);
         
 		$this->render();
 	}
-    
+
+
     public function action_update() 
     {
         $product = new product($_GET['id']);
@@ -107,12 +116,12 @@ class Controller_product extends Controller_
 
 				$product->setAttributes($model->getData());
 
-                if ($product->picture_temp) {
-                    $product->addPicture($product->picture_temp);
+                if (count($product->picture_temp)) {
+                    $product->addPictures($product->picture_temp);
                 }
                 
                 // основная картинка ещё не создана, загружается первая картинка
-				if (!$product->picture_id && $product->picture_temp) {
+				if (!$product->picture_id && count($product->picture_temp)) {
 					$product->picture_id = $product->pictures[0]['thumb_id'];
 				}
                 
@@ -129,7 +138,27 @@ class Controller_product extends Controller_
 		$this->view->setVar('model', $model->getDataForTemplate());
         $this->view->setVar('manufacturers', product::$manufacturers);
         $this->view->setVar('product', $product);
+
+	    $this->page->import(['/public/packages/select2/css/select2.min.css']);
+	    $this->page->import(['/public/packages/select2/js/select2.min.js']);
+	    $this->page->import(['/public/packages/select2/js/i18n/ru.js']);
         
 		$this->render();
     }
+
+
+	public function action_mainImage() {
+
+		$thumb_img = (int) $_GET['image'];
+
+		return (new product((int) $_GET['product']))->mainPicture($thumb_img);
+	}
+
+
+	public function action_deleteImage() {
+
+		$thumb_img = (int) $_GET['image'];
+
+		return (new product((int) $_GET['product']))->deletePicture($thumb_img);
+	}
 }

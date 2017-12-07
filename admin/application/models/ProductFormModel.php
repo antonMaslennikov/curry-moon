@@ -8,6 +8,7 @@
 
 namespace admin\application\models;
 
+use application\models\product;
 use smashEngine\core\App;
 use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\UploadedFile;
@@ -28,8 +29,9 @@ class ProductFormModel extends FormModel {
 
 	private $_listCategory = null;
 
-	protected $id;
+	public $id;
     protected $old_slug;
+	protected $all_tags;
     
 	public $picture_id;
     public $picture_temp;
@@ -46,11 +48,13 @@ class ProductFormModel extends FormModel {
     public $description_long;
     public $meta_keywords;
     public $meta_description;
-	public $status;
+	public $status = 1;
     public $product_width;
     public $product_height;
     public $product_length;
     public $product_weight;
+
+	public $tags;
    
 	public function setUpdate() {
 		$this->newRecord = false;
@@ -64,18 +68,24 @@ class ProductFormModel extends FormModel {
 
 		$attributes['status'] = empty($attributes['status'])?0:1;
 
+	    unset($attributes['id']);
+
 		unset($attributes['picture']);
 
-		if (($uploadedFile = UploadedFile::getInstance($this, 'picture')) !== null) {
+	    $pictures = UploadedFile::getInstances($this, 'picture');
 
-			File::checkPath(File::uploadedPath());
+	    if (count($pictures)) {
 
-			$imgPath = File::uploadedPath() . DS. date('His_').$uploadedFile->name;
+		    File::checkPath(File::uploadedPath());
 
-			$uploadedFile->saveAs($imgPath);
+		    foreach (UploadedFile::getInstances($this, 'picture') as $instance) {
 
-			$attributes['picture_temp'] = file2db(File::getUrlForAbsolutePath($imgPath));
-		};
+			    $imgPath = File::uploadedPath() . DS. date('His_').$instance->name;
+			    $instance->saveAs($imgPath);
+
+			    $attributes['picture_temp'][] = file2db(File::getUrlForAbsolutePath($imgPath));
+			}
+	    }
 
 		return $attributes;
 	}
@@ -93,8 +103,11 @@ class ProductFormModel extends FormModel {
 	public function rules() {
 
 		return [
+			['tags', 'saveNewTags'],
+
 			[['product_name'], 'required',],
-			['status', 'required', 'requiredValue' => 'true', 'allowEmpty'=>true],
+
+			['status', 'in', 'range'=>array_keys($this->getListStatus())],
 
 			['category', 'in', 'range'=>array_keys($this->getListCategory())],
 
@@ -106,9 +119,45 @@ class ProductFormModel extends FormModel {
 			['product_name', 'length', 'max'=>255],
 
 			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
-			['newRecord', 'unsafe'],
+			['newRecord, id', 'unsafe'],
 		];
 	}
+
+	public function saveNewTags() {
+
+		$all_tags = $this->getAllTags();
+
+		foreach ($this->tags as $key=> $tag) {
+
+			$tag = trim($tag,  " \t\n\r\0\x0B,");
+			if (!isset($all_tags[$tag])) {
+
+				$this->tags[$key] = product::createTag($tag);
+				$this->all_tags[$key] = $tag;
+			}
+		}
+	}
+
+
+	protected function getListStatus() {
+
+		return [
+			1 => 'Активен',
+			0 => 'Не активен',
+		];
+	}
+
+
+	protected function getAllTags() {
+
+		if($this->all_tags === null) {
+
+			$this->all_tags = post::getAllTags();
+		}
+
+		return $this->all_tags;
+	}
+
 
 	public function uniqueSlug($attribute, $params) {
 
@@ -151,6 +200,7 @@ class ProductFormModel extends FormModel {
             'product_height' => 'Высота',
             'product_length' => 'Длина',
             'product_weight' => 'Вес',
+			'tags' => 'Теги',
 		];
 	}
 
@@ -171,6 +221,12 @@ class ProductFormModel extends FormModel {
 		$data = parent::getDataForTemplate();
 
 		$data['listCategory'] = $this->getListCategory();
+
+		$data['listStatus'] = $this->getListStatus();
+
+		$data['tags'] = ($this->newRecord)?[]:$data['tags'];
+
+		$data['listAllTags'] = $this->getAllTags();
 
 		return $data;
 	}
