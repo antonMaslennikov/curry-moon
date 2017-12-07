@@ -31,8 +31,8 @@
                         </td>
                         <td>
                         <span class="pull-right">
-                            <a href="blog/update?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить запись"><i class="fa fa-fw fa-pencil"></i></a>
-                            <a href="blog/delete?id={$record.id}" class="btn btn-danger btn-xs delete-js" title="Удалить запись"><i class="fa fa-fw fa-times"></i></a>
+                            <a href="/admin/blog/update?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить запись"><i class="fa fa-fw fa-pencil"></i></a>
+                            <a href="/admin/blog/delete?id={$record.id}" class="btn btn-danger btn-xs delete-js" title="Удалить запись"><i class="fa fa-fw fa-times"></i></a>
                         </span>
                         </td>
                     </tr>
