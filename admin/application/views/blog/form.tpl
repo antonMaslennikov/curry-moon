@@ -130,6 +130,25 @@
                                     {/if}
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.is_special)}has-error{/if}">
+                                    <label for="{$model.id.is_special}">
+                                        {$model.label.is_special}&nbsp;
+                                    </label>
+                                    <select
+                                            class="form-control"
+                                            id="{$model.id.is_special}"
+                                            name="{$model.name.is_special}">
+                                        {foreach from=$model.listSpecial item="m" key="k"}
+                                            <option value="{$k}"
+                                                    {if $k == $model.value.is_special}selected="selected"{/if}>{$m}</option>
+                                        {/foreach}
+                                    </select>
+                                    {if isset($model.error.is_special)}
+                                        <p class="help-block">{' '|implode:$model.error.is_special}</p>
+                                    {/if}
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">

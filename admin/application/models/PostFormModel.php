@@ -56,6 +56,8 @@ class PostFormModel extends FormModel {
 
 	public $tags;
 
+	public $is_special = 0;
+
 	public $lang = 'ru';
 
 	public function rules() {
@@ -66,6 +68,7 @@ class PostFormModel extends FormModel {
 			[['title', 'slug', 'publish_date'], 'required',],
 
 			['status', 'in', 'range'=>array_keys($this->getListStatus())],
+			['is_special', 'in', 'range'=>array_keys($this->getListSpecial())],
 
 			['slug', 'safe'],
 			['slug', 'uniqueSlug', 'allowEmpty'=>false],
@@ -99,6 +102,15 @@ class PostFormModel extends FormModel {
 		return [
 			1 => 'Активен',
 			0 => 'Не активен',
+		];
+	}
+
+
+	protected function getListSpecial() {
+
+		return [
+			1 => 'Акция',
+			0 => '---',
 		];
 	}
 
@@ -182,6 +194,8 @@ class PostFormModel extends FormModel {
 		$data = parent::getDataForTemplate();
 
 		$data['listStatus'] = $this->getListStatus();
+
+		$data['listSpecial'] = $this->getListSpecial();
 
 		$data['tags'] = ($this->newRecord)?[]:$data['tags'];
 
