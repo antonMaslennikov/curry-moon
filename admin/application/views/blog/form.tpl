@@ -180,8 +180,8 @@
                                     <div class="form-group">
                                         <label>Загруженное изображение</label>
                                         <p class="form-control-static">
-                                            {if $model.value.picture_id>0}
-                                                <img src="{$model.value.picture_id|pictureId2path}" style="width: 50px">
+                                            {if $model.value.image>0}
+                                                <img src="{$model.value.image|pictureId2path}" style="width: 50px">
                                             {else}
                                                 Нет изображения
                                             {/if}

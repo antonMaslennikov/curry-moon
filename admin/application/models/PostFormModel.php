@@ -9,6 +9,7 @@
 namespace admin\application\models;
 
 use smashEngine\core\App;
+use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\UploadedFile;
 use smashEngine\core\models\FormModel;
 
@@ -71,13 +72,15 @@ class PostFormModel extends FormModel {
 			['slug', 'filter', 'filter'=>'textToTranslit'],
 			['slug', 'length', 'max'=>100],
 
-			['publish_date', 'dateFormat'],
 
 			[['lang', 'image'], 'unsafe'],
 
 			['image_file', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
 
 			[['content', 'keywords', 'description'], 'safe'],
+
+			['publish_date', 'dateFormat'],
+
 		];
 	}
 
@@ -149,7 +152,7 @@ class PostFormModel extends FormModel {
 
 	public function dateFormat($attribute, $params) {
 
-		printr($this->tags);
+		if ($this->getErrorSummary()) return;
 
 		if (!$this->publish_date) return;
 
