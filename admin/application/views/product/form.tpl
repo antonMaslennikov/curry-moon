@@ -85,16 +85,22 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_sku)}has-error{/if}">
-                                    <label></label>
-
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" class="flat-red" name="{$model.name.status}"
-                                                   {if $model.value.status}checked{/if} value="true">
-                                            {$model.label.status}
-                                        </label>
-                                    </div>
+                                <div class="form-group {if isset($model.error.status)}has-error{/if}">
+                                    <label for="{$model.id.status}">
+                                        {$model.label.status}
+                                    </label>
+                                    <select
+                                            class="form-control"
+                                            id="{$model.id.status}"
+                                            name="{$model.name.status}">
+                                        {foreach from=$model.listStatus item="m" key="k"}
+                                            <option value="{$k}"
+                                                    {if $k == $model.value.status}selected="selected"{/if}>{$m}</option>
+                                        {/foreach}
+                                    </select>
+                                    {if isset($model.error.status)}
+                                        <p class="help-block">{' '|implode:$model.error.status}</p>
+                                    {/if}
                                 </div>
                             </div>
                         </div>
@@ -119,9 +125,6 @@
                                     {/if}
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group {if isset($model.error.manufacturer)}has-error{/if}">
                                     <label for="{$model.id.manufacturer}">
@@ -158,6 +161,26 @@
                                     {/if}
                                 </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.tags)}has-error{/if}">
+                                    <label for="{$model.id.tags}">
+                                        {$model.label.tags}
+                                    </label>
+                                    <select
+                                            multiple="multiple"
+                                            class="form-control select2-tags"
+                                            id="{$model.id.tags}"
+                                            name="{$model.name.tags}[]">
+                                        {foreach from=$model.listAllTags item="m" key="k"}
+                                            <option value="{$k}"
+                                                    {if in_array($k, $model.value.tags)}selected="selected"{/if}>{$m}</option>
+                                        {/foreach}
+                                    </select>
+                                    {if isset($model.error.tags)}
+                                        <p class="help-block">{' '|implode:$model.error.tags}</p>
+                                    {/if}
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -182,7 +205,7 @@
                     <div class="tab-pane" id="tab2">
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="form-group {if isset($model.error.picture)}has-error{/if}">
                                     <label for="{$model.id.picture}">
                                         {$model.label.picture}
@@ -190,7 +213,9 @@
                                     <input
                                             type="file"
                                             id="{$model.id.picture}"
-                                            name="{$model.name.picture}"
+                                            name="{$model.name.picture}[]"
+                                            multiple
+                                            accept="image/jpeg,image/png,image/jpg,image/gif"
                                             value="">
                                     {if isset($model.error.picture)}
                                         <p class="help-block">{' '|implode:$model.error.picture}</p>
@@ -200,23 +225,32 @@
 
                         {if (!$model.value.newRecord)}
 
-                             <div class="col-sm-6">
+                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <label>Загруженные изображение</label>
-                                    <p class="form-control-static">
-                                    
                                     {if $product->pictures|count > 0}
+                                        <div class="row pictures" style="padding: 0;">
                                         {foreach from=$product->pictures item="p"}
-                                        <a href="{$p.orig_path}" target="blank">
-                                            <img src="{$p.thumb_path}" style="max-height: 100px; margin-right:10px;border:1px solid #ccc;border-radius:3px;{if $p.thumb_id == $model.value.picture_id}border-color:red{/if}">
-                                        </a>
+                                        <div class="col-sm-4 picture_img">
+                                        <p class="text-center"><a href="{$p.orig_path}" target="blank">
+                                            <img src="{$p.thumb_path}" style="max-height: 150px; margin-right:10px;border:1px solid #ccc;border-radius:3px;{if $p.thumb_id == $model.value.picture_id}border-color:red{/if}">
+                                        </a></p>
+                                        <p class="text-center" style="min-height: 24px">
+                                            <span class="img-buttons" {if $p.thumb_id == $model.value.picture_id}style="display:none"{/if}>
+                                            <a href="javascript:void(0)" class="btn btn-xs btn-success main-img-js" data-product="{$model.value.id}" data-img="{$p.thumb_id}" title="Сделать главной"><i class="fa fa-fw fa-toggle-on"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-xs btn-danger delete-img-js" data-product="{$model.value.id}" data-img="{$p.thumb_id}" title="Удалить изображение"><i class="fa fa-fw fa-times"></i></a>
+                                            </span>
+                                        </p>
+                                        </div>
                                         {/foreach}
+                                        </div>
                                     {else}
-                                        Нет изображений
+                                        <p class="form-control-static">Нет изображений</p>
                                     {/if}
+
                                 </div>
                              </div>
-                            {/if}
+                        {/if}
                         </div>
                     </div>
 
@@ -465,6 +499,46 @@
             targetField.on('change', function () {
                 editable = $(this).val().length == 0;
             });
+
+            $(".select2-tags").select2({
+                tags: true
+            });
+
+            $('.main-img-js').on('click', function() {
+
+                var img_id = $(this).data('img'),
+                    product_id = $(this).data('product'),
+                    actionUrl = "/admin/product/mainImage?",
+                    link = $(this);
+
+                $.get(actionUrl, {"product": product_id, "image": img_id }, function (r) {
+
+                    link.parents('div.pictures').find('div.picture_img img').css({"border":'none'});
+                    link.parents('div.pictures').find('span.img-buttons').show();
+
+                    link.parents('div.picture_img').find('img').css({"border":"1px solid red"});
+                    link.parents('div.picture_img').find('span.img-buttons').hide();
+                });
+
+
+            });
+
+            $('.delete-img-js').on('click', function() {
+
+                var img_id = $(this).data('img'),
+                    product_id = $(this).data('product'),
+                    actionUrl = "/admin/product/deleteImage?",
+                    link = $(this);
+
+                if (!confirm("Вы действительно желаете удалить изображение?")) return false;
+
+                $.get(actionUrl, {"product": product_id, "image": img_id }, function (r) {
+
+                    link.parents('div.picture_img').remove();
+                });
+
+
+            })
         })
     }(window.jQuery)
 </script>

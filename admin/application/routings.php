@@ -31,6 +31,18 @@
 		        'action'=> 'Controller_product:action_index',
 		        'schemas' => 'GET'
 	        ],
+
+	        'product_main_img' => [
+		        'pattern'=>'/admin/product/mainImage',
+		        'action'=> 'Controller_product:action_mainImage',
+		        'schemas' => 'GET'
+	        ],
+
+	        'product_delete_img' => [
+		        'pattern'=>'/admin/product/deleteImage',
+		        'action'=> 'Controller_product:action_deleteImage',
+		        'schemas' => 'GET'
+	        ],
             
             'product_create' => [
 		        'pattern'=>'/admin/product/create',

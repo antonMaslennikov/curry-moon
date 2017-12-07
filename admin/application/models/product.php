@@ -9,6 +9,4 @@ use smashEngine\core\App;
  *
  * @property int $id ID
  */
-class product extends \application\models\product {
-    
-}
+class product extends \application\models\product {}
