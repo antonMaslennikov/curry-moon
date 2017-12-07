@@ -331,7 +331,7 @@ SELECT *
 FROM {$this->tableName()}
 ORDER BY lft
 EOD;
-
+printr($sql);
 		$stmt = App::db()->prepare($sql);
 		$stmt->execute();
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);

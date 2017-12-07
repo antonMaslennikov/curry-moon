@@ -83,17 +83,27 @@
             // список товаров
             $onpage = 18;
             
+            $trans_id = uniqid();
+            
             $products = product::getAll([
                 'category' => $category->id, 
                 'status' => 'active', 
                 'picture' => true,
                 'limit' => $onpage,
-            ]);
+                'offset' => intval($_GET['limitstart']),
+            ], $trans_id);
+            
+            $total = $_SESSION['pages_total_' . $trans_id];
+            unset($_SESSION['pages_total_' . $trans_id]);
             
             $this->view->setVar('base', $base);
             $this->view->setVar('parentCategory', $category);
             $this->view->setVar('childrenCategorys', $childrens);
             $this->view->setVar('products', $products);
+            
+            $this->view->setVar('pages', range(1, ceil($total / $onpage)));
+            $this->view->setVar('page', $_GET['limitstart'] / $onpage + 1);
+            $this->view->setVar('onpage', $onpage);
             
             $this->view->generate($this->page->index_tpl);
         }
@@ -103,6 +113,47 @@
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'shop/product.tpl';
             $this->page->sidebar_tpl = 'shop/product.sidebar.tpl';
+            
+            if (!$this->product) {
+                $this->page404();
+            }
+            
+            $product = new product($this->product);
+            
+            $this->page->title = $product->product_name;
+            
+            if (!$categorys = App::memcache()->get('shop-categorys'))
+            {
+                $categorys = [];
+
+                function buildTreeWithLinks($item, $link, &$categorys)
+                {
+                    $item['link'] = $link . '/' . $item['slug'];
+
+                    array_push($categorys, $item);
+
+                    $childrens = (new category)->getChildren($item['id']);
+
+                    if (count($childrens) > 0) {
+                        foreach ($childrens AS $c) {
+                            buildTreeWithLinks($c, $item['link'], $categorys);
+                        }
+                    } else {
+                        return true;
+                    }
+                }
+
+                foreach ((new category)->getChildren(1) AS $c)
+                {
+                    buildTreeWithLinks($c, '', $categorys);
+                }
+               
+                App::memcache()->set('shop-categorys', $categorys, false, 24 * 3600);
+            }
+            
+            
+            $this->view->setVar('product', $product);
+            $this->view->setVar('categorys', $categorys);
             
             $this->view->generate($this->page->index_tpl);
         }

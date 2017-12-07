@@ -26,6 +26,13 @@ class product extends \smashEngine\core\Model {
         2 => ['name' => 'inStyle', 'email' => ''],
     ];
     
+    public function __construct($id)
+    {
+        parent::__construct($id);
+        
+        $this->total_price = round($this->product_price - $this->product_price / 100 * $this->product_discount);
+    }
+    
     /**
      * @param int $pic_id добавить изображение для товара
      */
@@ -78,9 +85,10 @@ class product extends \smashEngine\core\Model {
     /**
      * Получить список товаров
      * @param  mixed $filters массив с параметрами поиска
+     * @param  string $trans_id номер транзакции, чтобы запросы разных пользвателей не пересекались                                            
      * @return array массив с товарами
      */
-    public function getAll($filters = null) {
+    public function getAll($filters = null, $trans_id = null) {
         
         if ($filters['categoryfull'])
         {
@@ -108,7 +116,7 @@ class product extends \smashEngine\core\Model {
             $at[] = 'pictures AS p';
         }
         
-        $q = "SELECT * 
+        $q = "SELECT SQL_CALC_FOUND_ROWS * 
             FROM `" . self::$dbtable . "` pr" . ($at ? ', ' . implode(', ', $at) : '') . "
             WHERE 1 " . ($aq ? ' AND ' . implode(' AND ', $aq) : '');
         
@@ -126,6 +134,10 @@ class product extends \smashEngine\core\Model {
         $sth = App::db()->prepare($q);
         
         $sth->execute();
+        
+        $foo = App::db()->query("SELECT FOUND_ROWS() AS s")->fetch();
+        $_SESSION['pages_total_' . $trans_id] = $foo['s'];
+        
         $rows = $sth->fetchAll();
         
         foreach ($rows AS $k => $p) {

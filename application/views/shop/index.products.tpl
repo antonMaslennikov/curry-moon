@@ -26,7 +26,33 @@
         <div class="clear"></div>
     </div>
 
+    {if $pages|count > 1}
     <div class="pagination"> 
-        <nav class="pagination"><ul><li class="pagination-start"><a title="В начало" href="/ru/shop/jewellery/silver?limitstart=0" class="pagenav">В начало</a></li><li class="pagination-prev"><a title="Назад" href="/ru/shop/jewellery/silver?limitstart=0" class="pagenav">Назад</a></li><li><a title="1" href="/ru/shop/jewellery/silver?limitstart=0" class="pagenav">1</a></li><li><span class="pagenav">2</span></li><li class="pagination-next"><span class="pagenav">Вперёд</span></li><li class="pagination-end"><span class="pagenav">В конец</span></li><li class="counter">Страница 2 из 2</li></ul></nav> 
+        <nav class="pagination">
+            <ul>
+                {if $page > 1}
+                    <li class="pagination-start"><a title="В начало" href="{$base}" class="pagenav">В начало</a></li>
+                    <li class="pagination-prev"><a title="Назад" href="{$base}{if $page > 2}?limitstart={$page - 1}{/if}" class="pagenav">Назад</a></li>
+                {/if}
+                
+                {foreach from=$pages item="p"}
+                <li>
+                   {if $page == $p}
+                       <span class="pagenav">{$p}</span>
+                   {else}
+                       <a title="{$page}" href="{$base}{if $p > 1}?limitstart={($p - 1) * $onpage}{/if}" class="pagenav">{$p}</a>
+                   {/if}
+                </li>
+                {/foreach}
+                
+                {if $page < $pages|count}
+                    <li class="pagination-next"><a href="{$base}?limitstart={$page + 1}" title="Вперёд" class="pagenav">Вперёд</a></li>
+                    <li class="pagination-end"><a href="{$base}?limitstart={$pages|count}" title="Вперёд" class="pagenav">В конец</a></li>
+                {/if}
+                
+                <li class="counter">Страница {$page} из {$pages|count}</li>
+            </ul>
+        </nav> 
     </div>
+    {/if}
 {/if}
