@@ -259,7 +259,7 @@
     <div id="gkPageContent">
         <div class="gkPage">
             <section id="gkContent">					
-                <div id="gkContentWrap" class="gkSidebarLeft">
+                <div id="gkContentWrap" {if $PAGE->sidebar_tpl}class="gkSidebarLeft"{/if}>
                    
                     {if $PAGE->breadcrump|count > 0}
                     <section id="gkBreadcrumb">
@@ -294,6 +294,10 @@
                         Не указан шаблон страницы
                     {/if}
                 </div>
+            
+                {if $PAGE->sidebar_tpl}
+                    {include file=$PAGE->sidebar_tpl}
+                {/if}
             </section>
         </div>
     </div>

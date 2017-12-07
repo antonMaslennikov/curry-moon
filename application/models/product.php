@@ -135,5 +135,11 @@ class product extends \smashEngine\core\Model {
         return $rows;
     }
     
-    
+    public function getBySlugPlus($slug)
+    {
+        $sth = App::db()->prepare("SELECT `id` FROM `" . self::$dbtable . "` WHERE CONCAT_WS('-', `slug`, `product_sku`) = ? LIMIT 1");
+        $sth->execute([$slug]);
+        $foo = $sth->fetch();
+        return $foo['id'];
+    }
 }

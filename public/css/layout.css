@@ -114,11 +114,13 @@ aside#gkSidebar {
 }
 #gkContentWrap.gkSidebarLeft {
 	float: right;
+    width:72%;
 }
 #gkContentWrap.gkSidebarLeft + #gkSidebar {
 	float: left;
 	padding-left: 0;
 	padding-right: 62px;
+    width:28%;
 }
 .itemBody {
 	float: left;
