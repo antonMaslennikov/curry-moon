@@ -55,6 +55,12 @@
 		        'action'=> 'Controller_product:action_update',
 		        'schemas' => 'GET|POST'
 	        ],
+
+	        'product_delete' =>[
+		        'pattern'=>'/admin/product/delete',
+		        'action'=> 'Controller_product:action_delete',
+		        'schemas' => 'GET'
+	        ],
             
             
 	        'category_list' => [

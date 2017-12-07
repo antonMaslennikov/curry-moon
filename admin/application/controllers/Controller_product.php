@@ -147,6 +147,21 @@ class Controller_product extends Controller_
     }
 
 
+	public function action_delete() {
+
+		$product = new product((int) $_GET['id']);
+
+		if ($product->delete()) {
+
+			$this->page->go('/admin/product/list');
+		} else {
+
+			throw new Exception('Неизвестная ошибка');
+		}
+	}
+
+
+
 	public function action_mainImage() {
 
 		$thumb_img = (int) $_GET['image'];

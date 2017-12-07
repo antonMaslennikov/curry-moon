@@ -219,6 +219,8 @@
                                             value="">
                                     {if isset($model.error.picture)}
                                         <p class="help-block">{' '|implode:$model.error.picture}</p>
+                                    {else}
+                                        <p class="help-block">Одновременно можно загрузить не более 5 изображений</p>
                                     {/if}
                                 </div>
                             </div>
@@ -237,9 +239,9 @@
                                         </a></p>
                                         <p class="text-center" style="min-height: 24px">
                                             <span class="img-buttons" {if $p.thumb_id == $model.value.picture_id}style="display:none"{/if}>
-                                            <a href="javascript:void(0)" class="btn btn-xs btn-success main-img-js" data-product="{$model.value.id}" data-img="{$p.thumb_id}" title="Сделать главной"><i class="fa fa-fw fa-toggle-on"></i></a>
-                                            <a href="javascript:void(0)" class="btn btn-xs btn-danger delete-img-js" data-product="{$model.value.id}" data-img="{$p.thumb_id}" title="Удалить изображение"><i class="fa fa-fw fa-times"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-xs btn-success main-img-js" data-product="{$model.value.id}" data-img="{$p.thumb_id}" title="Сделать главной"><i class="fa fa-fw fa-check"></i></a>
                                             </span>
+                                            <a href="javascript:void(0)" class="btn btn-xs btn-danger delete-img-js" data-product="{$model.value.id}" data-img="{$p.thumb_id}" title="Удалить изображение"><i class="fa fa-fw fa-times"></i></a>
                                         </p>
                                         </div>
                                         {/foreach}

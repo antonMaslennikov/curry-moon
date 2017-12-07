@@ -118,7 +118,7 @@ class ProductFormModel extends FormModel {
 
 			['product_name', 'length', 'max'=>255],
 
-			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true],
+			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true, 'maxFiles'=>5],
 			['newRecord, id', 'unsafe'],
 		];
 	}
