@@ -80,6 +80,18 @@ class product extends \smashEngine\core\Model {
     }
 
 
+	public function delete() {
+
+		$this->deletePictures();
+
+		parent::delete();
+
+		self::deleteTags($this->id);
+
+		return true;
+	}
+
+
 	public function mainPicture($thumb_id) {
 
 		$stmt = App::db()->prepare("UPDATE `" . self::$dbtable . "` SET
@@ -89,8 +101,21 @@ class product extends \smashEngine\core\Model {
 	}
 
 
-	public function deletePicture($thumb_id) {
+	public function deletePictures() {
 
+		$stmt = App::db()->prepare("SELECT thumb_id FROM `" . self::$dbtable_pictures . "` WHERE product_id = :id");
+
+		$stmt->execute([':id'=>(int) $this->id]);
+		$pictures = $stmt->fetchAll();
+
+		foreach ($pictures as $pict) {
+
+			$this->deletePicture($pict['thumb_id']);
+		}
+	}
+
+
+	public function deletePicture($thumb_id) {
 
 		$stmt = App::db()->prepare("SELECT orig_id FROM `" . self::$dbtable_pictures . "` WHERE product_id = :id AND thumb_id = :img LIMIT 1");
 
@@ -104,6 +129,13 @@ class product extends \smashEngine\core\Model {
 		deletepicture($original['orig_id']);
 
 		deletepicture($thumb_id);
+
+		if ($this->picture_id == $thumb_id) {
+
+			$stmt = App::db()->prepare("UPDATE `" . self::$dbtable . "` SET picture_id = 0  WHERE id = :id LIMIT 1");
+
+			$stmt->execute([':id'=>(int) $this->id]);
+		}
 
 		return true;
 	}
