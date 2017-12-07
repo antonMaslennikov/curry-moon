@@ -11,6 +11,7 @@
 
             <table class="table table-hover">
                 <tbody><tr>
+                    <th></th>
                     <th>Дата публикации</th>
                     <th>Заголовок</th>
                     <th>URL</th>
@@ -19,6 +20,7 @@
                 </tr>
                 {foreach from=$post item=record}
                     <tr>
+                        <td>{if $record.is_special}<span class="label label-primary">Акция</span>{/if}</td>
                         <td>{$record.publish_date}</td>
                         <td>{$record.title}</td>
                         <td>{$record.slug}</td>
