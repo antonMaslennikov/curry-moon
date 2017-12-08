@@ -122,6 +122,16 @@
             
             $this->page->title = $product->product_name;
             
+            $this->page->addBreadCrump($product->product_name);
+            
+            $this->page->import([
+                '/public/js/fancybox/jquery.fancybox-1.3.4.css', 
+                '/public/js/fancybox/jquery.fancybox-1.3.4.pack.js',
+                '/public/js/facebox/facebox.css', 
+                '/public/js/facebox/facebox.js',
+            ]);
+            
+            
             if (!$categorys = App::memcache()->get('shop-categorys'))
             {
                 $categorys = [];

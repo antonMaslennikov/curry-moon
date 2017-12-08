@@ -5,7 +5,7 @@
             <ul class="menu">
 
                 {foreach from=$categorys item="c"}
-                <li>
+                <li {if $c.id == $product->category}class="active"{/if}>
                     <div>
                         <a href="/ru/shop{$c.link}">{$c.title}</a>
                     </div>

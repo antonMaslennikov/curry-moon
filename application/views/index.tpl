@@ -40,14 +40,6 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans+Condensed:300&subset=latin,cyrillic" rel="stylesheet" type="text/css" />
     <link href="/public/css/module_default.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/facebox.css?vmver=a30bd70d" rel="stylesheet" type="text/css" />
-
-    {foreach $PAGE->js item="path" name="jsforeach"}
-        <script type='text/javascript' src="{$path}"></script>
-    {/foreach}
-    
-    {foreach $PAGE->css item="path" name="cssforeach"}
-         <link href="{$path}" rel="stylesheet" type="text/css" />
-    {/foreach}
    
     {literal}
     <style type="text/css">
@@ -135,12 +127,21 @@
     <script src="/public/js/gk.menu.js" type="text/javascript"></script>
     <script src="/public/js/fitvids.jquery.js" type="text/javascript"></script>
     <!--[if lt IE 9]><script src="/public/js/polyfill.event.js" type="text/javascript"></script><![endif]-->
-    <script src="/public/js/keepalive.js" type="text/javascript"></script>
     <script src="/public/js/acymailing_module.js" type="text/javascript"></script>
     <script src="/public/js/gk_shop_and_buy/engine.js" type="text/javascript"></script>
-
+    
+    {/literal}
+   
+    {foreach $PAGE->js item="path" name="jsforeach"}
+        <script type='text/javascript' src="{$path}"></script>
+    {/foreach}
+    
+    {foreach $PAGE->css item="path" name="cssforeach"}
+         <link href="{$path}" rel="stylesheet" type="text/css" />
+    {/foreach}
+   
     <script type="text/javascript">
-        {/literal}
+        
         {if $appMode == 'production'}
         {literal}
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -256,7 +256,7 @@
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
-                    <a href="/admin/page" class="btn btn-default">Отмена</a>
+                    <a href="/admin/blog/list" class="btn btn-default">Отмена</a>
                 </div>
 
         </form>

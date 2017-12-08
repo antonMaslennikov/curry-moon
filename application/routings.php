@@ -15,6 +15,18 @@
 	            'url' => '/',
             ],
             
+            'cart-add' => [
+                'pattern' => '/cart/add', 
+                'action' => 'Controller_cart:action_add', 
+                'schemas' => 'GET|POST',
+            ],
+            
+            'cart' => [
+                'pattern' => '/(ru|en)/cart', 
+                'action' => 'Controller_cart:action_index', 
+                'schemas' => 'GET|POST',
+            ],
+            
             'login' => [
                 'pattern' => '/(ru|en)/users/login', 
                 'action' => 'Controller_users:action_login', 

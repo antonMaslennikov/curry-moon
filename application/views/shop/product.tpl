@@ -46,13 +46,12 @@
 
                             {if $product->quantity > 0}
                                 <div class="addtocart-area">
-                                    <form method="post" class="product js-recalculate" action="#">
-                                        <input name="quantity" type="hidden" value="1">
-
+                                    <form method="post" class="product js-recalculate" id="add2cartForm" action="/cart/add">
+                                        
                                         <div class="addtocart-bar">
                                             <label for="quantity389" class="quantity_box">Кол-во: </label>
                                             <span class="quantity-box">
-                                                <input type="text" class="quantity-input js-recalculate" name="quantity[]" value="1" init="1" step="1">
+                                                <input type="text" class="quantity-input js-recalculate" name="quantity" value="1" maxlength="3" init="1" data-avalible="{$product->quantity}" step="1">
                                             </span>
                                             <span class="quantity-controls js-recalculate">
                                                 <input type="button" value="+" class="quantity-controls quantity-plus">
@@ -64,10 +63,8 @@
                                             </span>
                                             <noscript>&lt;input type="hidden" name="task" value="add"/&gt;</noscript> 			
                                         </div>
-                                        <input type="hidden" name="option" value="com_virtuemart">
-                                        <input type="hidden" name="view" value="cart">
-                                        <input type="hidden" name="virtuemart_product_id[]" value="389">
-                                        <input type="hidden" class="pname" value="Cеребряное кольцо с лунным камнем">
+                                        <input type="hidden" name="product_id" value="{$product->id}">
+                                        <input type="hidden" class="pname" value="{$product->product_name}">
                                     </form>
                                 </div>
                                 <div class="availability 2">Товар в наличии</div>
@@ -125,73 +122,97 @@
                 <h4>Сопутствующие товары</h4>
 
                 <div class="product-field product-field-type-R"> 
-                    <span class="product-field-display"><div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product"><span itemprop="name"><a href="/ru/shop/jewellery/silver/klassicheskoe-koltco-iz-serebra-s-lunnym-kamnem-sr006" title="Классическое кольцо из серебра с лунным камнем" itemprop="url"><img src="/images/shop/product/resized/silver-ring-moon-stone_250x325.gif" alt="serebryanoe-kolco-s-lunnim-kamnem"> Классическое кольцо из серебра с лунным камнем</a></span></div></span>
+                    <span class="product-field-display">
+                        <div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product">
+                            <span itemprop="name">
+                                <a href="/ru/shop/jewellery/silver/klassicheskoe-koltco-iz-serebra-s-lunnym-kamnem-sr006" title="Классическое кольцо из серебра с лунным камнем" itemprop="url">
+                                    <img src="/images/shop/product/resized/silver-ring-moon-stone_250x325.gif" alt="serebryanoe-kolco-s-lunnim-kamnem"> Классическое кольцо из серебра с лунным камнем
+                                </a>
+                            </span>
+                        </div>
+                    </span>
                 </div>
-                <div class="product-field product-field-type-R"> 
-                </div>
-                <div class="product-field product-field-type-R"> 
-                    <span class="product-field-display"><div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product"><span itemprop="name"><a href="/ru/shop/jewellery/silver/serebrianoe-koltco-s-labradorom-sr024" title="Серебряное кольцо с лабрадором" itemprop="url"><img src="/images/shop/product/resized/silver-ring-labrador3_250x325.gif" alt="kolco-serebro-labrador"> Серебряное кольцо с лабрадором</a></span></div></span>
-                </div>
-                <div class="product-field product-field-type-R"> 
-                    <span class="product-field-display"><div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product"><span itemprop="name"><a href="/ru/shop/jewellery/silver/koltco-s-gornym-khrustalem-v-serebre-sr065" title="Кольцо с горным хрусталем в серебре" itemprop="url"><img src="/images/shop/product/resized/26_250x325.jpg" alt="serebryanoe-kolco-s-hrustalem"> Кольцо с горным хрусталем в серебре</a></span></div></span>
-                </div>
+                
             </div>
 
             <script id="popups_js" type="text/javascript">//<![CDATA[ 
-                jQuery(document).ready(function($) {
-
-                $('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
-                event.preventDefault();
-                $.facebox({
-                ajax: $(this).attr('href'),
-                rev: 'iframe|550|550'
-                });
-                });
-
-                }); //]]>
-            </script>
-
-            <script id="imagepopup_js" type="text/javascript">//<![CDATA[ 
+                
                 jQuery("a[rel=vm-additional-images]").fancybox({
-                "titlePosition" 	: "inside",
-                "transitionIn"	:	"elastic",
-                "transitionOut"	:	"elastic"
+                    "titlePosition" 	: "inside",
+                    "transitionIn"	:	"elastic",
+                    "transitionOut"	:	"elastic"
                 });
+                
                 jQuery(".additional-images a.product-image.image-0").removeAttr("rel");
                 jQuery(".additional-images img.product-image").click(function() {
-                jQuery(".additional-images a.product-image").attr("rel","vm-additional-images" );
-                jQuery(this).parent().children("a.product-image").removeAttr("rel");
-                var src = jQuery(this).next("a.product-image").attr("href");
-                jQuery(".main-image img").attr("src",src);
-                jQuery(".main-image img").attr("alt",this.alt );
-                jQuery(".main-image a").attr("href",src );
-                jQuery(".main-image a").attr("title",this.alt );
-                jQuery(".main-image .vm-img-desc").html(this.alt);
+                    jQuery(".additional-images a.product-image").attr("rel","vm-additional-images" );
+                    jQuery(this).parent().children("a.product-image").removeAttr("rel");
+                    var src = jQuery(this).next("a.product-image").attr("href");
+                    jQuery(".main-image img").attr("src",src);
+                    jQuery(".main-image img").attr("alt",this.alt );
+                    jQuery(".main-image a").attr("href",src );
+                    jQuery(".main-image a").attr("title",this.alt );
+                    jQuery(".main-image .vm-img-desc").html(this.alt);
                 }); 
-            </script>
-            <script id="gk-vm-addons_js" type="text/javascript">//<![CDATA[ 
+            
                 jQuery(document).ready(function() {
-                var tabs = jQuery('#product-tabs');
-                // if tabs exists
-                if(tabs.length) {
-                // initialization
-                tabs.find('li').first().addClass('active');
-                var contents = jQuery('#product-tabs-content');
-                contents.children('div').css('display', 'none');
-                contents.first('div').addClass('active');
-                // add events to the tabs
-                tabs.find('li').each(function(i, tab) {
-                tab = jQuery(tab);
-                tab.click(function() {
-                var toggle = tab.attr('data-toggle');
-                contents.children('div').removeClass('active');
-                contents.find('.' + toggle).addClass('active');
-                tabs.find('li').removeClass('active');
-                tab.addClass('active');		
-                });
-                });
-                }
-                }); //]]>
+                    
+                    jQuery('a.ask-a-question, a.printModal, a.recommened-to-friend, a.manuModal').click(function(event){
+                        event.preventDefault();
+                        jQuery.facebox({
+                            ajax: $(this).attr('href'),
+                            rev: 'iframe|550|550'
+                        });
+                    });
+                    
+                    var tabs = jQuery('#product-tabs');
+                    // if tabs exists
+                    if(tabs.length) {
+                        // initialization
+                        tabs.find('li').first().addClass('active');
+                        var contents = jQuery('#product-tabs-content');
+                        contents.children('div').css('display', 'none');
+                        contents.first('div').addClass('active');
+                        // add events to the tabs
+                        tabs.find('li').each(function(i, tab) {
+                            tab = jQuery(tab);
+                            tab.click(function() {
+                                var toggle = tab.attr('data-toggle');
+                                contents.children('div').removeClass('active');
+                                contents.find('.' + toggle).addClass('active');
+                                tabs.find('li').removeClass('active');
+                                tab.addClass('active');		
+                            });
+                        });
+                    }
+                    
+                    jQuery('.addtocart-button').click(function() {
+                    
+                        var f = jQuery('#add2cartForm');
+                        var q = f.find('input[name=quantity]').val();
+                        
+                        if (q.length == 0) {
+                            alert('Укажите количество'); return false;
+                        }
+                        
+                        if (q > f.find('input[name=quantity]').data('avalible')) {
+                            alert('Максимально доступно к заказу ' + f.find('input').data('avalible') + ' шт.'); return false;
+                        }
+                        
+                        jQuery.post(f.attr('action'), f.serialize(), function(r) {
+                            
+                            r = jQuery.parseJSON(r);
+                            
+                            jQuery.facebox(r.message);
+                        });
+                        
+                        return false;
+                        
+                    });
+
+                }); 
+                
+                //]]>
             </script>
         </div><!-- .productDetails -->
     </div>
