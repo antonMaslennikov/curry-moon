@@ -75,6 +75,3 @@
 }(window.jQuery)
 </script>
 {/literal}
-{if $smarty.const.appMode eq 'dev'}
-    <pre>{$tree|print_r}</pre>
-{/if}

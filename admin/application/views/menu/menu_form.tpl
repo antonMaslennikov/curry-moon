@@ -119,11 +119,6 @@
         </form>
     </div>
 </div>
-
-{if $smarty.const.appMode eq 'dev'}
-    <pre>{$model|print_r}</pre>
-{/if}
-
 {literal}
 <script type="text/javascript">
     !function ($) {
