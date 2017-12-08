@@ -42,7 +42,7 @@
                     <div class="TopPhone uk-hidden-small"><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:+79164162063">+7 (916) 416-20-63</a><br/><i class="fa fa-whatsapp" aria-hidden="true"></i> <a href="tel:+79859740837">+7 (985) 974-08-37</a></div>
 
                     <ul class="menu">
-                        <li class="item-1064"><a href="/ru/shop/cart" class="gk-cart uk-width-1-1"><img src="/public/images/icons/cart16.png" alt="Корзина" /><span class="image-title">Корзина</span></a></li>
+                        <li class="item-1064"><a href="/ru/cart" class="gk-cart uk-width-1-1"><img src="/public/images/icons/cart16.png" alt="Корзина" /><span class="image-title">Корзина</span></a></li>
                     </ul>
                 </div>
 
@@ -51,7 +51,7 @@
                     <div class="uk-margin-small-top">&nbsp;</div>
 
                     <ul class="menu">
-                        <li class="item-1064"><a href="/ru/shop/cart" class="gk-cart uk-width-1-1"><img src="/public/images/icons/cart16.png" alt="Корзина" /><span class="image-title">Корзина</span></a></li>
+                        <li class="item-1064"><a href="/ru/cart" class="gk-cart uk-width-1-1"><img src="/public/images/icons/cart16.png" alt="Корзина" /><span class="image-title">Корзина</span></a></li>
                     </ul>
 
                 </div>

@@ -25,6 +25,18 @@
             $this->view->generate($this->page->index_tpl);
         }
         
+        public function action_quick()
+        {
+            $this->page->tpl = 'cart/quick.tpl';
+            $this->view->generate($this->page->tpl);
+        }
+        
+        public function action_products()
+        {
+            exit((string) 999);
+        }
+        
+        
         /**
          * Добавить в корзину
          */
@@ -45,6 +57,19 @@
                     }
                     
                     $product = new product($_POST['product_id']);
+                    
+                    if ($product['quantity'] <= 0) {
+                        throw new appException('Данный товар закончился на складе');
+                    }
+                    
+                    if ($product['status'] <= 0) {
+                        throw new appException('Данный товар не доступен к продаже');
+                    }
+                    
+                    if ($product['quantity'] < $_POST['quantity']) {
+                        throw new appException('Для заказа доступно только ' . $_POST['quantity'] . ' шт.');
+                    }
+                    
                     
                     $item = new basketItem;
                     

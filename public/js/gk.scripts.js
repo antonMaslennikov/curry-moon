@@ -197,7 +197,7 @@ jQuery(window).load( function() {
 			                
 			                if(!wait) {
 			                        jQuery.ajax({
-			                                url: $GK_URL + 'index.php?tmpl=cart',
+			                                url: '/ru/cart/quick',
 			                                beforeSend: function() {
 			                                        btn.addClass('loading');
 			                                        wait = true;
@@ -232,7 +232,7 @@ jQuery(window).load( function() {
                     	counter.appendTo(btn);
     	                var gkCartDataRequest = function() {
     	                    jQuery.ajax({
-    	                        url: $GK_URL + 'index.php?tmpl=json',
+    	                        url: '/cart/products',
     	                        success: function(data) {
     	                            document.getElementById('gkCartCounter').innerHTML = '(' + data + ')';     
     	                        }

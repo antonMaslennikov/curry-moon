@@ -27,6 +27,19 @@
                 'schemas' => 'GET|POST',
             ],
             
+            'cart-quick' => [
+                'pattern' => '/(ru|en)/cart/quick', 
+                'action' => 'Controller_cart:action_quick', 
+                'schemas' => 'GET',
+            ],
+            
+            'cart-products' => [
+                'pattern' => '/cart/products', 
+                'action' => 'Controller_cart:action_products', 
+                'schemas' => 'GET',
+            ],
+            
+            
             'login' => [
                 'pattern' => '/(ru|en)/users/login', 
                 'action' => 'Controller_users:action_login', 
