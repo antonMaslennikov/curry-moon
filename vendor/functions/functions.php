@@ -776,7 +776,7 @@
     
     function setVariableValue ($name, $value)
     {
-        global $memcache;
+        //global $memcache;
         
         $sth = App::db()->prepare("INSERT INTO `variables` SET 
                     `variable_name` = :name, 
@@ -790,7 +790,7 @@
         ));  
         
         // сбрасываем кэш 
-        $memcache->delete('VARS');
+        //$memcache->delete('VARS');
     }
     
     function bool2text($input)
@@ -1693,8 +1693,8 @@
     
     function usdRateDaily() 
     {
-        if (!$dollar = App::memcache()->get('dollarDaily' . NOWDATE)) 
-        {
+        //if (!$dollar = App::memcache()->get('dollarDaily' . NOWDATE)) 
+        //{
             $xml = simplexml_load_file('http://www.cbr.ru/scripts/XML_daily.asp');
         
             if ($xml) 
@@ -1707,12 +1707,12 @@
                 }
             }
             
-            if (!empty($dollar))
-                App::memcache()->set('dollarDaily' . NOWDATE, $dollar, false, 3600 * 25);
-            else {
-                $dollar = App::memcache()->get('dollarDaily' . date('Y-m-d', time() - 3600 * 24));
-            }
-        }
+            //if (!empty($dollar))
+               // App::memcache()->set('dollarDaily' . NOWDATE, $dollar, false, 3600 * 25);
+            //else {
+                //$dollar = App::memcache()->get('dollarDaily' . date('Y-m-d', time() - 3600 * 24));
+            //}
+       // }
         
         return $dollar;
     }

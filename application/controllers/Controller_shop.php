@@ -132,8 +132,8 @@
             ]);
             
             
-            if (!$categorys = App::memcache()->get('shop-categorys'))
-            {
+            //if (!$categorys = App::memcache()->get('shop-categorys'))
+            //{
                 $categorys = [];
 
                 function buildTreeWithLinks($item, $link, &$categorys)
@@ -158,8 +158,8 @@
                     buildTreeWithLinks($c, '', $categorys);
                 }
                
-                App::memcache()->set('shop-categorys', $categorys, false, 24 * 3600);
-            }
+                //App::memcache()->set('shop-categorys', $categorys, false, 24 * 3600);
+            //}
             
             
             $this->view->setVar('product', $product);

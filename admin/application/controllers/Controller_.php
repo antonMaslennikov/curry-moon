@@ -19,13 +19,13 @@ class Controller_ extends \smashEngine\core\Controller
 		$this->user = \application\models\user::load();
 
 		// кэшируем переменные
-		if (!$this->VARS = App::memcache()->get('VARS')) {
+		//if (!$this->VARS = App::memcache()->get('VARS')) {
 			$sth = App::db()->query("SELECT `variable_name`, `variable_value` FROM `variables`");
 			foreach ($sth->fetchAll() AS $v) {
 				$this->VARS[$v['variable_name']] = $v['variable_value'];
 			}
-			App::memcache()->set('VARS', $this->VARS, false, 7200);
-		}
+			//App::memcache()->set('VARS', $this->VARS, false, 7200);
+		//}
 
 		// получаем курс доллара
 		$this->VARS['usdRate'] = usdRateDaily();

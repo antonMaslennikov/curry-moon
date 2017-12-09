@@ -6,7 +6,7 @@
     use \PDO;
     use \Exception; 
 
-class Picture { 
+class picture { 
 
 	public $id;					// id картинки
 	public $path;				// относительный путь до картинки

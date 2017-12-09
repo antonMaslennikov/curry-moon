@@ -89,7 +89,7 @@
         
         public function action_logout()
         {
-            App::memcache()->delete('user' . $this->user->id);
+            //App::memcache()->delete('user' . $this->user->id);
     
             $this->user->setSessionValue(['user_id' => -1, 'session_logged' => 0]);
             
