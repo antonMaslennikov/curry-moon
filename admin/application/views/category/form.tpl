@@ -226,10 +226,6 @@
     </div>
 </div>
 
-{if $smarty.const.appMode eq 'dev'}
-    <pre>{$model|print_r}</pre>
-{/if}
-
 {literal}
     <script src="/public/packages/tinymce/tinymce.min.js"></script>
     <script type="text/javascript">
