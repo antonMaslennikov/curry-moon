@@ -28,16 +28,21 @@
         {
             parent::__construct($router);
             
-            $this->getTree();
-            
-            if ($this->product = product::getBySlugPlus($this->page->reqUrl[count($this->page->reqUrl) - 1])) {
-                $this->action_view();
+            if (in_array($this->page->reqUrl['2'], ['openproduct'])) {
+                
+            } else {
+                $this->getTree();
+
+                if ($this->product = product::getBySlugPlus($this->page->reqUrl[count($this->page->reqUrl) - 1])) {
+                    $this->action_view();
+                }
             }
         }
                                     
                                     
         public function action_index()
         {
+            exit('heeeloo');
             if ($this->product) {
                 return;
             }
@@ -166,5 +171,17 @@
             $this->view->setVar('categorys', $categorys);
             
             $this->view->generate($this->page->index_tpl);
+        }
+    
+        public function action_openproduct()
+        {
+            if ($this->page->reqUrl[3]) 
+            {
+                $product = new product($this->page->reqUrl[3]);
+                
+                $product->getCategorysChain();
+            }
+            
+            
         }
     }

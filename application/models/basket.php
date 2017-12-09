@@ -1059,13 +1059,16 @@
                                 ubg.`user_basket_good_total_price` tp, 
                                 ubg.`user_basket_good_comment` AS c,
                                 ubg.`user_basket_good_time`,
-                                g.`product_name`
+                                g.`product_name`,
+                                p.`picture_path`
                               FROM 
                                 `" . basketItem::$dbtable . "` ubg,
-                                `" . product::$dbtable . "` g 
+                                `" . product::$dbtable . "` g ,
+                                `" . picture::$dbtable . "` p
                               WHERE 
                                     ubg.`user_basket_id` = :id
                                 AND ubg.`good_id` = g.`id`
+                                AND g.`picture_id` = p.`picture_id`
                               GROUP BY 
                                 ubg.`id`");
             
@@ -1123,22 +1126,20 @@
             return $tw;
         }
         
-        function plusOne($gid, $sid, $q = 1)
+        function plusOne($gid, $q = 1)
         {
-            $foo = App::db()->query("SELECT (gs.`good_stock_quantity` - gs.`good_stock_inprogress_quantity`) AS q FROM `good_stock` AS gs WHERE gs.`good_stock_id` = '" . intval($sid) . "'")->fetch();
-            
-            $available = $foo['q'];
+            $available = App::db()->query("SELECT `quantity` AS q FROM `" . product::$dbtable . "` WHERE `id` = '" . intval($gid) . "' LIMIT 1")->fetch();
             
             foreach ($this->basketGoods as $posk => $pos) {
-                if ($pos['good_id'] == $gid && $pos['good_stock_id'] == $sid) {
+                if ($pos['good_id'] == $gid) {
                     $reservedtome = $pos['quantity'];
                     break;
                 }
             }
             
-            if ($q > $available - $reservedtome)
+            if ($q > $available['q'] - $reservedtome)
             {
-                $msg = "error: Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.";
+                throw new appException("Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.");
             } 
             else
             {
@@ -1149,69 +1150,66 @@
                                   WHERE 
                                         `user_basket_id` = :bid
                                     AND `good_id` = :gid
-                                    AND `good_stock_id` = :sid
                                   LIMIT 1");
 
                 $sth->execute(array(
                     'q' => $q,
                     'bid' => $this->id,
-                    'gid' => $gid,
-                    'sid' => $sid,
+                    'gid' => $gid
                 ));
                                   
                 unset($this->basketGoods);
-                                  
-                $msg = "ok: " . $this->getBasketSum();
             }
-            
-            return $msg;
         }
 
         /**
          * Увеличить количество товара в корзине
          */
-        function chQuanity($gid, $sid, $q = 1)
+        function chQuanity($gid, $q = 1)
         {
-            $foo = App::db()->query("SELECT (gs.`good_stock_quantity` - gs.`good_stock_inprogress_quantity`) AS q FROM `good_stock` AS gs WHERE gs.`good_stock_id` = '" . intval($sid) . "'")->fetch();
+            if (!is_numeric($q) || $q < 0) {
+                throw new appException('Указано некорректное количество');
+            }
             
-            $available = $foo['q'];
-            
-            foreach ($this->basketGoods as $posk => $pos) {
-                if ($pos['good_id'] == $gid && $pos['good_stock_id'] == $sid) {
+            foreach ($this->basketGoods as $posk => $pos) 
+            {
+                if ($pos['good_id'] == $gid) 
+                {
                     $reservedtome = $pos['quantity'];
+                    
+                    $available = App::db()->query("SELECT `quantity` AS q FROM `" . product::$dbtable . "` WHERE `id` = '" . intval($gid) . "' LIMIT 1")->fetch();
+                    
+                    if ($q > $available['q'] - $reservedtome)
+                    {
+                        throw new appException("Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.");
+                    } 
+                    else
+                    {
+                        $sth = App::db()->prepare("UPDATE 
+                                            `" . basketItem::$dbtable . "` 
+                                          SET 
+                                            `user_basket_good_quantity` = :q,
+                                            `user_basket_good_total_price` = :tp
+                                          WHERE 
+                                                `user_basket_id` = :bid
+                                            AND `good_id` = :gid
+                                          LIMIT 1");
+
+                        $sth->execute(array(
+                            'q' => $q,
+                            'bid' => $this->id,
+                            'gid' => $gid,
+                            'tp' => $pos['price'] * (1 - $pos['discount'] / 100) * $q,
+                        ));
+
+                        unset($this->basketGoods);
+                    }
+                    
                     break;
                 }
             }
             
-            if ($q > $available - $reservedtome)
-            {
-                $msg = "error: Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.";
-            } 
-            else
-            {
-                $sth = App::db()->prepare("UPDATE 
-                                    `" . basketItem::$dbtable . "` 
-                                  SET 
-                                    `user_basket_good_quantity` = :q
-                                  WHERE 
-                                        `user_basket_id` = :bid
-                                    AND `good_id` = :gid
-                                    AND `good_stock_id` = :sid
-                                  LIMIT 1");
-                                  
-                $sth->execute(array(
-                    'q' => $q,
-                    'bid' => $this->id,
-                    'gid' => $gid,
-                    'sid' => $sid,
-                ));
-                                  
-                unset($this->basketGoods);
-                                  
-                $msg = "ok: " . $this->getBasketSum();
-            }
             
-            return $msg;
         }
                 
         /**
@@ -1357,18 +1355,12 @@
          * @param object $good_id
          * @param object $good_stock_id
          */
-        function removeGood($good_id, $good_stock_id, $q = 1) {
+        function removeGood($good_id) {
             
             foreach ($this->basketGoods as $pos) {
-                if ($pos['good_id'] == $good_id && $pos['good_stock_id'] == $good_stock_id) {
-                    $reservedtome = $pos['quantity'];
+                if ($pos['good_id'] == $good_id) {
+                    App::db()->query("DELETE FROM `" . basketItem::$dbtable . "` WHERE `user_basket_id` = '" . $this->id . "' AND `good_id` = '" . intval($good_id) . "' LIMIT 1");
                 }
-            }
-            
-            if ($q >= $reservedtome) {
-                App::db()->query("DELETE FROM `" . basketItem::$dbtable . "` WHERE `user_basket_id` = '" . $this->id . "' AND `good_id` = '" . intval($good_id) . "' AND `good_stock_id` = '" . intval($good_stock_id) . "' AND `gift_id` = '0' LIMIT 1");
-            } else {
-                App::db()->query("UPDATE `" . basketItem::$dbtable . "` SET `user_basket_good_quantity` = `user_basket_good_quantity` - 1 WHERE `user_basket_id` = '" . $this->id . "' AND `good_id` = '" . intval($good_id) . "' AND `good_stock_id` = '" . intval($good_stock_id) . "' LIMIT 1");
             }
         }
         

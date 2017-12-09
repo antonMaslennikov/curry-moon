@@ -20,7 +20,7 @@
             $this->page->tpl = 'cart/index.tpl';
             $this->page->title = 'Корзина';
             
-            
+            $this->page->import(['/public/css/onepage.css']);
             
             $this->view->generate($this->page->index_tpl);
         }
@@ -107,5 +107,47 @@
                 $this->page->index_tpl = 'index.tpl';
                 $this->view->generate($this->page->index_tpl);
             }
+        }
+        
+        /**
+         * Удалить позицию из корзины
+         */
+        public function action_delete()
+        {
+            try
+            {
+                $this->basket->removeGood($_GET['product_id']);
+            }
+            catch (appException $e)
+            {
+                $this->page->setFlashMessage($e->getMessage());
+            }
+            
+            $this->page->refresh();
+        }
+        
+        /**
+         * Изменить количество позиции в корзине
+         */
+        public function action_updatecart()
+        {
+            try
+            {
+                $this->basket->chQuanity($_POST['product_id'], $_POST['quantity']);
+            }
+            catch (appException $e)
+            {
+                $this->page->setFlashMessage($e->getMessage());
+            }
+            
+            $this->page->refresh();
+        }
+        
+        /**
+         * Активировать купон
+         */
+        public function action_setcoupon()
+        {
+            printr($_POST);
         }
     }

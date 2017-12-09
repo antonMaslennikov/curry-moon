@@ -229,4 +229,13 @@ class product extends \smashEngine\core\Model {
         $foo = $sth->fetch();
         return $foo['id'];
     }
+    
+    public function getCategorysChain()
+    {
+        $cat = new \admin\application\models\category;
+        printr($cat);
+        $chain = $cat->getChain($this->category);
+        
+        printr($chain);
+    }
 }
