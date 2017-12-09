@@ -33,7 +33,7 @@
         
         public function action_products()
         {
-            exit((string) 999);
+            exit((string) $this->basket->getGoodsCount());
         }
         
         
@@ -58,23 +58,27 @@
                     
                     $product = new product($_POST['product_id']);
                     
-                    if ($product['quantity'] <= 0) {
+                    if ($product->quantity <= 0) {
                         throw new appException('Данный товар закончился на складе');
                     }
                     
-                    if ($product['status'] <= 0) {
+                    if ($product->status <= 0) {
                         throw new appException('Данный товар не доступен к продаже');
                     }
                     
-                    if ($product['quantity'] < $_POST['quantity']) {
-                        throw new appException('Для заказа доступно только ' . $_POST['quantity'] . ' шт.');
+                    if ($product->quantity < $_POST['quantity']) {
+                        throw new appException('Для заказа доступно только ' . $product->quantity . ' шт.');
                     }
                     
                     
                     $item = new basketItem;
                     
+                    $item->good_id = $product->id;
+                    $item->price = $product->product_price;
+                    $item->discount = $product->product_discount;
+                    $item->quantity = (int) $_POST['quantity'];
                     
-                    //$this->basket->addToBasket($item);
+                    $this->basket->addToBasket($item);
                     
                     $status = 'ok';
                 }

@@ -1,4 +1,4 @@
-DirectoryIndex index2.php index.html
+DirectoryIndex index.php index.html
 
 ErrorDocument 403 /403/
 ErrorDocument 404 /404/
