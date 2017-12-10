@@ -4,6 +4,7 @@
         <div class="box-header">
             <h3 class="box-title">Список</h3>
             <div class="box-tools">
+                <a href="employees" class="btn btn-warning btn-sm">Сотрудники</a>
                 <a href="create" class="btn btn-success btn-sm">Добавить пользователя</a>
             </div>
         </div>
@@ -21,10 +22,10 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <th><input type="text" name="search[user_login]" class="form-control input-sm input-search" value="{$users.search.user_login}"></th>
-                    <th><input type="text" name="search[user_name]" class="form-control input-sm input-search" value="{$users.search.user_name}"></th>
-                    <th><input type="text" name="search[user_email]" class="form-control input-sm input-search" value="{$users.search.user_email}"></th>
-                    <th><input type="text" name="search[user_phone]" class="form-control input-sm input-search" value="{$users.search.user_phone}"></th>
+                    <th><input type="text" name="search[user_login]" class="form-control input-sm" value="{$users.search.user_login}"></th>
+                    <th><input type="text" name="search[user_name]" class="form-control input-sm" value="{$users.search.user_name}"></th>
+                    <th><input type="text" name="search[user_email]" class="form-control input-sm" value="{$users.search.user_email}"></th>
+                    <th><input type="text" name="search[user_phone]" class="form-control input-sm" value="{$users.search.user_phone}"></th>
                     <th colspan="3">
                         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-search"></i>&nbsp;Поиск</button>&nbsp;
                         <a href="list" class="btn btn-default btn-sm">Очистить</a>

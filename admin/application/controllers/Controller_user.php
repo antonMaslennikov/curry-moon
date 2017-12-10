@@ -9,6 +9,8 @@
 namespace admin\application\controllers;
 
 use admin\application\models\user;
+use admin\application\models\UserFormModel;
+use smashEngine\core\helpers\Html;
 
 class Controller_user extends Controller_ {
 
@@ -24,6 +26,57 @@ class Controller_user extends Controller_ {
 		]);
 
 		$this->view->setVar('users', (new user())->getList());
+
+		$this->render();
+	}
+
+
+	public function action_create() {
+
+
+	}
+
+
+	public function action_update() {
+
+		$user = new user((int) $_GET['id']);
+
+		$this->setTemplate('user/form.tpl');
+		$this->setTitle(sprintf('Изменение пользователя "%s"', $user->user_name));
+
+		$this->setBreadCrumbs([
+			'/admin/user/list'=>'<i class="fa fa-fw fa-users"></i> Пользователи',
+		]);
+
+		$model = new UserFormModel();
+		$model->setAttributes($user->info, false);
+		$model->setUpdate();
+
+		$postModel = Html::modelName($model);
+
+		if (isset($_POST[$postModel])) {
+
+			$model->setAttributes($_POST[$postModel]);
+
+			if ($model->validate()) {
+
+				printr($model->getData(), 1);
+
+				if ($status) {
+
+					if (isset($_POST['apply'])) {
+
+						$this->page->go('/admin/product_category/update?id='.$category->id);
+					} else {
+
+						$this->page->go('/admin/product_category/list');
+					}
+				}
+			}
+		}
+
+		$this->view->setVar('model', $model->getDataForTemplate());
+		$this->view->setVar('button', 'Изменить');
 
 		$this->render();
 	}

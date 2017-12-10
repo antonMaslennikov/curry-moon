@@ -69,12 +69,14 @@ class Controller_blog extends Controller_ {
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Создать');
 
-		$this->page->import(['/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css']);
-		$this->page->import(['/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js']);
-		$this->page->import(['/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js']);
-		$this->page->import(['/public/packages/select2/css/select2.min.css']);
-		$this->page->import(['/public/packages/select2/js/select2.min.js']);
-		$this->page->import(['/public/packages/select2/js/i18n/ru.js']);
+		$this->page->import([
+			'/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css',
+			'/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js',
+			'/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js',
+			'/public/packages/select2/css/select2.min.css',
+			'/public/packages/select2/js/select2.min.js',
+			'/public/packages/select2/js/i18n/ru.js'
+		]);
 
 		$this->render();
 	}
@@ -134,12 +136,14 @@ class Controller_blog extends Controller_ {
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Изменить');
 
-		$this->page->import(['/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css']);
-		$this->page->import(['/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js']);
-		$this->page->import(['/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js']);
-		$this->page->import(['/public/packages/select2/css/select2.min.css']);
-		$this->page->import(['/public/packages/select2/js/select2.min.js']);
-		$this->page->import(['/public/packages/select2/js/i18n/ru.js']);
+		$this->page->import([
+			'/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css',
+			'/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js',
+			'/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js',
+			'/public/packages/select2/css/select2.min.css',
+			'/public/packages/select2/js/select2.min.js',
+			'/public/packages/select2/js/i18n/ru.js'
+		]);
 
 		$this->render();
 	}
