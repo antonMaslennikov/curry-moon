@@ -25,9 +25,10 @@
                     <th><input type="text" name="search[user_name]" class="form-control input-sm input-search" value="{$users.search.user_name}"></th>
                     <th><input type="text" name="search[user_email]" class="form-control input-sm input-search" value="{$users.search.user_email}"></th>
                     <th><input type="text" name="search[user_phone]" class="form-control input-sm input-search" value="{$users.search.user_phone}"></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th colspan="3">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-search"></i>&nbsp;Поиск</button>&nbsp;
+                        <a href="list" class="btn btn-default btn-sm">Очистить</a>
+                    </th>
                 </tr>
                 {foreach from=$users.data item=record}
                     <tr>
