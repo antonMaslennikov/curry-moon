@@ -42,6 +42,7 @@ abstract class Validator
 	    'in'=>'\smashEngine\core\validators\RangeValidator',
 	    'file'=>'\smashEngine\core\validators\FileValidator',
 	    'boolean'=>'\smashEngine\core\validators\BooleanValidator',
+        'lat'=>'\smashEngine\core\validators\LatValidator',
 
 	    /*
 	?'match'=>'RegularExpressionValidator',

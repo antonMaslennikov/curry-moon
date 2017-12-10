@@ -233,9 +233,9 @@ class product extends \smashEngine\core\Model {
     public function getCategorysChain()
     {
         $cat = new \admin\application\models\category;
-        printr($cat);
-        $chain = $cat->getChain($this->category);
         
-        printr($chain);
+        $chain = $cat->getChain($cat->getNode($this->category));
+        array_shift($chain);
+        return $chain;
     }
 }

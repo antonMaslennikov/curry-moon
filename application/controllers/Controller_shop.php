@@ -42,7 +42,6 @@
                                     
         public function action_index()
         {
-            exit('heeeloo');
             if ($this->product) {
                 return;
             }
@@ -127,6 +126,13 @@
             
             $this->page->title = $product->product_name;
             
+            $base = '/ru/shop';
+            
+            foreach ($product->getCategorysChain() AS $c) {
+                $base .= '/' . $c['slug'];
+                $this->page->addBreadCrump($c['title'], $base);
+            }
+            
             $this->page->addBreadCrump($product->product_name);
             
             $this->page->import([
@@ -179,9 +185,12 @@
             {
                 $product = new product($this->page->reqUrl[3]);
                 
-                $product->getCategorysChain();
+                foreach ($product->getCategorysChain() AS $c) {
+                    $chain[] = $c['slug'];
+                }
+                $chain[] = $product->slug . '-'. $product->product_sku;
             }
             
-            
+            $this->page->go('/ru/shop/' . implode('/', $chain), 301);
         }
     }

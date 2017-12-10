@@ -188,5 +188,30 @@
 		        'action'=> 'Controller_blog:action_delete',
 		        'schemas' => 'GET'
 	        ],
+            
+            
+            'settings_list'=>[
+		        'pattern'=>'/admin/settings(/list)?',
+		        'action'=> 'Controller_settings:action_index',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'settings_create'=>[
+		        'pattern'=>'/admin/settings/create',
+		        'action'=> 'Controller_settings:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'settings_update'=>[
+		        'pattern'=>'/admin/settings/update',
+		        'action'=> 'Controller_settings:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'settings_delete'=>[
+		        'pattern'=>'/admin/settings/delete',
+		        'action'=> 'Controller_settings:action_delete',
+		        'schemas' => 'GET'
+	        ],
         ];
     }

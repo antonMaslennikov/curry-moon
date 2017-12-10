@@ -109,7 +109,7 @@
                             {foreach from=$products item="p"}
                             <div class="box banner gkmod-4">
                                 <div class="spacer">
-                                    <a href="#" title="{$p.product_name}">
+                                    <a href="/ru/shop/openproduct/{$p.id}" title="{$p.product_name}">
                                         <img src="{$p.picture_path}" alt="{$p.slug}" class="featuredProductImage" border="0" />
                                     </a>
                                     <div class="clear"></div>					
