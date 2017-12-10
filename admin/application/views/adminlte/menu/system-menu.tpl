@@ -28,7 +28,7 @@
         </a>
         <ul class="dropdown-menu messages-menu">
             <li class="nav-header"><a href="#">ПОЛЬЗОВАТЕЛИ</a></li>
-            <li><a tabindex="-1" href="/admin/user"><i class="fa fa-fw fa-list-alt"></i> Список</a></li>
+            <li><a tabindex="-1" href="/admin/user/list"><i class="fa fa-fw fa-list-alt"></i> Список</a></li>
             <li><a tabindex="-1" href="/admin/user/create"><i class="fa fa-fw fa-user-plus"></i> Добавить пользователя</a></li>
         </ul>
     </li>

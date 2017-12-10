@@ -55,7 +55,7 @@ class user extends Model {
 
 		$sql = $this->createQuery(isset($_GET['search'])?$_GET['search']:null);
 
-		$smt = App::db()->prepare(str_replace('{select}', 'count(id) as c', $sql));
+		$smt = App::db()->prepare(str_replace('{select}', 'count(*) as c', $sql));
 		$smt->execute($this->bind_array);
 
 		$total = $smt->fetch();

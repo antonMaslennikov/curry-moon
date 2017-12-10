@@ -121,7 +121,7 @@ class Pagination
 			'pageVar'=>$this->pageVar,
 			'pageSize'=>$this->getPageSize(),
 			'itemCount'=>$this->getItemCount(),
-			'currentPage'=>$this->getCurrentPage(),
+			'currentPage'=>$this->getCurrentPage()+1,
 			'pageCount'=>$this->getPageCount(),
 			'offset'=>$this->getOffset(),
 			'limit'=>$this->getLimit(),

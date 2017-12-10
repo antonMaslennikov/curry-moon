@@ -59,6 +59,9 @@
                             <option value="100">100</option>
                         </select> записей</label>
                 </div>
+                <div class="col-sm-6">
+                    {include file='../adminlte/paginator.tpl' pagination=$users.page}
+                </div>
             </div>
         </div>
     </div>

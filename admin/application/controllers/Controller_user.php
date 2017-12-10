@@ -24,6 +24,7 @@ class Controller_user extends Controller_ {
 		]);
 
 		$this->view->setVar('users', (new user())->getList());
+		$this->view->setVar('getArray', $_GET);
 
 		$this->render();
 	}
