@@ -236,5 +236,30 @@
 		        'action'=> 'Controller_settings:action_delete',
 		        'schemas' => 'GET',
 	        ],
+            
+            
+            'coupon_list'=>[
+		        'pattern'=>'/admin/coupon(/list)?',
+		        'action'=> 'Controller_coupon:action_index',
+		        'schemas' => 'GET'
+	        ],
+
+	        'coupon_create'=>[
+		        'pattern'=>'/admin/coupon/create',
+		        'action'=> 'Controller_coupon:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'coupon_update'=>[
+		        'pattern'=>'/admin/coupon/update',
+		        'action'=> 'Controller_coupon:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'coupon_delete'=>[
+		        'pattern'=>'/admin/coupon/delete',
+		        'action'=> 'Controller_coupon:action_delete',
+		        'schemas' => 'GET',
+	        ],
         ];
     }

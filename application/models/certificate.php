@@ -2,21 +2,20 @@
 
     namespace application\models;
     
-    use \application\core\App AS App; 
+    use \smashEngine\core\App AS App; 
     use \smashEngine\core\exception\appException;
 
     use \PDO;
     use \Exception;
 
-    class certificate extends \application\core\Model
+    class certificate extends \smashEngine\core\Model
     {
         public $id   = 0;
         public $info = array();
         
         public static $types = array(
-            'amount'  => array('title' => 'Бонусы'),
             'percent' => array('title' => 'Процент'),
-            'gift'    => array('title' => 'подарок'),
+            'amount'  => array('title' => 'Сумма'),
         );
         
         /**
@@ -43,7 +42,7 @@
             {
                 $r = App::db()->query(sprintf("SELECT c.*
                           FROM `" . self::$dbtable . "` c
-                          WHERE c.`certification_id` = '%d'
+                          WHERE c.`id` = '%d'
                           LIMIT 1", $this->id));
                 
                 if ($r->rowCount() == 1) 
@@ -69,7 +68,7 @@
         {
             if (!empty($code))
             {
-                $r = App::db()->query(sprintf("SELECT c.`certification_id`
+                $r = App::db()->query(sprintf("SELECT c.`id`
                           FROM `" . self::$dbtable . "` c
                           WHERE c.`certification_password` = '%s'
                           LIMIT 1", addslashes(trim($code))));
@@ -80,7 +79,7 @@
                     return new self($row['certification_id']);
                 } 
                 else 
-                    throw new Exception ('Сертификат с кодом "' . $code . '" не найден');
+                    throw new appException ('Сертификат с кодом "' . $code . '" не найден');
             }
         }
         
@@ -91,7 +90,7 @@
         public static function findAll($params)
         {
             $sth = App::db()->query("SELECT * 
-                              FROM  `certifications` c
+                              FROM  `" . self::$dbtable . "` c
                               WHERE 
                                 1
                                 "
@@ -122,7 +121,7 @@
          */
         public function delete()
         {
-             App::db()->query("DELETE FROM  `certifications` WHERE `certification_id` = '" . $this->id . "' LIMIT 1");
+             App::db()->query("DELETE FROM  `" . self::$dbtable . "` WHERE `id` = '" . $this->id . "' LIMIT 1");
         }
         
         /**
@@ -148,7 +147,7 @@
             // редактирование
             if (!empty($this->id))
             {
-                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `certification_id` = '%d' LIMIT 1", self::$dbtable, implode(',', $rows), $this->id));
+                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", self::$dbtable, implode(',', $rows), $this->id));
             }
             // создание
             else
