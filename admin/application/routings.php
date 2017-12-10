@@ -188,5 +188,29 @@
 		        'action'=> 'Controller_blog:action_delete',
 		        'schemas' => 'GET'
 	        ],
+
+	        'user_list'=>[
+		        'pattern'=>'/admin/user/list',
+		        'action'=> 'Controller_user:action_index',
+		        'schemas' => 'GET'
+	        ],
+
+	        'user_create'=>[
+		        'pattern'=>'/admin/user/create',
+		        'action'=> 'Controller_user:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'user_update'=>[
+		        'pattern'=>'/admin/user/update',
+		        'action'=> 'Controller_user:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'user_delete'=>[
+		        'pattern'=>'/admin/user/delete',
+		        'action'=> 'Controller_user:action_delete',
+		        'schemas' => 'GET'
+	        ],
         ];
     }
