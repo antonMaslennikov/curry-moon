@@ -1,5 +1,6 @@
 <div class="col-xs-12">
     <div class="box">
+    <form class="search" method="get" action="{currenturl page=0}">
         <div class="box-header">
             <h3 class="box-title">Список</h3>
             <div class="box-tools">
@@ -20,10 +21,10 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th><input type="text" name="search[user_login]" class="form-control input-sm input-search" value="{$users.search.user_login}"></th>
+                    <th><input type="text" name="search[user_name]" class="form-control input-sm input-search" value="{$users.search.user_name}"></th>
+                    <th><input type="text" name="search[user_email]" class="form-control input-sm input-search" value="{$users.search.user_email}"></th>
+                    <th><input type="text" name="search[user_phone]" class="form-control input-sm input-search" value="{$users.search.user_phone}"></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -36,7 +37,7 @@
                         <td>{$record.user_phone}</td>
                         <td>{$record.user_status}</td>
                         <td>{$record.user_activation}</td>
-                        <td>
+                        <td class="col-sm-1">
                         <span class="pull-right">
                             <a href="update?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить запись"><i class="fa fa-fw fa-pencil"></i></a>
                             <a href="delete?id={$record.id}" class="btn btn-danger btn-xs delete-js" title="Удалить запись"><i class="fa fa-fw fa-times"></i></a>
@@ -47,16 +48,16 @@
                 </tbody>
             </table>
         </div>
+
         <!-- /.box-body -->
         <div class="box-footer">
             <div class="row">
                 <div class="col-sm-3">Показаны {$users.page.offset+1} - {$users.page.offset + count($users.data)} из {$users.page.itemCount}</div>
                 <div class="col-sm-3">
-                    <label>Показать <select name="pageSize" class="page-size input-sm">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
+                    <label>Показать <select name="pageSize" class="input-search input-sm">
+                    {foreach from=$users.page.pageSizeList item=option}
+                            <option {if $option==$users.page.pageSize}selected{/if} value="{$option}">{$option}</option>
+                    {/foreach}
                         </select> записей</label>
                 </div>
                 <div class="col-sm-6">
@@ -64,6 +65,7 @@
                 </div>
             </div>
         </div>
+    </form>
     </div>
     <!-- /.box -->
 </div>
@@ -81,6 +83,11 @@
                     }
 
                     return true;
+                })
+
+                $('div.box').on('change', '.input-search', function() {
+
+                    $('form.search').submit();
                 })
             })
         }(window.jQuery)

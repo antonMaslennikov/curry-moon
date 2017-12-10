@@ -15,13 +15,36 @@ class Pagination
 
 	private $_currentPage;
 
+	private $_pageSizeList = [10,25,50,100];
+
+	public function setPageSizeList($pageSizeList) {
+
+		if (is_array($pageSizeList)) {
+
+			$this->_pageSizeList = $pageSizeList;
+		}
+	}
+
+	public function getPageSizeList() {
+
+		return $this->_pageSizeList;
+	}
+
 	/**
 	 * Constructor.
 	 * @param integer $itemCount total number of items.
 	 */
-	public function __construct($itemCount=0, $pageSize = self::DEFAULT_PAGE_SIZE)
+	public function __construct($itemCount=0, $pageSize = 0)
 	{
 		$this->setItemCount($itemCount);
+
+		if ($pageSize) {
+
+			$_SESSION['pageSize'] = $pageSize;
+		} else {
+
+			$pageSize = isset($_SESSION['pageSize'])?$_SESSION['pageSize']:self::DEFAULT_PAGE_SIZE;
+		}
 
 		$this->setPageSize($pageSize);
 	}
@@ -91,7 +114,7 @@ class Pagination
 
 	public function applyLimit()
 	{
-		return 'LIMIT '.$this->getOffset().', '.$this->getLimit();
+		return ' LIMIT '.$this->getOffset().', '.$this->getLimit();
 	}
 
 	/**
@@ -125,7 +148,7 @@ class Pagination
 			'pageCount'=>$this->getPageCount(),
 			'offset'=>$this->getOffset(),
 			'limit'=>$this->getLimit(),
-
+			'pageSizeList'=>$this->getPageSizeList(),
 		];
 	}
 }

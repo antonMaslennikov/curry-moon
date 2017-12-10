@@ -19,7 +19,7 @@ class user extends Model {
 
 	protected $pagination = 0;
 
-	protected $query_template = 'SELECT {select} FROM {table} {where}';
+	protected $query_template = 'SELECT {select} FROM {table} {where} ORDER BY user_name ASC';
 
 	protected $bind_array = null;
 
@@ -38,7 +38,7 @@ class user extends Model {
 		'user_register_date'=> false,
 		'user_ip'=> 'ip2long',
 		'user_url'=> false,
-		'user_picture'=> intaval,
+		'user_picture'=> 'intval',
 		'user_description'=> false,
 		'user_status'=> false,
 		'user_last_login'=> false,
@@ -61,7 +61,7 @@ class user extends Model {
 		$total = $smt->fetch();
 		$total = $total['c'];
 
-		$this->pagination = new Pagination($total, isset($_GET['pageSize']));
+		$this->pagination = new Pagination($total, isset($_GET['pageSize'])?$_GET['pageSize']:0);
 
 		$sql .= $this->pagination->applyLimit();
 
@@ -69,7 +69,7 @@ class user extends Model {
 
 		$stmt = App::db()->prepare($sql);
 
-		$stmt->execute();
+		$stmt->execute($this->bind_array);
 		$temp = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$data = [];
@@ -89,22 +89,25 @@ class user extends Model {
 	protected function createQuery($search = null) {
 
 		$query = str_replace('{table}', self::db(), $this->query_template);
+		$where = [];
+		$array = [];
 
 		if (is_array($search)) {
 
-			$where = [];
-			$array = [];
-			foreach ($where as $param => $value) {
+			foreach ($search as $param => $value) {
+
+				if (!$value) continue;
 
 				if (isset($this->modified_data[$param])) {
 
-					$where[] = $this->modified_data[$param]===false
-									?sprintf('`%s` LIKE :%s', $param)
-									:sprintf('`%s` = :%s', $param);
+					$where[] = ($this->modified_data[$param]===false)
+									?sprintf('`%s` LIKE :%s', $param, $param)
+									:sprintf('`%s` = :%s', $param, $param);
 
 					$array[':'.$param] = $this->modified_data[$param]===false
 											?'%'.$value.'%'
 											:call_user_func($this->modified_data[$param], $value);
+
 
 					$this->search[$param]=$value;
 				}
@@ -115,6 +118,7 @@ class user extends Model {
 
 			$query = str_replace('{where}', 'WHERE ' . implode(' AND ', $where), $query);
 			$this->bind_array = $array;
+
 		} else {
 
 			$query = str_replace('{where}', '', $query);
