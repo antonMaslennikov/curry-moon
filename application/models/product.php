@@ -70,8 +70,8 @@ class product extends \smashEngine\core\Model {
         $sth = App::db()->prepare("SELECT p.*, p1.`picture_path` AS orig_path, p1.`picture_path` AS thumb_path 
                 FROM 
                     `" . self::$dbtable_pictures . "` p, 
-                    `" . Picture::$dbtable . "` p1, 
-                    `" . Picture::$dbtable . "` p2 
+                    `" . picture::$dbtable . "` p1, 
+                    `" . picture::$dbtable . "` p2 
                 WHERE
                     p.`product_id` = ? 
                     AND p.`orig_id` = p1.`picture_id`
@@ -228,5 +228,14 @@ class product extends \smashEngine\core\Model {
         $sth->execute([$slug]);
         $foo = $sth->fetch();
         return $foo['id'];
+    }
+    
+    public function getCategorysChain()
+    {
+        $cat = new \admin\application\models\category;
+        
+        $chain = $cat->getChain($cat->getNode($this->category));
+        array_shift($chain);
+        return $chain;
     }
 }

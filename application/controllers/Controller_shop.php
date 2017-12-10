@@ -28,10 +28,14 @@
         {
             parent::__construct($router);
             
-            $this->getTree();
-            
-            if ($this->product = product::getBySlugPlus($this->page->reqUrl[count($this->page->reqUrl) - 1])) {
-                $this->action_view();
+            if (in_array($this->page->reqUrl['2'], ['openproduct'])) {
+                
+            } else {
+                $this->getTree();
+
+                if ($this->product = product::getBySlugPlus($this->page->reqUrl[count($this->page->reqUrl) - 1])) {
+                    $this->action_view();
+                }
             }
         }
                                     
@@ -122,6 +126,13 @@
             
             $this->page->title = $product->product_name;
             
+            $base = '/ru/shop';
+            
+            foreach ($product->getCategorysChain() AS $c) {
+                $base .= '/' . $c['slug'];
+                $this->page->addBreadCrump($c['title'], $base);
+            }
+            
             $this->page->addBreadCrump($product->product_name);
             
             $this->page->import([
@@ -132,8 +143,8 @@
             ]);
             
             
-            if (!$categorys = App::memcache()->get('shop-categorys'))
-            {
+            //if (!$categorys = App::memcache()->get('shop-categorys'))
+            //{
                 $categorys = [];
 
                 function buildTreeWithLinks($item, $link, &$categorys)
@@ -158,13 +169,28 @@
                     buildTreeWithLinks($c, '', $categorys);
                 }
                
-                App::memcache()->set('shop-categorys', $categorys, false, 24 * 3600);
-            }
+                //App::memcache()->set('shop-categorys', $categorys, false, 24 * 3600);
+            //}
             
             
             $this->view->setVar('product', $product);
             $this->view->setVar('categorys', $categorys);
             
             $this->view->generate($this->page->index_tpl);
+        }
+    
+        public function action_openproduct()
+        {
+            if ($this->page->reqUrl[3]) 
+            {
+                $product = new product($this->page->reqUrl[3]);
+                
+                foreach ($product->getCategorysChain() AS $c) {
+                    $chain[] = $c['slug'];
+                }
+                $chain[] = $product->slug . '-'. $product->product_sku;
+            }
+            
+            $this->page->go('/ru/shop/' . implode('/', $chain), 301);
         }
     }

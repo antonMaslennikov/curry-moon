@@ -208,14 +208,6 @@
             $this->getInfo();
         }
         
-        function setBasketDomain($domain)
-        {
-            $this->basketDomain = $domain;
-            
-            if ($domain == '.allskins.ru')
-                $this->user_basket_domain = 'ASbasket';
-        }
-        
         /**
          * Создаём новую корзину
          * @return 
@@ -224,8 +216,7 @@
         function addBasket($user_id = 0)
         {
             $this->user_id = intval($this->user_id);
-            $this->user_basket_date = NOW;
-            $this->user_basket_domain = ($this->basketDomain == '.maryjane.ru' ? 'MJbasket' : 'ASbasket');
+            $this->user_basket_date = NOW;;
             
             $this->save();
             
@@ -243,7 +234,7 @@
          */
         public static function create($data)
         {
-            $r = App::db()->query("INSERT INTO `user_baskets` 
+            $r = App::db()->query("INSERT INTO `" . basket::$dbtable . "` 
                               SET 
                                 `user_id` = '" . intval($data['user_id']) . "',
                                 `user_basket_date` = '" .  NOW . "'"
@@ -259,7 +250,7 @@
          */
         function getInfo() 
         {
-            $r = App::db()->query("SELECT * FROM `user_baskets` WHERE `user_basket_id` = '" . $this->id . "' LIMIT 1");
+            $r = App::db()->query("SELECT * FROM `" . basket::$dbtable . "` WHERE `id` = '" . $this->id . "' LIMIT 1");
 
             if ($this->info = $r->fetch()) 
             {
@@ -308,7 +299,7 @@
                     $this->log('user_changes', 'payment_type', $this->user_basket_payment_type);
             }
             
-            $r = App::db()->query("UPDATE `user_baskets` SET " . implode(', ', $out) . " WHERE `user_basket_id` = '" . $this->id . "' LIMIT 1");
+            $r = App::db()->query("UPDATE `" . basket::$dbtable . "` SET " . implode(', ', $out) . " WHERE `id` = '" . $this->id . "' LIMIT 1");
             
             if ($r->rowCount() > 0)
             {
@@ -326,9 +317,7 @@
          */
         public function delete()
         {
-            App::db()->query("DELETE FROM `user_baskets` WHERE `user_basket_id` = '" . $this->id . "' LIMIT 1");
-            App::db()->query("DELETE FROM `user_basket_goods` WHERE `user_basket_id` = '" . $this->id . "'");
-            App::db()->query("DELETE FROM `user_basket_log` WHERE `basket_id` = '" . $this->id . "'");
+            App::db()->query("DELETE FROM `" . basket::$dbtable . "` WHERE `id` = '" . $this->id . "' LIMIT 1");
             
             return true;
         }
@@ -420,7 +409,7 @@
                     $df = "uba.`$k` = '$df'";
                 }
 
-                App::db()->query(sprintf("UPDATE IGNORE `user_baskets` ub, `user_basket_address` uba SET %s WHERE ub.`user_basket_id` = '{$id}' AND ub.`user_basket_delivery_address` = uba.`id`", implode(', ', $data)));
+                App::db()->query(sprintf("UPDATE IGNORE `" . basket::$dbtable . "` ub, `user_basket_address` uba SET %s WHERE ub.`user_basket_id` = '{$id}' AND ub.`user_basket_delivery_address` = uba.`id`", implode(', ', $data)));
             }
             
             return;
@@ -588,7 +577,7 @@
                     $percents_base = json_decode($personal_base, 1);
                 }
                 
-                $ssth = App::db()->prepare("UPDATE `user_basket_goods` SET `user_basket_good_partner_payment_id` = :payment_id WHERE `user_basket_good_id` = :id LIMIT 1");
+                $ssth = App::db()->prepare("UPDATE `" . basketItem::$dbtable . "` SET `user_basket_good_partner_payment_id` = :payment_id WHERE `id` = :id LIMIT 1");
         
                 $basket_sum = $this->getBasketSum() + $this->user_basket_payment_partical - $this->user_basket_delivery_cost;
         
@@ -891,10 +880,10 @@
             if (!isset($this->info['isPrinted'])) 
             {
                 $sth = App::db()->prepare("SELECT COUNT(pp.`id`) AS printed
-                                  FROM `user_basket_goods` ubg, `" . printturn::$dbtable . "` pp, `good_stock` gs
+                                  FROM `" . basketItem::$dbtable . "` ubg, `" . printturn::$dbtable . "` pp, `good_stock` gs
                                   WHERE 
                                         ubg.`user_basket_id` = :id
-                                    AND pp.`user_basket_good_id` = ubg.`user_basket_good_id`
+                                    AND pp.`id` = ubg.`id`
                                     AND gs.`good_stock_id` = ubg.`good_stock_id`
                                     AND gs.`good_id` = '0'
                                     AND pp.`status` = 'printed'");
@@ -1000,12 +989,6 @@
                 }
             }
             
-            if (count($this->basketGifts) > 0) {
-                foreach ($this->basketGifts as $pos) {
-                    $this->info['basketSum'] += $pos['tprice'];
-                }
-            }
-            
             if ($this->user_basket_status != 'active') {
                 $this->info['basketSum'] += $this->user_basket_delivery_cost - $this->user_basket_payment_partical;
             }
@@ -1020,39 +1003,9 @@
          */
         function getGoodsCount($type = null) {
             
-            if ($type == 'wear')
-            {
-                $sth = App::db()->prepare("SELECT 
-                                                SUM(ubg.`user_basket_good_quantity`) AS s
-                                             FROM 
-                                                `user_basket_goods` ubg,
-                                                `good_stock` gs,
-                                                `styles` s,
-                                                `styles_category` sc
-                                             WHERE 
-                                                    ubg.`user_basket_id` = :id
-                                                AND ubg.`good_stock_id` = gs.`good_stock_id`
-                                                AND gs.`style_id` = s.`style_id`
-                                                AND s.`style_category` = sc.`id` 
-                                                AND sc.`cat_parent` = '1'");
-                                        
-            } else {
-                $sth = App::db()->prepare("SELECT 
-                                                SUM(ubg.`user_basket_good_quantity`) AS s
-                                             FROM 
-                                                `user_basket_goods` ubg,
-                                                `good_stock` gs,
-                                                `styles` s
-                                             WHERE 
-                                                    ubg.`user_basket_id` = :id
-                                                AND ubg.`good_stock_id` = gs.`good_stock_id`
-                                                AND gs.`style_id` = s.`style_id`
-                                                AND s.`style_category` NOT IN ('85')");
-            }
+            $sth = App::db()->prepare("SELECT SUM(ubg.`user_basket_good_quantity`) AS s FROM `" . basketItem::$dbtable . "` ubg WHERE ubg.`user_basket_id` = ?");
             
-            $sth->execute(array(
-                'id' => $this->id,
-            ));
+            $sth->execute([$this->id]);
                 
             $count = $sth->fetch();
             
@@ -1086,121 +1039,38 @@
                 $usdRate = usdRateDaily();
             }
             
-            // для allskins.ru одежда на 10% дороже
-            if ($this->basketDomain == '.allskins.ru') {
-                $priceIncrease = getVariableValue('allskinsIncrease');
-            } else {
-                $priceIncrease = 0;
-            }
-            
-            $discounts = array(0);
+            $discounts = [];
             
             if ($this->user_basket_status == 'active')
-            {
-                //$discounts[2] = userId2userPersonalDiscount($this->user_id);
-                //$discounts[7] = intval($this->user_basket_discount);
-                //$discounts[10] = $_COOKIE['informer'] ? 5 : 0; 
-                $discounts[4] = userId2userBirthdayDiscount($this->user_id);
-                
+            {   
                 // если в заказе был активирован сертификат
                 if ($this->logs['activateDiscontCard']) {
                     $cert = new certificate($this->logs['activateDiscontCard'][0]['result']);
                 }
             }
             
-            $boxCost = getVariableValue('boxCost');
-            
-            $drange = $this->countGoods2discountRange();
-            
-            // массив данным по наклейкам для акции "1+1=3"
-            $vinil = [];
-            
             $tp = 0;
-            
-            $Thumb = new S3Thumb(array('ic1.maryjane.ru', 'ic2.maryjane.ru', 'ic3.maryjane.ru', 'ic4.maryjane.ru'), S3AccessKey, S3SecretKey, S3CryptKey);
             
             $rr = App::db()->prepare("SELECT 
                                 ubg.*, 
                                 ubg.`user_basket_good_price` p, 
                                 ubg.`user_basket_good_discount` d, 
                                 ubg.`user_basket_good_quantity` quantity, 
-                                ubg.`user_basket_good_box` AS box, 
                                 ubg.`user_basket_good_total_price` tp, 
                                 ubg.`user_basket_good_comment` AS c,
-                                ubg.`user_basket_good_partner_inc`,
                                 ubg.`user_basket_good_time`,
-                                g.`good_name`, 
-                                g.`good_discount`, 
-                                g.`good_payment_multiplier`, 
-                                g.`good_status`, 
-                                g.`ps_src`, 
-                                g.`ps_src_back`, 
-                                g.`good_buyout`,
-                                u.`user_id`, 
-                                u.`user_login`, 
-                                u.`user_designer_level`, 
-                                u.`user_city`,
-                                c.`name` AS color_name,
-                                c.`group` AS color_group,
-                                gs.`good_id` AS gsGoodId,
-                                gs.`style_id`,
-                                gs.`size_id`,
-                                gs.`size_rus`,
-                                gs.`good_stock_drawing_cost` AS selfprice,
-                                gs.`good_stock_price` AS price,
-                                gs.`good_stock_discount` AS discount,
-                                gs.`good_stock_discount_promo` AS discount_promo,
-                                gs.`good_stock_discount_range_1`,
-                                gs.`good_stock_discount_range_2`,
-                                gs.`good_stock_discount_range_3`,
-                                gs.`good_stock_discount_range_4`,
-                                gs.`good_stock_discount_range_5`,
-                                gs.`good_stock_discount_range_6`,
-                                gs.`good_stock_clear_prices`,
-                                gs.`good_stock_status`,
-                                gs.`good_stock_quantity` +- gs.`good_stock_inprogress_quantity` AS avalible,
-                                gs.`good_stock_quantity`,
-                                gs.`good_stock_inprogress_quantity`,
-                                gs.`good_stock_sold_quantity`,
-                                s.`style_name`,
-                                s.`style_sex`,
-                                s.`style_category`,
-                                s.`style_color`,
-                                s.`style_viewsize`,
-                                s.`style_slug`,
-                                s.`style_composition`,
-                                s.`style_description`,
-                                s.`style_front_picture`,
-                                s.`style_back_picture`,
-                                s.`style_color` AS color_id,
-                                s.`style_print_block`,
-                                s.`style_weight`,
-                                s.`style_print_cost_front`,
-                                s.`style_print_cost_back`,
-                                sc.`cat_slug`,
-                                sc.`cat_parent`,
-                                sz.`size_name`
+                                g.`product_name`,
+                                p.`picture_path`
                               FROM 
-                                `user_basket_goods` ubg,
-                                `goods` g 
-                                    LEFT JOIN `users` u ON g.`user_id` = u.`user_id`,
-                                `styles` AS s,
-                                `styles_category` AS sc,
-                                `sizes` AS sz,
-                                `good_stock_colors` AS c,
-                                `good_stock` AS gs
+                                `" . basketItem::$dbtable . "` ubg,
+                                `" . product::$dbtable . "` g ,
+                                `" . picture::$dbtable . "` p
                               WHERE 
                                     ubg.`user_basket_id` = :id
-                                AND ubg.`gift_id` = '0'
-                                AND ubg.`good_id` = g.`good_id`
-                                AND ubg.`good_stock_id` = gs.`good_stock_id`
-                                AND gs.`style_id`      = s.`style_id`
-                                AND gs.`size_id`       = sz.`size_id`
-                                AND s.`style_color`    = c.`id`
-                                AND sc.`id`            = s.`style_category`
-                                AND s.`style_visible` = '1'
+                                AND ubg.`good_id` = g.`id`
+                                AND g.`picture_id` = p.`picture_id`
                               GROUP BY 
-                                ubg.`user_basket_good_id`");
+                                ubg.`id`");
             
             $rr->execute(array(
                 'id' => $this->id,
@@ -1208,254 +1078,14 @@
                                             
             foreach($rr->fetchAll(PDO::FETCH_ASSOC) AS $row)
             {
-                $discounts[11] = $discounts[3] = 0;
-                
-                $row['ubgid']              = $row['user_basket_good_id'];
-                $row['good_user']          = $row['user_id'];
-                $row['good_name']          = stripslashes($row['good_name']);
-                $row['style_name']         = stripslashes($row['style_name']);
-                $row['style_composition']  = stripslashes($row['style_composition']);
-                $row['size_name']          = stripslashes($row['size_name']);
-                $row['color_name']         = stripslashes($row['color_name']);
-                $row['style_viewsize']     = $row['style_viewsize'];
-                $row['user_avatar']        = userId2userGoodAvatar($row['user_id'], 25, '', 1);
-                $row['user_avatar_medium'] = userId2userGoodAvatar($row['user_id'], 50, '', 1);
-                $row['designer_level']     = user::designerLevel2Picture($row['user_designer_level']);
+                $row['ubgid']              = $row['id'];
+                $row['product_name']       = stripslashes($row['product_name']);
                 $row['comment']            = stripslashes($row['c']);
-                $row['def_side']           = styleCategory::$BASECATS[$row['category']] ? styleCategory::$BASECATS[$row['category']]['def_side'] : 'front';
                 
-                // если у размера нет русского эквивалента (н-р, у наклейки), но есть комментарий то ставим его вместо размера
-                if (empty($row['size_rus']) && !empty($row['c'])) {
-                    $row['size_rus'] = $row['c'];
-                }
+                $row['price'] = $row['p'];
+                $row['discount'] = $row['d'];
+                $row['tprice'] = $row['tp'];
 
-                if (!empty($row['user_city'])) {
-                    $row['user_city_name'] = cityId2name($row['user_city']);
-                }
-                
-                // формируем ссылка на эту позицию в каталоге/конструктор
-                if ($row['good_status'] == 'customize') {
-                    $row['link'] = '/customize/style,' . $row['style_id'] . '/' . $row['good_id'] . '/';
-                } else {
-                    $row['link'] = '/catalog/' . $row['user_login'] . '/' . $row['good_id'] . '/' . $row['style_slug'] . '/' . ($row['cat_parent'] == 1 ? $row['size_name'] . '/' : '');
-                }
-                
-                // Превьюшки
-                // тряпки
-                if ($row['cat_parent'] == 1)
-                {
-                    $row['category'] = $row['cat_slug'];
-                    
-                    $r = App::db()->query("SELECT p.`picture_path` FROM `pictures` p, `good_pictures` gp WHERE gp.`good_id` = '" . $row['good_id'] . "' AND gp.`pic_name` = '" . (($row['gsGoodId'] == 0) ? 'catalog' : 'sale') . '_preview_' . $row['style_id'] . "' AND gp.`pic_id` = p.`picture_id` LIMIT 1");
-
-                    if ($r->rowCount() == 1) {
-                        $foo = $r->fetch();
-                        $row['imagePath'] = $foo['picture_path'];
-                    }
-                    
-                    if ($row['good_status'] == 'customize')
-                    {
-                        $r = App::db()->query("SELECT p.`picture_path` FROM `pictures` p, `good_pictures` gp WHERE gp.`good_id` = '" . $row['good_id'] . "' AND gp.`pic_name` = 'catalog_preview_" . $row['style_id'] . "_back' AND gp.`pic_id` = p.`picture_id` LIMIT 1");
-                    
-                        if ($r->rowCount() == 1) {
-                            $foo = $r->fetch();
-                            $row['imageBackPath'] = $foo['picture_path'];
-                        } else {
-                            //$row['imageBackPath'] = '/ajax/generatePreview/?good_id=' . $row['good_id'] . '&style_id=' . $row['style_id'] . '&side=back';
-                        }
-                    }
-                }
-                // наклейки
-                else
-                {
-                    $row['category'] = styleCategory::$BASECATSid[$row['cat_parent']];
-                    
-                    if ($row['style_id'] == 537)
-                        $q = "SELECT p.`picture_path` FROM `pictures` p, `good_pictures` gp WHERE gp.`good_id` = '" . $row['good_id'] . "' AND gp.`pic_name` = 'stickerset_preview' AND gp.`pic_id` = p.`picture_id` LIMIT 1";
-                    else
-                        switch (styleCategory::$BASECATSid[$row['cat_parent']])
-                        {
-                            case 'postcards':
-                                $q = "SELECT p.`picture_path` FROM `pictures` p, `good_pictures` gp WHERE gp.`good_id` = '" . $row['good_id'] . "' AND gp.`pic_name` IN ('postcards_0_preview', 'postcards_1_preview', 'postcards_2_preview', 'postcards_3_preview', 'postcards_4_preview') AND gp.`pic_id` = p.`picture_id` LIMIT 1";
-                                break;
-                            
-                            case 'auto':
-                                $q = "SELECT p.`picture_path` FROM `pictures` p, `good_pictures` gp WHERE gp.`good_id` = '" . $row['good_id'] . "' AND gp.`pic_name` = 'as_sticker' AND gp.`pic_id` = p.`picture_id` LIMIT 1";
-                                break;
-                                
-                            default:
-                                $q = "SELECT p.`picture_path` FROM `pictures` p, `good_pictures` gp WHERE gp.`good_id` = '" . $row['good_id'] . "' AND gp.`pic_name` = '" . (($row['gsGoodId'] == 0) ? 'catalog' : 'sale') . "_preview_" . $row['style_id'] . "' AND gp.`pic_id` = p.`picture_id` LIMIT 1";
-                                break;
-                        }
-
-                    $r = App::db()->query($q);
-                    
-                    if ($r->rowCount() == 1) {
-                        $foo = $r->fetch();
-                        $row['imagePath'] = $foo['picture_path'];
-                    }
-                }
-
-                if ($this->resizePreview) {
-                    $w = styleCategory::$BASECATSid[$row['cat_parent']] == 'laptops' ? 152 : 85;
-                }
-
-                if (!empty($row['imagePath'])) {
-                    if ($this->resizePreview) {
-                        $row['imagePath'] = $Thumb->url($row['imagePath'], $w);
-                    }
-                } else {
-                   $row['imagePath'] = 'http://www.maryjane.ru/ajax/generatePreview/?good_id=' . $row['good_id'] . '&style_id=' . $row['style_id'] . '&side=' . ($row['cat_parent'] > 1 ? styleCategory::$BASECATS[styleCategory::$BASECATSid[$row['cat_parent']]]['def_side'] : 'front') . '&width=' . $w;
-                }
-                
-                // расчёт цены
-                if ($this->user_basket_status == 'active')  
-                {
-                    // Скидка за количество
-                    if ($row['gsGoodId'] == 0) {
-                       $discounts[3] = $row['good_stock_discount_range_' . $drange];
-                    }
-                    
-                    $discounts[1] = $row['discount'];
-                    $discounts[8] = ($row['good_discount'] > 0) ? $row['discount_promo'] : 0;
-                    
-                    // TODO на время акции чёрная пятница отменяем суммроование скидки по купонам (убрать строчку)
-                    $discounts[7] = floatval($this->user_basket_discount);
-                    
-                    if (!in_array(date('Y-m-d'), ['2017-11-23', '2017-11-24', '2017-11-25'])) {
-                        if (!in_array($row['style_category'], [71, 118, 24]) && $row['good_id'] > 0 && $this->user->user_partner_status <= 0 && !$this->user->meta->mjteam) {
-                            $discounts[11] = $this->user->city != '' && $this->user->city != 'Москва' && $this->user->city_region != 'Московская область' && $this->user->city_region != 'Москва' ? 20 : 0;
-                        }
-                    }
-                  
-                    if (($row['good_stock_status'] == 'few' && $row['gsGoodId'] > 0 && !$goodRouletteDiscount) || empty($row['price'])) {
-                        $row['discount'] = 0;
-                        $row['discount_type'] = 0;
-                    } else {
-                        arsort($discounts);
-                        
-                        $row['discount'] = reset($discounts);
-                        
-                        if ($row['discount'] > 0) {
-                           $row['discount_type'] = key($discounts);
-                        }
-                    }
-                    
-                    // изделие на плёнке с расчитываемой ценой
-                    if (empty($row['price']) && !empty($row['p'])) {
-                        $row['price'] = $row['p'];
-                    }
-                    
-                    /* TODO на время акции чёрная пятница отменяем суммроование скидки по купонам (раскоментировать)
-                    if ($cert && $cert->certification_style_categorys && count($cert->certification_style_categorys) > 0) {
-                        if (in_array($row['cat_parent'] == 1 ? $row['style_category'] : $row['cat_parent'], $cert->certification_style_categorys)) {
-                            $row['discount'] += floatval($this->user_basket_discount);
-                        }
-                    } else {
-                        $row['discount'] += floatval($this->user_basket_discount);
-                    }
-                    */
-                    
-                    $row['discount_description'] = self::$discountTypes[array_search($row['discount'], $discounts)];
-                  
-                    // акция "наклейки на один лист"
-                    if ($_SESSION['sticerOneList'] && ($row['category'] == 'auto' || $row['category'] == 'stickers')) {
-                        $row['discount'] += 10;
-                    }
-                  
-                    // чит для позиции "доработка макета", она всегда идёт без скидки
-                    if ($row['good_id'] == 109730) {
-                        $row['discount'] = 0;
-                        $row['discount_description'] = '';
-                    }
-
-                    $row['tprice'] = round(($row['price'] - ($row['price'] / 100 * $row['discount']) + (($row['box'] > 0) ? $boxCost : 0)) * $row['quantity']) ;
-                  
-                    if ($row['cat_parent'] == 1 && $priceIncrease > 0) {
-                        $row['price'] += round($row['price'] / 100 * $priceIncrease);
-                        $row['tprice'] += round($row['tprice'] / 100 * $priceIncrease);
-                    }
-                  
-                    // если издели продаётся чистым, используем цены для чистого изделия
-                    if (empty($row['good_id']) && empty($row['gift_id'])) {
-                        
-                        $clear_prices = json_decode($row['good_stock_clear_prices'], 1);
-                        
-                        if ($clear_prices[$drange]) {
-                            $row['price'] = $clear_prices[$drange];
-                            $row['tprice'] = $row['price'] * $row['quantity'];
-                            $row['discount'] = 0;
-                        }
-                    }
-                    
-                    // наценка за самоделку
-                    if ($row['good_status'] == 'customize')
-                    {
-                        $color_pc = $pc = 0;
-                        
-                        if ($_SESSION['whiteStyleDiscount'] && in_array($row['style_id'], array(407, 429, 390))) {
-                            $row['discount'] = $_SESSION['whiteStyleDiscount'];
-                            $row['tprice'] = 660 * $row['quantity'];
-                        } elseif ($_SESSION['whiteStyleDiscount'] && in_array($row['style_id'], array(408, 436))) {
-                            $row['discount'] = $_SESSION['whiteStyleDiscount'];
-                            $row['tprice'] = 890 * $row['quantity'];
-                        } elseif ($_SESSION['whiteStyleDiscount'] && in_array($row['style_id'], array(510, 510))) {
-                            $row['discount'] = $_SESSION['whiteStyleDiscount'];
-                            $row['tprice'] = 990 * $row['quantity'];
-                        }
-                        else 
-                        {
-                            if ($row['cat_parent'] > 1)
-                            {
-                                // убираем на самоделку если это простые наклейки или наклейки на доски и если кол-во > 1
-                                if (!in_array($row['style_category'], [84, 85]) && $row['quantity'] == 1) {
-                                    $pc = getVariableValue('allskinsCustomizePrintCost');
-                                }
-                            }
-                            else
-                            {
-                                if (!$backSidePrintCost = getVariableValue('backSidePrintCost' . $row['color_id']))
-                                    $backSidePrintCost = getVariableValue('backSidePrintCost');
-                                
-                                // если это не своя майка и не сумка с полной запечаткой
-                                if ($row['style_category'] != 71 && $row['style_category'] != 118 && $row['style_category'] != 100) 
-                                {
-                                    // если кол-во равно 1, то прибавляем наценку за подготовку макета
-                                    if ($row['quantity'] == 1)
-                                    {
-                                        if (!$pc = getVariableValue('frontSidePrintCost' . $row['color_id'])) {
-                                            $pc = getVariableValue('frontSidePrintCost');
-                                        }
-                                    }
-                                }
-                                
-                                if (!empty($row['ps_src']) && !empty($row['ps_src_back'])) {
-                                    $row['price']  += $backSidePrintCost;
-                                    $row['tprice'] += $backSidePrintCost * $row['quantity'];
-                                }
-                            }
-                            
-                            $row['price']  += $pc;
-                            $row['tprice'] += $pc * $row['quantity'];
-                        }
-                    }
-                    
-                    // + наценка партнёра
-                    $row['tprice'] += $row['user_basket_good_partner_inc'];
-                } 
-                else 
-                {
-                    // если заказ уже оформлен, то все данные по ценам и скидкам берём из базы
-                    $row['price'] = $row['p'];
-                    $row['discount'] = $row['d'];
-                    $row['tprice'] = $row['tp'];
-                }
-                
-                // сумма начисляемая автору дизайна с продажи данной позиции
-                if ($row['good_status'] != 'customize' && $row['user_id'] != $this->user_id) {
-                    $row['author_payment'] = ceil((round($row['price'] * (1 - $row['discount'] / 100)) / 100) * ($row['style_id'] == 537 ? 50 : 10)) * $row['quantity'];
-                }
-                
                 $row['tprice_rub'] = $row['tprice'];
                 
                 // переводим цены в доллары
@@ -1466,53 +1096,13 @@
                     $row['tp']     = round($row['tp'] / $usdRate, 1);
                 }
                 
-                $this->basketGoods[$row['user_basket_good_id']]  = $row;
+                $this->basketGoods[$row['id']]  = $row;
                 
                 $this->goodsCount += $row['q'];
                 $tp += $row['tprice'];
-                
-                // ищем наклейку с наименьшей ценой
-                if (in_array($row['category'], array('auto', 'phones', 'laptops', 'touchpads', 'ipodmp3')) && $this->user_basket_status == 'active')
-                {
-                    for ($i = 0; $i < $row['quantity']; $i++) {
-                        $vinil['ids'][]    = $row['user_basket_good_id']; 
-                        $vinil['prices'][] = round($row['tprice'] / $row['quantity']);
-                    }
-                }
             }
 
-            if ($this->user_basket_status == 'active') 
-            {
-                if ($vinil['prices']) {
-                    asort($vinil['prices']);
-                    $vinil['prices'] = array_slice($vinil['prices'], 0, floor(count($vinil['prices']) / 3), true);
-                }
-            }
-            
             krsort($this->basketGoods);
-            
-            // каждая 3я наклейка бесплатно
-            if (count($vinil['prices']) > 0) {
-                foreach ($vinil['prices'] as $k => $p) {
-                    $this->basketGoods[$vinil['ids'][$k]]['discount'] = round(100 / $this->basketGoods[$vinil['ids'][$k]]['quantity'], 1) /*- $this->basketGoods[$vinil['ids'][$k]]['discount'] / 2*/;
-                    $this->basketGoods[$vinil['ids'][$k]]['tprice'] -= $p;
-                    $this->basketGoods[$vinil['ids'][$k]]['tprice_rub'] -= $p;
-                }
-            }
-
-            if ($this->user->meta->givegifts && $this->user_basket_status == 'active')
-            {
-                if ($tp >= 3000) 
-                {
-                    foreach ($this->basketGoods as $k => $g) 
-                    {
-                        if ($this->basketGoods[$k]['tprice'] > 0) {
-                            $this->basketGoods[$k]['tprice'] -= round(300 / $this->goodsCount);
-                            $this->basketGoods[$k]['tprice_rub'] -= round(300 / $this->goodsCount);
-                        }
-                    }
-                }
-            }
             
             return $this->basketGoods;
         }
@@ -1536,142 +1126,92 @@
             return $tw;
         }
         
-        function plusOne($gid, $sid, $q = 1)
+        function plusOne($gid, $q = 1)
         {
-            $foo = App::db()->query("SELECT (gs.`good_stock_quantity` - gs.`good_stock_inprogress_quantity`) AS q FROM `good_stock` AS gs WHERE gs.`good_stock_id` = '" . intval($sid) . "'")->fetch();
-            
-            $available = $foo['q'];
+            $available = App::db()->query("SELECT `quantity` AS q FROM `" . product::$dbtable . "` WHERE `id` = '" . intval($gid) . "' LIMIT 1")->fetch();
             
             foreach ($this->basketGoods as $posk => $pos) {
-                if ($pos['good_id'] == $gid && $pos['good_stock_id'] == $sid) {
+                if ($pos['good_id'] == $gid) {
                     $reservedtome = $pos['quantity'];
                     break;
                 }
             }
             
-            if ($q > $available - $reservedtome)
+            if ($q > $available['q'] - $reservedtome)
             {
-                $msg = "error: Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.";
+                throw new appException("Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.");
             } 
             else
             {
                 $sth = App::db()->prepare("UPDATE 
-                                    `user_basket_goods` 
+                                    `" . basketItem::$dbtable . "` 
                                   SET 
                                     `user_basket_good_quantity` = `user_basket_good_quantity` + :q
                                   WHERE 
                                         `user_basket_id` = :bid
                                     AND `good_id` = :gid
-                                    AND `good_stock_id` = :sid
                                   LIMIT 1");
 
                 $sth->execute(array(
                     'q' => $q,
                     'bid' => $this->id,
-                    'gid' => $gid,
-                    'sid' => $sid,
+                    'gid' => $gid
                 ));
                                   
                 unset($this->basketGoods);
-                                  
-                $msg = "ok: " . $this->getBasketSum();
             }
-            
-            return $msg;
         }
 
         /**
          * Увеличить количество товара в корзине
          */
-        function chQuanity($gid, $sid, $q = 1)
+        function chQuanity($gid, $q = 1)
         {
-            $foo = App::db()->query("SELECT (gs.`good_stock_quantity` - gs.`good_stock_inprogress_quantity`) AS q FROM `good_stock` AS gs WHERE gs.`good_stock_id` = '" . intval($sid) . "'")->fetch();
+            if (!is_numeric($q) || $q < 0) {
+                throw new appException('Указано некорректное количество');
+            }
             
-            $available = $foo['q'];
-            
-            foreach ($this->basketGoods as $posk => $pos) {
-                if ($pos['good_id'] == $gid && $pos['good_stock_id'] == $sid) {
+            foreach ($this->basketGoods as $posk => $pos) 
+            {
+                if ($pos['good_id'] == $gid) 
+                {
                     $reservedtome = $pos['quantity'];
+                    
+                    $available = App::db()->query("SELECT `quantity` AS q FROM `" . product::$dbtable . "` WHERE `id` = '" . intval($gid) . "' LIMIT 1")->fetch();
+                    
+                    if ($q > $available['q'] - $reservedtome)
+                    {
+                        throw new appException("Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.");
+                    } 
+                    else
+                    {
+                        $sth = App::db()->prepare("UPDATE 
+                                            `" . basketItem::$dbtable . "` 
+                                          SET 
+                                            `user_basket_good_quantity` = :q,
+                                            `user_basket_good_total_price` = :tp
+                                          WHERE 
+                                                `user_basket_id` = :bid
+                                            AND `good_id` = :gid
+                                          LIMIT 1");
+
+                        $sth->execute(array(
+                            'q' => $q,
+                            'bid' => $this->id,
+                            'gid' => $gid,
+                            'tp' => $pos['price'] * (1 - $pos['discount'] / 100) * $q,
+                        ));
+
+                        unset($this->basketGoods);
+                    }
+                    
                     break;
                 }
             }
             
-            if ($q > $available - $reservedtome)
-            {
-                $msg = "error: Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.";
-            } 
-            else
-            {
-                $sth = App::db()->prepare("UPDATE 
-                                    `user_basket_goods` 
-                                  SET 
-                                    `user_basket_good_quantity` = :q
-                                  WHERE 
-                                        `user_basket_id` = :bid
-                                    AND `good_id` = :gid
-                                    AND `good_stock_id` = :sid
-                                  LIMIT 1");
-                                  
-                $sth->execute(array(
-                    'q' => $q,
-                    'bid' => $this->id,
-                    'gid' => $gid,
-                    'sid' => $sid,
-                ));
-                                  
-                unset($this->basketGoods);
-                                  
-                $msg = "ok: " . $this->getBasketSum();
-            }
             
-            return $msg;
         }
-        
-        /**
-         * Увеличить количество сопуствующего товавра в корзине
-         */
-        function chGiftQuanity($gid, $q = 1)
-        {
-            $foo = App::db()->query(sprintf("SELECT g.`gift_quantity` FROM `gifts` AS g WHERE g.`gift_id` = '%d'", $gid))->fetch();
-            
-            $available = $foo['gift_quantity'];
-            
-            foreach ($this->basketGifts as $posk => $pos) {
-                if ($pos['gift_id'] == $gid) {
-                    $reservedtome = $pos['quantity'];
-                    break;
-                }
-            }
-            
-            if ($q > $available - $reservedtome)
-            {
-                $msg = "error: Этот товар зарезервирован или отсутствует на складе.";
-            } 
-            else
-            {
-                $sth = App::db()->prepare("UPDATE 
-                                    `user_basket_goods` 
-                                  SET 
-                                    `user_basket_good_quantity` = `user_basket_good_quantity` + :q
-                                  WHERE 
-                                        `user_basket_id` = :bid
-                                    AND `gift_id` = :gid
-                                  LIMIT 1");
                 
-                $sth->execute(array(
-                    'q' => intval($q),
-                    'bid' => $this->id,
-                    'gid' => $gid,
-                ));
-                
-                unset($this->basketGifts);
-                
-                $msg = "ok: " . $this->getBasketSum();
-            }
-            
-            return $msg;
-        }
-        
         /**
          * Добавить новую позицию в корзину
          * @param basketItem $item добавляемая позиция
@@ -1681,14 +1221,8 @@
         {
             if (empty($this->id))
                 $this->addBasket();
-
-            if (empty($item->good_stock_id)) {
-                return array('error' => 'Не указан носитель');
-            }
             
             $item->good_id = (int) $item->good_id;
-            $item->gift_id = (int) $item->gift_id;
-            $item->good_stock_id = (int) $item->good_stock_id;
             
             // максимальное кол-во одной позиции в заказе 
             $maxOrderQuantity = getVariableValue('maxOrderQuantity');
@@ -1701,148 +1235,88 @@
             {
                 $goodsCount++;
                 
-                if ($pos['good_stock_id'] == $item->good_stock_id) {
-                    $reservedtome += intval($pos['q']);
+                if ($pos['good_id'] == $item->good_id) {
+                    $reservedtome += intval($pos['quantity']);
                 }
                 
                 // + 1  
-                if ($item->good_id == $pos['good_id'] && $pos['good_stock_id'] == $item->good_stock_id) {
+                if ($item->good_id == $pos['good_id']) {
                     $plus1 = $ubgid;
                 }
             }
-            
+
             // Получаем информацию о носителе на складе
-            $sth = App::db()->prepare("SELECT 
-                    (gs.`good_stock_quantity` +- gs.`good_stock_inprogress_quantity`) AS avalible, 
-                    gs.`good_stock_price` AS price, 
-                    gs.`good_stock_discount` AS discount, 
-                    gs.`good_stock_discount_promo` AS discount_promo, 
-                    gs.`good_id` AS good_stock_good_id, 
-                    sc.`cat_parent`, 
-                    gs.`style_id` AS sid, 
-                    s.`style_color` AS color_id, 
-                    gs.`good_stock_status` AS status, 
-                    s.`style_category` 
-                FROM 
-                    `good_stock` AS gs, `styles` s, `styles_category` sc 
-                WHERE 
-                    gs.`good_stock_id` = ? AND gs.`style_id` = s.`style_id` AND sc.`id` = s.`style_category`");
-            
-            $sth->execute([$item->good_stock_id]);
-            $stock = $sth->fetch();
+            $product = new product($item->good_id);
             
             
-            if ($stock['cat_parent'] == 1 && $item->good_id > 0 && ($item->quantity + $goodsCount > $maxOrderPositions))
+            if ($item->good_id > 0 && ($item->quantity + $goodsCount > $maxOrderPositions))
             {
-                return array('error' => "Вы не можете заказать более чем " . $maxOrderPositions . " позиций в одном заказе, пожалуйста обратитесь к администрации магазина");
+                throw new appException("Вы не можете заказать более чем " . $maxOrderPositions . " позиций в одном заказе, пожалуйста обратитесь к администрации магазина");
             } 
             else 
             {
-                if ($item->quantity > $stock['avalible'] - $reservedtome)
+                if ($item->quantity > $product->quantity - $reservedtome)
                 {
-                    return array('error' => "Этот товар зарезервирован или отсутствует на складе.\nВозможно кто-то откажется от данной модели, попробуйте сделать заказ завтра.");
+                    throw new appException("Этот товар зарезервирован или отсутствует на складе.");
                 } 
                 else
                 {
-                    // для одежды ограничение на кол-во заказываемых позиций
-                    if ($stock['cat_parent'] == 1 && $item->good_id > 0 && $item->quantity + intval($this->basketGoods[$plus1]['quantity']) > $maxOrderQuantity)
+                    if ($plus1)
                     {
-                        return array('error' => "Вы не можете заказать более чем " . $maxOrderQuantity . " по одной позиции, обратитесь к администрации магазина");
-                    } 
-                    else
-                    {
-                        $sth = App::db()->prepare("SELECT g.`good_status`, g.`ps_src`, g.`ps_src_back`, g.`good_discount` FROM `goods` AS g WHERE g.`good_id` = ?");
-                        $sth->execute([$item->good_id]);
-                        $good = $sth->fetch();
-                        
-                        $discounts = [0];
-                        
-                        // на распрадажу не распространяются никакие скидки
-                        if ($stock['status'] == 'few' && $stock['good_stock_good_id'] > 0)
-                        {}
-                        else
-                        {
-                            $discounts[4] = userId2userBirthdayDiscount($this->user_id);
-                            //$discounts[2] = userId2userPersonalDiscount($this->user_id);
-                            //$discounts[7] = $this->user_basket_discount;
-                            $discounts[1] = $stock['discount'];
-                            $discounts[8] = ($good['good_discount'] > 0) ? $stock['discount_promo'] : 0;
-                            
-                            if (!in_array(date('Y-m-d'), ['2017-11-23', '2017-11-24', '2017-11-25'])) {
-                                if (!in_array($stock['style_category'], [71, 118, 24]) && $item->good_id > 0 && $this->user->user_partner_status <= 0 && !$this->user->meta->mjteam) {
-                                    $discounts[11] = $this->user->city != '' && $this->user->city != 'Москва' && $this->user->city_region != 'Московская область' && $this->user->city_region != 'Москва' ? 20 : 0;
-                                } 
-                            }
-                        }
-                        
-                        $stock['discount'] = max($discounts);
-                        $stock['discount'] += intval($this->user_basket_discount);
-    
-                        arsort($discounts);
-                        
-                        $discount_type = key($discounts);
-    
-                        // изделие с расчитываемой в зависимости от размера ценой (наклейка на ноутбук, на автомобиль, ткань)
-                        if (empty($stock['price']) && !empty($item->price)) {
-                            $stock['price'] = (int) $item->price * ($this->currency == 'usd' ? usdRateDaily() : 1);
-                            $stock['discount'] = 0;
-                        }
-    
-                        if ($_SESSION['whiteStyleDiscount']) {
-                            if (in_array($stock['sid'], array(407, 429, 390))) {
-                                $stock['price'] = 660;
-                            } elseif (in_array($stock['sid'], array(408, 436))) {
-                                $stock['price'] = 890;
-                            } elseif (in_array($stock['sid'], array(510, 510))) {
-                                $stock['price'] = 990;
-                            }
-                            $stock['discount'] = 0;
-                        }
-    
-                        if ($plus1)
-                        {
-                            App::db()->query("UPDATE `user_basket_goods`
-                                             SET
-                                                `user_basket_good_quantity` = `user_basket_good_quantity` + '" . $item->quantity . "'
-                                             WHERE 
-                                                `user_basket_good_id` = '" . $plus1 . "'
-                                             LIMIT 1");
-                                         
-                            $ubgid = $plus1;
-                        }
-                        else 
-                        {
-                            App::db()->query("INSERT INTO `user_basket_goods`
-                                              SET
-                                                `user_basket_id`               = '" . $this->id . "',
-                                                `good_id`                      = '" . $item->good_id . "',
-                                                `gift_id`                      = '" . $item->gift_id . "',
-                                                `good_stock_id`                = '" . $item->good_stock_id . "',
-                                                `user_basket_good_price`       = '" . $stock['price'] . "',
-                                                `user_basket_good_discount`    = '" . $stock['discount'] . "',
-                                                `user_basket_good_total_price` = '" . (round($stock['price'] * (1 - $stock['discount'] / 100)) * $item->quantity) . "', 
-                                                `user_basket_good_discount_type` = '" . $discount_type . "',
-                                                `user_basket_good_quantity`    = '" . $item->quantity . "',
-                                                `user_basket_good_box`         = '-1',
-                                                `user_basket_good_comment`     = '" . addslashes(urldecode($item->comment)) . "'");
-                                            
-                            $ubgid = App::db()->lastInsertId();
-                        }
-    
-                        // если это первый товар в корзине, запоминаем дату добавления
-                        if ($this->user_basket_fill_date == '0000-00-00 00:00:00') {
-                            $this->basketChange(array('user_basket_fill_date' => NOW));
-                        }
-                        
-                        // чтобы перевытащить позиции из базы и перерасчитать сумму со всеми скидками
-                        unset($this->basketGoods);
+                        $sth = App::db()->prepare("UPDATE `" . basketItem::$dbtable . "`
+                                         SET
+                                            `user_basket_good_quantity` = `user_basket_good_quantity` + :q,
+                                            `user_basket_good_total_price` = :tp
+                                         WHERE 
+                                            `id` = :id
+                                         LIMIT 1");
 
-                        $msg = array(
-                            'id' => $ubgid,
-                            'sum' => $this->getBasketSum(),
-                            'price' => $this->basketGoods[$ubgid]['tprice'],
-                        );
+                        $sth->execute([
+                            'q' => $item->quantity, 
+                            'id' => $plus1,
+                            'tp' => round($item->price * (1 - $item->discount / 100)) * ($item->quantity + $reservedtome),
+                        ]);
+                        
+                        $ubgid = $plus1;
                     }
+                    else 
+                    {
+                        $sth = App::db()->prepare("INSERT INTO `" . basketItem::$dbtable . "`
+                                          SET
+                                            `user_basket_id`               = :b,
+                                            `good_id`                      = :pid,
+                                            `user_basket_good_price`       = :p,
+                                            `user_basket_good_discount`    = :d,
+                                            `user_basket_good_total_price` = :tp, 
+                                            `user_basket_good_quantity`    = :q,
+                                            `user_basket_good_comment`     = :c");
+                        
+                        $sth->execute([
+                            'b' => $this->id,
+                            'pid' => $item->good_id,
+                            'p' => $item->price,
+                            'd' => $item->discount,
+                            'tp' => round($item->price * (1 - $item->discount / 100)) * $item->quantity,
+                            'q' => $item->quantity,
+                            'c' => urldecode($item->comment),
+                        ]);
+
+                        $ubgid = App::db()->lastInsertId();
+                    }
+
+                    // если это первый товар в корзине, запоминаем дату добавления
+                    if ($this->user_basket_fill_date == '0000-00-00 00:00:00') {
+                        $this->basketChange(array('user_basket_fill_date' => NOW));
+                    }
+
+                    // чтобы перевытащить позиции из базы и перерасчитать сумму со всеми скидками
+                    unset($this->basketGoods);
+
+                    $msg = array(
+                        'id' => $ubgid,
+                        'sum' => $this->getBasketSum(),
+                        'price' => $this->basketGoods[$ubgid]['tprice'],
+                    );
                 }
             }
             
@@ -1852,9 +1326,8 @@
         /**
          * Добавить в корзину сразу несколько позиций или СТ
          * @param array $goods массив с товарами
-         * @param array $gifts массив с СТ
          */
-        public function add2basket($goods, $gifts) 
+        public function add2basket($goods) 
         {
             foreach($goods AS $good_id => $gs)
             {
@@ -1870,121 +1343,11 @@
                     $msg = $this->addToBasket($basketItem);
                 }
             }
-
-            foreach ($gifts as $giftId) 
-            {
-                $msg2 = $this->addGift2basket($giftId, 1);
-                
-                $msg['sum'] = $msg2['sum'];
-                $msg['price'] += $msg2['price'];  
-            }
             
             return $msg;
         }
         
-        /**
-         * Добавить СТ в корзину
-         * @return 
-         * @param object $giftId - СТ
-         * @param object $q - количество
-         * @param object $p - цена
-         */
-        function addGift2basket($giftId, $quant = 1, $p) {
-            
-            if (empty($this->id)) {
-                $this->addBasket();
-            }
-                
-            $giftId = intval($giftId);
-            $quant  = intval($quant);
-                        
-            // Выбираем информацию о подарке
-            $r = App::db()->query("SELECT * FROM `gifts` WHERE `gift_id` = '" . $giftId . "' LIMIT 1");
-
-            if ($gift = $r->fetch())
-            {
-                // Проверяем не зарезервированы ли все эти подарки уже другими пользователями
-                $q = "SELECT IFNULL(SUM(ubg.`user_basket_good_quantity`), 0) AS q
-                      FROM `user_basket_goods` AS ubg, `user_baskets` AS ub 
-                      WHERE 
-                            ubg.`gift_id` = '$giftId'
-                        AND ubg.`user_basket_id` = ub.`user_basket_id`
-                        AND (ub.`user_basket_status` = 'ordered' OR ub.`user_basket_status` = 'accepted' OR ub.`user_basket_status` = 'waiting')
-                        AND ub.`user_basket_id` <> '" . $this->id . "'";
-                
-                $foo = App::db()->query($q)->fetch();
-                
-                $reserved = $foo['q'];
-
-                if (($gift['gift_quantity'] - $reserved) <= 0) {
-                    return array('error' => 'Этот товар уже зарезервирован другими пользователями');
-                }
-                else
-                {
-                    // сертификат произвольной стоимости
-                    if ($gift['gift_type'] == 'certifikat' && empty($gift['gift_price']))
-                        if (!empty($p))
-                            $gift['gift_price'] = $p; 
-                        else
-                            return array('error' => 'Не указан номинал сертификата');
-                    
-                    foreach ($this->basketGifts AS $id => $pos) 
-                    {
-                        
-                        if ($pos['gift_id'] == $giftId) {
-                            $plus1 = $id;
-                            break;
-                        }
-                    }
-                    
-                    if (!$plus1) {
-                        App::db()->query("INSERT INTO `user_basket_goods`
-                                     SET
-                                        `user_basket_id`               = '" . $this->id . "',
-                                        `gift_id`                      = '" . $giftId . "',
-                                        `user_basket_good_price`       = '" . $gift['gift_price'] . "',
-                                        `user_basket_good_discount`    = '" . $gift['gift_discount'] . "',
-                                        `user_basket_good_quantity`    = '" . $quant . "',
-                                        `user_basket_good_total_price` = '" . round(($gift['gift_price'] * (1 - $gift['gift_discount'] / 100)) * $quant) . "',
-                                        `user_basket_good_box`         = '-1'");
-                        
-                        $ubgid = App::db()->lastInsertId();
-                        
-                    } else {
-                        App::db()->query("UPDATE `user_basket_goods`
-                                     SET
-                                        `user_basket_good_quantity` = `user_basket_good_quantity` + '" . $quant . "'
-                                     WHERE 
-                                            `user_basket_good_id` = '" . $plus1 . "'
-                                     LIMIT 1");
-                                     
-                        $ubgid = $plus1;
-                    }
- 
-                    
-                    // Если добавляем в корзину дисконтную карту,
-                    // по применяем к корзине скидку по ней
-                    if ($gift['gift_type'] == 'diskont_card')
-                    {
-                        $this->basketChange(array(
-                            'user_basket_discount' => $gift['gift_discount'],
-                        ));
-                    }
-
-                    unset($this->basketGifts);
-                    
-                    return array(
-                        'id' => $ubgid,
-                        'sum' => $this->getBasketSum(),
-                        'price' => round(($gift['gift_price'] * (1 - $gift['gift_discount'] / 100)) * $quant),
-                    );
-                }
-            } else {
-                return array('error' => 'Не известный товар');
-            }
-            
-            return $msg;
-        }
+        
         
         /**
          * Удалить товар из корзины
@@ -1992,46 +1355,12 @@
          * @param object $good_id
          * @param object $good_stock_id
          */
-        function removeGood($good_id, $good_stock_id, $q = 1) {
+        function removeGood($good_id) {
             
             foreach ($this->basketGoods as $pos) {
-                if ($pos['good_id'] == $good_id && $pos['good_stock_id'] == $good_stock_id) {
-                    $reservedtome = $pos['quantity'];
+                if ($pos['good_id'] == $good_id) {
+                    App::db()->query("DELETE FROM `" . basketItem::$dbtable . "` WHERE `user_basket_id` = '" . $this->id . "' AND `good_id` = '" . intval($good_id) . "' LIMIT 1");
                 }
-            }
-            
-            if ($q >= $reservedtome) {
-                App::db()->query("DELETE FROM `user_basket_goods` WHERE `user_basket_id` = '" . $this->id . "' AND `good_id` = '" . intval($good_id) . "' AND `good_stock_id` = '" . intval($good_stock_id) . "' AND `gift_id` = '0' LIMIT 1");
-            } else {
-                App::db()->query("UPDATE `user_basket_goods` SET `user_basket_good_quantity` = `user_basket_good_quantity` - 1 WHERE `user_basket_id` = '" . $this->id . "' AND `good_id` = '" . intval($good_id) . "' AND `good_stock_id` = '" . intval($good_stock_id) . "' LIMIT 1");
-            }
-        }
-        
-        /**
-         * Удалить СТ из корзины
-         * @return 
-         * @param object $giftId
-         */
-        function removeGift($giftId, $q = 1) 
-        {
-            foreach ($this->basketGoods as $pos) {
-                if ($pos['gift_id'] == $giftId) {
-                    $reservedtome = $pos['quantity'];
-                }
-            }
-            
-            if ($q >= $reservedtome) {
-                App::db()->query("DELETE FROM `user_basket_goods` WHERE `user_basket_id` = '" . $this->id . "' AND `gift_id` = '" . intval($giftId) . "' LIMIT 1");
-            } else {
-                App::db()->query("UPDATE `user_basket_goods` SET `user_basket_good_quantity` = `user_basket_good_quantity` - 1 WHERE `user_basket_id` = '" . $this->id . "' AND `gift_id` = '" . intval($giftId) . "' LIMIT 1");
-            }
-            
-            $r    = App::db()->query("SELECT g.`gift_type` FROM `gifts` AS g WHERE g.`gift_id` = '$giftId'");
-            $gift = $r->fetch();
-    
-            if ($gift['gift_type'] == 'diskont_card')
-            {
-                $r = App::db()->query("UPDATE `user_baskets` SET `user_basket_discount` = '0' WHERE `user_basket_id` = '" . $this->id . "' LIMIT 1");
             }
         }
         
@@ -2041,18 +1370,14 @@
          * @return 
          */
         function saveBasket() 
-        {
-            $boxCost   = getVariableValue('boxCost');
-            $pcPrinted = getVariableValue('printCost0');
-            $pcClean   = getVariableValue('printCost10');
-            
+        {   
             $total_q = $bb = $tprice = 0;
 
             $goods = array();
             $gifts = array();
 
             $sth1 = App::db()->prepare("UPDATE
-                                            `user_basket_goods`
+                                            `" . basketItem::$dbtable . "`
                                        SET
                                             `user_basket_good_price`         = :price, 
                                             `user_basket_good_discount`      = :discount, 
@@ -2062,7 +1387,7 @@
                                             `user_basket_good_box`           = :box, 
                                             `user_basket_good_print_cost`    = :print_cost
                                       WHERE 
-                                            `user_basket_good_id` = :id
+                                            `id` = :id
                                       LIMIT 1");
 
             $sth2 = App::db()->prepare("UPDATE `good_stock` SET `good_stock_inprogress_quantity` = `good_stock_inprogress_quantity` + :q WHERE `good_stock_id` = :id LIMIT 1");
@@ -2149,14 +1474,14 @@
                 $row['quantity'] = $pos['q'];
                 
                 App::db()->query("UPDATE 
-                                        `user_basket_goods` 
+                                        `" . basketItem::$dbtable . "` 
                                     SET
                                         `user_basket_good_price`       = '" . $row['price'] . "',
                                         `user_basket_good_discount`    = '" . $row['discount'] . "',
                                         `user_basket_good_quantity`    = '" . $pos['q'] ."', 
                                         `user_basket_good_total_price` = '" . $row['total'] . "'
                                     WHERE
-                                        `user_basket_good_id` = '" . intval($row['user_basket_good_id']) . "'
+                                        `id` = '" . intval($row['user_basket_good_id']) . "'
                                     LIMIT 1");
 
                 $gifts[] = $pos;
@@ -2487,7 +1812,7 @@
          */
         function getBasketFinalGoodsSum() 
         {
-            $foo = App::db()->query("SELECT SUM(`user_basket_good_total_price`) AS s FROM `user_basket_goods` WHERE `user_basket_id` = '" . $this->id . "'")->fetch();
+            $foo = App::db()->query("SELECT SUM(`user_basket_good_total_price`) AS s FROM `" . basketItem::$dbtable . "` WHERE `user_basket_id` = '" . $this->id . "'")->fetch();
             return $foo['s'];
         }
 
@@ -3641,7 +2966,7 @@
                 }
             }
             
-            $sth = App::db()->prepare("UPDATE `user_basket_goods` 
+            $sth = App::db()->prepare("UPDATE `" . basketItem::$dbtable . "` 
                               SET 
                                 `user_basket_good_box` = :box
                               WHERE 
@@ -3675,7 +3000,7 @@
             if (empty($this->id))
                 $this->addBasket();
                 
-            App::db()->query("INSERT INTO `user_basket_log` SET
+            App::db()->query("INSERT INTO `" . self::$dbtable_log . "` SET
                             `basket_id` = '" . $this->id . "',
                             `action`    = '" . addslashes($a) . "',
                             `result`    = '" . addslashes($r) . "', 
@@ -3696,7 +3021,7 @@
         function dellog($a) 
         {
             App::db()->query("DELETE 
-                         FROM `user_basket_log`
+                         FROM `" . self::$dbtable_log . "`
                          WHERE
                             `basket_id` = '" . $this->id . "' AND
                             `action`    = '" . addslashes($a) . "'");
@@ -3710,7 +3035,7 @@
          */
         function getlog($action = '')
         {
-            $r = App::db()->query("SELECT * FROM `user_basket_log` WHERE `basket_id` = '" . $this->id . "' " . ((!empty($action)) ? "AND `action` = '" . addslashes($action) . "'" : '') . " ORDER BY `id` DESC");
+            $r = App::db()->query("SELECT * FROM `" . self::$dbtable_log . "` WHERE `basket_id` = '" . $this->id . "' " . ((!empty($action)) ? "AND `action` = '" . addslashes($action) . "'" : '') . " ORDER BY `id` DESC");
             
             $this->logs = array();
             
@@ -3856,7 +3181,7 @@
                 $sms   = new sms(SMSuser, SMSpassword, SMSsender);
                 $U     = new user($this->user_id);
                 
-                $foo = App::db()->query("SELECT SUM(`user_basket_good_total_price`) AS s FROM `user_basket_goods` WHERE `user_basket_id` = '" . $this->id . "'")->fetch();
+                $foo = App::db()->query("SELECT SUM(`user_basket_good_total_price`) AS s FROM `" . basketItem::$dbtable . "` WHERE `user_basket_id` = '" . $this->id . "'")->fetch();
                 
                 $gs = $foo['s'];
 
@@ -3967,15 +3292,15 @@
                 }
                 
                 // отпечатанные позиции возвращаем на склад
-                $r = App::db()->query("SELECT ubg.`user_basket_good_id`, COUNT(pp.`quantity`) AS q
-                                  FROM `user_basket_goods` AS ubg, `" . printturn::$dbtable . "` AS pp 
-                                  WHERE ubg.`user_basket_id` = '" . $this->id . "' AND ubg.`user_basket_good_id` = pp.`user_basket_good_id` AND pp.`status` = 'printed' 
-                                  GROUP BY ubg.`user_basket_good_id`");
+                $r = App::db()->query("SELECT ubg.`id`, COUNT(pp.`quantity`) AS q
+                                  FROM `" . basketItem::$dbtable . "` AS ubg, `" . printturn::$dbtable . "` AS pp 
+                                  WHERE ubg.`user_basket_id` = '" . $this->id . "' AND ubg.`id` = pp.`id` AND pp.`status` = 'printed' 
+                                  GROUP BY ubg.`id`");
                 
                 if ($r->rowCount() > 0)
                 {
                     // ищем в логе "заказ-возврат" для этого заказа
-                    $foo = App::db()->query("SELECT `result` FROM `user_basket_log` WHERE `basket_id` = '" . $this->id . "' AND `action` = 'return_basket'")->fetch();
+                    $foo = App::db()->query("SELECT `result` FROM `" . self::$dbtable_log . "` WHERE `basket_id` = '" . $this->id . "' AND `action` = 'return_basket'")->fetch();
                     
                     $rid = $foo['result'];
             
@@ -3983,7 +3308,7 @@
                     if (!$rid)
                     {
                         // формируем заказ с возвращёнными позициями и отрицательным количеством
-                        App::db()->query("INSERT INTO `user_baskets`
+                        App::db()->query("INSERT INTO `" . basket::$dbtable . "`
                                   SET 
                                     `user_id`                     = '" . $this->user_id . "',
                                     `user_basket_delivery_type`   = '" . $this->user_basket_delivery_type . "',
@@ -4013,8 +3338,8 @@
                 // end
                 
                 // пересчитываем количество зарезервированных товаров
-                $r = App::db()->query("SELECT ubg.`user_basket_good_id`, ubg.`good_stock_id`, ubg.`user_basket_good_quantity`
-                                  FROM `user_basket_goods` AS ubg
+                $r = App::db()->query("SELECT ubg.`id`, ubg.`good_stock_id`, ubg.`user_basket_good_quantity`
+                                  FROM `" . basketItem::$dbtable . "` AS ubg
                                   WHERE ubg.`user_basket_id` = '" . $this->id . "'");
                 
                 foreach ($r->fetchAll() AS $row)
@@ -4047,13 +3372,13 @@
                                 g.`good_status`, 
                                 g.`good_payment_multiplier` AS pm, 
                                 ubg.`user_basket_good_quantity` - ubg.`user_basket_good_quantity_return` AS q, 
-                                ubg.`user_basket_good_id` AS id, 
+                                ubg.`id` AS id, 
                                 ubg.`user_basket_good_total_price` AS tp, 
                                 ubg.`user_basket_good_box` AS box,
                                 gm.`meta_value` AS customization_of,
                                 gs.`style_id`
                               FROM 
-                                `user_basket_goods` AS ubg, 
+                                `" . basketItem::$dbtable . "` AS ubg, 
                                 `good_stock` AS gs, 
                                 `goods` AS g
                                     LEFT OUTER JOIN `good__buyout` AS gb ON g.`good_id` = gb.`good_id` AND gb.`approved` = '1'
@@ -4089,9 +3414,9 @@
                 {
                     $pid = pay2User($row['u'], $row['q'], $this->id, 'Выплата автору дизайна за продажу ' . $row['q'] . ' позиций #' . $row['id'] . ' с заказа ' . $this->id, $pay);
                     
-                    App::db()->query("UPDATE `user_basket_goods` 
+                    App::db()->query("UPDATE `" . basketItem::$dbtable . "` 
                                  SET `user_basket_good_payment_id` = '{$pid}' 
-                                 WHERE `user_basket_good_id` = '" . $row['id'] . "' AND `user_basket_id` = '" . $this->id . "'");
+                                 WHERE `id` = '" . $row['id'] . "' AND `user_basket_id` = '" . $this->id . "'");
                                  
                     printr("payment id: {$pid}");
                 }
@@ -4111,14 +3436,14 @@
             // только если это не оптовый заказ без печати
             //if ($this->user_basket_wholesale != 1)
             //{
-                $sth = App::db()->prepare("SELECT ubg.`user_basket_good_id` AS id, ubg.`user_basket_good_quantity` AS q, COUNT(pp.`id`) AS pq, ubg.`good_id`, ubg.`gift_id`, ubg.`good_stock_id`, gs.`good_id` AS gs_good_id, gs.`size_id`, gs.`good_id` AS good_stock_good_id
+                $sth = App::db()->prepare("SELECT ubg.`id` AS id, ubg.`user_basket_good_quantity` AS q, COUNT(pp.`id`) AS pq, ubg.`good_id`, ubg.`gift_id`, ubg.`good_stock_id`, gs.`good_id` AS gs_good_id, gs.`size_id`, gs.`good_id` AS good_stock_good_id
                                   FROM 
-                                    `user_basket_goods` AS ubg 
-                                        LEFT JOIN `" . printturn::$dbtable . "` AS pp ON ubg.`user_basket_good_id` = pp.`user_basket_good_id` AND pp.`status` = 'printed'
+                                    `" . basketItem::$dbtable . "` AS ubg 
+                                        LEFT JOIN `" . printturn::$dbtable . "` AS pp ON ubg.`id` = pp.`id` AND pp.`status` = 'printed'
                                         LEFT JOIN `good_stock` AS gs ON ubg.`good_stock_id` = gs.`good_stock_id`
                                   WHERE 
                                      ubg.`user_basket_id` = :id
-                                  GROUP BY ubg.`user_basket_good_id`");
+                                  GROUP BY ubg.`id`");
                 
                 $sth->execute(['id' => $this->id]);
                                   
@@ -4253,7 +3578,7 @@
                 
         
             // пересчитываем количество зарезервированных товаров
-            $r = App::db()->query("SELECT ubg.`good_stock_id` FROM `user_basket_goods` ubg, `good_stock` gs WHERE ubg.`user_basket_id` = '" . $this->id . "' AND ubg.`good_stock_id` = gs.`good_stock_id` AND gs.`good_id` = '0'");
+            $r = App::db()->query("SELECT ubg.`good_stock_id` FROM `" . basketItem::$dbtable . "` ubg, `good_stock` gs WHERE ubg.`user_basket_id` = '" . $this->id . "' AND ubg.`good_stock_id` = gs.`good_stock_id` AND gs.`good_id` = '0'");
             
             foreach ($r->fetchAll() AS $rowbg) {
                 updateStockInprogressQuantity($rowbg['good_stock_id']);
@@ -4287,13 +3612,13 @@
             $this->user_name           = $this->address['name'];
             
             // нельзя доставить заказ, если в нём присутствую неотпечатанные майки
-            $r = App::db()->query("SELECT ubg.`user_basket_good_id` AS id, ubg.`user_basket_good_quantity` AS q, COUNT(pp.`id`) AS pq, ubg.`good_id`, ubg.`gift_id`, ubg.`good_stock_id`, gs.`size_id`, gs.`good_id` AS good_stock_good_id
+            $r = App::db()->query("SELECT ubg.`id` AS id, ubg.`user_basket_good_quantity` AS q, COUNT(pp.`id`) AS pq, ubg.`good_id`, ubg.`gift_id`, ubg.`good_stock_id`, gs.`size_id`, gs.`good_id` AS good_stock_good_id
                               FROM 
-                                `user_basket_goods` AS ubg 
-                                    LEFT JOIN `" . printturn::$dbtable . "` AS pp ON ubg.`user_basket_good_id` = pp.`user_basket_good_id` AND pp.`status` = 'printed'
+                                `" . basketItem::$dbtable . "` AS ubg 
+                                    LEFT JOIN `" . printturn::$dbtable . "` AS pp ON ubg.`id` = pp.`id` AND pp.`status` = 'printed'
                                     LEFT JOIN `good_stock` AS gs ON ubg.`good_stock_id` = gs.`good_stock_id`
                               WHERE ubg.`user_basket_id` = '" . $this->id . "'
-                              GROUP BY ubg.`user_basket_good_id`");
+                              GROUP BY ubg.`id`");
                               
             foreach ($r->fetchAll() AS $tmp)
             {
@@ -4674,7 +3999,7 @@
             // срабатывает 1 раз в сутки
             if (!in_array($this->user_id, array(35021)))
             {
-                $r = App::db()->query("SELECT `user_basket_id` FROM `user_baskets` WHERE `user_id` = '" . $this->user_id . "' AND `user_basket_status` = 'delivered' AND `user_basket_id` != '" . $this->id . "' AND `user_basket_delivered_date` >= '" . NOWDATE . "'");
+                $r = App::db()->query("SELECT `user_basket_id` FROM `" . basket::$dbtable . "` WHERE `user_id` = '" . $this->user_id . "' AND `user_basket_status` = 'delivered' AND `user_basket_id` != '" . $this->id . "' AND `user_basket_delivered_date` >= '" . NOWDATE . "'");
                 
                 if ($r->rowCount() == 0) {
                     $this->user->change(['user_delivered_orders' => $this->user->user_delivered_orders + 1]);
@@ -4702,7 +4027,7 @@
             if ($this->user_basket_status == 'canceled')
             {
                 // 1. создаём новый заказ
-                $q = "INSERT INTO `user_baskets`
+                $q = "INSERT INTO `" . basket::$dbtable . "`
                       SET 
                         `user_id`                      = '" . $this->user_id . "',
                         `user_basket_delivery_type`    = '" . $this->user_basket_delivery_type . "',
@@ -4719,7 +4044,7 @@
                 
                 
                 // 2. пытаемся восстановить товары
-                $r = App::db()->query("SELECT ubg.* FROM `user_basket_goods` ubg, `good_stock` gs WHERE ubg.`user_basket_id` = '" . $this->id . "' AND ubg.`good_stock_id` = gs.`good_stock_id`");
+                $r = App::db()->query("SELECT ubg.* FROM `" . basketItem::$dbtable . "` ubg, `good_stock` gs WHERE ubg.`user_basket_id` = '" . $this->id . "' AND ubg.`good_stock_id` = gs.`good_stock_id`");
                 
                 foreach ($r->fetchAll() AS $row) 
                 {
@@ -4732,7 +4057,7 @@
                         $row['good_stock_id'] = $foo['good_stock_id'];
                     }
 
-                    App::db()->query("INSERT INTO `user_basket_goods`
+                    App::db()->query("INSERT INTO `" . basketItem::$dbtable . "`
                                  SET
                                     `user_basket_id`               = '" . $new . "',
                                     `good_id`                      = '" . $row['good_id'] . "',
@@ -4835,19 +4160,19 @@
             }
             */
             
-            $sth1 = App::db()->prepare("SELECT COUNT(*) AS c FROM `" . printturn::$dbtable . "` WHERE `user_basket_good_id` = :ubgid");
+            $sth1 = App::db()->prepare("SELECT COUNT(*) AS c FROM `" . printturn::$dbtable . "` WHERE `id` = :ubgid");
 
             $sth2 = App::db()->prepare("INSERT 
                             INTO `" . printturn::$dbtable . "` 
                             SET 
-                                `user_basket_good_id` = :ubgid, 
+                                `id` = :ubgid, 
                                 `status`              = 'accepted', 
                                 `quantity`            = '1', 
                                 `user_id`             = :user,
                                 `contractor_id`       = :contractor,
                                 `accepted_date`       = NOW()");
                                 
-            $sth3 = App::db()->prepare("UPDATE `" . printturn::$dbtable . "` SET `contractor_id` = :contractor_id WHERE `user_basket_good_id` = :ubgid AND `status` != 'printed'");
+            $sth3 = App::db()->prepare("UPDATE `" . printturn::$dbtable . "` SET `contractor_id` = :contractor_id WHERE `id` = :ubgid AND `status` != 'printed'");
 
             foreach ($intersect as $p) 
             {
@@ -5041,7 +4366,7 @@
             
             // Если цена доставки уменьшилась, а заказ был оплачен бонусами на больше чем получившаяся сумма
             // возвращаем часть бонусов на лс
-            $sth = App::db()->prepare("SELECT SUM(`user_basket_good_total_price`) AS s FROM `user_basket_goods` WHERE `user_basket_id` = ?");
+            $sth = App::db()->prepare("SELECT SUM(`user_basket_good_total_price`) AS s FROM `" . basketItem::$dbtable . "` WHERE `user_basket_id` = ?");
             $sth->execute([$this->id]);
             $foo = $sth->fetch();
             $pp = $foo['s'] + $this->user_basket_delivery_cost;

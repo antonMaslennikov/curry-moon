@@ -7,7 +7,6 @@
         var $classesBase = 'admin\application\controllers\\';
         
         var $data = [
-
 	        'api_transliterate' =>[
 		        'pattern' => '/admin/api/transliterate',
 		        'action' => 'Controller_api:action_transliterate',
@@ -186,31 +185,56 @@
 	        'blog_delete'=>[
 		        'pattern'=>'/admin/blog/delete',
 		        'action'=> 'Controller_blog:action_delete',
-		        'schemas' => 'GET'
+		        'schemas' => 'GET',
 	        ],
 
 	        'user_list'=>[
 		        'pattern'=>'/admin/user/list',
 		        'action'=> 'Controller_user:action_index',
-		        'schemas' => 'GET'
+		        'schemas' => 'GET',
 	        ],
 
 	        'user_create'=>[
 		        'pattern'=>'/admin/user/create',
 		        'action'=> 'Controller_user:action_create',
-		        'schemas' => 'GET|POST'
+		        'schemas' => 'GET|POST',
 	        ],
 
 	        'user_update'=>[
 		        'pattern'=>'/admin/user/update',
 		        'action'=> 'Controller_user:action_update',
-		        'schemas' => 'GET|POST'
+		        'schemas' => 'GET|POST',
 	        ],
 
 	        'user_delete'=>[
 		        'pattern'=>'/admin/user/delete',
 		        'action'=> 'Controller_user:action_delete',
-		        'schemas' => 'GET'
+		        'schemas' => 'GET|POST',
+			],
+            
+            
+            'settings_list'=>[
+		        'pattern'=>'/admin/settings(/list)?',
+		        'action'=> 'Controller_settings:action_index',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'settings_create'=>[
+		        'pattern'=>'/admin/settings/create',
+		        'action'=> 'Controller_settings:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'settings_update'=>[
+		        'pattern'=>'/admin/settings/update',
+		        'action'=> 'Controller_settings:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'settings_delete'=>[
+		        'pattern'=>'/admin/settings/delete',
+		        'action'=> 'Controller_settings:action_delete',
+		        'schemas' => 'GET',
 	        ],
         ];
     }

@@ -35,13 +35,14 @@ abstract class Validator
         'required' => '\smashEngine\core\validators\RequiredValidator',
         'url' => '\smashEngine\core\validators\UrlValidator',
         'safe' => '\smashEngine\core\validators\SafeValidator',
-        'unsafe' => '\smashEngine\core\validators\UnsafeValidator',
+        'unsafe' => '\smashEngine\core\validators\UnSafeValidator',
         'email'=>'\smashEngine\core\validators\EmailValidator',
         'filter'=>'\smashEngine\core\validators\FilterValidator',
         'length'=>'\smashEngine\core\validators\StringValidator',
 	    'in'=>'\smashEngine\core\validators\RangeValidator',
 	    'file'=>'\smashEngine\core\validators\FileValidator',
 	    'boolean'=>'\smashEngine\core\validators\BooleanValidator',
+        'lat'=>'\smashEngine\core\validators\LatValidator',
 
 	    /*
 	?'match'=>'RegularExpressionValidator',

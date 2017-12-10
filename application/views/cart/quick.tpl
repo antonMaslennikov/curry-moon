@@ -1,20 +1,29 @@
-<div class="box "><div class="content">
-<div class="vmGkCartModule ">
-<h3>Моя корзина</h3>
-<div class="vmGkCartProducts">
-<div><img src="/images/shop/product/insta25.gif" alt="">
-<div>
-<h3><span>111113×</span><a href="/ru/shop/jewellery/silver/cerebrianoe-koltco-s-lunnym-kamnem-sr035">Cеребряное кольцо с лунным камнем</a></h3>
-<div class="customProductData"><div class="vm-customfield-mod"></div></div>
-<span class="gkPrice num1">286671540руб</span>
+<div class="box ">
+   <div class="content">
+        <div class="vmGkCartModule ">
+            <h3>Моя корзина</h3>
+            
+            {foreach from=$basket->basketGoods item="p"}
+            <div class="vmGkCartProducts">
+                <div>
+                    <img src="{$p.picture_path}" alt="">
+                    <div>
+                        <h3>
+                            <span>{$p.quantity}×</span>
+                            <a href="/ru/shop/openproduct/{$p.good_id}">{$p.product_name}</a>
+                        </h3>
+                        <div class="customProductData"><div class="vm-customfield-mod"></div></div>
+                        <span class="gkPrice num1">{$p.tprice} руб</span>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+            
+            <div class="gkTotal"> Всего <strong>{$basket->basketSum} руб</strong> </div>
+            <div class="gkShowCart"> <a style="float:right;" href="/ru/cart" rel="nofollow">Показать корзину</a> </div>
+            <noscript>
+            Пожалуйста, подождите          
+            </noscript>
+        </div>
+    </div>
 </div>
-</div>
-</div>
-
-<div class="gkTotal"> Всего <strong>286671540 руб</strong> </div>
-<div class="gkShowCart"> <a style="float:right;" href="/ru/shop/cart" rel="nofollow">Показать корзину</a> </div>
-<noscript>
-Пожалуйста, подождите          </noscript>
-</div>
-
-</div></div>

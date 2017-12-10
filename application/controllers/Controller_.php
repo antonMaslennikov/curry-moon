@@ -48,17 +48,17 @@
             }
             
             // кэшируем переменные
-            if (!$this->VARS = App::memcache()->get('VARS')) 
-            {
+            //if (!$this->VARS = App::memcache()->get('VARS')) 
+            //{
                 $sth = App::db()->query("SELECT `variable_name`, `variable_value` FROM `variables`");
                 foreach($sth->fetchAll() AS $v) {
                     $this->VARS[$v['variable_name']] = $v['variable_value'];
                 }
-                App::memcache()->set('VARS', $this->VARS, false, 7200);
-            }
+            //    App::memcache()->set('VARS', $this->VARS, false, 7200);
+            //}
             
             // получаем курс доллара
-            $this->VARS['usdRate'] = usdRateDaily();
+            //$this->VARS['usdRate'] = usdRateDaily();
             
             // импортируем статику на страницу
             $this->page->import(array(
@@ -102,7 +102,7 @@
             $this->view->setVar('ogUrlAlt', rtrim((strpos($this->page->url, '/' . $this->page->lang) === 0 ? substr($this->page->url, 3) : $this->page->url), '/'));
             $this->view->setVar('mainUrl', mainUrl);
                 
-            $this->view->setVar('dollarRate', $this->VARS['usdRate']);
+            //$this->view->setVar('dollarRate', $this->VARS['usdRate']);
             $this->view->setVar('datetime', array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'), 'hour' => date('H'), 'minute' => date('i'), 'dayofweek' => date('w')));
             
             $this->view->setVar('contact_phone', $this->VARS['contactPhone1']);

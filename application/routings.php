@@ -39,6 +39,25 @@
                 'schemas' => 'GET',
             ],
             
+            'cart-delete' => [
+                'pattern' => '/cart/delete', 
+                'action' => 'Controller_cart:action_delete', 
+                'schemas' => 'GET',
+            ],
+            
+            'cart-updatecart' => [
+                'pattern' => '/cart/updatecart', 
+                'action' => 'Controller_cart:action_updatecart', 
+                'schemas' => 'GET|POST',
+            ],
+            
+            'cart-coupon' => [
+                'pattern' => '/cart/setcoupon', 
+                'action' => 'Controller_cart:action_setcoupon', 
+                'schemas' => 'GET|POST',
+            ],
+            
+            
             
             'login' => [
                 'pattern' => '/(ru|en)/users/login', 
@@ -97,8 +116,15 @@
                 'title' => 'Контакты',
             ],
             
+            
+            'shop-openproduct' => [
+                'pattern' => '/(ru|en)/shop/openproduct/(id:num)', 
+                'action' => 'Controller_shop:action_openproduct', 
+                'schemas' => 'GET',
+            ],
+            
             'shop' => [
-                'pattern' => '/(ru|en)/shop(/?)(.*)', 
+                'pattern' => '/(ru|en)/shop(/?)((openproduct)?)(.*)', 
                 'action' => 'Controller_shop:action_index', 
                 'schemas' => 'GET',
 	            'title' => 'Каталог',

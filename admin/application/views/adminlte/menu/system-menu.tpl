@@ -16,6 +16,8 @@
             <li role="separator" class="divider nav-header" visible="1"><a href="#"></a></li>
             <li><a tabindex="-1" href="/admin/menu/item"><i class="fa fa-fw fa-list-alt"></i>Пункты меню</a></li>
             <li><a tabindex="-1" href="/admin/menu/item/create"><i class="fa fa-fw fa-plus"></i> Добавить пункт</a></li>
+            <li role="separator" class="divider nav-header" visible="1"><a href="#"></a></li>
+            <li class="nav-header"><a href="/admin/settings"><i class="fa fa-fw fa-wrench"></i> НАСТРОЙКИ</a></li>
         </ul>
     </li>
     <li class="dropdown">

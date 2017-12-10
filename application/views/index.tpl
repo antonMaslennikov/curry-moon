@@ -14,6 +14,10 @@
     <meta property="og:description" content="{$PAGE->description}" />
     <meta name="description" content="{$PAGE->description}" />
     
+    {if $PAGE->noindex || $appMode != 'production'}
+		<meta name="robots" content="noindex">
+	{/if}
+   
     <title>{$PAGE->title} - Curry Moon</title>
     
     <link href="/public/images/favicon/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
