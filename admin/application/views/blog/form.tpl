@@ -263,11 +263,9 @@
     </div>
 </div>
 {literal}
-<<<<<<< HEAD
-    <script src="/public/packages/tinymce/tinymce.min.js"></script>
-=======
+
 <script src="/public/packages/tinymce/tinymce.min.js"></script>
->>>>>>> 8013274810aeece32406419c9e0838142f57a6c2
+
 <script type="text/javascript">
     !function ($) {
         $(function() {

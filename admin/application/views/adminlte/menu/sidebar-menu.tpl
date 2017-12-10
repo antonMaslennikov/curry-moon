@@ -5,7 +5,7 @@
             <span>Dashboard</span>
         </a>
     </li>
-    <li class="treeview">
+    <li class="treeview {if $PAGE->reqUrl.1 == "cart"}active{/if}">
         <a href="#">
             <i class="fa fa-fw fa-shopping-cart"></i>
             <span>Заказы</span>
@@ -18,7 +18,7 @@
             <li><a href="/admin/orders/create"><i class="fa fa-plus"></i> Добавить заказ</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="treeview {if $PAGE->reqUrl.1 == "product"}active{/if}">
         <a href="#">
             <i class="fa fa-fw fa-shopping-basket"></i>
             <span>Товары</span>
@@ -31,7 +31,7 @@
             <li><a href="/admin/product/create"><i class="fa fa-plus"></i> Добавить товар</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="treeview {if $PAGE->reqUrl.1 == "product_category"}active{/if}">
         <a href="#">
             <i class="fa fa-fw fa-shopping-bag"></i>
             <span>Категории товаров</span>
@@ -44,7 +44,7 @@
             <li><a href="/admin/product_category/create"><i class="fa fa-plus"></i> Добавить категорию</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="treeview {if $PAGE->reqUrl.1 == "blog"}active{/if}">
         <a href="#">
             <i class="fa fa-fw fa-folder-open"></i>
             <span>Блоги</span>
@@ -57,9 +57,9 @@
             <li><a href="/admin/blog/create"><i class="fa fa-plus"></i> Добавить блог</a></li>
         </ul>
     </li>
-    <li class="treeview">
+    <li class="treeview {if $PAGE->reqUrl.1 == "coupon"}active{/if}">
         <a href="#">
-            <i class="fa fa-fw fa-folder-open"></i>
+            <i class="fa fa-fw fa-money"></i>
             <span>Купоны</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
