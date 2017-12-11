@@ -31,99 +31,25 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_name)}has-error{/if}">
-                                    <label for="{$model.id.product_name}">
-                                        {$model.label.product_name}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_name}"
-                                            name="{$model.name.product_name}"
-                                            value="{$model.value.product_name}"
-                                            placeholder="Введите название">
-                                    {if isset($model.error.product_name)}
-                                        <p class="help-block">{' '|implode:$model.error.product_name}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_name" required="1"}
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.slug)}has-error{/if}">
-                                    <label for="{$model.id.slug}">
-                                        {$model.label.slug}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.slug}"
-                                            name="{$model.name.slug}"
-                                            value="{$model.value.slug}"
-                                            placeholder="Введите slug">
-                                    {if isset($model.error.slug)}
-                                        <p class="help-block">{' '|implode:$model.error.slug}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="slug"}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_sku)}has-error{/if}">
-                                    <label for="{$model.id.product_sku}">
-                                        {$model.label.product_sku}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_sku}"
-                                            name="{$model.name.product_sku}"
-                                            value="{$model.value.product_sku}"
-                                            placeholder="Введите артикул">
-                                    {if isset($model.error.product_sku)}
-                                        <p class="help-block">{' '|implode:$model.error.product_sku}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_sku"}
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.status)}has-error{/if}">
-                                    <label for="{$model.id.status}">
-                                        {$model.label.status}
-                                    </label>
-                                    <select
-                                            class="form-control"
-                                            id="{$model.id.status}"
-                                            name="{$model.name.status}">
-                                        {foreach from=$model.listStatus item="m" key="k"}
-                                            <option value="{$k}"
-                                                    {if $k == $model.value.status}selected="selected"{/if}>{$m}</option>
-                                        {/foreach}
-                                    </select>
-                                    {if isset($model.error.status)}
-                                        <p class="help-block">{' '|implode:$model.error.status}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/select.tpl" attr="status" list=$model.listStatus}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.category)}has-error{/if}">
-                                    <label for="{$model.id.category}">
-                                        {$model.label.category}
-                                    </label>
-                                    <select
-                                            class="form-control"
-                                            id="{$model.id.category}"
-                                            name="{$model.name.category}">
-                                        {foreach from=$model.listCategory item="m" key="k"}
-                                            <option value="{$k}"
-                                                    {if $k == $model.value.category}selected="selected"{/if}>{$m}</option>
-                                        {/foreach}
-                                    </select>
-                                    {if isset($model.error.category)}
-                                        <p class="help-block">{' '|implode:$model.error.category}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/select.tpl" attr="category" list=$model.listCategory}
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group {if isset($model.error.manufacturer)}has-error{/if}">
@@ -148,18 +74,7 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.description_short)}has-error{/if}">
-                                    <label for="{$model.id.description_short}">
-                                        {$model.label.description_short}
-                                    </label>
-                                    <textarea
-                                            class="form-control"
-                                            id="{$model.id.description_short}"
-                                            name="{$model.name.description_short}">{$model.value.description_short}</textarea>
-                                    {if isset($model.error.description_short)}
-                                        <p class="help-block">{' '|implode:$model.error.description_short}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/textarea.tpl" attr="description_short" class_selector="tinymce-textarea"}
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group {if isset($model.error.tags)}has-error{/if}">
@@ -185,18 +100,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group {if isset($model.error.description_long)}has-error{/if}">
-                                    <label for="{$model.id.description_long}">
-                                        {$model.label.description_long}
-                                    </label>
-                                    <textarea
-                                            class="form-control tinymce-textarea"
-                                            id="{$model.id.description_long}"
-                                            name="{$model.name.description_long}">{$model.value.description_long}</textarea>
-                                    {if isset($model.error.description_short)}
-                                        <p class="help-block">{' '|implode:$model.error.description_long}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/textarea.tpl" attr="description_long" class_selector="tinymce-textarea"}
                             </div>
                         </div>
 
@@ -260,81 +164,25 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_width)}has-error{/if}">
-                                    <label for="{$model.id.product_width}">
-                                        {$model.label.product_weight}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_width}"
-                                            name="{$model.name.product_width}"
-                                            value="{$model.value.product_width}"
-                                            placeholder="см">
-                                    {if isset($model.error.product_width)}
-                                        <p class="help-block">{' '|implode:$model.error.product_width}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_width"}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_height)}has-error{/if}">
-                                    <label for="{$model.id.product_height}">
-                                        {$model.label.product_height}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_height}"
-                                            name="{$model.name.product_height}"
-                                            value="{$model.value.product_height}"
-                                            placeholder="см">
-                                    {if isset($model.error.product_height)}
-                                        <p class="help-block">{' '|implode:$model.error.product_height}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_height"}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_length)}has-error{/if}">
-                                    <label for="{$model.id.product_length}">
-                                        {$model.label.product_length}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_length}"
-                                            name="{$model.name.product_length}"
-                                            value="{$model.value.product_length}"
-                                            placeholder="см">
-                                    {if isset($model.error.product_length)}
-                                        <p class="help-block">{' '|implode:$model.error.product_length}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_length"}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_weight)}has-error{/if}">
-                                    <label for="{$model.id.product_weight}">
-                                        {$model.label.product_weight}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_weight}"
-                                            name="{$model.name.product_weight}"
-                                            value="{$model.value.product_weight}"
-                                            placeholder="гр">
-                                    {if isset($model.error.product_weight)}
-                                        <p class="help-block">{' '|implode:$model.error.product_weight}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_weight"}
                             </div>
                         </div>
 
@@ -344,37 +192,13 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.meta_keywords)}has-error{/if}">
-                                    <label for="{$model.id.meta_keywords}">
-                                        {$model.label.meta_keywords}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.meta_keywords}"
-                                            name="{$model.name.meta_keywords}"
-                                            value="{$model.value.meta_keywords}">
-                                    {if isset($model.error.meta_keywords)}
-                                        <p class="help-block">{' '|implode:$model.error.meta_keywords}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="meta_keywords"}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.meta_description)}has-error{/if}">
-                                    <label for="{$model.id.meta_description}">
-                                        {$model.label.meta_description}
-                                    </label>
-                                    <textarea
-                                        class="form-control"
-                                        id="{$model.id.meta_description}"
-                                        name="{$model.name.meta_description}">{$model.value.meta_description}</textarea>
-                                {if isset($model.error.meta_description)}
-                                    <p class="help-block">{' '|implode:$model.error.meta_description}</p>
-                                {/if}
-                                </div>
+                                {include file="adminlte/form/textarea.tpl" attr="meta_description"}
                             </div>
                         </div>
 
@@ -384,58 +208,19 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.quantity)}has-error{/if}">
-                                    <label for="{$model.id.quantity}">
-                                        {$model.label.quantity}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.quantity}"
-                                            name="{$model.name.quantity}"
-                                            value="{$model.value.quantity}">
-                                    {if isset($model.error.quantity)}
-                                        <p class="help-block">{' '|implode:$model.error.quantity}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="quantity"}
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_price)}has-error{/if}">
-                                    <label for="{$model.id.product_price}">
-                                        {$model.label.product_price}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_price}"
-                                            name="{$model.name.product_price}"
-                                            value="{$model.value.product_price}">
-                                    {if isset($model.error.product_price)}
-                                        <p class="help-block">{' '|implode:$model.error.product_price}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_price"}
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.product_discount)}has-error{/if}">
-                                    <label for="{$model.id.product_discount}">
-                                        {$model.label.product_discount}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.product_discount}"
-                                            name="{$model.name.product_discount}"
-                                            value="{$model.value.product_discount}">
-                                    {if isset($model.error.product_discount)}
-                                        <p class="help-block">{' '|implode:$model.error.product_discount}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="product_discount"}
                             </div>
                         </div>
                     </div>

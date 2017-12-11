@@ -8,7 +8,7 @@
 
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#main" data-toggle="tab">Основные данные</a></li>
-                    <li><a href="#meta" data-toggle="tab">META данные</a></li>
+                    <li><a href="#address" data-toggle="tab">Адрес</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -29,8 +29,31 @@
                         {include file="user/form_main.tpl"}
                     </div>
 
+                    <div class="tab-pane" id="address">
+
+                        {include file="user/form_address.tpl"}
+                    </div>
+
                 </div>
             </div>
         </form>
     </div>
 </div>
+{literal}
+<script type="text/javascript">
+    !function ($) {
+        $(function() {
+
+            $('.datepicker').datepicker({
+                autoclose: true,
+                language: 'ru',
+                format:"dd.mm.yyyy"
+            });
+
+            /*$(".select2-tags").select2({
+                tags: true
+            });*/
+        })
+    }(window.jQuery)
+</script>
+{/literal}

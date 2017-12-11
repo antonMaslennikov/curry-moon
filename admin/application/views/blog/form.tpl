@@ -37,75 +37,18 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.title)}has-error{/if}">
-                                    <label for="{$model.id.title}">
-                                        {$model.label.title} <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.title}"
-                                            name="{$model.name.title}"
-                                            value="{$model.value.title}"
-                                            placeholder="Введите {$model.label.title|mb_strtolower}">
-                                    {if isset($model.error.title)}
-                                        <p class="help-block">{' '|implode:$model.error.title}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="title" required="1"}
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.slug)}has-error{/if}">
-                                    <label for="{$model.id.slug}">
-                                        {$model.label.slug} <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.slug}"
-                                            name="{$model.name.slug}"
-                                            value="{$model.value.slug}"
-                                            placeholder="Введите {$model.label.slug|mb_strtolower}">
-                                    {if isset($model.error.slug)}
-                                        <p class="help-block">{' '|implode:$model.error.slug}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="slug" required="1"}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.publish_date)}has-error{/if}">
-                                    <label for="{$model.id.publish_date}">
-                                        {$model.label.publish_date} <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control datepicker"
-                                            id="{$model.id.publish_date}"
-                                            name="{$model.name.publish_date}"
-                                            value="{$model.value.publish_date}">
-                                    {if isset($model.error.publish_date)}
-                                        <p class="help-block">{' '|implode:$model.error.publish_date}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="publish_date" required="1" class_selector="datepicker"}
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.status)}has-error{/if}">
-                                    <label for="{$model.id.status}">
-                                        {$model.label.status}
-                                    </label>
-                                    <select
-                                            class="form-control"
-                                            id="{$model.id.status}"
-                                            name="{$model.name.status}">
-                                        {foreach from=$model.listStatus item="m" key="k"}
-                                            <option value="{$k}"
-                                                    {if $k == $model.value.status}selected="selected"{/if}>{$m}</option>
-                                        {/foreach}
-                                    </select>
-                                    {if isset($model.error.status)}
-                                        <p class="help-block">{' '|implode:$model.error.status}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/select.tpl" attr="status" list=$model.listStatus}
                             </div>
                         </div>
 
@@ -131,42 +74,13 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.is_special)}has-error{/if}">
-                                    <label for="{$model.id.is_special}">
-                                        {$model.label.is_special}&nbsp;
-                                    </label>
-                                    <select
-                                            class="form-control"
-                                            id="{$model.id.is_special}"
-                                            name="{$model.name.is_special}">
-                                        {foreach from=$model.listSpecial item="m" key="k"}
-                                            <option value="{$k}"
-                                                    {if $k == $model.value.is_special}selected="selected"{/if}>{$m}</option>
-                                        {/foreach}
-                                    </select>
-                                    {if isset($model.error.is_special)}
-                                        <p class="help-block">{' '|implode:$model.error.is_special}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/select.tpl" attr="is_special" list=$model.listSpecial}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group {if isset($model.error.content)}has-error{/if}">
-                                    <label for="{$model.id.content}">
-                                        {$model.label.content}
-                                    </label>
-                                    <textarea
-                                            type="text"
-                                            class="form-control tinymce-textarea"
-                                            id="{$model.id.content}"
-                                            name="{$model.name.content}"
-                                            placeholder="Введите текст">{$model.value.content}</textarea>
-                                    {if isset($model.error.content)}
-                                        <p class="help-block">{' '|implode:$model.error.content}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/textarea.tpl" attr="content" class_selector="tinymce-textarea"}
                             </div>
                         </div>
 
@@ -215,37 +129,13 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.keywords)}has-error{/if}">
-                                    <label for="{$model.id.keywords}">
-                                        {$model.label.keywords}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.keywords}"
-                                            name="{$model.name.keywords}"
-                                            value="{$model.value.keywords}">
-                                    {if isset($model.error.keywords)}
-                                        <p class="help-block">{' '|implode:$model.error.keywords}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="keywords"}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.description)}has-error{/if}">
-                                    <label for="{$model.id.description}">
-                                        {$model.label.description}
-                                    </label>
-                                    <textarea
-                                            class="form-control"
-                                            id="{$model.id.description}"
-                                            name="{$model.name.description}">{$model.value.description}</textarea>
-                                    {if isset($model.error.description)}
-                                        <p class="help-block">{' '|implode:$model.error.description}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/textarea.tpl" attr="description"}
                             </div>
                         </div>
 

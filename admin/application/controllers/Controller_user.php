@@ -78,6 +78,15 @@ class Controller_user extends Controller_ {
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Изменить');
 
+		$this->page->import([
+			'/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css',
+			'/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js',
+			'/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js',
+			'/public/packages/select2/css/select2.min.css',
+			'/public/packages/select2/js/select2.min.js',
+			'/public/packages/select2/js/i18n/ru.js'
+		]);
+
 		$this->render();
 	}
 }

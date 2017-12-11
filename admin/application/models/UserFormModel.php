@@ -13,38 +13,36 @@ class UserFormModel extends FormModel {
 
 	public $newRecord = true;
 
-	protected $old_login;
+	protected $old_email;
 
-	public $user_login;
 	public $user_password;
-	//public $user_sex;
 	public $user_name;
-	public $user_show_name = 'true';
 	public $user_email;
-	public $user_show_email = 'false';
 	public $user_phone;
-	//public $user_birthday;
-	//public $user_register_date;
-	public $user_ip; // ip2long,
-	//public $user_url;
-	//public $user_picture; //'=> 'intval',
-    public $user_description;
-	public $user_status;
-    public $user_last_login;
-	public $user_activation;
-    public $user_is_fake;
-	public $user_subscription_status;
-    public $user_address;
-	public $user_zip;
-    public $user_country_id; //'=> 'intval',
-	public $user_city_id;   //=> 'intval',
+	public $user_birthday; //календарик
+	public $user_description; //input
+
+	public $user_status = 'active'; // active , banned,  ///deleted - Удаленный
+    public $user_activation = 'waiting'; // done - активация выполнена, waiting - ожидает выполнения активации, failed - активация провалена
+    public $user_is_fake = 'false';  // true - Рагистрация через заказ false - Обычная регистрация
+	public $user_subscription_status = 'canceled' ;//  'active', 'canceled'
+
+	public $user_address; // input
+	public $user_zip; // почтовый индекс
+    public $user_country_id; //'=> 'intval', Страны
+	public $user_city_id;   //=> 'intval', Городов
 
 
 	public function setUpdate() {
 
 		$this->newRecord = false;
 
-		$this->old_login = $this->user_login;
+		$this->old_email = $this->user_email;
+
+		if ($this->user_birthday && ($this->user_birthday != '0000-00-00'))
+			$this->user_birthday = \DateTime::createFromFormat('Y-m-d', $this->user_birthday)->format('d.m.Y');
+		else
+			$this->user_birthday = '';
 	}
 
 
@@ -59,15 +57,22 @@ class UserFormModel extends FormModel {
 	public function rules() {
 
 		return [
-			[['user_login', 'user_name', 'user_email'], 'required' ],
-
-			['user_login', 'uniqueLogin'],
+			[['user_name', 'user_email'], 'required' ],
 
 			['user_email', 'email'],
+			['user_email', 'uniqueEmail'],
 
-			[['user_show_name', 'user_show_email'], 'in', 'range'=>array_keys($this->getShowNameList())],
+			[['user_phone', 'user_description', 'user_zip', 'user_address'], 'safe'],
 
-			[['user_phone'], 'safe'],
+			['user_status', 'in', 'range'=>array_keys($this->getStatusList())],
+
+			['user_activation', 'in', 'range'=>array_keys($this->getActivationList())],
+
+			['user_is_fake', 'in', 'range'=>array_keys($this->getIsFakeList()) ],
+
+			['user_subscription_status', 'in', 'range'=>array_keys($this->getSubscriptionStatusList()) ],
+
+			['user_birthday', 'dateFormat'],
 		];
 	}
 
@@ -75,62 +80,96 @@ class UserFormModel extends FormModel {
 	public function attributeLabels() {
 
 		return [
-			'user_login'=>'Логин',
-			'user_password'=>'',
-		//	'user_sex'=>'',
+			'user_password'=>'Пароль',
 			'user_name'=>'ФИО',
-			'user_show_name'=>'Отображать ФИО',
 			'user_email'=>'E-mail',
-			'user_show_email'=>'Отображать E-mail',
 			'user_phone'=>'Телефон',
-		//	'user_birthday'=>'',
-		//	'user_register_date'=>'',
-			'user_ip'=>'',
-		//	'user_url'=>'',
-		//	'user_picture'=>'',
-            'user_description'=>'',
-			'user_status'=>'',
-            'user_last_login'=>'',
-			'user_activation'=>'',
-            'user_is_fake'=>'',
-			'user_subscription_status'=>'',
-            'user_address'=>'',
-			'user_zip'=>'',
-            'user_country_id'=>'',
-			'user_city_id'=>'',
+			'user_birthday'=>'Дата рождения',
+		    'user_description'=>'Описание',
+			'user_status'=>'Статус',
+         	'user_activation'=>'Статус активации',
+            'user_is_fake'=>'Тип регистрации',
+			'user_subscription_status'=>'Подписка',
+            'user_address'=>'Адрес',
+			'user_zip'=>'Индекс',
+            'user_country_id'=>'Город',
+			'user_city_id'=>'Страна',
 		];
 	}
 
-	protected function uniqueLogin($attribute, $params) {
+	protected function getStatusList() {
+
+		return [
+			'active'=>'Активный',
+			'banned'=>'Заблокированный',
+			'deleted'=>'Удаленный',
+		];
+	}
+
+	protected function getActivationList() {
+
+		return [
+			'done' => 'Активация выполнена',
+			'waiting' => 'Ожидает выполнения',
+			'failed' => 'Активация провалена',
+		];
+	}
+
+	protected function getIsFakeList() {
+
+		return [
+			'false' => 'Регистрация через заказ',
+			'true' => 'Обычная регистрация',
+		];
+	}
+
+	protected function getSubscriptionStatusList() {
+
+		return [
+			'canceled' => 'Не оформлена',
+			'active' => 'Оформлена',
+		];
+	}
+
+	protected function uniqueEmail($attribute, $params) {
 
 		if (!$this->newRecord) {
 
-			if ($this->slug == $this->old_slug)	 return;
+			if ($this->user_email == $this->old_email) return;
 		}
 
-		$r = App::db()->prepare("SELECT id FROM `" . user::db() . "` WHERE `user_login` = ? LIMIT 1");
+		$r = App::db()->prepare("SELECT id FROM `" . user::db() . "` WHERE `user_email` = ? LIMIT 1");
 
-		$r->execute([$this->slug]);
+		$r->execute([$this->user_email]);
 
 		if ($r->rowCount() == 1)
 		{
-			$this->addError('slug', sprintf('Пользватель с таким логином уже существует!', $this->getAttributeLabel('slug')));
+			$this->addError('email', sprintf('Пользватель с таким логином уже существует!', $this->getAttributeLabel('slug')));
 		}
 	}
 
-	protected function getShowNameList() {
 
-		return [
-			'true' => 'Отображать',
-			'false' => 'Не отображать',
-		];
+	public function dateFormat($attribute, $params) {
+
+		if ($this->getErrorSummary()) return;
+
+		if (!$this->user_birthday) return;
+
+		$this->user_birthday = \DateTime::createFromFormat('d.m.Y', $this->user_birthday)->format('Y-m-d');
 	}
+
 
 	public function getDataForTemplate() {
 
 		$data = parent::getDataForTemplate();
 
-		$data['show_name_list'] = $this->getShowNameList();
+		$data['statusList']= $this->getStatusList();
+
+		$data['activationList']= $this->getActivationList();
+
+		$data['isFakeList']= $this->getIsFakeList();
+
+		$data['subscriptionStatusList']= $this->getSubscriptionStatusList();
 
 		return $data;
 	}

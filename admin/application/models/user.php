@@ -26,22 +26,13 @@ class user extends Model {
 	protected $search = null;
 
 	protected $modified_data = [
-		'user_login'=> false,
 		'user_password'=> false,
-		'user_sex'=> false,
 		'user_name'=> false,
-		'user_show_name'=> false,
 		'user_email'=> false,
-		'user_show_email'=> false,
 		'user_phone'=> false,
 		'user_birthday'=> false,
-		'user_register_date'=> false,
-		'user_ip'=> 'ip2long',
-		'user_url'=> false,
-		'user_picture'=> 'intval',
 		'user_description'=> false,
 		'user_status'=> false,
-		'user_last_login'=> false,
 		'user_activation'=> false,
 		'user_is_fake'=> false,
 		'user_subscription_status'=> false,

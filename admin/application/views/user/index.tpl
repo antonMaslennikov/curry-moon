@@ -13,7 +13,6 @@
             <table class="table table-hover">
                 <tbody>
                 <tr>
-                    <th>Логин</th>
                     <th>Фамилия имя отчество</th>
                     <th>Email</th>
                     <th>Телефон</th>
@@ -22,7 +21,6 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <th><input type="text" name="search[user_login]" class="form-control input-sm" value="{$users.search.user_login}"></th>
                     <th><input type="text" name="search[user_name]" class="form-control input-sm" value="{$users.search.user_name}"></th>
                     <th><input type="text" name="search[user_email]" class="form-control input-sm" value="{$users.search.user_email}"></th>
                     <th><input type="text" name="search[user_phone]" class="form-control input-sm" value="{$users.search.user_phone}"></th>
@@ -33,7 +31,6 @@
                 </tr>
                 {foreach from=$users.data item=record}
                     <tr>
-                        <td>{$record.user_login}</td>
                         <td>{$record.user_name}</td>
                         <td>{$record.user_email}</td>
                         <td>{$record.user_phone}</td>

@@ -31,40 +31,12 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.certification_password)}has-error{/if}">
-                                    <label for="{$model.id.certification_password}">
-                                        {$model.label.certification_password} <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="{$model.id.certification_password}"
-                                        name="{$model.name.certification_password}"
-                                        value="{$model.value.certification_password}"
-                                        placeholder="Введите код купона">
-                                    {if isset($model.error.certification_password)}
-                                        <p class="help-block">{' '|implode:$model.error.certification_password}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="certification_password" required="1"}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.certification_value)}has-error{/if}">
-                                    <label for="{$model.id.certification_value}">
-                                        {$model.label.certification_value}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.certification_value}"
-                                            name="{$model.name.certification_value}"
-                                            value="{$model.value.certification_value}"
-                                            placeholder="Введите значение">
-                                    {if isset($model.error.certification_value)}
-                                        <p class="help-block">{' '|implode:$model.error.certification_value}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="certification_value"}
                             </div>
                         </div>
                         <div class="row">
@@ -91,79 +63,25 @@
                         
                          <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.lifestart)}has-error{/if}">
-                                    <label for="{$model.id.lifestart}">
-                                        {$model.label.lifestart}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control datepicker"
-                                            id="{$model.id.lifestart}"
-                                            name="{$model.name.lifestart}"
-                                            value="{$model.value.lifestart}">
-                                    {if isset($model.error.lifestart)}
-                                        <p class="help-block">{' '|implode:$model.error.lifestart}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="lifestart"}
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.lifetime)}has-error{/if}">
-                                    <label for="{$model.id.lifetime}">
-                                        {$model.label.lifetime}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control datepicker"
-                                            id="{$model.id.lifetime}"
-                                            name="{$model.name.lifetime}"
-                                            value="{$model.value.lifetime}">
-                                    {if isset($model.error.lifetime)}
-                                        <p class="help-block">{' '|implode:$model.error.lifetime}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="lifetime"}
                             </div>
                         </div>
                         
                          <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.certification_limit)}has-error{/if}">
-                                    <label for="{$model.id.certification_limit}">
-                                        {$model.label.certification_limit}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="{$model.id.certification_limit}"
-                                        name="{$model.name.certification_limit}"
-                                        value="{$model.value.certification_limit}"
-                                        placeholder="Лимит">
-                                    {if isset($model.error.certification_limit)}
-                                        <p class="help-block">{' '|implode:$model.error.certification_limit}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="certification_limit"}
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.certification_comment)}has-error{/if}">
-                                    <label for="{$model.id.certification_comment}">
-                                        {$model.label.certification_comment}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="{$model.id.certification_comment}"
-                                        name="{$model.name.certification_comment}"
-                                        value="{$model.value.certification_comment}"
-                                        placeholder="Комментарий">
-                                    {if isset($model.error.certification_comment)}
-                                        <p class="help-block">{' '|implode:$model.error.certification_comment}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="certification_comment"}
                             </div>
                         </div>
                         <div class="row">
