@@ -25,11 +25,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         {include file="adminlte/form/select.tpl" attr="user_status" list=$model.statusList}
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         {include file="adminlte/form/select.tpl" attr="user_activation" list=$model.activationList}
+    </div>
+    <div class="col-sm-4">
+        {include file="adminlte/form/input.tpl" attr="user_password"}
     </div>
 </div>
 <div class="row">

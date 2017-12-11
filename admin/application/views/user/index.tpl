@@ -34,8 +34,8 @@
                         <td>{$record.user_name}</td>
                         <td>{$record.user_email}</td>
                         <td>{$record.user_phone}</td>
-                        <td>{$record.user_status}</td>
-                        <td>{$record.user_activation}</td>
+                        <td>{if isset($statusList[$record.user_status])}{$statusList[$record.user_status]}{else}<span class="label label-default">не известно</span>{/if}</td>
+                        <td>{if isset($activationList[$record.user_activation])}{$activationList[$record.user_activation]}{else}<span class="label label-default">не известно</span>{/if}</td>
                         <td class="col-sm-1">
                         <span class="pull-right">
                             <a href="update?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить запись"><i class="fa fa-fw fa-pencil"></i></a>

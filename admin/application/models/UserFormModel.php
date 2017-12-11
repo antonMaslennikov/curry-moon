@@ -1,6 +1,7 @@
 <?php
 namespace admin\application\models;
 
+use PDO;
 use smashEngine\core\App;
 use smashEngine\core\models\FormModel;
 
@@ -11,11 +12,13 @@ use smashEngine\core\models\FormModel;
  */
 class UserFormModel extends FormModel {
 
+	private $_countryList = null;
+
 	public $newRecord = true;
 
 	protected $old_email;
 
-	public $user_password;
+	public $user_password = '';
 	public $user_name;
 	public $user_email;
 	public $user_phone;
@@ -39,6 +42,8 @@ class UserFormModel extends FormModel {
 
 		$this->old_email = $this->user_email;
 
+		$this->user_password = '';
+
 		if ($this->user_birthday && ($this->user_birthday != '0000-00-00'))
 			$this->user_birthday = \DateTime::createFromFormat('Y-m-d', $this->user_birthday)->format('d.m.Y');
 		else
@@ -49,6 +54,11 @@ class UserFormModel extends FormModel {
 	public function getData() {
 
 		$attributes = $this->getAttributes();
+
+		if ($attributes['password']) $attributes['password'] = md5(SALT . $attributes['password']);
+
+		if (is_string($attributes['user_city_id']) && $attributes['user_city_id']!=intval($attributes['user_city_id']))
+			$attributes['user_city_id'] = cityName2id($attributes['user_city_id'], $attributes['user_country_id']);
 
 		return $attributes;
 	}
@@ -62,7 +72,7 @@ class UserFormModel extends FormModel {
 			['user_email', 'email'],
 			['user_email', 'uniqueEmail'],
 
-			[['user_phone', 'user_description', 'user_zip', 'user_address'], 'safe'],
+			[['user_phone', 'user_description', 'user_zip', 'user_address', 'user_password'], 'safe'],
 
 			['user_status', 'in', 'range'=>array_keys($this->getStatusList())],
 
@@ -71,6 +81,10 @@ class UserFormModel extends FormModel {
 			['user_is_fake', 'in', 'range'=>array_keys($this->getIsFakeList()) ],
 
 			['user_subscription_status', 'in', 'range'=>array_keys($this->getSubscriptionStatusList()) ],
+
+			['user_country_id', 'in', 'range'=>array_keys($this->getCountryList())],
+
+			['user_city_id', 'checkUserCityID'],
 
 			['user_birthday', 'dateFormat'],
 		];
@@ -92,8 +106,8 @@ class UserFormModel extends FormModel {
 			'user_subscription_status'=>'Подписка',
             'user_address'=>'Адрес',
 			'user_zip'=>'Индекс',
-            'user_country_id'=>'Город',
-			'user_city_id'=>'Страна',
+            'user_country_id'=>'Страна',
+			'user_city_id'=>'Город',
 		];
 	}
 
@@ -131,7 +145,41 @@ class UserFormModel extends FormModel {
 		];
 	}
 
-	protected function uniqueEmail($attribute, $params) {
+	protected function getCountryList() {
+
+		if ($this->_countryList === null) {
+
+			$this->_countryList = $this->setCountryList();
+		}
+
+		return $this->_countryList;
+	}
+
+	protected function getCityList() {
+
+		$list = $this->user_country_id?(new user())->cityList($this->user_country_id):[];
+
+		return $list;
+	}
+
+
+	protected function setCountryList() {
+
+		$r = App::db()->prepare("SELECT country_id, country_name  FROM `countries` ORDER BY country_id");
+
+		$r->execute();
+
+		$list = [];
+		foreach ($r->fetchAll(PDO::FETCH_ASSOC) as $v) {
+
+			$list[$v['country_id']] = $v['country_name'];
+		}
+
+		return $list;
+	}
+
+
+	public function uniqueEmail($attribute, $params) {
 
 		if (!$this->newRecord) {
 
@@ -159,6 +207,15 @@ class UserFormModel extends FormModel {
 	}
 
 
+	public function checkUserCityID() {
+
+		if ($this->user_city_id && !$this->user_country_id) {
+
+			$this->addError('user_country_id', 'Перед указанием города нужно ввести страну');
+		}
+	}
+
+
 	public function getDataForTemplate() {
 
 		$data = parent::getDataForTemplate();
@@ -170,6 +227,10 @@ class UserFormModel extends FormModel {
 		$data['isFakeList']= $this->getIsFakeList();
 
 		$data['subscriptionStatusList']= $this->getSubscriptionStatusList();
+
+		$data['countryList']= $this->getCountryList();
+
+		$data['cityList']= $this->getCityList();
 
 		return $data;
 	}

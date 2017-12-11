@@ -42,6 +42,24 @@ class user extends Model {
 		'user_city_id'=> 'intval',
 	];
 
+	public function getEmployees() {
+
+		$stmt = App::db()->prepare('
+			SELECT t.*, m.meta_value FROM `'.self::db().'` AS t, `users__meta` AS m WHERE t.id = m.user_id AND m.meta_name = :meta ORDER BY t.id
+		');
+
+		$stmt->execute([':meta'=>'job']);
+		$temp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$data = [];
+		foreach ($temp as $v) {
+
+			$data[$v['id']] = $v;
+		}
+
+		return $data;
+	}
+
 	public function getList() {
 
 		$sql = $this->createQuery(isset($_GET['search'])?$_GET['search']:null);
@@ -116,6 +134,30 @@ class user extends Model {
 		}
 
 		return $query;
+	}
+
+	public function cityList($country, $is_json = false) {
+
+		$r = App::db()->prepare("SELECT id, `name`  FROM `city` WHERE country = :country ORDER BY id");
+
+		$r->execute([':country'=>$country]);
+
+		$list = [];
+		foreach ($r->fetchAll(PDO::FETCH_ASSOC) as $v) {
+
+			if ($is_json) {
+
+				$list[]=[
+					'id'=>$v['id'],
+					'text'=>$v['name']
+				];
+
+			} else {
+				$list[$v['id']] = $v['name'];
+			}
+		}
+
+		return $list;
 	}
 
 }

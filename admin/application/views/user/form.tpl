@@ -36,6 +36,12 @@
 
                 </div>
             </div>
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="submit" class="btn btn-info" name="apply">Применить</button>
+                <a href="/admin/blog/list" class="btn btn-default">Отмена</a>
+            </div>
         </form>
     </div>
 </div>
@@ -50,9 +56,40 @@
                 format:"dd.mm.yyyy"
             });
 
-            /*$(".select2-tags").select2({
+            $(".select2-js").select2({
+                theme: "bootstrap"
+              //  tags: true
+            });
+
+            var element = $(".select2-city").select2({
+                theme: "bootstrap",
                 tags: true
-            });*/
+            });
+
+            $(".select2-js").on('change', function() {
+
+                var country = $(".select2-js").val();
+
+                if (!country) return;
+
+                $.getJSON('/admin/user/city', {data: country}, function(r) {
+
+                    element.html('');
+
+                    var item;
+                    for (var i = 0; i < r.length; i++) {
+
+                        item = r[i];
+                        console.log(item);
+                        element.append("<option value=\"" + item.id + "\">" + item.text + "</option>");
+                    }
+
+                    element.trigger('change');
+                });
+
+                console.log(country);
+            })
+
         })
     }(window.jQuery)
 </script>

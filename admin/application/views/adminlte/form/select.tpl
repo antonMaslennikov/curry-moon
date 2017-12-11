@@ -5,7 +5,9 @@
     <select
             class="form-control {if isset($class_selector)}{$class_selector}{/if}"
             id="{$model.id.$attr}"
-            name="{$model.name.$attr}">
+            name="{$model.name.$attr}"
+            {if isset($style)}style="{$style}"{/if}
+            >
         {foreach from=$list item="m" key="k"}
             <option value="{$k}"
                     {if $k == $model.value.$attr}selected="selected"{/if}>{$m}</option>

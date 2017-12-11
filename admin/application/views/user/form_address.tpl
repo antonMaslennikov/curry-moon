@@ -7,20 +7,26 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
-        <div class="form-group {if isset($model.error.user_zip)}has-error{/if}">
-            <label for="{$model.id.user_zip}">
-                {$model.label.user_zip}
+    <div class="col-sm-6">
+        {include file="adminlte/form/select.tpl" attr="user_country_id" list=$model.countryList class_selector="select2-js" style="width: 100%;"}
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group {if isset($model.error.user_city_id)}has-error{/if}">
+            <label for="{$model.id.user_city_id}">
+                {$model.label.user_city_id}
             </label>
-            <input
-                    type="text"
-                    class="form-control"
-                    id="{$model.id.user_zip}"
-                    name="{$model.name.user_zip}"
-                    value="{$model.value.user_zip}"
-                    placeholder="Введите {$model.label.user_zip}">
-            {if isset($model.error.user_zip)}
-                <p class="help-block">{' '|implode:$model.error.user_zip}</p>
+            <select
+                    class="form-control select2-city"
+                    id="{$model.id.user_city_id}"
+                    style="width:100%"
+                    name="{$model.name.user_city_id}">
+                {foreach from=$model.cityList item="m" key="k"}
+                    <option value="{$k}"
+                            {if in_array($k, $model.value.user_city_id)}selected="selected"{/if}>{$m}</option>
+                {/foreach}
+            </select>
+            {if isset($model.error.user_city_id)}
+                <p class="help-block">{' '|implode:$model.error.user_city_id}</p>
             {/if}
         </div>
     </div>

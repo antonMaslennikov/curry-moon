@@ -16,6 +16,11 @@ class Controller_user extends Controller_ {
 
 	protected $layout = 'index.tpl';
 
+	public function action_city() {
+
+		die(json_encode((new user())->cityList($_GET['data'], true)));
+	}
+
 	public function action_index() {
 
 		$this->setTemplate('user/index.tpl');
@@ -27,13 +32,98 @@ class Controller_user extends Controller_ {
 
 		$this->view->setVar('users', (new user())->getList());
 
+		$this->view->setVar('statusList', [
+			'active'=>'<span class="label label-success">Активный</span>',
+			'banned'=>'<span class="label label-danger">Заблокированный</span>',
+			'deleted'=>'<span class="label label-warning">Удаленный</span>',
+		]);
+		$this->view->setVar('activationList', [
+			'done' => '<span class="label label-success">Выполнена</span>',
+			'waiting' => '<span class="label label-warning">Ожидает выполнения</span>',
+			'failed' => '<span class="label label-danger">Провалена</span>',
+		]);
+
+		$this->render();
+	}
+
+
+	public function action_employees() {
+
+		$this->setTemplate('user/employees.tpl');
+		$this->setTitle('<i class="fa fa-fw fa-users"></i> Сотрудники');
+
+		$this->setBreadCrumbs([
+			'/admin/user/list'=>'<i class="fa fa-fw fa-users"></i> Пользователи',
+		]);
+
+		$this->view->setVar('users', (new user())->getEmployees());
+
+		$this->view->setVar('statusList', [
+			'active'=>'<span class="label label-success">Активный</span>',
+			'banned'=>'<span class="label label-danger">Заблокированный</span>',
+			'deleted'=>'<span class="label label-warning">Удаленный</span>',
+		]);
+		$this->view->setVar('activationList', [
+			'done' => '<span class="label label-success">Выполнена</span>',
+			'waiting' => '<span class="label label-warning">Ожидает выполнения</span>',
+			'failed' => '<span class="label label-danger">Провалена</span>',
+		]);
+
 		$this->render();
 	}
 
 
 	public function action_create() {
 
+		$user = new user();
 
+		$this->setTemplate('user/form.tpl');
+		$this->setTitle('Новый пользователь');
+
+		$this->setBreadCrumbs([
+			'/admin/user/list'=>'<i class="fa fa-fw fa-users"></i> Пользователи',
+		]);
+
+		$model = new UserFormModel();
+		$model->setAttributes($user->info, false);
+
+		$postModel = Html::modelName($model);
+
+		if (isset($_POST[$postModel])) {
+
+			$model->setAttributes($_POST[$postModel]);
+
+			if ($model->validate()) {
+
+				$user->setAttributes($model->getData());
+
+				if ($user->save()) {
+
+					if (isset($_POST['apply'])) {
+
+						$this->page->go('/admin/user/update?id='.$user->id);
+					} else {
+
+						$this->page->go('/admin/user/list');
+					}
+				}
+			}
+		}
+
+		$this->view->setVar('model', $model->getDataForTemplate());
+		$this->view->setVar('button', 'Изменить');
+
+		$this->page->import([
+			'/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css',
+			'/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js',
+			'/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js',
+			'/public/packages/select2/css/select2.min.css',
+			'/public/packages/select2/css/select2-bootstrap.min.css',
+			'/public/packages/select2/js/select2.min.js',
+			'/public/packages/select2/js/i18n/ru.js'
+		]);
+
+		$this->render();
 	}
 
 
@@ -60,16 +150,16 @@ class Controller_user extends Controller_ {
 
 			if ($model->validate()) {
 
-				printr($model->getData(), 1);
+				$user->setAttributes($model->getData());
 
-				if ($status) {
+				if ($user->update()) {
 
 					if (isset($_POST['apply'])) {
 
-						$this->page->go('/admin/product_category/update?id='.$category->id);
+						$this->page->go('/admin/user/update?id='.$user->id);
 					} else {
 
-						$this->page->go('/admin/product_category/list');
+						$this->page->go('/admin/user/list');
 					}
 				}
 			}
@@ -83,6 +173,7 @@ class Controller_user extends Controller_ {
 			'/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js',
 			'/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js',
 			'/public/packages/select2/css/select2.min.css',
+			'/public/packages/select2/css/select2-bootstrap.min.css',
 			'/public/packages/select2/js/select2.min.js',
 			'/public/packages/select2/js/i18n/ru.js'
 		]);

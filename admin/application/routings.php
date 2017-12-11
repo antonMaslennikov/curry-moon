@@ -211,8 +211,19 @@
 		        'action'=> 'Controller_user:action_delete',
 		        'schemas' => 'GET|POST',
 			],
-            
-            
+
+	        'user_city'=>[
+		        'pattern'=>'/admin/user/city',
+		        'action'=> 'Controller_user:action_city',
+		        'schemas' => 'GET',
+	        ],
+
+	        'user_employees'=>[
+		        'pattern'=>'/admin/user/employees',
+		        'action'=> 'Controller_user:action_employees',
+		        'schemas' => 'GET',
+	        ],
+
             'settings_list'=>[
 		        'pattern'=>'/admin/settings(/list)?',
 		        'action'=> 'Controller_settings:action_index',
