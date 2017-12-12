@@ -9,6 +9,7 @@
 namespace admin\application\controllers;
 
 use admin\application\models\user;
+use admin\application\models\userEmployees;
 use admin\application\models\UserFormModel;
 use smashEngine\core\helpers\Html;
 
@@ -70,6 +71,23 @@ class Controller_user extends Controller_ {
 		]);
 
 		$this->render();
+	}
+
+
+	public function action_add_access() {
+
+		$user = new userEmployees();
+
+		$this->setTemplate('user/createEmployees.tpl');
+		$this->setTitle('Новый сотрудник');
+
+		$this->setBreadCrumbs([
+			'/admin/user/list'=>'<i class="fa fa-fw fa-users"></i> Пользователи',
+			'/admin/user/employees'=>'<i class="fa fa-fw fa-users"></i> Сотрудники',
+		]);
+
+		$model = new UserAccessFormModel();
+
 	}
 
 
