@@ -138,7 +138,7 @@
             ],
             
             'blog' => [
-                'pattern' => '/(ru|en)/blog(/?)(.*)', 
+                'pattern' => '/(ru|en)/blog', 
                 'action' => 'Controller_blog:action_index', 
                 'schemas' => 'GET',
 	            'title'=>'Блог',
