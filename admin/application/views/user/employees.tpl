@@ -17,12 +17,12 @@
                     <th>Статус</th>
                     <th></th>
                 </tr>
-            {foreach from=$users.data item=record}
+            {foreach from=$users item=record}
                 <tr>
                     <td>{$record.user_name}</td>
                     <td>{$record.user_email}</td>
                     <td>{$record.user_phone}</td>
-                    <td>{if isset($statusList[$record.user_status])}{$statusList[$record.user_status]}{else}<span class="label label-default">не известно</span>{/if}</td>
+                    <td>{if isset($statusList[$record.meta_value])}{$statusList[$record.meta_value]}{else}<span class="label label-default">не известно</span>{/if}</td>
                     <td class="col-sm-1">
                     <span class="pull-right">
                         <a href="access?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить права"><i class="fa fa-fw fa-pencil"></i></a>
@@ -35,3 +35,4 @@
         </div>
     </div>
 </div>
+{$users|printr}
