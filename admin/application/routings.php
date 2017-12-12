@@ -224,6 +224,12 @@
 		        'schemas' => 'GET',
 	        ],
 
+	        'user_add_access'=>[
+		        'pattern'=>'/admin/user/add_access',
+		        'action'=> 'Controller_user:action_add_access',
+		        'schemas' => 'GET|POST',
+	        ],
+
             'settings_list'=>[
 		        'pattern'=>'/admin/settings(/list)?',
 		        'action'=> 'Controller_settings:action_index',

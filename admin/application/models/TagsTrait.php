@@ -43,7 +43,7 @@ trait TagsTrait {
 
 	public static function createTag($tag) {
 
-		App::db()->query(sprintf("INSERT IGNORE INTO `%s` (`name`) VALUES ('%s')", self::$tag_db_table, $tag));
+		App::db()->query(sprintf("INSERT IGNORE INTO `%s` (`name`, `slug`) VALUES ('%s', '%s')", self::$tag_db_table, $tag, toTranslit($tag)));
 
 		return App::db()->lastInsertId();
 	}

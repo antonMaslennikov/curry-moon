@@ -48,7 +48,7 @@ class user extends Model {
 			SELECT t.*, m.meta_value FROM `'.self::db().'` AS t, `users__meta` AS m WHERE t.id = m.user_id AND m.meta_name = :meta ORDER BY t.id
 		');
 
-		$stmt->execute([':meta'=>'job']);
+		$stmt->execute([':meta'=>'team']);
 		$temp = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$data = [];
@@ -92,6 +92,27 @@ class user extends Model {
 			'search'=>$this->search,
 			'data'=>$data
 		];
+	}
+
+
+	protected function getListEmployees() {
+
+		$stmt = App::db()->prepare('
+			SELECT t.*, m.meta_value
+			FROM `'.self::db().'` AS t
+			LEFT JOIN `users__meta` AS m ON (t.id = m.user_id AND m.meta_name = :meta) ORDER BY t.id
+		');
+
+		$stmt->execute([':meta'=>'team']);
+		$temp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$data = [];
+		foreach ($temp as $v) {
+
+			$data[$v['id']] = $v;
+		}
+
+		return $data;
 	}
 
 
