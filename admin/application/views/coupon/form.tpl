@@ -63,17 +63,39 @@
                         
                          <div class="row">
                             <div class="col-sm-6">
-                                {include file="adminlte/form/input.tpl" attr="lifestart"}
+                                {include file="adminlte/form/input.tpl" attr="lifestart" class_selector="datepicker"}
                             </div>
                         </div>
                         
                         <div class="row">
                             <div class="col-sm-6">
-                                {include file="adminlte/form/input.tpl" attr="lifetime"}
+                                {include file="adminlte/form/input.tpl" attr="lifetime" class_selector="datepicker"}
                             </div>
                         </div>
                         
-                         <div class="row">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group {if isset($model.error.certification_multi)}has-error{/if}">
+                                    <label for="{$model.id.certification_multi}">
+                                        {$model.label.certification_multi}
+                                    </label>
+                                     <select
+                                            class="form-control"
+                                            id="{$model.id.certification_multi}"
+                                            name="{$model.name.certification_multi}">
+                                    {foreach from=$model.multi item="m" key="k"}
+                                        <option value="{$k}"
+                                                {if $k == $model.value.certification_multi}selected="selected"{/if}>{$m}</option>
+                                    {/foreach}
+                                    </select>
+                                    {if isset($model.error.certification_multi)}
+                                        <p class="help-block">{' '|implode:$model.error.certification_multi}</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
                             <div class="col-sm-6">
                                 {include file="adminlte/form/input.tpl" attr="certification_limit"}
                             </div>
@@ -110,7 +132,7 @@
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
-                    <a href="/admin/settings" class="btn btn-default">Отмена</a>
+                    <a href="/admin/coupon" class="btn btn-default">Отмена</a>
                 </div>
             </div>
 
@@ -118,7 +140,6 @@
     </div>
 </div>
 {literal}
-    <script src="/public/packages/tinymce/tinymce.min.js"></script>
     <script type="text/javascript">
         !function ($) {
             $(function() {

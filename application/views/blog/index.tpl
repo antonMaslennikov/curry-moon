@@ -1,6 +1,16 @@
 <section id="gkMainbody" style="font-size: 100%;">
 
+    {if $PAGE->h1}
+    <section id="k2Container" class="genericView">
+    {else}
     <div id="k2Container" class="itemListView">
+    {/if}
+       
+        {if $PAGE->h1}
+        <header>
+			<h1>{$PAGE->h1}</h1>
+		</header>
+        {/if}
         <div class="itemListCategoriesBlock">
         </div>
         <div class="itemList">
@@ -46,7 +56,13 @@
            
             </div>
         </div>
+    {if $PAGE->h1}
+    </section>
+    {else}
     </div>
+    {/if}
+    
+    
 
 </section>
 

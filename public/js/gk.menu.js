@@ -7,8 +7,9 @@ jQuery(window).load(function() {
 
         jQuery('#gkExtraMenu ul li a').each(function(el) {
             el = jQuery(el);
-            el.attr('onmouseover', '');
-
+            //el.attr('onmouseover', '');
+            jQuery(this).attr('onmouseover', '');
+            
             if(el.parent().hasClass('haschild') && jQuery('body').attr('data-tablet') !== undefined) {
                 el.click(function(e) {
                     if(el.attr("dblclick") == undefined) {

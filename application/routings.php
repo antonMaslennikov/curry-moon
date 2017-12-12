@@ -138,10 +138,22 @@
             ],
             
             'blog' => [
-                'pattern' => '/(ru|en)/blog', 
+                'pattern' => '/(ru|en)/blog$', 
                 'action' => 'Controller_blog:action_index', 
                 'schemas' => 'GET',
 	            'title'=>'Блог',
+            ],
+            
+            'blog-view' => [
+                'pattern' => '/(ru|en)/blog/[a-zA-Z0-9-_]*', 
+                'action' => 'Controller_blog:action_view', 
+                'schemas' => 'GET',
+            ],
+            
+            'blog-archive' => [
+                'pattern' => '/(ru|en)/date/[0-9]{4}/[0-9]{1,}', 
+                'action' => 'Controller_blog:action_archive', 
+                'schemas' => 'GET',
             ],
             
             'lookbook' => [

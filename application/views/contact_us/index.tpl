@@ -30,7 +30,7 @@
         <p>Уважаемые покупатели, по всем интересующим вопросам Вы можете связаться с нами по электронной почте,&nbsp;позвонить по указанным телефонам, написать сообщение с помощью сервиса Whats App или отправить сообщение через форму обратной связи ниже. Мы обязательно ответим в ближайшее время.</p>
         <p>Наш адрес: {$VARS.contactAddress}</p>
         <h4>Мы в социальных сетях</h4>
-        <p>&nbsp;<a href="https://www.facebook.com/CurryMoonShop" target="_blank"><img src="/public/images/social/facebook.png" alt="facebook"></a> &nbsp; <a href="https://instagram.com/currymoon/" target="_blank"><img src="/public/images/social/instagram.png" alt="instagram"></a> &nbsp; <a href="https://ru.pinterest.com/currymoon/" target="_blank"><img src="/public/images/social/pinterest.png" alt="pinterest"></a>&nbsp;&nbsp; <a href="https://vk.com/currymoon" target="_blank"><img src="/public/images/social/vk.png" alt="vk"></a></p>
+        <p>&nbsp;<a href="{$VARS.soc_fb}" target="_blank"><img src="/public/images/social/facebook.png" alt="facebook"></a> &nbsp; <a href="{$VARS.soc_insta}" target="_blank"><img src="/public/images/social/instagram.png" alt="instagram"></a> &nbsp; <a href="{$VARS.soc_pint}" target="_blank"><img src="/public/images/social/pinterest.png" alt="pinterest"></a>&nbsp;&nbsp; <a href="{$VARS.soc_vk}" target="_blank"><img src="/public/images/social/vk.png" alt="vk"></a></p>
     </div>
 
 

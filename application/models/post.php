@@ -49,6 +49,10 @@ class post extends Model {
                     .
                     ($params['is_special'] ? " AND `is_special` = '" . (int) $params['is_special'] . "'" : '')
                     .
+                    ($params['datestart'] ? " AND `publish_date` >= '" . $params['datestart'] . "'" : '')
+                    .
+                    ($params['dateend'] ? " AND `publish_date` <= '" . $params['dateend'] . "'" : '')
+                    .
                     '
                 ORDER BY ' . ($params['orderby'] ? $params['orderby'] : 'publish_date');
 
@@ -58,4 +62,13 @@ class post extends Model {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+    public function findBySlug($slug)
+    {
+        $stmt = App::db()->prepare('SELECT t.`id` FROM '.self::$dbtable.' t WHERE t.`slug` = ? LIMIT 1');
+		$stmt->execute([urldecode($slug)]);
+
+        if ($post = $stmt->fetch()) {
+		  return new self($post['id']);
+        }
+    }
 }

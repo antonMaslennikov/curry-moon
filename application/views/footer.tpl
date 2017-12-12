@@ -6,7 +6,7 @@
                 <div class="custom "  >
 
                     <div class="bottom-soc-icons">
-                        <a href="https://www.facebook.com/CurryMoonShop" target="_blank"><img src="/public/images/social/facebook.png" alt="facebook" class="soc-icon-bw" /></a>&nbsp;&nbsp;<a href="https://instagram.com/currymoon/" target="_blank"><img src="/public/images/social/instagram.png" alt="instagram" class="soc-icon-bw" /></a>&nbsp;&nbsp;<a href="https://ru.pinterest.com/currymoon/" target="_blank"><img src="/public/images/social/pinterest.png" alt="pinterest" class="soc-icon-bw" /></a>&nbsp;&nbsp;<a href="https://vk.com/currymoon" target="_blank"><img src="/public/images/social/vk.png" alt="vk" class="soc-icon-bw" /></a>
+                        <a href="{$VARS.soc_fb}" target="_blank"><img src="/public/images/social/facebook.png" alt="facebook"></a> &nbsp; <a href="{$VARS.soc_insta}" target="_blank"><img src="/public/images/social/instagram.png" alt="instagram"></a> &nbsp; <a href="{$VARS.soc_pint}" target="_blank"><img src="/public/images/social/pinterest.png" alt="pinterest"></a>&nbsp;&nbsp; <a href="{$VARS.soc_vk}" target="_blank"><img src="/public/images/social/vk.png" alt="vk"></a>
                     </div>
 
                     <h3 class="header">Способы оплаты</h3>
