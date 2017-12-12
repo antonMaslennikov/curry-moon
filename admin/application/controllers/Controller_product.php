@@ -79,9 +79,11 @@ class Controller_product extends Controller_
 		$this->view->setVar('model', $model->getDataForTemplate());
         $this->view->setVar('manufacturers', product::$manufacturers);
 
-		$this->page->import(['/public/packages/select2/css/select2.min.css']);
-		$this->page->import(['/public/packages/select2/js/select2.min.js']);
-		$this->page->import(['/public/packages/select2/js/i18n/ru.js']);
+		$this->page->import([
+			'/public/packages/select2/css/select2.min.css',
+			'/public/packages/select2/js/select2.min.js',
+			'/public/packages/select2/js/i18n/ru.js'
+		]);
         
 		$this->render();
 	}
@@ -139,9 +141,11 @@ class Controller_product extends Controller_
         $this->view->setVar('manufacturers', product::$manufacturers);
         $this->view->setVar('product', $product);
 
-	    $this->page->import(['/public/packages/select2/css/select2.min.css']);
-	    $this->page->import(['/public/packages/select2/js/select2.min.js']);
-	    $this->page->import(['/public/packages/select2/js/i18n/ru.js']);
+	    $this->page->import([
+		    '/public/packages/select2/css/select2.min.css',
+		    '/public/packages/select2/js/select2.min.js',
+		    '/public/packages/select2/js/i18n/ru.js'
+	    ]);
         
 		$this->render();
     }

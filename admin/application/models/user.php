@@ -26,22 +26,13 @@ class user extends Model {
 	protected $search = null;
 
 	protected $modified_data = [
-		'user_login'=> false,
 		'user_password'=> false,
-		'user_sex'=> false,
 		'user_name'=> false,
-		'user_show_name'=> false,
 		'user_email'=> false,
-		'user_show_email'=> false,
 		'user_phone'=> false,
 		'user_birthday'=> false,
-		'user_register_date'=> false,
-		'user_ip'=> 'ip2long',
-		'user_url'=> false,
-		'user_picture'=> 'intval',
 		'user_description'=> false,
 		'user_status'=> false,
-		'user_last_login'=> false,
 		'user_activation'=> false,
 		'user_is_fake'=> false,
 		'user_subscription_status'=> false,
@@ -50,6 +41,24 @@ class user extends Model {
 		'user_country_id'=> 'intval',
 		'user_city_id'=> 'intval',
 	];
+
+	public function getEmployees() {
+
+		$stmt = App::db()->prepare('
+			SELECT t.*, m.meta_value FROM `'.self::db().'` AS t, `users__meta` AS m WHERE t.id = m.user_id AND m.meta_name = :meta ORDER BY t.id
+		');
+
+		$stmt->execute([':meta'=>'job']);
+		$temp = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$data = [];
+		foreach ($temp as $v) {
+
+			$data[$v['id']] = $v;
+		}
+
+		return $data;
+	}
 
 	public function getList() {
 
@@ -125,6 +134,30 @@ class user extends Model {
 		}
 
 		return $query;
+	}
+
+	public function cityList($country, $is_json = false) {
+
+		$r = App::db()->prepare("SELECT id, `name`  FROM `city` WHERE country = :country ORDER BY id");
+
+		$r->execute([':country'=>$country]);
+
+		$list = [];
+		foreach ($r->fetchAll(PDO::FETCH_ASSOC) as $v) {
+
+			if ($is_json) {
+
+				$list[]=[
+					'id'=>$v['id'],
+					'text'=>$v['name']
+				];
+
+			} else {
+				$list[$v['id']] = $v['name'];
+			}
+		}
+
+		return $list;
 	}
 
 }

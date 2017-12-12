@@ -31,59 +31,17 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.variable_name)}has-error{/if}">
-                                    <label for="{$model.id.variable_name}">
-                                        {$model.label.variable_name} <span class="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="{$model.id.variable_name}"
-                                        name="{$model.name.variable_name}"
-                                        value="{$model.value.variable_name}"
-                                        placeholder="Введите название, только латинские символы">
-                                    {if isset($model.error.variable_name)}
-                                        <p class="help-block">{' '|implode:$model.error.variable_name}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="variable_name" required="1" placeholder="Введите название, только латинские символы"}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.variable_value)}has-error{/if}">
-                                    <label for="{$model.id.variable_value}">
-                                        {$model.label.variable_value}
-                                    </label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="{$model.id.variable_value}"
-                                            name="{$model.name.variable_value}"
-                                            value="{$model.value.variable_value}"
-                                            placeholder="Введите значение">
-                                    {if isset($model.error.variable_value)}
-                                        <p class="help-block">{' '|implode:$model.error.variable_value}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="variable_value"}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group {if isset($model.error.variable_description)}has-error{/if}">
-                                    <label for="{$model.id.variable_description}">
-                                        {$model.label.variable_description}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="{$model.id.variable_description}"
-                                        name="{$model.name.variable_description}"
-                                        value="{$model.value.variable_description}"
-                                        placeholder="Описание">
-                                    {if isset($model.error.variable_description)}
-                                        <p class="help-block">{' '|implode:$model.error.variable_description}</p>
-                                    {/if}
-                                </div>
+                                {include file="adminlte/form/input.tpl" attr="variable_description" placeholder="Описание"}
                             </div>
                         </div>
                     </div>

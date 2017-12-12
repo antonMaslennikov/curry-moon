@@ -4,6 +4,7 @@
         <div class="box-header">
             <h3 class="box-title">Список</h3>
             <div class="box-tools">
+                <a href="employees" class="btn btn-warning btn-sm">Сотрудники</a>
                 <a href="create" class="btn btn-success btn-sm">Добавить пользователя</a>
             </div>
         </div>
@@ -12,7 +13,6 @@
             <table class="table table-hover">
                 <tbody>
                 <tr>
-                    <th>Логин</th>
                     <th>Фамилия имя отчество</th>
                     <th>Email</th>
                     <th>Телефон</th>
@@ -21,10 +21,9 @@
                     <th></th>
                 </tr>
                 <tr>
-                    <th><input type="text" name="search[user_login]" class="form-control input-sm input-search" value="{$users.search.user_login}"></th>
-                    <th><input type="text" name="search[user_name]" class="form-control input-sm input-search" value="{$users.search.user_name}"></th>
-                    <th><input type="text" name="search[user_email]" class="form-control input-sm input-search" value="{$users.search.user_email}"></th>
-                    <th><input type="text" name="search[user_phone]" class="form-control input-sm input-search" value="{$users.search.user_phone}"></th>
+                    <th><input type="text" name="search[user_name]" class="form-control input-sm" value="{$users.search.user_name}"></th>
+                    <th><input type="text" name="search[user_email]" class="form-control input-sm" value="{$users.search.user_email}"></th>
+                    <th><input type="text" name="search[user_phone]" class="form-control input-sm" value="{$users.search.user_phone}"></th>
                     <th colspan="3">
                         <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-search"></i>&nbsp;Поиск</button>&nbsp;
                         <a href="list" class="btn btn-default btn-sm">Очистить</a>
@@ -32,12 +31,11 @@
                 </tr>
                 {foreach from=$users.data item=record}
                     <tr>
-                        <td>{$record.user_login}</td>
                         <td>{$record.user_name}</td>
                         <td>{$record.user_email}</td>
                         <td>{$record.user_phone}</td>
-                        <td>{$record.user_status}</td>
-                        <td>{$record.user_activation}</td>
+                        <td>{if isset($statusList[$record.user_status])}{$statusList[$record.user_status]}{else}<span class="label label-default">не известно</span>{/if}</td>
+                        <td>{if isset($activationList[$record.user_activation])}{$activationList[$record.user_activation]}{else}<span class="label label-default">не известно</span>{/if}</td>
                         <td class="col-sm-1">
                         <span class="pull-right">
                             <a href="update?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить запись"><i class="fa fa-fw fa-pencil"></i></a>
