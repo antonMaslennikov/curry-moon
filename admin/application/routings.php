@@ -230,6 +230,12 @@
 		        'schemas' => 'GET|POST',
 	        ],
 
+	        'user_access'=>[
+		        'pattern'=>'/admin/user/access',
+		        'action'=> 'Controller_user:action_access',
+		        'schemas' => 'GET|POST',
+	        ],
+
             'settings_list'=>[
 		        'pattern'=>'/admin/settings(/list)?',
 		        'action'=> 'Controller_settings:action_index',

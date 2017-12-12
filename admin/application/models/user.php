@@ -95,10 +95,10 @@ class user extends Model {
 	}
 
 
-	protected function getListEmployees() {
+	public function getListEmployees() {
 
 		$stmt = App::db()->prepare('
-			SELECT t.*, m.meta_value
+			SELECT t.id, t.user_name, t.user_email, m.meta_value
 			FROM `'.self::db().'` AS t
 			LEFT JOIN `users__meta` AS m ON (t.id = m.user_id AND m.meta_name = :meta) ORDER BY t.id
 		');

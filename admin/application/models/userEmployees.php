@@ -22,7 +22,7 @@ class userEmployees extends Model{
 
 		if (!empty($this->id))
 		{
-			$r = App::db()->prepare("SELECT meta_value FROM `" . self::db() . "` WHERE `user_id` = :user_id AND `meta_name` = :meta_name LIMIT 1");
+			$r = App::db()->prepare("SELECT user_id as id, meta_value FROM `" . self::db() . "` WHERE `user_id` = :user_id AND `meta_name` = :meta_name LIMIT 1");
 
 			$r->execute([':user_id'=>$this->id, ':meta_name'=>self::PARAM_NAME]);
 
@@ -43,7 +43,7 @@ class userEmployees extends Model{
 			$update_query = [];
 			$update_array =[
 				':user_id'=>(int) $this->id,
-				':meta_param'=>self::PARAM_NAME,
+				':meta_name'=>self::PARAM_NAME,
 			];
 
 			foreach ($this->modified_data as $key => $function_cast) {
@@ -57,7 +57,7 @@ class userEmployees extends Model{
 
 			if (count($update_query)) {
 
-				$sql = 'update ' . self::db() . ' set ' . implode(', ', $update_query) . ' where user_id = :id AND meta_param = :meta_param limit 1;';
+				$sql = 'update ' . self::db() . ' set ' . implode(', ', $update_query) . ' where user_id = :user_id AND meta_name = :meta_name limit 1;';
 
 				$stmt = App::db()->prepare($sql);
 
@@ -73,13 +73,13 @@ class userEmployees extends Model{
 
 	public function insert() {
 
-		$sql = 'insert ignore into ' . self::db() . ' (user_id, meta_param, meta_value) VALUES (:user_id, :meta_param, :meta_value) limit 1;';
+		$sql = 'insert ignore into ' . self::db() . ' (user_id, meta_name, meta_value) VALUES (:user_id, :meta_name, :meta_value);';
 
 		$stmt = App::db()->prepare($sql);
 
 		return $stmt->execute([
 			':user_id'=>$this->id,
-			':meta_param'=>self::PARAM_NAME,
+			':meta_name'=>self::PARAM_NAME,
 			':meta_value'=>$this->meta_value,
 		]);
 	}

@@ -2,7 +2,6 @@
 namespace admin\application\models;
 
 use smashEngine\core\models\FormModel;
-use smashEngine\core\validators\RangeValidator;
 
 class UserAccessFormModel extends FormModel {
 
@@ -64,7 +63,15 @@ class UserAccessFormModel extends FormModel {
 
 			$list = $this->getUserList();
 
-			if (!isset($list))
+			if (!isset($list[$this->id])) {
+
+				$this->addError('id', 'Выбранный пользователь не существует');
+			}
+
+			if ($list[$this->id]['meta_value']) {
+
+				$this->addError('id', 'Выбранный пользователь уже является сотрудником');
+			}
 		}
 	}
 
@@ -91,5 +98,25 @@ class UserAccessFormModel extends FormModel {
 		}
 
 		return [];
+	}
+
+	public function getDataForTemplate() {
+
+		$data = parent::getDataForTemplate();
+
+		$data['teamList']= $this->getTeamList();
+
+		$userList = $this->getUserList();
+
+		$data['userList'] = [];
+		foreach ($userList as $id => $v) {
+
+			if (!$v['meta_value']) {
+
+				$data['userList'][$id] = $v['user_name']. '('.$v['user_email'].')';
+			}
+		}
+
+		return $data;
 	}
 }
