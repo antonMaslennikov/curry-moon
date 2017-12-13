@@ -109,8 +109,9 @@ class PostFormModel extends FormModel {
 	protected function getListSpecial() {
 
 		return [
+			2 => 'Lookbook',
 			1 => 'Акция',
-			0 => '---',
+			0 => 'Блог',
 		];
 	}
 
@@ -184,6 +185,7 @@ class PostFormModel extends FormModel {
 			'keywords'=>'META ключевые слова',
 			'description'=>'META описания',
 			'image_file'=>'Изображение',
+			'is_special'=>'Категория',
 			'tags'=>'Теги',
 		];
 	}
