@@ -10,7 +10,6 @@ class Controller_ extends \smashEngine\core\Controller
 
 	protected $excluded_controllers = [
 		'admin\\application\\controllers\\Controller_access'=>true,
-		'admin\\application\\controllers\\Controller_404'=>true,
 		'admin\\application\\controllers\\Controller_503'=>true,
 	];
 
