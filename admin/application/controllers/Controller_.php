@@ -2,6 +2,7 @@
 namespace admin\application\controllers;
 
 use smashEngine\core\App as App;
+use smashEngine\core\exception\appException;
 
 class Controller_ extends \smashEngine\core\Controller
 {
@@ -16,7 +17,15 @@ class Controller_ extends \smashEngine\core\Controller
 		parent::__construct($router);
 
 		// Текущий пользователь
-		$this->user = \application\models\user::load();
+		$this->user = \admin\application\models\WebUser::load();
+		/*
+		if (!$this->user->authorized) {
+
+			$this->page->go('/admin/login');
+		} elseif (!isset($this->user->role)) {
+
+			throw new appException('Access denied', 403);
+		}*/
 
 		// кэшируем переменные
 		//if (!$this->VARS = App::memcache()->get('VARS')) {

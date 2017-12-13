@@ -10,6 +10,7 @@ use smashEngine\core\Model;
  * @package admin\application\models
  *
  * @property date publish_date
+ * @property string category
  * @property string slug
  * @property string title
  * @property string content
@@ -22,6 +23,12 @@ use smashEngine\core\Model;
 class post extends Model {
 
 	const TYPE_TAGS = 'blog';
+
+	const SPECIAL_BLOG = 0;
+
+	const SPECIAL_STOCK = 1;
+
+	const SPECIAL_LOOKBOOK = 2;
 
 	protected static $dbtable = 'posts';
 
@@ -46,8 +53,12 @@ class post extends Model {
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function getListCategory() {
 
-
-
-
+		return [
+			self::SPECIAL_BLOG => '<span class="label label-default">Блог</span>',
+			self::SPECIAL_STOCK => '<span class="label label-primary">Акция</span>',
+			self::SPECIAL_LOOKBOOK => '<span class="label label-success">LookBook</span>',
+		];
+	}
 }

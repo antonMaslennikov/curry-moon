@@ -56,7 +56,7 @@ class PostFormModel extends FormModel {
 
 	public $tags;
 
-	public $is_special = 0;
+	public $category = 0;
 
 	public $lang = 'ru';
 
@@ -68,7 +68,7 @@ class PostFormModel extends FormModel {
 			[['title', 'slug', 'publish_date'], 'required',],
 
 			['status', 'in', 'range'=>array_keys($this->getListStatus())],
-			['is_special', 'in', 'range'=>array_keys($this->getListSpecial())],
+			['category', 'in', 'range'=>array_keys($this->getListCategory())],
 
 			['slug', 'safe'],
 			['slug', 'uniqueSlug', 'allowEmpty'=>false],
@@ -106,11 +106,12 @@ class PostFormModel extends FormModel {
 	}
 
 
-	protected function getListSpecial() {
+	protected function getListCategory() {
 
 		return [
+			2 => 'Lookbook',
 			1 => 'Акция',
-			0 => '---',
+			0 => 'Блог',
 		];
 	}
 
@@ -184,6 +185,7 @@ class PostFormModel extends FormModel {
 			'keywords'=>'META ключевые слова',
 			'description'=>'META описания',
 			'image_file'=>'Изображение',
+			'category'=>'Категория',
 			'tags'=>'Теги',
 		];
 	}
@@ -195,7 +197,7 @@ class PostFormModel extends FormModel {
 
 		$data['listStatus'] = $this->getListStatus();
 
-		$data['listSpecial'] = $this->getListSpecial();
+		$data['listCategory'] = $this->getListCategory();
 
 		$data['tags'] = ($this->newRecord)?[]:$data['tags'];
 

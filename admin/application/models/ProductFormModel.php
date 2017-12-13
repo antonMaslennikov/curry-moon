@@ -57,9 +57,22 @@ class ProductFormModel extends FormModel {
 	public $tags;
    
 	public function setUpdate() {
+
 		$this->newRecord = false;
         
 		$this->old_slug = $this->slug;
+
+		$this->product_discount = ($this->product_discount)?$this->setDiscount($this->product_price, $this->product_discount):'';
+	}
+
+	protected function setDiscount($price, $discount) {
+
+		return round($price - $price*$discount/100, 2);
+	}
+
+	protected function getDiscount($price, $discount) {
+
+		return round((1-$discount/$price)*100, 6);
 	}
 
     public function getData() {
@@ -68,9 +81,16 @@ class ProductFormModel extends FormModel {
 
 		$attributes['status'] = empty($attributes['status'])?0:1;
 
+	    if ($attributes['product_price'] && $attributes['product_discount']) {
+
+			$attributes['product_discount'] = $this->getDiscount($attributes['product_price'], $attributes['product_discount']);
+	    }
+
 	    unset($attributes['id']);
 
 		unset($attributes['picture']);
+
+
 
 	    $pictures = UploadedFile::getInstances($this, 'picture');
 
@@ -190,7 +210,7 @@ class ProductFormModel extends FormModel {
             'category' => 'Категория товаров',
             'quantity' => 'Количество на складе',
             'product_price' => 'Цена',
-            'product_discount' => 'Скидка, %',
+            'product_discount' => 'Скидка',
             'manufacturer' => 'Производитель',
             'description_short' => 'Короткое описание',
             'description_long' => 'Полное описание продукта',

@@ -92,4 +92,3 @@
         }(window.jQuery)
     </script>
 {/literal}
-{{$users|printr}}

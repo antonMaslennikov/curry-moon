@@ -27,6 +27,7 @@ class Controller_blog extends Controller_ {
 		]);
 
 		$this->view->setVar('post', (new post())->getList());
+		$this->view->setVar('listCategory',(new post())->getListCategory() );
 
 		$this->render();
 	}
