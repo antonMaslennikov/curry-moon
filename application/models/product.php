@@ -23,6 +23,8 @@ class product extends \smashEngine\core\Model {
     
     public static $dbtable_pictures = 'product__pictures';
 
+    public static $dbtable_related = 'product__related';
+
 	use TagsTrait;
 
     public static $manufacturers = [
@@ -85,6 +87,24 @@ class product extends \smashEngine\core\Model {
         
         return $this->info['pictures'];
     }
+
+
+	public function getRelated() {
+
+		$sth = App::db()->prepare("SELECT related_id as id
+                FROM
+                    `" . self::$dbtable_related . "`
+                WHERE
+                    `product_id` = ?
+            ");
+
+		$sth->execute([$this->id]);
+		$products = $sth->fetchAll();
+
+		$this->related = $products;
+
+		return $this->info['related'];
+	}
 
 
 	public function delete() {
