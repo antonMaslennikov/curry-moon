@@ -7,6 +7,7 @@
     use \application\models\category;
     use \application\models\product;
     use \application\models\basketItem;
+    use \application\models\certificate;
 
     use \PDO;
     use \Exception;
@@ -148,6 +149,23 @@
          */
         public function action_setcoupon()
         {
-            printr($_POST);
+            try
+            {
+                if ($_POST['csrf_token'] != $_SESSION['csrf_token']) {
+                    throw new appException('Ошибка при проверке токена', 1);
+                }
+                
+                $c = certificate::find($_POST['coupon_code']);
+                
+                $c->activate($this->user, $this->basket);
+                
+                $this->page->setFlashMessage('Купон успешно активирован');
+            }
+            catch (appException $e)
+            {
+                $this->page->setFlashMessage($e->getMessage());
+            }
+            
+            $this->page->refresh();
         }
     }

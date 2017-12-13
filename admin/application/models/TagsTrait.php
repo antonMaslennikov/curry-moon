@@ -109,12 +109,16 @@ trait TagsTrait {
 
 	}
     
-    public static function getAllTagsFull() {
+    public static function getAllTagsFull($id = null) {
 
-		$sql = 'SELECT t.*, COUNT(DISTINCT(tr.`post_id`)) AS count FROM '.self::$tag_db_table.' t, `' . self::$relation_db_table . '` tr WHERE t.`id` = tr.`tag_id` GROUP BY t.`id` ORDER BY t.id';
+		$sql = 'SELECT t.*, COUNT(DISTINCT(tr.`post_id`)) AS count 
+                FROM '.self::$tag_db_table.' t, `' . self::$relation_db_table . '` tr 
+                WHERE t.`id` = tr.`tag_id` 
+                ' . ($id ? 'AND tr.`post_id` = ?' : '') . '
+                GROUP BY t.`id` ORDER BY t.id';
 
 		$stmt = App::db()->prepare($sql);
-		$stmt->execute();
+		$stmt->execute([$id]);
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 

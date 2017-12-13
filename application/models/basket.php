@@ -477,176 +477,6 @@
         }
         
         /**
-         * Начисления партнёрам по информерам или автивированным промо-кодам
-         * Устаревший метод
-         * @return 
-         */
-        function registerInformersPay() {
-        
-            if ($this->user_basket_payment_type != 'ls')
-            {
-                $r = App::db()->query("SELECT ial.`informer_action_id`, i.`user_id`, i.`informer_type`, i.`informer_id`
-                                  FROM `informer_action_log` AS ial, `informers` AS i
-                                  WHERE ial.`informer_action_type` = 'order' AND ial.`informer_action_target` = '" . $this->id . "' AND ial.`informer_id` = i.`informer_id`");
-                
-                // если переход по банеру был
-                if ($r->rowCount() > 0) 
-                {
-                    $inf = $r->fetch();
-            
-                    // если банер не принадлежит хозяину корзины
-                    if ($inf['user_id'] != $this->user_id)
-                    {
-                        $percent    = getVariableValue($this->user_basket_domain == 'MJbasket' ? 'paybackPercent' : 'paybackPercent_as');
-                        $basket_sum = $this->getBasketSum();
-                        $pay        = round(($basket_sum / 100) * $percent);
-                
-                        if ($pay > 0)
-                        {
-                            $pid = pay2User($inf['user_id'], 0, $this->id, "Выплата $percent% автору информера #" . $inf['informer_id'] . " за заказ " . $this->id, $pay, 'promo');
-                            
-                            $this->basketChange(array('user_basket_informer_pay_id' => $pid));
-                            
-                            $i = new informer($inf['informer_id']);
-                            $i->informer_last_delivered = NOW;
-                            $i->save();
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * Начисления партнёрам по информерам или автивированным промо-кодам v2
-         * @return 
-         */
-        function registerPartnersPay() {
-        
-            if ($this->user_basket_wholesale != -1) {
-                return;
-            }
-        
-            if ($this->logs['is_admin'] && !$this->logs['enable_partner_comission']) {
-                return;
-            }
-        
-            // смотрим был ли активирован сертификат в заказе
-            if ($this->logs['activateDiscontCard']) 
-            {
-                $cert = new certificate($this->logs['activateDiscontCard'][0]['result']);
-            }
-   
-            $customizePartnerBonus = getVariableValue('customizePartnerBonus');
-   
-            // проверяем был ли переход по промо-ссылке
-            $sth = App::db()->query("SELECT ial.`informer_action_id`, i.`user_id`, i.`informer_type`, i.`informer_id`
-                              FROM `informer_action_log` AS ial, `informers` AS i
-                              WHERE 
-                                    ial.`informer_action_type` = 'order' 
-                                AND ial.`informer_action_target` = '" . $this->id . "' 
-                                AND ial.`informer_id` = i.`informer_id`
-                                AND i.`user_id` != '" . $this->user_id . "'
-                              LIMIT 1");
-            
-            $inf = $sth->fetch();
-            
-            // определяем номер партнёра
-            if ($cert) {
-                $partner_id = $cert->certification_author;
-            }
-            
-            if ($inf['user_id']) {
-                $partner_id = $inf['user_id'];
-            }
-            
-            // если партнёр сам делает заказ
-            if ($this->user->user_partner_status == 1) {
-                $partner_id = $this->user_id; 
-            }
-            
-            if ($partner_id > 0) 
-            {
-                $P = new user($partner_id);
-                
-                // дефолтный процент отчисления если для выбранной категории он не указан
-                $def_percent = getVariableValue($this->user_basket_domain == 'MJbasket' ? 'paybackPercent' : 'paybackPercent_as');
-                $percents_base = json_decode(getVariableValue('partnersBaseRate'), 1);
-                
-                
-                if ($personal_base = getVariableValue('partnersBaseRate_' . $partner_id)) {
-                    $percents_base = json_decode($personal_base, 1);
-                }
-                
-                $ssth = App::db()->prepare("UPDATE `" . basketItem::$dbtable . "` SET `user_basket_good_partner_payment_id` = :payment_id WHERE `id` = :id LIMIT 1");
-        
-                $basket_sum = $this->getBasketSum() + $this->user_basket_payment_partical - $this->user_basket_delivery_cost;
-        
-                foreach ($this->basketGoods as $g) 
-                {
-                    // если вдруг за эту позицию мы уже платили, то второй раз пропускаем
-                    if ($g['user_basket_good_partner_payment_id'] > 0) {
-                        continue;
-                    }
-                    
-                    if (!$percent = $percents_base[$g['cat_parent'] == 1 ? $g['style_category'] : $g['cat_parent']]) { 
-                        $percent = $def_percent;
-                    }
-                    
-                    // Если был активирован сертификат партнёра, то вычитаем процент скидки по сертификату из отчисления
-                    if ($cert->id > 0 && ($cert->user_id == $inf['user_id'] || !$inf)) {
-                        $percent -= $cert->certification_value;
-                    }
-        
-                    //if ($this->user_basket_payment_partical > 0) {
-                        // Вычитаем из стоимости позиции часть отплаченную бонусами
-                        // так как бонусов больше нет типа это отменяем
-                        //$g['user_basket_good_total_price'] -= round($this->user_basket_payment_partical / 100 * ($g['user_basket_good_total_price'] * 100 / $basket_sum));
-                    //}
-                    
-                    // если дизайн выкуплен у автора 
-                    if ($g['good_buyout'] == 1) {
-                        $percent += 10;
-                    }
-                    
-                    $pay = round($g['user_basket_good_total_price'] / 100 * $percent);
-                    
-                    $percent_title = $percent . '%';
-                    
-                    // за самоделку партнёр дополнительно получает 100 рублей (при сумме заказа более 1000)
-                    if ($g['good_status'] == 'customize' && $basket_sum >= 1000) {
-                        $pay += $customizePartnerBonus;
-                        $percent_title .= ' + ' . $customizePartnerBonus . 'р.';
-                    }
-                    
-                    //if ($pay > 0)
-                    //{
-                        if ($cert)
-                            $comment = "Выплата {$percent_title} автору купона #" . $cert->id . ' за заказ ' . $this->id;
-                        elseif ($inf)
-                            $comment = "Выплата {$percent_title} автору информера #" . $inf['informer_id'] . ' за заказ ' . $this->id;
-                        else
-                            $comment = "Выплата {$percent_title} партнёру за свой заказ " . $this->id;
-                        
-                        $P->pay($pay, $comment . ' (' . $g['user_basket_good_id'] . ')', 'promo', 0, 1, $this->id);;
-                        //$pid = pay2User($partner_id, 0, $this->id, $comment . ' (' . $g['user_basket_good_id'] . ')', $pay, 'promo');
-                        
-                        $ssth->execute(array(
-                            'payment_id' => $pid,
-                            'id' => $g['user_basket_good_id'],
-                        ));
-                    //}
-                }
-                
-                if ($inf['informer_id'] > 0)
-                {    
-                    $i = new informer($inf['informer_id']);
-                    $i->informer_last_delivered = NOW;
-                    $i->save();
-                }
-            }
-        }
-        
-        /**
          * получить время максимального резерва заказа
          * @return int количество дней
          */
@@ -989,9 +819,9 @@
                 }
             }
             
-            if ($this->user_basket_status != 'active') {
+            //if ($this->user_basket_status = 'active') {
                 $this->info['basketSum'] += $this->user_basket_delivery_cost - $this->user_basket_payment_partical;
-            }
+            //}
             
             return $this->info['basketSum'];
         }
@@ -1083,8 +913,13 @@
                 $row['comment']            = stripslashes($row['c']);
                 
                 $row['price'] = $row['p'];
-                $row['discount'] = $row['d'];
-                $row['tprice'] = $row['tp'];
+                $row['discount'] = $row['d'] + $this->user_basket_discount;
+                
+                if ($this->user_basket_status == 'active') {
+                    $row['tprice'] = ($row['price'] - $row['price'] / 100 * $row['discount']) * $row['quantity'];
+                } else {
+                    $row['tprice'] = $row['tp'];
+                }
 
                 $row['tprice_rub'] = $row['tprice'];
                 

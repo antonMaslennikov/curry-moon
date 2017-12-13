@@ -60,6 +60,16 @@
                                 <div class="opc_Priceproduct_subtotal_opc vm-display vm-price-value"><span class="opc_vm-price-desc"></span><span class="opc_Priceproduct_subtotal_opc">{$basket->basketSum} руб</span></div>						
                                 </td>
                             </tr>
+                            {if $basket->user_basket_payment_partical > 0}
+                            <tr>
+                                <td colspan="4" style="text-align: right">
+                                Оплачено купоном:
+                                </td>
+                                <td colspan="2">
+                                <div class="opc_Priceproduct_subtotal_opc vm-display vm-price-value"><span class="opc_vm-price-desc"></span><span class="opc_Priceproduct_subtotal_opc">{$basket->user_basket_payment_partical} руб</span></div>						
+                                </td>
+                            </tr>
+                            {/if}
                             <tr>
                                 <td colspan="4" style="text-align: right">
                                 Стоимость обработки и доставки:
@@ -83,22 +93,19 @@
                 </div>
                 <!-- end id opc_basket -->			
                 
-                <div class="coupon_section">
-                    <form action="/cart/setcoupon" method="post" onsubmit="return checkCouponField(this);" id="userForm">
+                {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}
+                <div class="coupon_activated_section" style="padding-bottom: 70px;">
+                У вас активирован купон на скидку! <a href="#" onclick="jQuery('.coupon_section').toggle(); jQuery(this).parent().hide();return false;">Активировать другой?</a>
+                </div>
+                {/if}
+                
+                <div class="coupon_section" {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}style="display:none"{/if}>
+                   
+                    <form action="/cart/setcoupon" method="post" id="userForm">
                         <button type="submit" class="btn"><span>Активировать</span></button>
-                        <input type="text" placeholder="Промокод" name="coupon_code" autocomplete="off" id="coupon_code" class="inputbox span3">
+                        <input type="text" placeholder="Промокод" name="coupon_code" autocomplete="off" id="coupon_code" class="inputbox span3" required="required">
+                        <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                     </form>	
-                    {literal}
-                    <script type="text/javascript">
-                        function checkCouponField(form) {
-                            if(form.coupon_code.value == '') {
-                                new Effect.Highlight('coupon_code');
-                                return false;
-                            }
-                            return true;
-                        }
-                    </script>
-                    {/literal}
                     <div style="margin-bottom: 15px;"><a href="/ru/discount" target="_blank">Как получить купон на скидку?</a></div>
                 </div>
                 

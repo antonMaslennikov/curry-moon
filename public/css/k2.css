@@ -208,7 +208,7 @@ span#formLog {
 	height: 25px;
 	padding: 0 0 0 20px;
 }
-.itemRatingList, .itemRatingList a:hover, .itemRatingList .itemCurrentRating { background: url('../images/k2/star.png') left -1000px repeat-x; }
+.itemRatingList, .itemRatingList a:hover, .itemRatingList .itemCurrentRating { background: url('/public/images/star.png') left -1000px repeat-x; }
 .itemRatingList {
 	position: relative;
 	float: left;

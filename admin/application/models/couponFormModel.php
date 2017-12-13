@@ -29,6 +29,7 @@ class couponFormModel extends FormModel{
     public $certification_type;
     public $certification_active;
     public $certification_comment;
+    public $certification_multi;
     public $certification_limit;
     public $lifestart;
     public $lifetime;
@@ -41,13 +42,26 @@ class couponFormModel extends FormModel{
 			0 => 'Не активен',
 		];
 	}
+    
+    public $multi = [
+        1 => 'бесконечное количество использований',
+        0 => 'определённое число раз',
+    ];
 
 	public function setUpdate() {
 		$this->newRecord = false;
         $this->old_password = $this->certification_password;
 
-		$this->lifestart = \DateTime::createFromFormat('Y-m-d', $this->lifestart)->format('d.m.Y');
-        $this->lifetime = \DateTime::createFromFormat('Y-m-d', $this->lifetime)->format('d.m.Y');
+        if ($this->lifestart == '0000-00-00') 
+            $this->lifestart = '';
+        else {
+            $this->lifestart = \DateTime::createFromFormat('Y-m-d', $this->lifestart)->format('d.m.Y');
+        }
+        
+        if ($this->lifetime == '0000-00-00') 
+            $this->lifetime = '';
+        else
+            $this->lifetime = \DateTime::createFromFormat('Y-m-d', $this->lifetime)->format('d.m.Y');
 	}
 
 	public function getData() {
@@ -64,7 +78,7 @@ class couponFormModel extends FormModel{
             
 			['newRecord', 'unsafe'],
 
-			[['certification_password', 'certification_value', 'certification_type', 'certification_active', 'certification_comment', 'certification_limit', 'lifestart', 'lifetime' ,'certification_enabled'], 'safe'],
+			[['certification_password', 'certification_value', 'certification_type', 'certification_active', 'certification_comment', 'certification_multi', 'certification_limit', 'lifestart', 'lifetime' ,'certification_enabled'], 'safe'],
             
             ['lifestart', 'dateFormat1'],
             ['lifetime', 'dateFormat2'],
@@ -113,6 +127,7 @@ class couponFormModel extends FormModel{
             'certification_type' => 'Тип купона',
             'certification_active' => 'Статус купона',
             'certification_comment' => 'Кооментарий',
+            'certification_multi' => 'Тип использования',
             'certification_limit' => 'Лимит на количество использований',
             'lifestart' => 'Дата начала действия купона',
             'lifetime' => 'Срок годности купона',
@@ -125,6 +140,7 @@ class couponFormModel extends FormModel{
 		$data = parent::getDataForTemplate();
 
         $data['listStatus'] = $this->getListStatus();
+        $data['multi'] = $this->multi;
         
 		return $data;
 	}

@@ -3,7 +3,7 @@
         <div class="box-header">
             <h3 class="box-title">Все купоны</h3>
             <div class="box-tools">
-                <a href="create" class="btn btn-success btn-sm">Добавить купон</a>
+                <a href="/admin/coupon/create" class="btn btn-success btn-sm">Добавить купон</a>
             </div>
         </div>
         <!-- /.box-header -->
@@ -35,8 +35,8 @@
                     </td>
                     <td>
                         <span class="pull-right">
-                            <a href="update?id={$node.id}" class="btn btn-warning btn-xs" title="Изменить данные"><i class="fa fa-fw fa-pencil"></i></a>
-                            <a href="delete?id={$node.id}" class="btn btn-danger btn-xs delete-js" title="Удалить категорию"><i class="fa fa-fw fa-times"></i></a>
+                            <a href="/admin/coupon/update?id={$node.id}" class="btn btn-warning btn-xs" title="Изменить данные"><i class="fa fa-fw fa-pencil"></i></a>
+                            <a href="/admin/coupon/delete?id={$node.id}" class="btn btn-danger btn-xs delete-js" title="Удалить категорию"><i class="fa fa-fw fa-times"></i></a>
                         </span>
                     </td>
                 </tr>

@@ -266,6 +266,7 @@ jQuery(window).load( function() {
 						popup_login.animate({
 							'opacity' : 0
 						},350, 'swing');
+						popup_login.css('height', 0);
 					}, 100);
 					
 				}
@@ -277,6 +278,7 @@ jQuery(window).load( function() {
 				    	popup_cart.animate({
 				    		'opacity' : 0
 				    	},350, 'swing');
+						popup_cart.css('height', 0);
 				    }, 100);
 				}  
 			});

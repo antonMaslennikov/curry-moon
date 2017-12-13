@@ -53,6 +53,8 @@ class Controller_coupon extends Controller_ {
 		$model = new couponFormModel();
 		$postModel = Html::modelName($model);
 
+        $model->certification_limit = 1;
+        
 		if (isset($_POST[$postModel])) {
 
 			$model->setAttributes($_POST[$postModel]);
@@ -64,13 +66,13 @@ class Controller_coupon extends Controller_ {
 				$coupon->save();
 
 				if (isset($_POST['apply'])) {
-					$this->page->go('/admin/coupon/update?id='.$post->id);
+					$this->page->go('/admin/coupon/update?id='.$coupon->id);
 				} else {
 					$this->page->go('/admin/coupon/list');
 				}
 			}
 		}
-printr($model->getDataForTemplate());
+
         $this->view->setVar('types', certificate::$types);
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Создать');
@@ -110,7 +112,7 @@ printr($model->getDataForTemplate());
 				$item->save();
 
 				if (isset($_POST['apply'])) {
-					$this->page->go('/admin/coupon/update?id='.$post->id);
+					$this->page->go('/admin/coupon/update?id='.$item->id);
 				} else {
 					$this->page->go('/admin/coupon/list');
 				}

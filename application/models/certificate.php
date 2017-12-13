@@ -68,15 +68,17 @@
         {
             if (!empty($code))
             {
-                $r = App::db()->query(sprintf("SELECT c.`id`
+                $r = App::db()->prepare("SELECT c.`id`
                           FROM `" . self::$dbtable . "` c
-                          WHERE c.`certification_password` = '%s'
-                          LIMIT 1", addslashes(trim($code))));
+                          WHERE c.`certification_password` = ?
+                          LIMIT 1");
+                
+                $r->execute([trim($code)]);
                 
                 if ($r->rowCount() == 1) 
                 {
                     $row = $r->fetch();
-                    return new self($row['certification_id']);
+                    return new self($row['id']);
                 } 
                 else 
                     throw new appException ('Сертификат с кодом "' . $code . '" не найден');
@@ -165,8 +167,25 @@
         public function activate(user $user, basket $basket)
         {
             // защита от повторного активирования
-            if ($_SESSION['certificate_activated_' . $this->certification_id]) {
-                throw new \application\core\exception\appException('Вы уже активировали данный купон', 5);
+            if ($_SESSION['certificate_activated_' . $this->id]) {
+                throw new appException('Вы уже активировали данный купон', 1);
+            }
+            
+            // проверки на валидность сертификата
+            if ($this->certification_enabled <= 0) {
+                throw new appException('Данный купон выключен', 2);
+            }
+            
+            if (strtotime($this->lifestart) > time()) {
+                throw new appException('Данный купон ещё рано использовать', 3);
+            }
+            
+            if ($this->lifetime != '0000-00-00' && time() > strtotime($this->lifetime)) {
+                throw new appException('Данный купон уже поздно использовать', 4);
+            }
+            
+            if ($this->certification_multi == 0 && $this->certification_limit < 1) {
+                throw new appException('Данный купон уже использован', 5);
             }
             
             switch ($this->certification_type)
@@ -199,20 +218,20 @@
                         'user_basket_discount' => $this->certification_value,
                         'user_basket_discount_description' => 'Скидка по дисконтной карте'));
 
-                    $basket->log('activateDiscontCard', $this->certification_id, $this->certification_value);
+                    $basket->log('activateDiscontCard', $this->id, $this->certification_value);
                     
                 break;
 
                 // СЕРТИФИКАТ (+ xx руб. к бонусам пользователя)
                 case 'amount':
                     
-                    $user->addBonus($this->certification_value, 'начислено с сертификата №' . $this->certification_id, $basket->id);
-                
-                    $basket->log('activateCertificate', $this->certification_id, $this->certification_value);
+                    $basket->log('activateCertificate', $this->id, $this->certification_value);
+                    
+                    $basket->basketChange(['user_basket_payment_partical' => $this->certification_value]);
                     
                 break;
             }
 
-            $_SESSION['certificate_activated_' . $this->certification_id] = true;
+            $_SESSION['certificate_activated_' . $this->id] = true;
         }
     }

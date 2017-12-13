@@ -50,66 +50,66 @@
 
         .childcontent .gkcol { width: 200px; }
 
-        body,
-        html, 
-        body button, 
-        body input, 
-        body select, 
-        body textarea,
-        #gkBottom3 .box.bigtitle .header { font-family: 'Open Sans Condensed', Arial, sans-serif; }
+body,
+html, 
+body button, 
+body input, 
+body select, 
+body textarea,
+#gkBottom3 .box.bigtitle .header { font-family: 'Open Sans Condensed', Arial, sans-serif; }
 
-        #gkLogo.text,
-        .gkBanner > h2,
-        .box.bigtitle .header,
-        #gkMenuOverlayClose,
-        #gkMenuOverlayHeader,
-        .gkIsWrapper-gk_shop_and_buy .figcaption h3,
-        .product-price span.PricesalesPrice,
-        .gkTotal,
-        .product_price,
-        .product_special_price,
-        .k2store .gkStep, .gkMenu > ul li div.childcontent li, { font-family: 'Open Sans Condensed', Arial, sans-serif; }
+#gkLogo.text,
+.gkBanner > h2,
+.box.bigtitle .header,
+#gkMenuOverlayClose,
+#gkMenuOverlayHeader,
+.gkIsWrapper-gk_shop_and_buy .figcaption h3,
+.product-price span.PricesalesPrice,
+.gkTotal,
+.product_price,
+.product_special_price,
+.k2store .gkStep, .gkMenu > ul li div.childcontent li, { font-family: 'Open Sans Condensed', Arial, sans-serif; }
 
-        #gkMainMenu,
-        h1,h2,h3,h4,h5,h6,
-        .gkMenu > ul li div.childcontent header,
-        .result-title,
-        .gkBanner > h2 > a > span,
-        .gkBanner > strong,
-        .box.bigtitle .header > small,
-        #gkMenuOverlayContent,
-        .gkIsWrapper-gk_shop_and_buy .figcaption p,
-        div.tags a,
-        div.tag a,
-        .gk-newsletter input[type="button"],
-        #k2storeCartPopup .componentheading,
-        .k2store .checkout-content h2,
-        .k2store #k2store-checkout-content h1,
-        .k2store .checkout-heading,
-        .k2store h3 { font-family: 'Open Sans Condensed', Arial, sans-serif; }
+#gkMainMenu,
+h1,h2,h3,h4,h5,h6,
+.gkMenu > ul li div.childcontent header,
+.result-title,
+.gkBanner > h2 > a > span,
+.gkBanner > strong,
+.box.bigtitle .header > small,
+#gkMenuOverlayContent,
+.gkIsWrapper-gk_shop_and_buy .figcaption p,
+div.tags a,
+div.tag a,
+.gk-newsletter input[type="button"],
+#k2storeCartPopup .componentheading,
+.k2store .checkout-content h2,
+.k2store #k2store-checkout-content h1,
+.k2store .checkout-heading,
+.k2store h3 { font-family: 'Open Sans Condensed', Arial, sans-serif; }
 
-        .blank { font-family: 'Open Sans Condensed', Arial, sans-serif; }
+.blank { font-family: 'Open Sans Condensed', Arial, sans-serif; }
 
-        @media screen and (max-width: 630px) {
-        #k2Container .itemsContainer { width: 100%!important; } 
-        .cols-2 .column-1,
-        .cols-2 .column-2,
-        .cols-3 .column-1,
-        .cols-3 .column-2,
-        .cols-3 .column-3,
-        .demo-typo-col2,
-        .demo-typo-col3,
-        .demo-typo-col4 {width: 100%; }
-        }
-        #gkContentWrap { width: 100%; }
+@media screen and (max-width: 630px) {
+	    	#k2Container .itemsContainer { width: 100%!important; } 
+	    	.cols-2 .column-1,
+	    	.cols-2 .column-2,
+	    	.cols-3 .column-1,
+	    	.cols-3 .column-2,
+	    	.cols-3 .column-3,
+	    	.demo-typo-col2,
+	    	.demo-typo-col3,
+	    	.demo-typo-col4 {width: 100%; }
+	    	}
+#gkContentWrap { width: 100%; }
 
-        .gkPage { max-width: 1130px; }
+.gkPage { max-width: 1130px; }
 
-        #menu938 > div,
-        #menu938 > div > .childcontent-inner { width: 200px; }
+#menu1264 > div,
+#menu1264 > div > .childcontent-inner { width: 200px; }
 
-        #menu1038 > div,
-        #menu1038 > div > .childcontent-inner { width: 200px; }
+#menu1265 > div,
+#menu1265 > div > .childcontent-inner { width: 200px; }
 
     </style>
 
@@ -117,10 +117,9 @@
     <script src="/public/js/jquery-noconflict.js" type="text/javascript"></script>
     <script src="/public/js/jquery-migrate.min.js" type="text/javascript"></script>
     
-    <script src="/public/js/core.js" type="text/javascript"></script>
-    
     <script src="/public/js/k2.frontend.js?v2.7.1&amp;sitepath=/" type="text/javascript"></script>
     <script src="/public/js/mootools-core.js" type="text/javascript"></script>
+    <script src="/public/js/core.js" type="text/javascript"></script>
     <script src="/public/js/mootools-more.js" type="text/javascript"></script>
     <script src="/public/js/rokbox.js" type="text/javascript"></script>
     
