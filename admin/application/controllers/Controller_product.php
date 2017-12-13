@@ -94,7 +94,7 @@ class Controller_product extends Controller_
         $product = new product($_GET['id']);
         
         $this->setTemplate('product/form.tpl');
-		$this->setTitle("Добавить товар");
+		$this->setTitle('Товар "'.$product->product_name.'"');
 
 		$this->setBreadCrumbs([
 			'/admin/product/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Товары',

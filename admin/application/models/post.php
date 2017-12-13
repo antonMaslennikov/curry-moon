@@ -10,6 +10,7 @@ use smashEngine\core\Model;
  * @package admin\application\models
  *
  * @property date publish_date
+ * @property string category
  * @property string slug
  * @property string title
  * @property string content

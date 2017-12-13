@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                {include file="adminlte/form/select.tpl" attr="is_special" list=$model.listSpecial}
+                                {include file="adminlte/form/select.tpl" attr="category" list=$model.listCategory}
                             </div>
                         </div>
 

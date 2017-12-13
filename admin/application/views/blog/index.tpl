@@ -20,7 +20,7 @@
                 </tr>
                 {foreach from=$post item=record}
                     <tr>
-                        <td>{if isset($listCategory[$record.is_special])}{$listCategory[$record.is_special]}{/if}</td>
+                        <td>{if isset($listCategory[$record.category])}{$listCategory[$record.category]}{/if}</td>
                         <td>{$record.publish_date}</td>
                         <td>{$record.title}</td>
                         <td>{$record.slug}</td>
