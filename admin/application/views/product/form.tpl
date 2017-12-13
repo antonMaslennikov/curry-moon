@@ -11,7 +11,9 @@
                     <li><a href="#image" data-toggle="tab">Изображения</a></li>
                     <li><a href="#stock" data-toggle="tab">Склад</a></li>
                     <li><a href="#dimensions" data-toggle="tab">Габариты</a></li>
+                    {if !$model.value.newRecord}
                     <li><a href="#related" data-toggle="tab">Сопутствующие товары</a></li>
+                    {/if}
                     <li><a href="#meta" data-toggle="tab">META данные</a></li>
                 </ul>
 
@@ -46,9 +48,11 @@
                         {include file="product/form_stock.tpl"}
                     </div>
 
+                    {if !$model.value.newRecord}
                     <div class="tab-pane" id="related">
                         {include file="product/form_related.tpl"}
                     </div>
+                    {/if}
 
                 </div>
 

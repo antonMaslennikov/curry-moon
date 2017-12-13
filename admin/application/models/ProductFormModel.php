@@ -248,6 +248,8 @@ class ProductFormModel extends FormModel {
 
 		$data['listAllTags'] = $this->getAllTags();
 
+
+
 		return $data;
 	}
 
