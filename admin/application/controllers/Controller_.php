@@ -8,6 +8,12 @@ class Controller_ extends \smashEngine\core\Controller
 {
 	protected $layout = null;
 
+	protected $excluded_controllers = [
+		'admin\\application\\controllers\\Controller_access'=>true,
+		'admin\\application\\controllers\\Controller_404'=>true,
+		'admin\\application\\controllers\\Controller_503'=>true,
+	];
+
 	protected $breadcrumbs = [
 		'/' => '<i class="fa fa-dashboard"></i> Админка',
 	];
@@ -19,12 +25,15 @@ class Controller_ extends \smashEngine\core\Controller
 		// Текущий пользователь
 		$this->user = \admin\application\models\WebUser::load();
 
-		if (!$this->user->authorized) {
+		if (!isset($this->excluded_controllers[get_called_class()])) {
 
-			$this->page->go('/admin/login');
-		} elseif (!isset($this->user->role)) {
+			if (!$this->user->authorized) {
 
-			$this->page403();
+				$this->page->go('/admin/login');
+			} elseif (!isset($this->user->role)) {
+
+				$this->page403();
+			}
 		}
 
 		// кэшируем переменные

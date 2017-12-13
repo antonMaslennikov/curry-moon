@@ -34,8 +34,9 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <!-- jQuery 3 -->
-    <script src="/public/packages/jquery/jquery.min.js"></script>
     <![endif]-->
+    <script src="/public/packages/jquery/jquery.min.js"></script>
+
 
     {foreach $PAGE->js item="path" name="jsforeach"}
         <script type='text/javascript' src="{$path}"></script>
@@ -61,14 +62,18 @@
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
-        {include file="adminlte/menu/top-navbar.tpl"}
+        {if !isset($hide_menu)}
+            {include file="adminlte/menu/top-navbar.tpl"}
+        {/if}
     </header>
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
+            {if !isset($hide_menu)}
             {include file="adminlte/menu/sidebar-menu.tpl"}
+            {/if}
         </section>
         <!-- /.sidebar -->
     </aside>

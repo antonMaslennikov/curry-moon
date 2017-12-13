@@ -10,8 +10,14 @@
 	        'login'=> [
 		        'pattern' => '/admin/login',
 		        'action' => 'Controller_access:action_login',
-		        'schemas' => 'GET_POST'
+		        'schemas' => 'GET|POST'
 		    ],
+
+	        'logout'=> [
+		        'pattern' => '/admin/logout',
+		        'action' => 'Controller_access:action_logout',
+		        'schemas' => 'GET'
+	        ],
 
 	        'api_transliterate' =>[
 		        'pattern' => '/admin/api/transliterate',

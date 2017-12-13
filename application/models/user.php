@@ -30,7 +30,7 @@
         /**
          * @param int $id номер пользователя
          */
-        function __construct($id, $import = null)
+        function __construct($id=0, $import = null)
         {
             $this->id = (int) $id;
             $this->info = [];
