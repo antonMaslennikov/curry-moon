@@ -55,10 +55,10 @@ class UserFormModel extends FormModel {
 
 		$attributes = $this->getAttributes();
 
-		if ($attributes['password']) $attributes['password'] = md5(SALT . $attributes['password']);
+		if ($attributes['user_password']) $attributes['user_password'] = md5(SALT . $attributes['user_password']);
 
 		if (is_string($attributes['user_city_id']) && $attributes['user_city_id']!=intval($attributes['user_city_id']))
-			$attributes['user_city_id'] = cityName2id($attributes['user_city_id'], $attributes['user_country_id']);
+			$attributes['user_city_id'] = cityName2id($attributes['user_city_id'], $attributes['user_country_id'], 1);
 
 		return $attributes;
 	}

@@ -7,6 +7,12 @@
         var $classesBase = 'admin\application\controllers\\';
         
         var $data = [
+	        'login'=> [
+		        'pattern' => '/admin/login',
+		        'action' => 'Controller_access:action_login',
+		        'schemas' => 'GET_POST'
+		    ],
+
 	        'api_transliterate' =>[
 		        'pattern' => '/admin/api/transliterate',
 		        'action' => 'Controller_api:action_transliterate',

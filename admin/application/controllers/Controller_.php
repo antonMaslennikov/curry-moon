@@ -18,14 +18,14 @@ class Controller_ extends \smashEngine\core\Controller
 
 		// Текущий пользователь
 		$this->user = \admin\application\models\WebUser::load();
-		/*
+
 		if (!$this->user->authorized) {
 
 			$this->page->go('/admin/login');
 		} elseif (!isset($this->user->role)) {
 
-			throw new appException('Access denied', 403);
-		}*/
+			$this->page403();
+		}
 
 		// кэшируем переменные
 		//if (!$this->VARS = App::memcache()->get('VARS')) {
@@ -78,6 +78,15 @@ class Controller_ extends \smashEngine\core\Controller
 		$this->view->setVar('csrf_token', $_SESSION['csrf_token']);
 		$this->view->setVar('appMode', appMode);
 	}
+
+
+	function page403()
+	{
+		header('HTTP/1.1 403 Forbidden');
+		$this->view->generate('403.tpl');
+		exit();
+	}
+
 
 
 	public function setTemplate($page) {

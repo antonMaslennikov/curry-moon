@@ -50,9 +50,9 @@
             $this->view->generate('404.tpl');
             exit();
         }
-        
-        
-        public function setTemplate($page) {
+
+
+	    public function setTemplate($page) {
 
             if ($this->layout !== null) {
 
