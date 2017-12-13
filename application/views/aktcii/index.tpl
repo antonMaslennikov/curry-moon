@@ -1,1 +1,0 @@
-aktcii/index.tpl

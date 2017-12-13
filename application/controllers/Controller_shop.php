@@ -37,8 +37,7 @@
                     $this->action_view();
                 }
             }
-        }
-                                    
+        }                           
                                     
         public function action_index()
         {
@@ -49,12 +48,10 @@
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'shop/index.tpl';
             
-            /*
+            
             $this->page->import(array(
-                '/public/js/p/catalog.js',
-                '/public/css/p/catalog.css', 
+                '/public/css/bitvmbadges.css', 
             ));
-            */
             
             // корень каталога
             if (empty($this->page->reqUrl[2])) {

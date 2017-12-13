@@ -29,7 +29,7 @@
                         </header>
 
                         <div class="itemImageBlock"> 
-                            <a class="itemImage" href="/ru/blog/{$p.slug}" title="{$p.title}"> 
+                            <a class="itemImage" href="/ru/{$PAGE->reqUrl.1}/{$p.slug}" title="{$p.title}"> 
                                 <img src="{$p.picture_path}" alt="{$p.title}" style="width:1280px; height:auto;">
                             </a> 
                         </div>
@@ -43,7 +43,7 @@
                            
                             <div class="itemIntroText">  </div>
 
-                            <a class="button" href="/ru/blog/{$p.slug}"> Подробнее ... </a>
+                            <a class="button" href="/ru/{$PAGE->reqUrl.1}/{$p.slug}"> Подробнее ... </a>
                         </div>
 
 

@@ -131,8 +131,8 @@
             ],
             
             'aktcii' => [
-                'pattern' => '/(ru|en)/aktcii(/?)(.*)', 
-                'action' => 'Controller_aktcii:action_index', 
+                'pattern' => '/(ru|en)/aktcii$', 
+                'action' => 'Controller_blog:action_aktcii', 
                 'schemas' => 'GET',
 	            'title' => 'Акции',
             ],
@@ -145,7 +145,7 @@
             ],
             
             'blog-view' => [
-                'pattern' => '/(ru|en)/blog/[a-zA-Z0-9-_]*', 
+                'pattern' => '/(ru|en)/(blog|aktcii)/[a-zA-Z0-9-_]*', 
                 'action' => 'Controller_blog:action_view', 
                 'schemas' => 'GET',
             ],
@@ -153,6 +153,12 @@
             'blog-archive' => [
                 'pattern' => '/(ru|en)/date/[0-9]{4}/[0-9]{1,}', 
                 'action' => 'Controller_blog:action_archive', 
+                'schemas' => 'GET',
+            ],
+            
+            'blog-tegi' => [
+                'pattern' => '/(ru|en)/tegi/[a-zA-Z0-9-_]*', 
+                'action' => 'Controller_blog:action_tegi', 
                 'schemas' => 'GET',
             ],
             

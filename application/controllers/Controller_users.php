@@ -286,33 +286,34 @@
                     }
                 }
                 // отправка кода
-                elseif ($this->page->reqUrl[3] == 'request')
+                elseif ($this->page->reqUrl[3] == 'request' || $this->page->reqUrl[3] == '')
                 {
                     $this->view->setVar('request', true);
                     
-                    if ($_POST['jform']['email']) 
+                    if (isset($_POST['jform'])) 
                     {
-                        if (validateEmail($_POST['jform']['email'])) 
+                        if ($_POST['jform']['email']) 
                         {
-                            if ($U = user::findByEmail($_POST['jform']['email'])) {
-                                $U->sendRecoverEmail();
-                                $this->page->go('/ru/users/forgot-password/confirm/' . $U->id);
+                            if (validateEmail($_POST['jform']['email'])) 
+                            {
+                                if ($U = user::findByEmail($_POST['jform']['email'])) {
+                                    $U->sendRecoverEmail();
+                                    $this->page->go('/ru/users/forgot-password/confirm/' . $U->id);
+                                } else {
+                                    throw new appException('Пользователь с email ' . $_POST['jform']['email'] . ' не найден в нашей базе');
+                                }
                             } else {
-                                throw new appException('Пользователь с email ' . $_POST['jform']['email'] . ' не найден в нашей базе');
+                                throw new appException('То что вы указали не похоже на адрес электронной почты');
                             }
                         } else {
-                            throw new appException('То что вы указали не похоже на адрес электронной почты');
+                            throw new appException('Для отправки кода для восстановления нужно указать ваш Email');
                         }
-                    } else {
-                        throw new appException('Для отправки кода для восстановления нужно указать ваш Email');
                     }
                 }
                 // успешный сброс пароля
                 elseif ($this->page->reqUrl[3] == 'success') 
                 {
-                    $this->view->setVar('success', true);
-                    
-                    
+                    $this->view->setVar('success', true); 
                 }
             }
             catch (appException $e)

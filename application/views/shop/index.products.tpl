@@ -6,7 +6,15 @@
         {foreach from=$products item="p"}
         <div class="product floatleft width33 vertical-separator">
             <div class="spacer">
-                <div style="display:none;" id="{$p.id}_bvmpb_com" class="product_badge"></div>
+               
+                {if $p.product_discount > 0}
+                <div id="{$p.id}_bvmpb_com" class="product_badge">
+                    <div class="bit_badge_discount" style="top:-12px;left:260px;">
+                        <img src="/public/images/sale_red.png" alt="badge_discount">
+                    </div>
+                </div>
+                {/if}
+                
                 <div>
                     <a title="{$p.product_name}" href="{$base}{$p.slug}-{$p.product_sku|lower}">
                         <img src="{$p.picture_path}" alt="{$p.slug}" class="browseProductImage">					 

@@ -38,26 +38,41 @@ class post extends Model {
 	 */
 	public function getList($params) {
 
+        $data = [];
+        
+        if ($params['withtag']) {
+            $at[] = '`tags_relation` tr';
+            $aq[] = 'tr.`tag_id` = ?';
+            $aq[] = 't.`id` = tr.`post_id`';
+            
+            array_push($data, $params['withtag']);
+        }
+        
 		$sql = 'SELECT t.*, p.`picture_path` 
-                FROM '.self::$dbtable.' t, `' . picture::$dbtable . '` p
+                FROM 
+                    '.self::$dbtable.' t, 
+                    `' . picture::$dbtable . '` p
+                    ' . (count($at) > 0 ? ', ' . implode(', ', $at) : '') . '
                 WHERE p.`picture_id` = t.`image`
                     '
                     .
                     (in_array($params['lang'], ['ru', 'en']) ? " AND `lang` = '" . $params['lang'] . "'" : '')
                     .
-                    ($params['status'] ? " AND `status` = '" . (int) $params['status'] . "'" : '')
+                    (isset($params['status']) ? " AND `status` = '" . (int) $params['status'] . "'" : '')
                     .
-                    ($params['is_special'] ? " AND `is_special` = '" . (int) $params['is_special'] . "'" : '')
+                    (isset($params['category']) ? " AND `category` = '" . (int) $params['category'] . "'" : '')
                     .
                     ($params['datestart'] ? " AND `publish_date` >= '" . $params['datestart'] . "'" : '')
                     .
                     ($params['dateend'] ? " AND `publish_date` <= '" . $params['dateend'] . "'" : '')
                     .
+                    (count($aq) > 0 ? ' AND ' . implode(' AND ', $aq) : '') 
+                    .
                     '
                 ORDER BY ' . ($params['orderby'] ? $params['orderby'] : 'publish_date');
 
 		$stmt = App::db()->prepare($sql);
-		$stmt->execute();
+		$stmt->execute($data);
 
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
