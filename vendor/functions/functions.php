@@ -1443,6 +1443,24 @@
         
         return $city['id'];
     }
+
+    function cityId2name($id) {
+    
+        $sth = App::db()->prepare("SELECT `name` FROM `city` WHERE `id` = ? LIMIT 1");
+        $sth->execute([$id]);
+        $city = $sth->fetch();
+        
+        return $city['name'];
+    }
+
+    function countryId2name($id) {
+    
+        $sth = App::db()->prepare("SELECT `country_name` FROM `countries` WHERE `country_id` = ? LIMIT 1");
+        $sth->execute([$id]);
+        $c = $sth->fetch();
+        
+        return $c['country_name'];
+    }
     
     
     function SpiderDetect($USER_AGENT){

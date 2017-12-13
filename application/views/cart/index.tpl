@@ -148,12 +148,12 @@
                                 <div id="logintab" style="display: none;">
 
                                     <div class="formField">
-                                        <input type="text" id="username_login" placeholder="Имя пользователя" name="username_login" value="" class="inputbox" size="20" onfocus="inputclear(this)" autocomplete="off">				
+                                        <input type="text" id="username_login" placeholder="Имя пользователя" name="username_login" value="" class="inputbox" size="20" autocomplete="off">				
                                         <input type="hidden" id="saved_username_login_field" name="savedtitle" value="Имя пользователя">			
                                     </div>
 
                                     <div class="formField">
-                                        <input type="password" id="passwd_login" name="passwd" placeholder="Пароль" value="" class="inputbox" size="20" onkeypress="return Onepage.submitenter(this,event)" onfocus="inputclear(this)" autocomplete="off">				
+                                        <input type="password" id="passwd_login" name="passwd" placeholder="Пароль" value="" class="inputbox" size="20" onkeypress="return Onepage.submitenter(this,event)" autocomplete="off">				
                                         <input type="hidden" id="saved_password_field" name="savedtitle" value="Пароль">			
                                     </div>
                                     
@@ -186,31 +186,31 @@
                             <div style="width: 100%" class="BTaddress">
                                 <div style="clear: both;">
                                    <div class="address_field_name" style="">Эл.почта </div>
-                                   <div class="address_field_value" style="">smash@maryjane.ru</div>
+                                   <div class="address_field_value" style="">{$USER->user_email}</div>
                                 </div>
                                 <div style="clear: both;">
-                                   <div class="address_field_name" style="">Фамилия </div>
-                                   <div class="address_field_value" style="">s</div>
+                                   <div class="address_field_name" style="">Фамилия / Имя</div>
+                                   <div class="address_field_value" style="">{$USER->user_name}</div>
                                 </div>
                                 <div style="clear: both;">
-                                   <div class="address_field_name" style="">Имя </div>
-                                   <div class="address_field_value" style="">s</div>
+                                   <div class="address_field_name" style="">Телефон</div>
+                                   <div class="address_field_value" style="">{$USER->user_phone}</div>
                                 </div>
                                 <div style="clear: both;">
                                    <div class="address_field_name" style="">Адрес </div>
-                                   <div class="address_field_value" style="">a</div>
+                                   <div class="address_field_value" style="">{$USER->user_address}</div>
                                 </div>
                                 <div style="clear: both;">
                                    <div class="address_field_name" style="">Почтовый индекс </div>
-                                   <div class="address_field_value" style="">a</div>
+                                   <div class="address_field_value" style="">{$USER->user_zip}</div>
                                 </div>
                                 <div style="clear: both;">
                                    <div class="address_field_name" style="">Город </div>
-                                   <div class="address_field_value" style="">1</div>
+                                   <div class="address_field_value" style="">{$USER->user_city_name}</div>
                                 </div>
                                 <div style="clear: both;">
                                    <div class="address_field_name" style="">Страна </div>
-                                   <div class="address_field_value" style="">Российская федерация</div>
+                                   <div class="address_field_value" style="">{$USER->user_country_name}</div>
                                 </div>
 
                                 <div style="clear: both;">
@@ -224,72 +224,56 @@
                         <div id="customer-form" style="width:100%;{if $USER->authorized}display:none{/if}"> 
                             <div class="formField email" id="email_input" title="Эл.почта *">
                                <div test="test">
-                                   <input onfocus="inputclear(this)" placeholder="Эл.почта *" autocomplete="off" type="email" id="email_field" name="email" size="30" value="" class="required email " disabledmaxlength="100"> 
+                                   <input placeholder="Эл.почта *" autocomplete="off" type="email" id="email_field" name="user_email" size="30" class="required email " disabledmaxlength="100" value="{$USER->user_email}"> 
                                </div>
                             </div>
 
-                            <div class="formField text" id="last_name_input" title="Фамилия *">
+                            <div class="formField text" id="last_name_input" title="ФИО *">
                                 <div>
-                                    <input onfocus="inputclear(this)" placeholder="Фамилия *" type="text" id="last_name_field" name="last_name" size="30" value="" class="required" disabledmaxlength="32" autocomplete="off"> 
-                                </div>
-                            </div>
-
-                            <div class="formField text" id="first_name_input" title="Имя *">
-                                <div>
-                                    <input onfocus="inputclear(this)" placeholder="Имя *" type="text" id="first_name_field" name="first_name" size="30" value="" class="required" disabledmaxlength="32" autocomplete="off"> 
-                                </div>
-                            </div>
-
-                            <div class="formField text" id="middle_name_input" title="Отчество">
-                                <span id="middle_name_div" style="" class="formLabel "></span>
-                                <div>
-                                    <input onfocus="inputclear(this)" placeholder="Отчество" type="text" id="middle_name_field" name="middle_name" size="30" value="" disabledmaxlength="32" autocomplete="off" class=""> 
+                                    <input placeholder="Фамилия *" type="text" id="last_name_field" name="user_name" size="30" class="required" disabledmaxlength="32" autocomplete="off" value="{$USER->user_name}"> 
                                 </div>
                             </div>
 
                             <div class="formField text" id="address_1_input" title="Адрес *">
                                 <div>
-                                    <input onfocus="inputclear(this)" placeholder="Адрес *" type="text" onblur="javascript:Onepage.op_runSS(this);" id="address_1_field" name="address_1" size="30" value="" class="required" disabledmaxlength="64" autocomplete="off"> 
+                                    <input placeholder="Адрес *" type="text" onblur="javascript:Onepage.op_runSS(this);" id="address_1_field" name="user_address" size="30" class="required" disabledmaxlength="64" autocomplete="off" value="{$USER->user_address}"> 
                                 </div>
                             </div>
 
                             <div class="formField text" id="zip_input" title="Почтовый индекс *">
                                 <div>
-                                    <input onfocus="inputclear(this)" placeholder="Почтовый индекс *" type="text" onblur="javascript:Onepage.op_runSS(this);" id="zip_field" name="zip" size="30" value="" class="required" disabledmaxlength="32" autocomplete="off"> 
-                                    <input type="hidden" id="saved_zip_field" name="savedtitle" value="Почтовый индекс *">
+                                    <input placeholder="Почтовый индекс *" type="text" id="zip_field" name="user_zip" size="30" value="{$USER->user_zip}" class="required" disabledmaxlength="32" autocomplete="off"> 
                                 </div>
                             </div>
 
                             <div class="formField text" id="city_input" title="Город *">
                                 <div>
-                                    <input onfocus="inputclear(this)" placeholder="Город *" type="text" id="city_field" name="city" size="30" value="" class="required" disabledmaxlength="32" autocomplete="off"> 
-                                    <input type="hidden" id="saved_city_field" name="savedtitle" value="Город *">
+                                    <input placeholder="Город *" type="text" id="city_field" name="city_id" size="30" class="required" disabledmaxlength="32" autocomplete="off" value="{$USER->user_city_name}"> 
                                 </div>
                             </div>
 
                             <div class="formField select" id="virtuemart_country_id_input" title="Страна *">
-                                <label class="label_selects" style="clear: both; " for="virtuemart_country_id_field">Страна *</label>
+                                <label class="label_selects" style="clear: both; " for="country_id_field">Страна *</label>
                                 <div>
-                                    <select autocomplete="off" name="virtuemart_country_id" class=" required">
+                                    <select autocomplete="off" name="country_id" class=" required">
                                         <option value="">-- Выберите --</option>
-                                        <option value="15">Азербайджан</option>
-                                        <option value="11">Армения</option>
-                                        <option value="20">Беларусь</option>
-                                        <option value="109">Казахстан</option>
-                                        <option value="140">Молдавская республика</option>
-                                        <option value="176" selected="selected">Российская федерация</option>
-                                        <option value="207">Таджикистан</option>
-                                        <option value="216">Туркменистан</option>
-                                        <option value="226">Узбекистан</option>
-                                        <option value="220">Украина</option>
+                                        <option value="675" {if $USER->user_country_id == 675}selected="selected"{/if}>Азербайджан</option>
+                                        <option value="685" {if $USER->user_country_id == 685}selected="selected"{/if}>Армения</option>
+                                        <option value="940" {if $USER->user_country_id == 940}selected="selected"{/if}>Беларусь</option>
+                                        <option value="759" {if $USER->user_country_id == 759}selected="selected"{/if}>Казахстан</option>
+                                        <option value="807" {if $USER->user_country_id == 807}selected="selected"{/if}>Молдавская республика</option>
+                                        <option value="838" {if $USER->user_country_id == 838}selected="selected"{/if}>Российская федерация</option>
+                                        <option value="865" {if $USER->user_country_id == 865}selected="selected"{/if}>Таджикистан</option>
+                                        <option value="876" {if $USER->user_country_id == 876}selected="selected"{/if}>Туркменистан</option>
+                                        <option value="879" {if $USER->user_country_id == 879}selected="selected"{/if}>Узбекистан</option>
+                                        <option value="880" {if $USER->user_country_id == 880}selected="selected"{/if}>Украина</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="formField text" id="phone_1_input" title="Телефон">
-                                <span id="phone_1_div" style="" class="formLabel "></span>
                                 <div>
-                                    <input onfocus="inputclear(this)" placeholder="Телефон" type="text" id="phone_1_field" name="phone_1" size="30" value="" disabledmaxlength="32" autocomplete="off" class=""> 
+                                    <input placeholder="Телефон" type="text" id="phone_1_field" name="user_phone" size="30" disabledmaxlength="32" autocomplete="off" class="" value="{$USER->user_phone}"> 
                                 </div>
                             </div>
                         </div>
@@ -310,29 +294,19 @@
 
                         <!-- end shipping address info -->
 
-                            <div>
                                 <h4>2. Способ доставки</h4>	
 
                                 <!-- shipping methodd -->
-                                <div id="ajaxshipping" style="min-height: 30px;"><div class="opc_ship_wrap opc_ship_wrap_2 selected" id="opc_ship_wrap_2"><input type="radio" data-dynamic-update="1" autocomplete="off" name="virtuemart_shipmentmethod_id" onclick="javascript:Onepage.changeTextOnePage3(op_textinclship, op_currency, op_ordertotal);" id="shipment_id_2" checked="checked" value="2">
-                                <label for="shipment_id_2"><span class="vmshipment"><span class="vmCartShipmentLogo"><img align="middle" src="https://www.curry-moon.com//images/virtuemart/shipment/major.png" alt="major"></span>  <span class="vmshipment_name">Major Express</span><span class="vmshipment_description">(Оплата доставки при получении. <a href="http://www.major-express.ru/calculator.aspx" target="_blank">Калькулятор стоимости.</a>)</span></span></label></div><!-- opc_ship_wrap end --><br><input type="hidden" name="7997f186caeb9f36c4c0c5020f6e6c0f" value="1"></div>
+                                {include file="cart/shipping.tpl"}
                                 <br>
-                            <!-- end shipping methodd -->
-                            </div>
+                                <!-- end shipping methodd -->
+                            
 
                             <div id="payment_top_wrapper" style="display: block;">
 
                                 <h4 class="payment_header">3. Способ оплаты </h4>
 
-                                <div id="payment_html"><div class="payment_inner_html" rel="force_show_payments"><div style="clear: both;"><div id="opc_payment_wrap_3" class="opc_payment_wrap opc_payment_wrap_3 selected"><input type="radio" autocomplete="off" data-dynamic-update="1" name="virtuemart_paymentmethod_id" onclick="javascript: Onepage.runPay('','',op_textinclship, op_currency, 0)" id="payment_id_3" value="3" checked="checked">
-                                <label for="payment_id_3"><span class="vmpayment"><img align="middle" src="https://www.curry-moon.com//plugins/vmpayment/yandexapi/visa-mc-yandex.png" alt="visa-mc-yandex">  <span class="vmpayment_name">Яндекс.Деньги</span></span></label>
-                                </div></div><div style="clear: both;"><div id="opc_payment_wrap_5" class="opc_payment_wrap opc_payment_wrap_5"><input type="radio" autocomplete="off" data-dynamic-update="1" name="virtuemart_paymentmethod_id" onclick="javascript: Onepage.runPay('','',op_textinclship, op_currency, 0)" id="payment_id_5" value="5">
-                                <label for="payment_id_5"><span class="vmpayment"><span class="vmCartPaymentLogo"><img align="middle" src="https://www.curry-moon.com//images/stories/virtuemart/payment/alfabank-white.png" alt="alfabank-white"></span>  <span class="vmpayment_name">Карта Альфа-Банка</span><span class="vmpayment_description vmpayment_description_5">Номер карты для оплаты отправляется на email</span></span></label>
-                                </div></div><div style="clear: both;"><div id="opc_payment_wrap_6" class="opc_payment_wrap opc_payment_wrap_6"><input type="radio" autocomplete="off" data-dynamic-update="1" name="virtuemart_paymentmethod_id" onclick="javascript: Onepage.runPay('','',op_textinclship, op_currency, 0)" id="payment_id_6" value="6">
-                                <label for="payment_id_6"><span class="vmpayment"><span class="vmCartPaymentLogo"><img align="middle" src="https://www.curry-moon.com//images/stories/virtuemart/payment/sberbank.png" alt="sberbank"></span>  <span class="vmpayment_name">Карта Сбербанка</span><span class="vmpayment_description vmpayment_description_6">Номер карты для оплаты отправляется на email</span></span></label>
-                                </div></div><div style="clear: both;"><div id="opc_payment_wrap_8" class="opc_payment_wrap opc_payment_wrap_8"><input type="radio" autocomplete="off" data-dynamic-update="1" name="virtuemart_paymentmethod_id" onclick="javascript: Onepage.runPay('','',op_textinclship, op_currency, 0)" id="payment_id_8" value="8">
-                                <label for="payment_id_8"><span class="vmpayment"><span class="vmCartPaymentLogo"><img align="middle" src="https://www.curry-moon.com//images/stories/virtuemart/payment/cash_rub.png" alt="cash_rub"></span>  <span class="vmpayment_name">Наличные (при самовывозе)</span></span></label>
-                                </div></div><input type="hidden" name="opc_payment_method_id" id="opc_payment_method_id" value="payment_id_3"><div style="display: none;"><input type="radio" value="0" name="virtuemart_paymentmethod_id" id="virtuemart_paymentmethod_id_0"></div></div><input type="hidden" name="7997f186caeb9f36c4c0c5020f6e6c0f" value="1"></div><div id="payment_extra_outside_basket"></div><input type="hidden" name="7997f186caeb9f36c4c0c5020f6e6c0f" value="1"><br style="clear: both;">
+                                {include file="cart/payment.tpl"}
 
                                 <br style="clear: both;">
                                 <!-- end shipping methodd -->
@@ -353,30 +327,24 @@
                             
                             <div>
                                 <div id="totalam">
-                                <div id="tt_order_subtotal_div" style="display: block;">
-                                    <span id="tt_order_subtotal_txt" class="bottom_totals_txt">Промежуточный итог</span>
-                                    <span id="tt_order_subtotal" class="bottom_totals">{$basket->basketSum} <span class="currency_format">руб</span></span>
-                                <br class="op_clear">
-                                </div>
-                                <div id="tt_order_payment_discount_before_div">
-                                    <span id="tt_order_payment_discount_before_txt" class="bottom_totals_txt"></span>
-                                    <span class="bottom_totals" id="tt_order_payment_discount_before"></span><br class="op_clear">
-                                </div>
-                                <div id="tt_order_discount_before_div" style="display: none;">
-                                    <span id="tt_order_discount_before_txt" class="bottom_totals_txt"></span>
-                                    <span id="tt_order_discount_before" class="bottom_totals"></span><br class="op_clear">
-                                </div>
-                                <div id="tt_shipping_rate_div" style="display: block;"><span id="tt_shipping_rate_txt" class="bottom_totals_txt">Цена доставки</span><span id="tt_shipping_rate" class="bottom_totals">0 <span class="currency_format">руб</span></span><br class="op_clear"></div>
-                                <div id="tt_shipping_tax_div" style="display: none;"><span id="tt_shipping_tax_txt" class="bottom_totals_txt"></span><span id="tt_shipping_tax" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_tax_total_0_div" style="display: none;"><span id="tt_tax_total_0_txt" class="bottom_totals_txt"></span><span id="tt_tax_total_0" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_tax_total_1_div" style="display: none;"><span id="tt_tax_total_1_txt" class="bottom_totals_txt"></span><span id="tt_tax_total_1" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_tax_total_2_div" style="display: none;"><span id="tt_tax_total_2_txt" class="bottom_totals_txt"></span><span id="tt_tax_total_2" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_tax_total_3_div" style="display: none;"><span id="tt_tax_total_3_txt" class="bottom_totals_txt"></span><span id="tt_tax_total_3" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_tax_total_4_div" style="display: none;"><span id="tt_tax_total_4_txt" class="bottom_totals_txt"></span><span id="tt_tax_total_4" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_order_payment_discount_after_div" style="display: none;"><span id="tt_order_payment_discount_after_txt" class="bottom_totals_txt"></span><span id="tt_order_payment_discount_after" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_order_discount_after_div" style="display: none;"><span id="tt_order_discount_after_txt" class="bottom_totals_txt">Купон на скидку<span id="tt_order_discount_after_txt_code"></span></span><span id="tt_order_discount_after" class="bottom_totals"></span><br class="op_clear"></div>
-                                <div id="tt_genericwrapper_bottom" class="dynamic_lines_bottom" style="display: none;"><span class="bottom_totals_txt dynamic_col1_bottom"></span><span class="bottom_totals dynamic_col2_bottom"></span><br class="op_clear"></div>
-                                <div id="tt_total_div"><span id="tt_total_txt" class="bottom_totals_txt">Итого</span><span id="tt_total" class="bottom_totals">286671540 <span class="currency_format">руб</span></span><br class="op_clear"></div>
+                                    <div id="tt_order_subtotal_div" style="display: block;">
+                                        <span id="tt_order_subtotal_txt" class="bottom_totals_txt">Промежуточный итог</span>
+                                        <span id="tt_order_subtotal" class="bottom_totals">{$basket->basketSum} <span class="currency_format">руб</span></span>
+                                    <br class="op_clear">
+                                    </div>
+                                    <div id="tt_order_payment_discount_before_div">
+                                        <span id="tt_order_payment_discount_before_txt" class="bottom_totals_txt"></span>
+                                        <span class="bottom_totals" id="tt_order_payment_discount_before"></span><br class="op_clear">
+                                    </div>
+                                    <div id="tt_order_discount_before_div" style="display: none;">
+                                        <span id="tt_order_discount_before_txt" class="bottom_totals_txt"></span>
+                                        <span id="tt_order_discount_before" class="bottom_totals"></span><br class="op_clear">
+                                    </div>
+                                    <div id="tt_shipping_rate_div" style="display: block;">
+                                        <span id="tt_shipping_rate_txt" class="bottom_totals_txt">Цена доставки</span>
+                                        <span id="tt_shipping_rate" class="bottom_totals">0 <span class="currency_format">руб</span></span>
+                                        <br class="op_clear">
+                                    </div>
                                 </div>
                                 <div class="op_hr">&nbsp;</div>
                             </div>
@@ -407,7 +375,7 @@
                                         <input value="1" type="checkbox" id="agreed_field" name="tosAccepted" checked="checked" class="terms-of-service" required="required" autocomplete="off">
                                     </div>
                                     <div class="right_label">
-                                        <label for="agreed_field">Я согласен с Условиями обслуживания<a target="_blank" rel="{ldelim}handler: 'iframe', size: {ldelim}x: 500, y: 400{rdelim}{rdelim}" class="opcmodal" href="https://www.curry-moon.com/index.php?nosef=1&amp;format=html&amp;option=com_virtuemart&amp;view=vendor&amp;layout=tos&amp;virtuemart_vendor_id=1&amp;tmpl=component&amp;Itemid=1064&amp;lang=ru" onclick="javascript: return Onepage.op_openlink(this); "><br>
+                                        <label for="agreed_field">Я согласен с Условиями обслуживания<a target="_blank" rel="{ldelim}handler: 'iframe', size: {ldelim}x: 500, y: 400{rdelim}{rdelim}" class="opcmodal" id="terms-of-service" href="/cart/terms-of-service"><br>
                                         (Условия обслуживания)
                                         </a></label>
                                     </div>		
@@ -428,7 +396,7 @@
 
                         <div class="bottom_button">
                             <div id="payment_info"></div>
-                            <button class="btn btn-success btn-block btn-large" type="submit" onclick="javascript:return Onepage.validateFormOnePage(event, this, true);" autocomplete="off"><span>Подтвердить заказ</span></button>
+                            <button class="btn btn-success btn-block btn-large" type="submit" autocomplete="off"><span>Подтвердить заказ</span></button>
                         </div>
 
                     </div>
@@ -479,25 +447,48 @@
     </form>
     
     {literal}
-    <script type="text/javascript">
-        /* <![CDATA[ */   
-        if (typeof Onepage != 'undefined')
-        {
-            Onepage.ga('Checkout Impression', 'Checkout General'); 
-        }
-        /* ]]> */
-    </script>
-
     <script id="box_js" type="text/javascript">//<![CDATA[ 
         jQuery(document).ready(function($) {
-            $('div#full-tos').hide();
-            var con = $('div#full-tos').html();
-            $('a#terms-of-service').click(function(event) {
-            event.preventDefault();
-            $.facebox( { div: '#full-tos' }, 'my-groovy-style');
+            jQuery('div#full-tos').hide();
+            var con = jQuery('div#full-tos').html();
+            
+            jQuery('a#terms-of-service').click(function(event) {
+                jQuery.facebox({
+                    ajax: $(this).attr('href'),
+                    rev: 'iframe|300|300'
+                });
+                return false;
+            });
+            
+            jQuery('select[name=country_id]').change(function(){
+               
+                if (jQuery(this).val() == 838) {
+                    jQuery('#opc_ship_wrap_6').show();
+                } else {
+                    jQuery('#opc_ship_wrap_6, #opc_payment_wrap_8').hide();
+                    
+                    if (jQuery('#shipment_id_6').attr('checked'))
+                        jQuery('input[name=shipmentmethod_id]:visible').eq(0).attr('checked', 'checked');
+                    
+                    if (jQuery('#payment_id_8').attr('checked'))
+                        jQuery('input[name=paymentmethod_id]:visible').eq(0).attr('checked', 'checked');
+                }
+                
+            });
+            
+            jQuery('input[name=shipmentmethod_id]').change(function() {
+                
+                if (jQuery(this).val() == 'user') {
+                    jQuery('#opc_payment_wrap_8').show();
+                } else {
+                    jQuery('#opc_payment_wrap_8').hide();
+                    if (jQuery('#payment_id_8').attr('checked'))
+                        jQuery('input[name=paymentmethod_id]:visible').eq(0).attr('checked', 'checked');
+                }
+                
             });
         }); //]]>
     </script>
-
+    {/literal}
+    
 </section>
-{/literal}

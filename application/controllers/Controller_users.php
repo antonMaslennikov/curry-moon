@@ -104,8 +104,9 @@
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/registration.tpl';
             $this->page->import(['/public/css/onepage.css']);
+            $this->page->title = 'Регистрация';
             
-            $this->page->breadcrump[] = ['caption' => 'Регистрация'];
+            $this->page->breadcrump[] = ['caption' => $this->page->title];
             
             // сохранение
             if ($_POST['submit'])
@@ -195,8 +196,8 @@
         {
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/registration-finish.tpl';
-            
-            $this->page->breadcrump[] = ['caption' => 'Регистрации подтверждена'];
+            $this->page->title = 'Подтверждение регистрации';
+            $this->page->breadcrump[] = ['caption' => $this->page->title];
             
             $this->view->generate($this->page->index_tpl);   
         }
@@ -208,8 +209,8 @@
         {
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'users/registration-activate.tpl';
-            
-            $this->page->breadcrump[] = ['caption' => 'Подтверждение регистрации'];
+            $this->page->title = 'Подтверждение регистрации';
+            $this->page->breadcrump[] = ['caption' => $this->page->title];
             
             try
             {

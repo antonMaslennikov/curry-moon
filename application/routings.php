@@ -57,6 +57,11 @@
                 'schemas' => 'GET|POST',
             ],
             
+            'cart-add' => [
+                'pattern' => '/cart/terms-of-service', 
+                'action' => 'Controller_cart:action_terms', 
+                'schemas' => 'GET',
+            ],
             
             
             'login' => [

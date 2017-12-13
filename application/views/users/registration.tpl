@@ -46,16 +46,16 @@
                                <div>
                                    <select autocomplete="off" name="country_id" class=" required" required="required">
                                     <option value="">-- Выберите --</option>
-                                    <option value="15">Азербайджан</option>
-                                    <option value="11">Армения</option>
-                                    <option value="20">Беларусь</option>
-                                    <option value="109">Казахстан</option>
-                                    <option value="140">Молдавская республика</option>
-                                    <option value="176" selected="selected">Российская федерация</option>
-                                    <option value="207">Таджикистан</option>
-                                    <option value="216">Туркменистан</option>
-                                    <option value="226">Узбекистан</option>
-                                    <option value="220">Украина</option>
+                                    <option value="675">Азербайджан</option>
+                                    <option value="685">Армения</option>
+                                    <option value="940">Беларусь</option>
+                                    <option value="759">Казахстан</option>
+                                    <option value="807">Молдавская республика</option>
+                                    <option value="838" selected="selected">Российская федерация</option>
+                                    <option value="865">Таджикистан</option>
+                                    <option value="876">Туркменистан</option>
+                                    <option value="879">Узбекистан</option>
+                                    <option value="880">Украина</option>
                                     </select>
                                 </div>
                             </div>

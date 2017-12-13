@@ -69,7 +69,6 @@
             
             $this->view->setVar('posts', post::getList([
                 'lang' => 'ru', 
-                //'category' => 0, 
                 'status' => 1, 
                 'orderby' => 'publish_date', 
                 'datestart' => $d . '-01', 

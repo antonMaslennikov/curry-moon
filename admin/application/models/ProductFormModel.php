@@ -210,7 +210,7 @@ class ProductFormModel extends FormModel {
             'category' => 'Категория товаров',
             'quantity' => 'Количество на складе',
             'product_price' => 'Цена',
-            'product_discount' => 'Скидка',
+            'product_discount' => 'Цена со скидкой',
             'manufacturer' => 'Производитель',
             'description_short' => 'Короткое описание',
             'description_long' => 'Полное описание продукта',

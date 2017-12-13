@@ -21,7 +21,21 @@
             $this->page->tpl = 'cart/index.tpl';
             $this->page->title = 'Корзина';
             
-            $this->page->import(['/public/css/onepage.css']);
+            $this->page->import([
+                '/public/css/onepage.css',
+                '/public/js/facebox/facebox.css', 
+                '/public/js/facebox/facebox.js',
+            ]);
+            
+            $this->user->user_city_name = cityId2name($this->user->user_city_id);
+            $this->user->user_country_name = countryId2name($this->user->user_country_id);
+            
+            $this->view->setVar('USER', $this->user);
+            
+            if ($_POST)
+            {
+                printr($_POST, 1);
+            }
             
             $this->view->generate($this->page->index_tpl);
         }
@@ -29,6 +43,12 @@
         public function action_quick()
         {
             $this->page->tpl = 'cart/quick.tpl';
+            $this->view->generate($this->page->tpl);
+        }
+        
+        public function action_terms()
+        {
+            $this->page->tpl = 'cart/terms-of-service.tpl';
             $this->view->generate($this->page->tpl);
         }
         

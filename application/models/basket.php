@@ -146,19 +146,9 @@
          * @var способы доставки
          */     
         public static $deliveryTypes = array (
-            'user'        => array('title' => 'Самовывоз', 'courier' => 131),
-            'deliveryboy' => array('title' => 'Курьер', 'courier' => 131),
-            'deliveryboy_vip' => array('title' => 'Курьер день-в-день', 'courier' => 131),
-            'metro'       => array('title' => 'В метро', 'courier' => 131),
-            'post'        => array('title' => 'Почта России', 'courier' => 131),
-            'onStation'   => array('title' => 'На вокзал', 'courier' => 131),
-            'ems'         => array('title' => 'EMS Почта России', 'courier' => 131),
-            'baltick'     => array('title' => 'Балтийский курьер', 'courier' => 131),
-            'dpd'         => array('title' => 'DPD курьер', 'courier' => 131),
-            'dpd_self'    => array('title' => 'DPD самовывоз', 'courier' => 131),
-            'IMlog'       => array('title' => 'IM-Logistics курьер', 'courier' => 131),
-            'IMlog_self'  => array('title' => 'IM-Logistics самовывоз', 'courier' => 131),
-            'sdek'        => array('title' => 'СДЕК', 'courier' => 131),
+            'user'  => array('title' => 'Самовывоз'),
+            'post'  => array('title' => 'Почта России'),
+            'major' => ['title' => 'MAJOR EXPRESS'],
         );
 
         
@@ -166,17 +156,10 @@
          * @var способы оплаты
          */
         public static $paymentTypes = array(
-            'cash'               => array('title' => 'Наличные', 'faq' => 24, 'color' => '#B3E5E5', 'publish' => true),
-            'cash2card'          => array('title' => 'Наличные на карту', 'faq' => 24, 'color' => '#3cbd34', 'publish' => true),
-            'creditcard'         => array('title' => 'Кредитная карта', 'faq' => 88, 'color' => '#E5E5B3', 'publish' => true, 'tpl' => 'payment_forms/creditcard.quick.tpl'),
-            'creditcard_onplace' => array('title' => 'Кредитная карта (на месте доставки)', 'faq' => 172, 'color' => '#848484', 'publish' => true),
-            'webmoney'           => array('title' => 'Webmoney', 'faq' => 85, 'color' => '#E5B3E5', 'publish' => true, 'tpl' => 'payment_forms/webmoney.quick.tpl'),
-            'yamoney'            => array('title' => 'Yandex деньги', 'faq' => 86, 'color' => '#B3B3E5', 'publish' => true, 'tpl' => 'payment_forms/yamoney.quick.tpl'),
-            'sberbank'           => array('title' => 'Банковский перевод', 'faq' => 87, 'color' => '#E5B3B3', 'publish' => true),
-            'ls'                 => array('title' => 'Личный счет', 'faq' => 83, 'color' => '#B3E5B3', 'publish' => true),
-            'qiwi'               => array('title' => 'QIWI', 'faq' => 84, 'color' => '#FFEB0F', 'publish' => true, 'tpl' => 'payment_forms/qiwi.quick.tpl'),
-            'cashon'             => array('title' => 'Наложенный платёж', 'faq' => 139, 'color' => '#3f55c7', 'publish' => true),
-            'style'              => array('title' => 'Стиль', 'publish' => false),
+            'cash'              => array('title' => 'Наличные'),
+            'yamoney'           => array('title' => 'Яндекс.Деньги'),
+            'sberbank'          => array('title' => 'Карта Сбербанка'),
+            'alfa'              => array('title' => 'Карта Альфа-Банка'),
         );
         
         /**
@@ -890,6 +873,7 @@
                                 ubg.`user_basket_good_comment` AS c,
                                 ubg.`user_basket_good_time`,
                                 g.`product_name`,
+                                g.`product_sku`,
                                 p.`picture_path`
                               FROM 
                                 `" . basketItem::$dbtable . "` ubg,
