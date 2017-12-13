@@ -22,7 +22,7 @@
                     name="{$model.name.user_city_id}">
                 {foreach from=$model.cityList item="m" key="k"}
                     <option value="{$k}"
-                            {if in_array($k, $model.value.user_city_id)}selected="selected"{/if}>{$m}</option>
+                            {if $k == $model.value.user_city_id}selected="selected"{/if}>{$m}</option>
                 {/foreach}
             </select>
             {if isset($model.error.user_city_id)}

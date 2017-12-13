@@ -32,14 +32,14 @@
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <span class="hidden-xs">Alexander Pierce</span>
+                    <span class="hidden-xs">{$USER->user_email}</span>
                 </a>
                 <ul class="dropdown-menu">
                     <!-- User image -->
                     <li class="user-header" style="height: auto;">
                         <p>
-                            Alexander Pierce - Web Developer
-                            <small>Member since Nov. 2012</small>
+                            {$USER->user_name}<br>
+                            <small>{if $USER->role=='admin'}Администратор{else}Сотрудник{/if}</small>
                         </p>
                     </li>
                     <!-- Menu Body -->
@@ -60,7 +60,7 @@
                             {* <a href="#" class="btn btn-default btn-flat">Profile</a> *}
                         </div>
                         <div class="pull-right">
-                            <a href="#" class="btn btn-default btn-flat">Выход</a>
+                            <a href="/admin/logout" class="btn btn-default btn-flat">Выход</a>
                         </div>
                     </li>
                 </ul>

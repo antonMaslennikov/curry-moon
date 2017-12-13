@@ -8,6 +8,11 @@ class Controller_ extends \smashEngine\core\Controller
 {
 	protected $layout = null;
 
+	protected $excluded_controllers = [
+		'admin\\application\\controllers\\Controller_access'=>true,
+		'admin\\application\\controllers\\Controller_503'=>true,
+	];
+
 	protected $breadcrumbs = [
 		'/' => '<i class="fa fa-dashboard"></i> Админка',
 	];
@@ -18,14 +23,17 @@ class Controller_ extends \smashEngine\core\Controller
 
 		// Текущий пользователь
 		$this->user = \admin\application\models\WebUser::load();
-		/*
-		if (!$this->user->authorized) {
 
-			$this->page->go('/admin/login');
-		} elseif (!isset($this->user->role)) {
+		if (!isset($this->excluded_controllers[get_called_class()])) {
 
-			throw new appException('Access denied', 403);
-		}*/
+			if (!$this->user->authorized) {
+
+				$this->page->go('/admin/login');
+			} elseif (!isset($this->user->role)) {
+
+				$this->page403();
+			}
+		}
 
 		// кэшируем переменные
 		//if (!$this->VARS = App::memcache()->get('VARS')) {
@@ -78,6 +86,15 @@ class Controller_ extends \smashEngine\core\Controller
 		$this->view->setVar('csrf_token', $_SESSION['csrf_token']);
 		$this->view->setVar('appMode', appMode);
 	}
+
+
+	function page403()
+	{
+		header('HTTP/1.1 403 Forbidden');
+		$this->view->generate('403.tpl');
+		exit();
+	}
+
 
 
 	public function setTemplate($page) {
