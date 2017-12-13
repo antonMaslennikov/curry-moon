@@ -26,7 +26,7 @@ class WebUser extends \application\models\user {
 
 		if ($user->id) {
 
-			$smtm = App::db()->prepare("SELECT `param_value` FROM `" . self::$dbtable_meta . "` WHERE `user_id` = :id AND `param_name`=:param LIMIT 1");
+			$smtm = App::db()->prepare("SELECT `meta_value` FROM `" . self::$dbtable_meta . "` WHERE `user_id` = :id AND `meta_name`=:param LIMIT 1");
 
 			$smtm->execute([':id'=>$user->id, ':param'=>self::ROLE_PARAM]);
 
@@ -34,9 +34,9 @@ class WebUser extends \application\models\user {
 
 				$temp = $smtm->fetch();
 
-				if (isset(self::$allowList[$temp['param_value']])) {
+				if (isset(self::$allowList[$temp['meta_value']])) {
 
-					$user->info['role'] = $temp['param_value'];
+					$user->info['role'] = $temp['meta_value'];
 				}
 			}
 		}
