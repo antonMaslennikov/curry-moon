@@ -291,9 +291,34 @@
 		        'schemas' => 'GET|POST'
 	        ],
 
-	        'coupon_delete'=>[
-		        'pattern'=>'/admin/coupon/delete',
-		        'action'=> 'Controller_coupon:action_delete',
+	        'templates_delete'=>[
+		        'pattern'=>'/admin/templates/delete',
+		        'action'=> 'Controller_templates:action_delete',
+		        'schemas' => 'GET',
+	        ],
+            
+            
+            'templates_list'=>[
+		        'pattern'=>'/admin/templates(/list)?',
+		        'action'=> 'Controller_templates:action_index',
+		        'schemas' => 'GET'
+	        ],
+
+	        'templates_create'=>[
+		        'pattern'=>'/admin/templates/create',
+		        'action'=> 'Controller_templates:action_create',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'templates_update'=>[
+		        'pattern'=>'/admin/templates/update',
+		        'action'=> 'Controller_templates:action_update',
+		        'schemas' => 'GET|POST'
+	        ],
+
+	        'templates_delete'=>[
+		        'pattern'=>'/admin/templates/delete',
+		        'action'=> 'Controller_templates:action_delete',
 		        'schemas' => 'GET',
 	        ],
         ];

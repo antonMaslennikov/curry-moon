@@ -4,6 +4,8 @@ namespace admin\application\controllers;
 use smashEngine\core\App as App;
 use smashEngine\core\exception\appException;
 
+use \application\models\mailTemplate;
+
 class Controller_ extends \smashEngine\core\Controller
 {
 	protected $layout = null;
@@ -50,6 +52,9 @@ class Controller_ extends \smashEngine\core\Controller
 		// импортируем статику на страницу
 		$this->page->import(array());
 
+        // переопределяем в админке путь до папки с шаблонами писем в пользовательскую часть
+        mailTemplate::$tpl_folder = '../' . mailTemplate::$tpl_folder;
+        
 		// =====================================================================================================================
 		// Отправляем все глобальные объекты в шаблон
 		// =====================================================================================================================

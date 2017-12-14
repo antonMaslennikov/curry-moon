@@ -2,15 +2,16 @@
     namespace application\models;
     
     use \smashEngine\core\App AS App; 
+    use \smashEngine\core\exception\appException;
     use \PDO;
-    use \Exception;
-    
+    use \Exception;    
+
     class mailTemplate extends \smashEngine\core\Model
     {
         public $id   = 0;
         public $info = array();
         
-        public static $dbtable = 'mail_templates';
+        public static $dbtable = 'mail__templates';
         
         public static $tpl_folder = 'application/views/mail/';
         
@@ -18,20 +19,13 @@
          * @var array категории шаблонов
          */
         public static $cats = array(
-            'affiliates'   => 'Партнёрка',
             'actions'      => 'Акции',
             'basket'       => 'Для заказов',
             'clear'        => 'Другое',
-            'compred'      => 'Коммерческие предложения',
-            'dealers'      => 'Оптовые запросы и КомПред', 
-            'forDesigners' => 'Дизайнерам',
-            'good'         => 'Для работ',
-            'hudsovet'     => 'Худсовет',
             'misc'         => 'Служебные',
             'news'         => 'Новости',
             'newsCatalog'  => 'Новости в каталоге',
             'report'       => 'Отчёты',
-            'tenders'      => 'Тендеры на разработку',
             'registration' => 'Регистрация',
         );
         
@@ -42,7 +36,9 @@
             
             if (!empty($this->id))
             {
-                $r = App::db()->query(sprintf("SELECT * FROM `" . self::$dbtable . "` WHERE `mail_template_id` = '%d' LIMIT 1", $this->id));
+                $r = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `id` = ? LIMIT 1");
+                
+                $r->execute([$this->id]);
                 
                 if ($r->rowCount() == 1) 
                 {
@@ -55,7 +51,7 @@
                     return $this->info;
                 } 
                 else 
-                    throw new Exception ('mail template ' . $this->id . ' not found');
+                    throw new appException ('mail template ' . $this->id . ' not found');
             }
         }
         
@@ -82,7 +78,7 @@
             // редактирование
             if (!empty($this->id))
             {
-                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `mail_template_id` = '%d' LIMIT 1", self::$dbtable, implode(',', $rows), $this->id));
+                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", self::$dbtable, implode(',', $rows), $this->id));
             }
             // создание
             else
@@ -91,8 +87,9 @@
                 $this->id = App::db()->lastInsertId();
                 
                 $this->mail_template_file = $this->mail_template_order . '/' . $this->id . '.php';
-                $f = fopen(ROOTDIR . mail::$tpl_folder . $this->mail_template_file, 'w+');
-                chmod(ROOTDIR . mail::$tpl_folder . $this->mail_template_file, 0777);
+                createDir(self::$tpl_folder . $this->mail_template_order);
+                $f = fopen(self::$tpl_folder . $this->mail_template_file, 'w+');
+                chmod(self::$tpl_folder . $this->mail_template_file, 0777);
                 
                 $this->save();
             }
@@ -116,7 +113,7 @@
                     }
                 }
     
-                App::db()->query("UPDATE `" . self::$dbtable . "` SET " . implode(', ', $out) . " WHERE `mail_template_id` = '" . $this->id . "' LIMIT 1");
+                App::db()->query("UPDATE `" . self::$dbtable . "` SET " . implode(', ', $out) . " WHERE `id` = '" . $this->id . "' LIMIT 1");
             }
         }
         
@@ -187,37 +184,33 @@
             
             $this->save();
             
-            App::db()->query("DELETE FROM `mail_messages` WHERE `mail_message_template_id` = '" . $this->id . "'");
+            App::db()->query("DELETE FROM `mail__messages` WHERE `mail_message_template_id` = '" . $this->id . "'");
         }
         
-        /**
-         * создать копию шаблона
-         * 
-         * @return int номер нового шаблона
-         */
-        public function branch()
+        public function getAll()
         {
-            $new = new self;
+            $sql = 'SELECT * FROM '.self::$dbtable.' ORDER BY `id` DESC';
+
+            $stmt = App::db()->prepare($sql);
+            $stmt->execute();
+
+            $rs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            $sth = App::db()->prepare("SELECT COUNT(*) AS c FROM `" . self::$dbtable . "` WHERE `mail_template_parent` = :parent");
+            foreach ($rs AS $k =>$r) {
+                $rs[$k]['category'] = self::$cats[$r['mail_template_order']];
+            }
             
-            $sth->execute(array('parent' => $this->id));
-            $versions = $sth->fetch();
+            return $rs;
+        }
+        
+        public function delete() {
             
-            $new->mail_template_subject = $this->mail_template_subject;
-            $new->mail_template_order = $this->mail_template_order;
-            $new->mail_template_trigger = $this->mail_template_trigger;
-            $new->mail_template_name = $this->mail_template_name . ' v.' . ($versions['c'] + 2);
-            $new->mail_template_parent = $this->id;
-            $new->save();
+            $f = $this->mail_template_file;
             
-            copy(ROOTDIR . str_replace(ROOTDIR, '', mail::$tpl_folder) . $this->mail_template_file, ROOTDIR . str_replace(ROOTDIR, '', mail::$tpl_folder) . $new->mail_template_file);
-            chmod(ROOTDIR . $new->mail_template_file, 0777);
+            parent::delete();
             
-            $new->mail_template_file = $new->mail_template_order . '/' . $new->id . '.php';
+            unlink(self::$tpl_folder . $f);
             
-            $new->save();
-            
-            return $new->id;
+            return true;
         }
     }
