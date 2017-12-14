@@ -51,6 +51,10 @@
                                     <div class="opc_PricesalesPrice vm-display vm-price-value"><span class="opc_PricesalesPrice">{$p.tprice} руб</span></div>
                                 </td>
                             </tr>
+                            {foreachelse}
+                            <tr>
+                                <td colspan="20" style="text-align: center"><br />Ваша корзина пуста<br /><br /></td>
+                            </tr>
                             {/foreach}
                             <tr>
                                 <td colspan="4" style="text-align: right">
@@ -93,32 +97,38 @@
                 </div>
                 <!-- end id opc_basket -->			
                 
-                {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}
-                <div class="coupon_activated_section" style="padding-bottom: 70px;">
-                У вас активирован купон на скидку! <a href="#" onclick="jQuery('.coupon_section').toggle(); jQuery(this).parent().hide();return false;">Активировать другой?</a>
-                </div>
+                {if $basket->basketGoods|count > 0}
+                
+                    {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}
+                    <div class="coupon_activated_section" style="padding-bottom: 70px;">
+                    У вас активирован купон на скидку! <a href="#" onclick="jQuery('.coupon_section').toggle(); jQuery(this).parent().hide();return false;">Активировать другой?</a>
+                    </div>
+                    {/if}
+
+                    <div class="coupon_section" {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}style="display:none"{/if}>
+
+                        <form action="/cart/setcoupon" method="post" id="userForm">
+                            <button type="submit" class="btn"><span>Активировать</span></button>
+                            <input type="text" placeholder="Промокод" name="coupon_code" autocomplete="off" id="coupon_code" class="inputbox span3" required="required">
+                            <input type="hidden" name="csrf_token" value="{$csrf_token}" />
+                        </form>	
+                        <div style="margin-bottom: 15px;"><a href="/ru/discount" target="_blank">Как получить купон на скидку?</a></div>
+                    </div>
+
+                    <div id="checkout-advertise-box">
+                        <div class="checkout-advertise">
+                            <div class="payments-signin-button"></div>				
+                        </div>
+                        <div class="checkout-advertise">
+                        </div>
+                    </div>
+                
                 {/if}
                 
-                <div class="coupon_section" {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}style="display:none"{/if}>
-                   
-                    <form action="/cart/setcoupon" method="post" id="userForm">
-                        <button type="submit" class="btn"><span>Активировать</span></button>
-                        <input type="text" placeholder="Промокод" name="coupon_code" autocomplete="off" id="coupon_code" class="inputbox span3" required="required">
-                        <input type="hidden" name="csrf_token" value="{$csrf_token}" />
-                    </form>	
-                    <div style="margin-bottom: 15px;"><a href="/ru/discount" target="_blank">Как получить купон на скидку?</a></div>
-                </div>
-                
-                <div id="checkout-advertise-box">
-                    <div class="checkout-advertise">
-                        <div class="payments-signin-button"></div>				
-                    </div>
-                    <div class="checkout-advertise">
-                    </div>
-                </div>
             </div>
 
-
+            {if $basket->basketGoods|count > 0}
+            
             <div class="dob0">
                 <!-- main onepage div, set to hidden and will reveal after javascript test -->
 
@@ -224,56 +234,56 @@
                         <div id="customer-form" style="width:100%;{if $USER->authorized}display:none{/if}"> 
                             <div class="formField email" id="email_input" title="Эл.почта *">
                                <div test="test">
-                                   <input placeholder="Эл.почта *" autocomplete="off" type="email" id="email_field" name="user_email" size="30" class="required email " disabledmaxlength="100" value="{$USER->user_email}"> 
+                                   <input placeholder="Эл.почта *" autocomplete="off" type="email" id="email_field" name="user[user_email]" size="30" class="required email " disabledmaxlength="100" value="{$USER->user_email}{$smarty.post.user.user_email}"> 
                                </div>
                             </div>
 
                             <div class="formField text" id="last_name_input" title="ФИО *">
                                 <div>
-                                    <input placeholder="Фамилия *" type="text" id="last_name_field" name="user_name" size="30" class="required" disabledmaxlength="32" autocomplete="off" value="{$USER->user_name}"> 
+                                    <input placeholder="Фамилия *" type="text" id="last_name_field" name="user[user_name]" size="30" required class="required" disabledmaxlength="32" autocomplete="off" value="{$USER->user_name}{$smarty.post.user.user_name}"> 
                                 </div>
                             </div>
 
                             <div class="formField text" id="address_1_input" title="Адрес *">
                                 <div>
-                                    <input placeholder="Адрес *" type="text" onblur="javascript:Onepage.op_runSS(this);" id="address_1_field" name="user_address" size="30" class="required" disabledmaxlength="64" autocomplete="off" value="{$USER->user_address}"> 
+                                    <input placeholder="Адрес *" type="text" id="address_1_field" name="user[user_address]" size="30" required class="required" disabledmaxlength="64" autocomplete="off" value="{$USER->user_address}{$smarty.post.user.user_address}"> 
                                 </div>
                             </div>
 
                             <div class="formField text" id="zip_input" title="Почтовый индекс *">
                                 <div>
-                                    <input placeholder="Почтовый индекс *" type="text" id="zip_field" name="user_zip" size="30" value="{$USER->user_zip}" class="required" disabledmaxlength="32" autocomplete="off"> 
+                                    <input placeholder="Почтовый индекс *" type="text" id="zip_field" name="user[user_zip]" size="30" value="{$USER->user_zip}{$smarty.post.user.user_zip}" class="required" disabledmaxlength="32" autocomplete="off"> 
                                 </div>
                             </div>
 
                             <div class="formField text" id="city_input" title="Город *">
                                 <div>
-                                    <input placeholder="Город *" type="text" id="city_field" name="city_id" size="30" class="required" disabledmaxlength="32" autocomplete="off" value="{$USER->user_city_name}"> 
+                                    <input placeholder="Город *" type="text" id="city_field" name="user[city_name]" size="30" required class="required" disabledmaxlength="32" autocomplete="off" value="{$USER->user_city_name}{$smarty.post.user.city_name}"> 
                                 </div>
                             </div>
 
                             <div class="formField select" id="virtuemart_country_id_input" title="Страна *">
                                 <label class="label_selects" style="clear: both; " for="country_id_field">Страна *</label>
                                 <div>
-                                    <select autocomplete="off" name="country_id" class=" required">
+                                    <select autocomplete="off" name="user[user_country_id]" class=" required" required>
                                         <option value="">-- Выберите --</option>
-                                        <option value="675" {if $USER->user_country_id == 675}selected="selected"{/if}>Азербайджан</option>
-                                        <option value="685" {if $USER->user_country_id == 685}selected="selected"{/if}>Армения</option>
-                                        <option value="940" {if $USER->user_country_id == 940}selected="selected"{/if}>Беларусь</option>
-                                        <option value="759" {if $USER->user_country_id == 759}selected="selected"{/if}>Казахстан</option>
-                                        <option value="807" {if $USER->user_country_id == 807}selected="selected"{/if}>Молдавская республика</option>
-                                        <option value="838" {if $USER->user_country_id == 838}selected="selected"{/if}>Российская федерация</option>
-                                        <option value="865" {if $USER->user_country_id == 865}selected="selected"{/if}>Таджикистан</option>
-                                        <option value="876" {if $USER->user_country_id == 876}selected="selected"{/if}>Туркменистан</option>
-                                        <option value="879" {if $USER->user_country_id == 879}selected="selected"{/if}>Узбекистан</option>
-                                        <option value="880" {if $USER->user_country_id == 880}selected="selected"{/if}>Украина</option>
+                                        <option value="675" {if $USER->user_country_id == 675 || $smarty.post.user.user_country_id == 675}selected="selected"{/if}>Азербайджан</option>
+                                        <option value="685" {if $USER->user_country_id == 685 || $smarty.post.user.user_country_id == 685}selected="selected"{/if}>Армения</option>
+                                        <option value="940" {if $USER->user_country_id == 940 || $smarty.post.user.user_country_id == 940}selected="selected"{/if}>Беларусь</option>
+                                        <option value="759" {if $USER->user_country_id == 759 || $smarty.post.user.user_country_id == 759}selected="selected"{/if}>Казахстан</option>
+                                        <option value="807" {if $USER->user_country_id == 807 || $smarty.post.user.user_country_id == 807}selected="selected"{/if}>Молдавская республика</option>
+                                        <option value="838" {if $USER->user_country_id == 838 || $smarty.post.user.user_country_id == 838}selected="selected"{/if}>Российская федерация</option>
+                                        <option value="865" {if $USER->user_country_id == 865 || $smarty.post.user.user_country_id == 865}selected="selected"{/if}>Таджикистан</option>
+                                        <option value="876" {if $USER->user_country_id == 876 || $smarty.post.user.user_country_id == 876}selected="selected"{/if}>Туркменистан</option>
+                                        <option value="879" {if $USER->user_country_id == 879 || $smarty.post.user.user_country_id == 879}selected="selected"{/if}>Узбекистан</option>
+                                        <option value="880" {if $USER->user_country_id == 880 || $smarty.post.user.user_country_id == 880}selected="selected"{/if}>Украина</option>
                                     </select>
                                 </div>
                             </div>
 
                             <div class="formField text" id="phone_1_input" title="Телефон">
                                 <div>
-                                    <input placeholder="Телефон" type="text" id="phone_1_field" name="user_phone" size="30" disabledmaxlength="32" autocomplete="off" class="" value="{$USER->user_phone}"> 
+                                    <input placeholder="Телефон" type="text" id="phone_1_field" name="user[user_phone]" size="30" disabledmaxlength="32" autocomplete="off" class="" value="{$USER->user_phone}{$smarty.post.user.user_phone}"> 
                                 </div>
                             </div>
                         </div>
@@ -375,7 +385,7 @@
                                         <input value="1" type="checkbox" id="agreed_field" name="tosAccepted" checked="checked" class="terms-of-service" required="required" autocomplete="off">
                                     </div>
                                     <div class="right_label">
-                                        <label for="agreed_field">Я согласен с Условиями обслуживания<a target="_blank" rel="{ldelim}handler: 'iframe', size: {ldelim}x: 500, y: 400{rdelim}{rdelim}" class="opcmodal" id="terms-of-service" href="/cart/terms-of-service"><br>
+                                        <label for="agreed_field">Я согласен с Условиями обслуживания<a target="_blank" rel="{ldelim}handler: 'iframe', size: {ldelim}x: 500, y: 400{rdelim}{rdelim}" class="opcmodal" id="terms-of-service" href="/ru/cart/terms-of-service"><br>
                                         (Условия обслуживания)
                                         </a></label>
                                     </div>		
@@ -408,7 +418,7 @@
 
             </div>
 
-            <div id="tracking_div"></div>
+            {/if}
 
             <br style="end_br">
 

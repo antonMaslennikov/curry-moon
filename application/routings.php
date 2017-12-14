@@ -57,9 +57,15 @@
                 'schemas' => 'GET|POST',
             ],
             
-            'cart-add' => [
-                'pattern' => '/cart/terms-of-service', 
+            'cart-terms' => [
+                'pattern' => '/(ru|en)/cart/terms-of-service', 
                 'action' => 'Controller_cart:action_terms', 
+                'schemas' => 'GET',
+            ],
+            
+            'cart-confirm' => [
+                'pattern' => '/(ru|en)/cart/confirm/(id:num)', 
+                'action' => 'Controller_cart:action_confirm', 
                 'schemas' => 'GET',
             ],
             

@@ -20,7 +20,7 @@
             try
             {
                 $this->basket = new \application\models\basket($this->user->session['user_basket_id'], $this->user);
-                
+              
                 if ($this->page->lang == 'en') {
                     $this->basket->setCurrency('usd');
                 }
@@ -37,7 +37,7 @@
                     $this->basket = new \application\models\basket('', $this->user);
                 }
             }
-            catch (Exception $e) 
+            catch (appException $e) 
             {
                 // Корзина не обнаружена
                 if ($e->getCode() == 1)

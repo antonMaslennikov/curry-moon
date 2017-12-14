@@ -2,40 +2,50 @@
     namespace application\models;
     
     use \smashEngine\core\App AS App; 
-    use \DateTime;
-    use \PDO;
-    use \Exception;
     
     /**
      * 
      */
     class basketAddress extends \smashEngine\core\Model 
-    {
-        public $id = 0;
-        
-        public $info = array();
-        
+    {   
         /**
          * @var имя таблицы в БД для хранения экземпляров класса
          */ 
         public static $dbtable = 'basket__address';
         
-        public function __construct($id = null)
+        /**
+         * Сохранить экземляр класса в базу
+         */
+        public function save()
         {
-            $this->id = (int) $id;
+            if (!self::$dbtable) {
+                throw new Exception('Не известна таблица для сохранения данных', 1);
+            }
             
-            if ($this->id > 0)
+            foreach ($this->info as $k => $v) {
+                $rows[$k] = "`$k` = '" . addslashes($v) . "'";
+            }
+            
+            // вырезаем все поля которых нет в схеме таблицы
+            $r = App::db()->query(sprintf("SHOW COLUMNS FROM `%s`", self::db()));
+            
+            foreach ($r->fetchAll() AS $f) {
+                $fields[$f['Field']] = $f['Field'];
+            }
+            
+            $rows = array_intersect_key($rows, $fields);
+            // end вырезаем все поля которых нет в схеме таблицы
+            
+            // редактирование
+            if (!empty($this->id))
             {
-                $r = App::db()->query(sprintf("SELECT * FROM `" . self::$dbtable . "` WHERE `id` = '%d' LIMIT 1", $this->id));
-                
-                if ($r->rowCount() == 1)
-                {
-                    $this->info = $r->fetch();
-                }
-                else 
-                {
-                    throw new Exception(__CLASS__ . ' ' . $this->id . ' not found', 1);
-                }
+                App::db()->query(sprintf("UPDATE `%s` SET %s WHERE `id` = '%d' LIMIT 1", self::db(), implode(',', $rows), $this->id));
+            }
+            // создание
+            else
+            {
+                App::db()->query(sprintf("INSERT IGNORE INTO `%s` SET %s ON DUPLICATE KEY UPDATE `order_date` = NOW()", self::db(), implode(',', $rows)));
+                $this->id = App::db()->lastInsertId();
             }
         }
     }

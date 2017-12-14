@@ -4,6 +4,8 @@
     use \smashEngine\core\App AS App;
     use \smashEngine\core\exception\appException;
 
+    use \application\models\basket;
+    use \application\models\basketAddress;
     use \application\models\category;
     use \application\models\product;
     use \application\models\basketItem;
@@ -34,7 +36,101 @@
             
             if ($_POST)
             {
-                printr($_POST, 1);
+                try
+                {
+                    if (empty($_POST['shipmentmethod_id'])) {
+                        throw new appException('Не указан тип доставки');
+                    }
+                    
+                    if (!in_array($_POST['shipmentmethod_id'], array_keys(basket::$deliveryTypes))) {
+                        throw new appException('Недопустимый тип доставки');
+                    }
+                    
+                    if (empty($_POST['paymentmethod_id'])) {
+                        throw new appException('Не указан тип оплаты');
+                    }
+                    
+                    if (!in_array($_POST['paymentmethod_id'], array_keys(basket::$paymentTypes))) {
+                        throw new appException('Недопустимый тип оплаты');
+                    }
+                    
+                    foreach ($_POST['user'] AS $k => $v) {
+                        if (!in_array($k, ['user_phone', 'user_zip']) && empty($v)) {
+                            throw new appException('Не все обязательные поля заполнены');
+                        }
+                    }
+                    
+                    if (!validateEmail($_POST['user']['user_email'])) {
+                        throw new appException('То что Вы ввели не похоже на правльный Email');
+                    }
+                    
+                    // сохраняем данные пользователя
+                    $_POST['user']['user_city_id'] = cityName2id($_POST['user']['city_name'], $_POST['user']['user_country_id'], 1);
+                    $this->user->setAttributes($_POST['user']);
+                    $this->user->save();
+                    
+                    if (!$this->user->authorized) {
+                        $this->user->authorize();
+                    }
+                    
+                    // сохраняем адрес
+                    $a = new basketAddress;
+                    $a->name        = $_POST['user']['user_name'];
+                    $a->address     = $_POST['user']['user_address'];
+                    $a->postal_code = $_POST['user']['user_zip'];
+                    $a->city        = $_POST['user']['user_city_id'];
+                    $a->country     = $_POST['user']['user_country_id'];
+                    $a->phone       = $_POST['user']['user_phone'];
+                    $a->user_id     = $this->user->id;
+                    $a->save();
+                    
+                    // сохраняем саму корзину
+                    $this->basket->user_basket_delivery_type = $_POST['shipmentmethod_id'];
+                    $this->basket->user_basket_payment_type = $_POST['paymentmethod_id'];
+                    $this->basket->user_basket_delivery_address = $a->id;
+                    
+                    $this->basket->saveBasket();
+                    
+                    if ($_POST['customer_comment']) {
+                        $this->basket->log('user_comment', $_POST['customer_comment']);
+                    }
+                    
+                    $this->page->go('/ru/cart/confirm/' . $this->basket->id);
+                }
+                catch (appException $e)
+                {
+                    $this->page->setFlashMessage($e->getMessage());
+                    $this->view->setVar('FlashMessage', $e->getMessage());
+                }
+            }
+            
+            $this->view->generate($this->page->index_tpl);
+        }
+        
+        public function action_confirm()
+        {
+            $this->page->index_tpl = 'index.tpl';
+            $this->page->tpl = 'cart/confirm.tpl';
+            $this->page->title = 'Спасибо за Ваш заказ!';
+            $this->page->addBreadCrump($this->page->title);
+            
+            try
+            {
+                $b = new basket($this->page->reqUrl[3]);
+
+                if ($b->user_id != $this->user->id) {
+                    $this->page404();
+                } else {
+                    $this->view->setVar('order', $b);
+                }
+            }
+            catch (appException $e) 
+            {
+                // Корзина не обнаружена
+                if ($e->getCode() == 1)
+                {
+                    $this->page404();
+                }
             }
             
             $this->view->generate($this->page->index_tpl);
