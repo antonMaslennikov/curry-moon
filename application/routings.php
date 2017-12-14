@@ -185,6 +185,20 @@
 		        'action' => 'Controller_static_page:action_index',
 		        'schemas' => 'GET'
 	        ],
+            
+            'orders-list'=>[
+		        'pattern'=> '/(ru|en)/orders',
+		        'action' => 'Controller_orders:action_index',
+		        'schemas' => 'GET'
+	        ],
+            
+            'orders-view'=>[
+		        'pattern'=> '/(ru|en)/orders/(id:num)',
+		        'action' => 'Controller_orders:action_view',
+		        'schemas' => 'GET'
+	        ],
+            
+            
             /*
             'about' => [
                 'pattern' => '/(ru|en)/about', 

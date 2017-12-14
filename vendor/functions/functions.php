@@ -1535,19 +1535,21 @@
      */
     function createDir($path)
     {
-        if (!is_dir(ROOTDIR . $path))
+        if (!is_dir($path))
         {
             $path = explode('/', $path);
-    
+            
             umask(0002);
-            $ppath = ROOTDIR;
     
             foreach($path as $f)
             {
                 if (!empty($f))
                 {
-                    $ppath .= '/' . $f;
-                    if (!is_dir($ppath)) mkdir($ppath, 0775);
+                    $ppath .= $f . '/';
+                    
+                    if (!is_dir($ppath)) {
+                      mkdir($ppath, 0775);  
+                    } 
                 }
             }
         }
