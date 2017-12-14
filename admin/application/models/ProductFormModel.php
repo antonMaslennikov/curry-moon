@@ -36,6 +36,7 @@ class ProductFormModel extends FormModel {
 	public $picture_id;
     public $picture_temp;
     public $picture;
+
 	public $slug;
 	public $product_name;
     public $product_sku;
@@ -54,6 +55,8 @@ class ProductFormModel extends FormModel {
     public $product_length;
     public $product_weight;
 
+	protected $productModel;
+
 	public $tags;
    
 	public function setUpdate() {
@@ -63,6 +66,8 @@ class ProductFormModel extends FormModel {
 		$this->old_slug = $this->slug;
 
 		$this->product_discount = ($this->product_discount)?$this->setDiscount($this->product_price, $this->product_discount):'';
+
+		$this->productModel = new product($this->id);
 	}
 
 	protected function setDiscount($price, $discount) {
@@ -137,6 +142,8 @@ class ProductFormModel extends FormModel {
 			['slug', 'length', 'max'=>150],
 
 			['product_name', 'length', 'max'=>255],
+
+			['product_related', 'safe'],
 
 			['picture', 'file', 'types'=>'jpg, jpeg, gif, png', 'allowEmpty'=>true, 'maxFiles'=>5],
 			['newRecord, id', 'unsafe'],
@@ -248,7 +255,10 @@ class ProductFormModel extends FormModel {
 
 		$data['listAllTags'] = $this->getAllTags();
 
+		if (!$this->newRecord) {
 
+			$data['listRelated'] = $this->productModel->listProductRelated();
+		}
 
 		return $data;
 	}

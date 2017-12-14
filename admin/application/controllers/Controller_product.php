@@ -38,9 +38,6 @@ class Controller_product extends Controller_
 
 		$this->setBreadCrumbs([
 			'/admin/product/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Товары',
-		]);
-        
-        $this->setBreadCrumbs([
 			'/admin/product/create'=>'<i class="fa fa-fw fa-shopping-bag"></i> Добавить новый',
 		]);
         
@@ -88,6 +85,42 @@ class Controller_product extends Controller_
 		$this->render();
 	}
 
+	public function action_list_filter() {
+
+		$product = new product((int) $_GET['id']);
+
+		if (!$product->id) die('Неизвестен продукт...');
+
+		$this->view->setVar('list', $product->related_search($_GET['name']));
+
+		$this->view->generate("product/search.tpl");
+		die();
+	}
+
+
+	public function action_list_related() {
+
+		$product = new product((int) $_GET['id']);
+
+		if (!$product->id) die('Неизвестен продукт...');
+
+		$this->view->setVar('listRelated', $product->listProductRelated());
+
+		$this->view->generate("product/list_related.tpl");
+		die();
+	}
+
+
+	public function action_set_related() {
+
+		$product = new product((int) $_GET['id']);
+
+		if (!$product->id) die();
+
+		if ((int)$_GET['action']) $product->setRelated((int) $_GET['related']);
+		else $product->removeRelated((int) $_GET['related']);
+	}
+
 
     public function action_update() 
     {
@@ -97,12 +130,12 @@ class Controller_product extends Controller_
 		$this->setTitle('Товар "'.$product->product_name.'"');
 
         $this->setBreadCrumbs([
+	        '/admin/product/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Товары',
 			'/admin/product/create'=>'<i class="fa fa-fw fa-shopping-bag"></i> Редактировать товар',
 		]);
         
         $model = new ProductFormModel();
         $model->setAttributes($product->info, false);
-
 
 		$model->setUpdate();
         
@@ -142,11 +175,11 @@ class Controller_product extends Controller_
 	    $this->page->import([
 		    '/public/packages/select2/css/select2.min.css',
 		    '/public/packages/select2/js/select2.min.js',
-		    '/public/packages/select2/js/i18n/ru.js'
+		    '/public/packages/select2/js/i18n/ru.js',
 	    ]);
         
 		$this->render();
-    }
+	}
 
 
 	public function action_delete() {

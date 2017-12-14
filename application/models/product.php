@@ -66,7 +66,8 @@ class product extends \smashEngine\core\Model {
         
         $sth->execute([$this->id, $pic_id, $thumb_id]);
     }
-    
+
+
     public function getPictures()
     {
         $sth = App::db()->prepare("SELECT p.*, p1.`picture_path` AS orig_path, p1.`picture_path` AS thumb_path 
@@ -99,11 +100,81 @@ class product extends \smashEngine\core\Model {
             ");
 
 		$sth->execute([$this->id]);
-		$products = $sth->fetchAll();
+		$temp = $sth->fetchAll();
+		$products = [];
+
+		foreach ($temp as $v) {$products[] = $v['id'];}
 
 		$this->related = $products;
 
 		return $this->info['related'];
+	}
+
+
+	public function related_search() {
+
+		if (isset($_GET['search']) && $_GET['search']) {
+
+			$bind = [
+				':id'=>$this->id,
+				':p_name'=>'%'.trim($_GET['search']).'%'
+			];
+
+			$where = "AND t.product_name LIKE :p_name";
+		} else {
+
+			$bind = [
+				':id'=>$this->id,
+			];
+
+			$where = "";
+		}
+
+		$sql = "SELECT t.id, t.product_name, t.quantity, t.product_price, t.product_discount, p.picture_path as src, r.related_id as related
+                FROM `" . self::$dbtable . "` AS t
+                LEFT JOIN `" . self::$dbtable_related ."` AS r ON (t.id = r.related_id AND r.product_id = :id)
+                LEFT JOIN `pictures` AS p ON (t.picture_id = p.picture_id)
+                WHERE t.`id` != :id ".$where." OR r.related_id IS NOT NULL
+                ORDER BY t.product_name ASC
+        ";
+
+		$sth = App::db()->prepare($sql);
+
+		$sth->execute($bind);
+
+		return $sth->fetchAll();
+	}
+
+
+	public function setRelated($related_id) {
+
+		$sth = App::db()->prepare("INSERT IGNORE INTO `".self::$dbtable_related."` (product_id, related_id) VALUES (:product, :related)");
+
+		$sth->execute([':product'=>(int) $this->id, ':related'=>(int) $related_id]);
+	}
+
+
+	public function removeRelated($related_id) {
+
+		$sth = App::db()->prepare("DELETE FROM `".self::$dbtable_related."` WHERE product_id = :product AND related_id = :related LIMIT 1");
+
+		$sth->execute([':product'=>(int) $this->id, ':related'=>(int) $related_id]);
+	}
+
+
+	public function listProductRelated() {
+
+		$sth = App::db()->prepare("SELECT t.id, t.product_name, t.quantity, t.product_price, t.product_discount, p.picture_path as src, r.related_id as related
+                FROM `" . self::$dbtable . "` AS t
+                INNER JOIN  `" . self::$dbtable_related ."` AS r ON (t.id = r.related_id AND r.product_id = :id )
+                LEFT JOIN `pictures` AS p ON (t.picture_id = p.picture_id)
+                WHERE t.`id` != :id
+                ORDER BY t.product_name ASC
+            ");
+
+		$sth->execute([':id'=> $this->id]);
+
+		return $sth->fetchAll();
 	}
 
 

@@ -38,3 +38,28 @@
     background-color: #008d4c;
     border-color: #398439;
 }
+
+article.list-items {
+	width: 250px;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid;
+	display: inline-block;
+}
+
+ul#example {
+
+	list-style: none;
+}
+
+ul#example li {
+
+	display: inline;
+}
+
+article.list-items img {
+
+	height: 250px;
+	display: inline-block;
+}
+

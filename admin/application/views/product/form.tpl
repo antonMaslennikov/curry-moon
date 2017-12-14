@@ -7,19 +7,19 @@
             <div class="nav-tabs-custom">
 
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#main" data-toggle="tab">Основные данные</a></li>
+                    <li {*class="active"*}><a href="#main" data-toggle="tab">Основные данные</a></li>
                     <li><a href="#image" data-toggle="tab">Изображения</a></li>
                     <li><a href="#stock" data-toggle="tab">Склад</a></li>
                     <li><a href="#dimensions" data-toggle="tab">Габариты</a></li>
                     {if !$model.value.newRecord}
-                    <li><a href="#related" data-toggle="tab">Сопутствующие товары</a></li>
+                    <li class="active"><a href="#related" data-toggle="tab">Сопутствующие товары</a></li>
                     {/if}
                     <li><a href="#meta" data-toggle="tab">META данные</a></li>
                 </ul>
 
                 <div class="tab-content">
 
-                    <div class="tab-pane active" id="main">
+                    <div class="tab-pane {*active*}" id="main">
                         {if $model.errorSummary}
                             <div class="row">
                                 <div class="col-sm-12">
@@ -49,7 +49,7 @@
                     </div>
 
                     {if !$model.value.newRecord}
-                    <div class="tab-pane" id="related">
+                    <div class="tab-pane active" id="related">
                         {include file="product/form_related.tpl"}
                     </div>
                     {/if}
@@ -59,6 +59,7 @@
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
+                    <a href="/admin/product/list" class="btn btn-default">Отмена</a>
                 </div>
 
             </div>

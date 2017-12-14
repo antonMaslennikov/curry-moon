@@ -43,6 +43,24 @@
 		        'schemas' => 'GET'
 	        ],
 
+	        'product_list_filter' => [
+		        'pattern'=>'/admin/product/list_filter',
+		        'action'=> 'Controller_product:action_list_filter',
+		        'schemas' => 'GET'
+	        ],
+
+	        'product_list_related' => [
+		        'pattern'=>'/admin/product/list_related',
+		        'action'=> 'Controller_product:action_list_related',
+		        'schemas' => 'GET'
+	        ],
+
+	        'product_set_related' => [
+		        'pattern'=>'/admin/product/set_related',
+		        'action'=> 'Controller_product:action_set_related',
+		        'schemas' => 'GET'
+	        ],
+
 	        'product_main_img' => [
 		        'pattern'=>'/admin/product/mainImage',
 		        'action'=> 'Controller_product:action_mainImage',
