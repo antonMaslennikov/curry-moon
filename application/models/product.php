@@ -134,9 +134,10 @@ class product extends \smashEngine\core\Model {
                 FROM `" . self::$dbtable . "` AS t
                 LEFT JOIN `" . self::$dbtable_related ."` AS r ON (t.id = r.related_id AND r.product_id = :id)
                 LEFT JOIN `pictures` AS p ON (t.picture_id = p.picture_id)
-                WHERE t.`id` != :id ".$where." OR r.related_id IS NOT NULL
+                WHERE t.`id` != :id ".$where."
                 ORDER BY t.product_name ASC
-        ";
+                LIMIT 100
+        ";//OR r.related_id IS NOT NULL
 
 		$sth = App::db()->prepare($sql);
 
