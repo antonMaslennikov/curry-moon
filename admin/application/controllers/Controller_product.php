@@ -96,16 +96,14 @@ class Controller_product extends Controller_
         $this->setTemplate('product/form.tpl');
 		$this->setTitle('Товар "'.$product->product_name.'"');
 
-		$this->setBreadCrumbs([
-			'/admin/product/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Товары',
-		]);
-        
         $this->setBreadCrumbs([
 			'/admin/product/create'=>'<i class="fa fa-fw fa-shopping-bag"></i> Редактировать товар',
 		]);
         
         $model = new ProductFormModel();
         $model->setAttributes($product->info, false);
+
+
 		$model->setUpdate();
         
 		$postModel = Html::modelName($model);

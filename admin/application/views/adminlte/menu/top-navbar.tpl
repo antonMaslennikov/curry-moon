@@ -43,17 +43,6 @@
                         </p>
                     </li>
                     <!-- Menu Body -->
-                    <li class="user-body">
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                        </div>
-                        <!-- /.row -->
-                    </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
                         <div class="pull-left">
