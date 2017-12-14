@@ -101,6 +101,7 @@
 
             $('#product-related-modal').on('shown.bs.modal', function () {
 
+                $('#search-product-related').val('');
                 getData();
             });
 
