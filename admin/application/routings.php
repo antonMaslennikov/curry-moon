@@ -26,7 +26,7 @@
 		    ],
 
             'dashboard' => [
-                'pattern' => '/admin/', 
+                'pattern' => '/admin', 
                 'action' => 'Controller_dashboard:action_index', 
                 'schemas' => 'GET'
             ],

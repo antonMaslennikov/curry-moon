@@ -23,16 +23,10 @@ AddType application/vnd.ms-fontobject .eot
 	# обрабатываем отсутствие www
 	RewriteCond %{HTTP_HOST} !^www\.(.*) [NC]
 	RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L] 
-
-	# обрабатываем отсутствие закрывающего слэша
-	# RewriteBase /
-	# RewriteCond %{REQUEST_FILENAME} !-f
-	# RewriteCond %{REQUEST_URI} !(.*)/$
-	#RewriteRule ^(.*[^/])$ $1/ [L,R=301]
     
     # обрабатываем наличие закрывающего слэша
-	RewriteBase /
 	RewriteCond %{HTTP_HOST} (.*)
+    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} /$ [NC]
     RewriteRule ^(.*)(/)$ $1 [L,R=301]
 
