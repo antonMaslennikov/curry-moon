@@ -1,4 +1,3 @@
-<div class="col-xs-12">
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Список настроек</h3>
@@ -51,7 +50,6 @@
         <!-- /.box-body -->
     </div>
     <!-- /.box -->
-</div>
 {literal}
 <style>
     .table-responsive table tr td {

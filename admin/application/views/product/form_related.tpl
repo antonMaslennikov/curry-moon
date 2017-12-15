@@ -113,6 +113,7 @@
             $('body').on('change', '.check-related', function() {
 
                 setRelated($(this));
+                $(this).parents('tr').remove();
             })
 
             $('body').on('click', '.remove-related', function() {

@@ -1,6 +1,7 @@
 <?php
 namespace admin\application\controllers;
 
+use application\models\feedback;
 use smashEngine\core\App as App;
 use smashEngine\core\exception\appException;
 
@@ -156,6 +157,8 @@ class Controller_ extends \smashEngine\core\Controller
 	public function render() {
 
 		$this->generateBreadcrumbs();
+
+		$this->view->setVar('count_new_fb', (new feedback())->countNew());
 
 		$this->view->generate($this->page->index_tpl);
 	}

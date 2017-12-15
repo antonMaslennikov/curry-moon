@@ -2066,3 +2066,8 @@
     
         return $pathInfo;
     }
+
+	function date2ru_format($date) {
+
+		return DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y  H:i:s');
+	}
