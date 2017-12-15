@@ -232,7 +232,7 @@ jQuery(window).load( function() {
                     	counter.appendTo(btn);
     	                var gkCartDataRequest = function() {
     	                    jQuery.ajax({
-    	                        url: '/cart/products',
+    	                        url: '/ru/cart/products',
     	                        success: function(data) {
     	                            document.getElementById('gkCartCounter').innerHTML = '(' + data + ')';     
     	                        }

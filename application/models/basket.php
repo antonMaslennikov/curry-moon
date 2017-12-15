@@ -249,6 +249,8 @@
                     $this->user_basket_payment_type_ico = self::$paymentTypes[$this->user_basket_payment_type]['ico'];
                 }
                 
+                $this->status_rus = self::$orderStatus[$this->user_basket_status];
+                
                 return $this->info;
             } else {
                 if (!empty($this->id)) {
@@ -683,6 +685,7 @@
                                 ubg.`user_basket_good_total_price` tp, 
                                 ubg.`user_basket_good_comment` AS c,
                                 ubg.`user_basket_good_time`,
+                                g.`id` AS product_id,
                                 g.`product_name`,
                                 g.`product_sku`,
                                 p.`picture_path`
@@ -715,6 +718,8 @@
                 } else {
                     $row['tprice'] = $row['tp'];
                 }
+                
+                $row['discount_sum'] = round($row['tprice'] / 100 * $row['discount']);
 
                 $row['tprice_rub'] = $row['tprice'];
                 
@@ -2527,6 +2532,53 @@
                 ));
             
             $this->log('change_payment', $pt, $was);
+        }
+        
+        public function getAll($filters)
+        {
+            if ($filters['user'])
+            {
+                $aq[] = "b.`user_id` = '" . intval($filters['user']) . "'";
+            }
+
+            if ($filters['statusNot'] && self::$orderStatus[$filters['statusNot']])
+            {
+                $aq[] = "b.`user_basket_status` != '" . $filters['statusNot'] . "'";
+            }
+
+            $q = "SELECT SQL_CALC_FOUND_ROWS b.*, SUM(bi.`user_basket_good_total_price`) AS sum 
+                FROM `" . self::$dbtable . "` b 
+                    LEFT JOIN `" . basketItem::$dbtable . "` bi ON b.`id` = bi.`user_basket_id`
+                " . ($at ? ', ' . implode(', ', $at) : '') . "
+                WHERE 1 " . ($aq ? ' AND ' . implode(' AND ', $aq) : '');
+
+            if ($filters['orderBy']) {
+                // ёбаный стыд))) 
+                $q .= " ORDER BY " . addslashes($filters['orderBy']) . ' ' . (in_array($filters['orderDir'], ['ASC', 'DESC']) ? $filters['orderDir'] : 'DESC');
+            }
+
+            if ($filters['limit']) {
+                $q .= " LIMIT " . ($filters['offset'] ? intval($filters['offset']) : 0) . ", " . intval($filters['limit']);
+            }
+
+            //printr($q, 1);
+
+            $sth = App::db()->prepare($q);
+
+            $sth->execute();
+
+            $foo = App::db()->query("SELECT FOUND_ROWS() AS s")->fetch();
+            $_SESSION['pages_total_' . $trans_id] = $foo['s'];
+
+            $rows = $sth->fetchAll();
+
+            foreach ($rows AS $k => $p) {
+                $rows[$k]['status'] = self::$orderStatus[$p['user_basket_status']];
+                $rows[$k]['user_basket_delivery_type_rus'] = self::$deliveryTypes[$p['user_basket_delivery_type']]['title'];
+                $rows[$k]['user_basket_payment_type_rus'] = self::$paymentTypes[$p['user_basket_payment_type']]['title'];
+            }
+
+            return $rows;
         }
     }
     /** end class **/

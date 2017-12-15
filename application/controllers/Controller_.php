@@ -16,6 +16,15 @@
             // Текущий пользователь
             $this->user = \application\models\user::load();
             
+            // не указана точно языковая версия сайта
+            if (!in_array($this->page->reqUrl[0], ['ru', 'en'])) {
+                if ($this->user->country == 'en') {
+                    $this->page->go('/en' . rtrim($this->page->url, '/'), 301);
+                } else {
+                    $this->page->go('/ru' . rtrim($this->page->url, '/'), 301);
+                }
+            }
+            
             // Пользовательская корзина
             try
             {

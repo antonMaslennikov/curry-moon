@@ -153,10 +153,12 @@
             }
 
             // если явно в урле указана языковая версия сайта
+            /*
             if (reset($this->reqUrl) == 'en')
             {
                 $this->setLanguage(array_shift($this->reqUrl));
             }
+            */
             
             // сбрасывам ключи массива
             $this->reqUrl = array_values($this->reqUrl);

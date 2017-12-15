@@ -171,7 +171,6 @@
                 //App::memcache()->set('shop-categorys', $categorys, false, 24 * 3600);
             //}
             
-            
             $this->view->setVar('product', $product);
             $this->view->setVar('categorys', $categorys);
             

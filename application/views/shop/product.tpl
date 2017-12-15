@@ -46,7 +46,7 @@
 
                             {if $product->quantity > 0}
                                 <div class="addtocart-area">
-                                    <form method="post" class="product js-recalculate" id="add2cartForm" action="/cart/add">
+                                    <form method="post" class="product js-recalculate" id="add2cartForm" action="/ru/cart/add">
                                         
                                         <div class="addtocart-bar">
                                             <label for="quantity389" class="quantity_box">Кол-во: </label>
@@ -120,19 +120,20 @@
 
             <div class="product-related-products">
                 <h4>Сопутствующие товары</h4>
-
+                
+                {foreach from=$product->listProductRelated() item="r"}
                 <div class="product-field product-field-type-R"> 
                     <span class="product-field-display">
                         <div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product">
                             <span itemprop="name">
-                                <a href="/ru/shop/jewellery/silver/klassicheskoe-koltco-iz-serebra-s-lunnym-kamnem-sr006" title="Классическое кольцо из серебра с лунным камнем" itemprop="url">
-                                    <img src="/images/shop/product/resized/silver-ring-moon-stone_250x325.gif" alt="serebryanoe-kolco-s-lunnim-kamnem"> Классическое кольцо из серебра с лунным камнем
+                                <a href="/ru/shop/openproduct/{$r.id}" title="{$r.product_name}" itemprop="url">
+                                    <img src="{$r.src}" alt="serebryanoe-kolco-s-lunnim-kamnem">{$r.product_name}
                                 </a>
                             </span>
                         </div>
                     </span>
                 </div>
-                
+                {/foreach}
             </div>
 
             <script id="popups_js" type="text/javascript">//<![CDATA[ 

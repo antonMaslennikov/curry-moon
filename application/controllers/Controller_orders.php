@@ -3,6 +3,7 @@
     
     use \smashEngine\core\App AS App;
     use \application\models\product;
+    use \application\models\basket;
 
     use \PDO;
     use \Exception;
@@ -12,19 +13,23 @@
     {
         public function action_index()
         {   
-            $this->page->index_tpl = 'index.tpl';
-            $this->page->tpl = 'orders/index.tpl';
-            $this->page->title = 'Мои заказы';
+            if (!$this->user->authorized) {
+                $this->page404();
+            }
             
-            /*
-            $products = product::getAll([
-                'status' => 'active', 
-                'picture' => true,
-                'orderBy' => 'pr.`id`',
+            $this->page->index_tpl = 'index.tpl';
+            $this->page->tpl = 'orders/list.tpl';
+            $this->page->title = 'Мои заказы';
+            $this->page->addBreadCrump($this->page->title);
+            
+            $orders = basket::getAll([
+                'user' => $this->user->id,
+                'statusNot' => 'active', 
+                'orderBy' => 'b.`id`',
                 'orderDir' => 'DESC',
-                'limit' => 4,
+                'limit' => 100,
             ]);
-            */
+                
             $this->view->setVar('orders', $orders);
             
             $this->view->generate($this->page->index_tpl);
@@ -33,18 +38,19 @@
         public function action_view()
         {   
             $this->page->index_tpl = 'index.tpl';
-            $this->page->tpl = 'orders/view.tpl';
-            $this->page->title = 'Заказы #';
+            $this->page->tpl = 'orders/details.tpl';
             
-            /*
-            $products = product::getAll([
-                'status' => 'active', 
-                'picture' => true,
-                'orderBy' => 'pr.`id`',
-                'orderDir' => 'DESC',
-                'limit' => 4,
-            ]);
-            */
+            $order = new basket($this->page->reqUrl[2]);
+            
+            $this->page->title = 'Заказ #' . $order->id;
+            
+            $this->page->addBreadCrump('Мои заказы', '/ru/orders');
+            $this->page->addBreadCrump($this->page->title);
+            
+            if ($order->user_id != $this->user->id) {
+                $this->page404();
+            }
+            //printr($order->basketGoods);
             $this->view->setVar('order', $order);
             
             $this->view->generate($this->page->index_tpl);

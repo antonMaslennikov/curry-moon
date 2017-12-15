@@ -11,15 +11,21 @@
                 </tr>
             </thead>
             <tbody>
+                {foreach from=$orders item="o"}
                 <tr class="row0">
                     <td align="left">
-                        <a href="/ru/shop/order?order_number=000148" rel="nofollow">000148</a>
+                        <a href="/ru/orders/{$o.id}" rel="nofollow">{$o.id}</a>
                     </td>
-                    <td align="left">13.12.2017</td>
-                    <td align="left">13 декабря 2017</td>
-                    <td align="left">В ожидании</td>
-                    <td align="left">3020 руб</td>
+                    <td align="left">{$o.user_basket_date|datefromdb2textdate}</td>
+                    <td align="left">{if $o.user_basket_last_change_date != '0000-00-00 00:00:00'}{$o.user_basket_last_change_date|datefromdb2textdate}{else}-{/if}</td>
+                    <td align="left">{$o.status}</td>
+                    <td align="left">{$o.sum} руб</td>
                 </tr>
+                {foreachelse}
+                <tr>
+                    <td colspan="6">Заказов не найдено</td>
+                </tr>
+                {/foreach}
             </tbody>
         </table>
     </div>

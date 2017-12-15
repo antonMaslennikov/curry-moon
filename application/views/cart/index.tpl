@@ -34,11 +34,11 @@
                                 <td class="cart-prod-sku">{$p.product_sku}</td>
                                 <td class="cart-prod-quantity">
                                     <div class="quantity">
-                                        <form action="/cart/updatecart" method="post" style="display: inline; margin-left: 4px;">
+                                        <form action="/ru/cart/updatecart" method="post" style="display: inline; margin-left: 4px;">
                                             <div class="input-append">
                                                 <input class="span2" id="appendedInputButtons" type="text" title="Обновить количество в корзине" size="3" name="quantity" value="{$p.quantity}">
                                                 <input type="hidden" name="product_id" value="{$p.good_id}">
-                                                <a class="button-del" title="Удалить товар из корзины" href="/cart/delete?product_id={$p.good_id}"><i class="fa fa-trash-o"></i></a>
+                                                <a class="button-del" title="Удалить товар из корзины" href="/ru/cart/delete?product_id={$p.good_id}"><i class="fa fa-trash-o"></i></a>
                                                 <button class="button-upd" type="submit" name="update" title="Обновить количество в корзине" value=" "><i class="fa fa-refresh"></i></button>
                                             </div>
                                         </form>
@@ -107,7 +107,7 @@
 
                     <div class="coupon_section" {if $basket->logs.activateCertificate || $basket->logs.activateDiscontCard}style="display:none"{/if}>
 
-                        <form action="/cart/setcoupon" method="post" id="userForm">
+                        <form action="/ru/cart/setcoupon" method="post" id="userForm">
                             <button type="submit" class="btn"><span>Активировать</span></button>
                             <input type="text" placeholder="Промокод" name="coupon_code" autocomplete="off" id="coupon_code" class="inputbox span3" required="required">
                             <input type="hidden" name="csrf_token" value="{$csrf_token}" />
