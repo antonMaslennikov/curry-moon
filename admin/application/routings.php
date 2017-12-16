@@ -344,7 +344,7 @@
 		        'pattern'=>'/admin/orders(/list)?',
 		        'action'=> 'Controller_orders:action_index',
 		        'schemas' => 'GET'
-
+            ],
 
 	        'feedback_list'=>[
 		        'pattern'=>'/admin/feedback/list',
