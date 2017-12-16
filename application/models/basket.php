@@ -1110,8 +1110,6 @@
          */
         function log($a, $r, $i = null, $u = null, $t = null) 
         {
-            global $User;
-            
             if (empty($this->id))
                 $this->addBasket();
                 
@@ -1126,8 +1124,11 @@
             $this->logs[$a][] = array(
                 'result'  => $r,
                 'info'    => $i,
-                'user_id' => (empty($u) ? $User->id : $u),
+                'user_id' => $u,
             );
+            
+            $this->user_basket_last_change_date = NOW;
+            $this->save();
         }
         
         /**
@@ -2541,16 +2542,31 @@
                 $aq[] = "b.`user_id` = '" . intval($filters['user']) . "'";
             }
 
+            if ($filters['status'])
+            {
+                $fs = [];
+                foreach ((array) $filters['status'] AS $s) {
+                    if (self::$orderStatus[$s]) {
+                        $fs[] = $s;
+                    }
+                }
+                $aq[] = "b.`user_basket_status` IN ('" . implode("', '", $fs) . "'";
+            }
+            
             if ($filters['statusNot'] && self::$orderStatus[$filters['statusNot']])
             {
                 $aq[] = "b.`user_basket_status` != '" . $filters['statusNot'] . "'";
             }
 
-            $q = "SELECT SQL_CALC_FOUND_ROWS b.*, SUM(bi.`user_basket_good_total_price`) AS sum 
-                FROM `" . self::$dbtable . "` b 
-                    LEFT JOIN `" . basketItem::$dbtable . "` bi ON b.`id` = bi.`user_basket_id`
-                " . ($at ? ', ' . implode(', ', $at) : '') . "
-                WHERE 1 " . ($aq ? ' AND ' . implode(' AND ', $aq) : '');
+            $q = "SELECT SQL_CALC_FOUND_ROWS b.*, SUM(bi.`user_basket_good_total_price`) AS sum, SUM(bi.`user_basket_good_quantity`) AS countGoods, u.`user_email`
+                FROM 
+                    `" . self::$dbtable . "` b 
+                        LEFT JOIN `" . basketItem::$dbtable . "` bi ON b.`id` = bi.`user_basket_id`
+                        LEFT JOIN `" . user::$dbtable . "` u ON b.`user_id` = u.`id`
+                    " . ($at ? ', ' . implode(', ', $at) : '') . "
+                WHERE 1 " . ($aq ? ' AND ' . implode(' AND ', $aq) : '') 
+                .
+                "GROUP BY b.`id`";
 
             if ($filters['orderBy']) {
                 // ёбаный стыд))) 
