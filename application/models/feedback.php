@@ -8,7 +8,11 @@
      * 
      */
     class feedback extends \smashEngine\core\Model  
-    {   
+    {
+	    const STATUS_NEW = 'new';
+
+	    const STATUS_SEND = 'old';
+
         /**
          * @param string имя таблицы в БД для хранения экземпляров класса
          */
@@ -52,4 +56,16 @@
                     'attach'  => (!empty($this->feedback_pict) ? 'http://www.maryjane.ru' . pictureId2path($this->feedback_pict) : '')));
             */
         }
+
+
+	    public function countNew() {
+
+		    $sth = App::db()->prepare("SELECT count(*) FROM `".self::$dbtable."`
+                WHERE feedback_status = :status");
+
+		    $sth->execute([':status'=>self::STATUS_NEW]);
+		    $temp = $sth->fetch();
+
+		    return array_shift($temp);
+	    }
     }

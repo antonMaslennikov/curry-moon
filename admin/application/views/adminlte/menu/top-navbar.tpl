@@ -12,8 +12,11 @@
         <ul class="nav navbar-nav">
             {* *}
             <!-- Messages: style can be found in dropdown.less-->
-            <li class="dropdown messages-menu">
-                {include file="adminlte/menu/messages-menu.tpl"}
+            <li class="messages-menu">
+                <a href="/admin/feedback/list">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="label label-success">{$count_new_fb}</span>
+                </a>
             </li>
             {* *}
             {* *

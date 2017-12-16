@@ -1,5 +1,4 @@
-<div class="col-xs-12">
-    <div class="box">
+<div class="box">
     <form class="search" method="get" action="{currenturl page=0}">
         <div class="box-header">
             <h3 class="box-title">Список</h3>
@@ -65,9 +64,8 @@
             </div>
         </div>
     </form>
-    </div>
-    <!-- /.box -->
 </div>
+<!-- /.box -->
 {literal}
     <script type="text/javascript">
         !function ($) {

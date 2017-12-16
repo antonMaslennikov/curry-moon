@@ -339,12 +339,23 @@
 		        'action'=> 'Controller_templates:action_delete',
 		        'schemas' => 'GET',
 	        ],
-            
-            
+  
             'orders_list'=>[
 		        'pattern'=>'/admin/orders(/list)?',
 		        'action'=> 'Controller_orders:action_index',
 		        'schemas' => 'GET'
+
+
+	        'feedback_list'=>[
+		        'pattern'=>'/admin/feedback/list',
+		        'action'=> 'Controller_feedback:action_list',
+		        'schemas' => 'GET',
+	        ],
+
+	        'feedback_list_send'=>[
+		        'pattern'=>'/admin/feedback/list_send',
+		        'action'=> 'Controller_feedback:action_list_send',
+		        'schemas' => 'GET',
 	        ],
         ];
     }

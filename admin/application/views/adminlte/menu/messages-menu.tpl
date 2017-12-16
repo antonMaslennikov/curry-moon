@@ -2,6 +2,7 @@
     <i class="fa fa-envelope-o"></i>
     <span class="label label-success">4</span>
 </a>
+{
 <ul class="dropdown-menu">
     <li class="header">You have 4 messages</li>
     <li>

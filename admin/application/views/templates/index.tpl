@@ -1,4 +1,3 @@
-<div class="col-xs-12">
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Все купоны</h3>
@@ -37,7 +36,6 @@
         <!-- /.box-body -->
     </div>
     <!-- /.box -->
-</div>
 {literal}
 <script type="text/javascript">
 !function ($) {
