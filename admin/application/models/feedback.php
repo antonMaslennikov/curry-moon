@@ -16,21 +16,19 @@ use smashEngine\core\App;
  * Class feedback
  * @package admin\application\models
  *
- * $property type feedback_status [new, old] + пропустить (кидает в old без ответа)
- * $property type feedback_date дата создания +
- * $property type feedback_reply_date дата ответа
- * $property type feedback_name от кого +
- * $property type feedback_email +
+ * @property string feedback_status [new, old] + пропустить (кидает в old без ответа)
+ * @property string feedback_date дата создания +
+ * @property string feedback_reply_date дата ответа
+ * @property string feedback_name от кого +
+ * @property string feedback_email +
 
- * $property type feedback_topic тема...
- * $property type feedback_text вопрос + (100 символов ...)
- * $property type feedback_reply ответ
- * $property type feedback_user id авторизованного пользователя
- * $property type feedback_replay_user кто ответил
+ * @property string feedback_topic тема...
+ * @property string feedback_text вопрос + (100 символов ...)
+ * @property string feedback_reply ответ
+ * @property int feedback_user id авторизованного пользователя
+ * @property int feedback_replay_user кто ответил
 
- * $property type feedback_webclient
- *
- * пропустить ответить ---удалить---
+ * $property string feedback_webclient
  */
 class feedback extends \application\models\feedback {
 
@@ -61,5 +59,53 @@ class feedback extends \application\models\feedback {
 			'page'=>$this->pagination->getTemplate(),
 			'data'=>$stmt->fetchAll(),
 		];
+	}
+
+	public function isNew() {
+
+		if (!$this->id) return false;
+
+		return $this->feedback_status === self::STATUS_NEW;
+	}
+
+	public function setSpam($user_id) {
+
+		$smt = App::db()->prepare("
+			UPDATE `".self::$dbtable."` SET
+				feedback_status = :status,
+				feedback_reply_date = NOW(),
+				feedback_replay_user = :user,
+				feedback_error = :error
+			WHERE id = :id
+			LIMIT 1
+		");
+
+		$smt->execute([
+			':status'=>self::STATUS_SEND,
+			':user'=>(int) $user_id,
+			':error'=>'spam',
+			':id'=>$this->id,
+		]);
+	}
+
+
+	public function send($user_id) {
+
+		$smt = App::db()->prepare("
+			UPDATE `".self::$dbtable."` SET
+				feedback_status = :status,
+				feedback_reply_date = NOW(),
+				feedback_replay_user = :user,
+				feedback_reply = :text
+			WHERE id = :id
+			LIMIT 1
+		");
+
+		return $smt->execute([
+			':status'=>self::STATUS_SEND,
+			':user'=>(int) $user_id,
+			':text'=>$this->feedback_reply,
+			':id'=>$this->id,
+		]);
 	}
 }

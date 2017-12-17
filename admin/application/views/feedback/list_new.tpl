@@ -9,16 +9,19 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Дата</th>
                         <th>Отправитель</th>
                         <th>Тема</th>
                         <th>Сообщение</th>
-                        <th class="col-sm-2"></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {foreach from=$list.data item=i}
                     <tr>
+                        <td><span class="pull-left">
+                            <a href="send?id={$i.id}" class="btn btn-info btn-xs" title="Ответить"><i class="fa fa-fw fa-pencil"></i></a></td>
                         <td>{$i.feedback_date|date2ru_format}</td>
                         <td>{$i.feedback_name}<br>
                             {if $i.feedback_user}
@@ -30,9 +33,8 @@
                         <td>{$i.feedback_topic|crop_str:20}</td>
                         <td>{$i.feedback_text|crop_str:50}</td>
                         <td><span class="pull-right">
-                            <a href="cut?id={$record.id}" class="btn btn-warning btn-xs" title="Пропустить"><i class="fa fa-fw fa-cut"></i></a>
-                            <a href="send?id={$record.id}" class="btn btn-info btn-xs" title="Ответить"><i class="fa fa-fw fa-pencil"></i></a>
-                            <a href="delete?id={$record.id}" class="btn btn-danger btn-xs delete-js" title="Удалить"><i class="fa fa-fw fa-times"></i></a>
+                            <a href="cut?id={$i.id}" class="btn btn-warning btn-xs cut-js" title="Пропустить"><i class="fa fa-fw fa-minus"></i></a>
+                            <a href="delete?id={$i.id}" class="btn btn-danger btn-xs delete-js" title="Удалить"><i class="fa fa-fw fa-times"></i></a>
                         </span></td>
                     </tr>
                     {/foreach}
@@ -68,6 +70,17 @@
                 $('table').on('click', '.delete-js',  function(e){
 
                     if (!confirm('Вы действительно желаете удалить страницу?')) {
+
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                })
+
+                $('table').on('click', '.cut-js',  function(e){
+
+                    if (!confirm('Вы действительно хотите перенести сообщение в спам?')) {
 
                         e.preventDefault();
                         return false;

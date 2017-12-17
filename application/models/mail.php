@@ -21,7 +21,7 @@ class mail extends \smashEngine\core\Model
         $result = App::db()->query("SELECT mm.*, u.`user_email`, mt.`mail_template_order`
                                FROM `mail` mm
                                     LEFT JOIN `users` u ON u.`id` = mm.`user_id`
-                                    LEFT JOIN `mail__templates` mt ON mt.`mail_template_id` = mm.`mail_message_template_id`    
+                                    LEFT JOIN `mail__templates` mt ON mt.`id` = mm.`mail_message_template_id`
                                WHERE `mail_message_status` = 'awaiting' AND `raiting` IN ('" . implode("', '", $raiting) . "')
                                ORDER BY `raiting` DESC 
                                LIMIT $count");
@@ -85,11 +85,11 @@ class mail extends \smashEngine\core\Model
      * @param int $raiting приоритет отправки письма
      * @param mixed $attachments вложения
      */
-    function send($userarray, $templateid, $reparray = null, $form = 'info@xxx.ru', $raiting = 10, $attachments = null)
+    function send($userarray, $templateid, $reparray = null, $from = 'info@xxx.ru', $raiting = 10, $attachments = null)
     {
         if (!self::$templates[$templateid]) {
-            $tpl = App::db()->query("SELECT * FROM `mail__templates` WHERE `mail_template_id` = '" . $templateid . "'")->fetch();
-            self::$templates[$tpl['mail_template_id']] = $tpl;
+            $tpl = App::db()->query("SELECT * FROM `mail__templates` WHERE `id` = '" . $templateid . "'")->fetch();
+            self::$templates[$tpl['id']] = $tpl;
         } else {
             $tpl = self::$templates[$templateid];
         }
@@ -99,8 +99,8 @@ class mail extends \smashEngine\core\Model
         if (empty($text))
             $text = $tpl['mail_template_text'];
 
-        if (empty($form))
-            $form = 'info@maryjane.ru';
+        if (empty($from))
+            $from = 'info@maryjane.ru';
 
         preg_match_all ("/%(.*)%/U", $subject, $vararrays);
 
@@ -120,7 +120,7 @@ class mail extends \smashEngine\core\Model
         extract($reparray);
 
         ob_start();
-        require self::$tpl_folder . $tpl['mail_template_file'];
+        require $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.self::$tpl_folder . $tpl['mail_template_file'];
         $text = ob_get_contents();
 
         ob_end_clean();
@@ -243,7 +243,7 @@ class mail extends \smashEngine\core\Model
                     'u'           => $u,
                     'email'       => $us['user_email'],
                     'raiting'     => $raiting,
-                    'from'        => $form,
+                    'from'        => $from,
                     'attachments' => (count($attachments) > 0) ? json_encode($attachments) : '']);
                 
                 $results[] = App::db()->lastInsertId();

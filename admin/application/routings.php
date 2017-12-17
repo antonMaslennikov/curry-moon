@@ -357,5 +357,29 @@
 		        'action'=> 'Controller_feedback:action_list_send',
 		        'schemas' => 'GET',
 	        ],
+
+	        'feedback_cut'=>[
+		        'pattern'=>'/admin/feedback/cut',
+		        'action'=> 'Controller_feedback:action_cut',
+		        'schemas' => 'GET',
+	        ],
+
+	        'feedback_send'=>[
+		        'pattern'=>'/admin/feedback/send',
+		        'action'=> 'Controller_feedback:action_send',
+		        'schemas' => 'GET|POST',
+	        ],
+
+	        'feedback_delete'=>[
+		        'pattern'=>'/admin/feedback/delete',
+		        'action'=> 'Controller_feedback:action_delete',
+		        'schemas' => 'GET',
+	        ],
+
+	        'feedback_view'=>[
+		        'pattern'=>'/admin/feedback/view',
+		        'action'=> 'Controller_feedback:action_view',
+		        'schemas' => 'GET',
+	        ],
         ];
     }
