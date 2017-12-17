@@ -86,7 +86,7 @@ class Controller_feedback extends Controller_ {
 
 
 		$this->view->setVar('fb', $feedback->info);
-		$this->view->setVar('user', (new user($feedback->feedback_reply_user))->info);
+		$this->view->setVar('user', (new user($feedback->feedback_replay_user))->info);
 
 		$this->render();
 	}
