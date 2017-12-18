@@ -345,6 +345,12 @@
 		        'action'=> 'Controller_orders:action_index',
 		        'schemas' => 'GET'
             ],
+            
+            'orders_view'=>[
+		        'pattern'=>'/admin/orders/(view|print)',
+		        'action'=> 'Controller_orders:action_view',
+		        'schemas' => 'GET|POST|FILES'
+            ],
 
 	        'feedback_list'=>[
 		        'pattern'=>'/admin/feedback/list',

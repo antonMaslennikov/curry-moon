@@ -23,7 +23,7 @@
                     <th>Сумма</th>
                     <th></th>
                 </tr>
-                {foreach from=$orders item=node}
+                {foreach from=$orders.data item=node}
                 <tr>
                     <td><input type="checkbox" name="orderp[{$node.id}]" style="opacity: 0;"></td>
                     <td><a href="/admin/orders/view?id={$node.id}">{$node.id}</a></td>
@@ -38,9 +38,8 @@
                     <td>
                         <span class="pull-right">
                             <a href="/admin/orders/view?id={$node.id}" class="btn btn-info btn-xs" title="Просмотреть данные"><i class="fa fa-fw fa-eye"></i></a>
-                        </span>
-                        <span class="pull-right">
-                            <a href="/admin/orders/print?id={$node.id}" class="btn btn-info btn-xs" title="Распечатать"><i class="fa fa-fw fa-eye"></i></a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="/admin/orders/print?id={$node.id}" class="btn btn-info btn-xs" title="Распечатать"><i class="fa fa-fw fa-print"></i></a>
                         </span>
                     </td>
                 </tr>
@@ -49,6 +48,25 @@
             </table>
         </div>
         <!-- /.box-body -->
+        {if count($orders.data)}
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-3">Показаны {$orders.page.offset+1} - {$orders.page.offset + count($orders.data)} из {$orders.page.itemCount}</div>
+                <div class="col-sm-3">
+                    <form class="search" method="get" action="{currenturl page=0}">
+                    <label>Показать <select name="pageSize" class="input-search input-sm">
+                            {foreach from=$orders.page.pageSizeList item=option}
+                                <option {if $option==$orders.page.pageSize}selected{/if} value="{$option}">{$option}</option>
+                            {/foreach}
+                        </select> записей</label>
+                    </form>
+                </div>
+                <div class="col-sm-6">
+                    {include file='adminlte/paginator.tpl' pagination=$orders.page}
+                </div>
+            </div>
+        </div>
+        {/if}
     </div>
     <!-- /.box -->
 </div>
@@ -75,6 +93,11 @@
             $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
           }
           $(this).data("clicks", !clicks);
+        });
+        
+        $('div.box').on('change', '.input-search', function() {
+
+            $('form.search').submit();
         });
     })
 }(window.jQuery)

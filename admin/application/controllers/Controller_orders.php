@@ -30,11 +30,38 @@ class Controller_orders extends Controller_ {
             '/public/plugins/iCheck/all.css',
         ]);
         
-		$this->view->setVar('orders', orders::getAll([
-            'statusNot' => 'active',
-            
-        ]));
+        if (count($_GET['filters']) == 0) {
+            $_GET['filters'] = ['statusNot' => 'active'];
+        }
+        
+		$this->view->setVar('orders', orders::getAll($_GET['filters']));
 
+		$this->render();
+	}
+    
+    public function action_view() {
+
+		$this->setTemplate('orders/view.tpl');
+		
+        $this->page->import([
+            '/public/plugins/iCheck/icheck.min.js',
+            '/public/plugins/iCheck/all.css',
+        ]);
+        
+        if ($_GET['id'])
+        {
+            $o = new orders($_GET['id']);
+            
+            $this->page->title = 'Заказ №' . $o->id;
+        
+            $this->view->setVar('order', $o);
+            $this->view->setVar('deliveryTypes', orders::$deliveryTypes);
+            $this->view->setVar('paymentTypes', orders::$paymentTypes);
+        } 
+        else {
+            $this->page404();
+        }
+        
 		$this->render();
 	}
 }
