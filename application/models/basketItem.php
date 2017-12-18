@@ -19,7 +19,7 @@
             
             if (!empty($this->id))
             {
-                $r = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `user_basket_good_id` = ? LIMIT 1");
+                $r = App::db()->prepare("SELECT * FROM `" . self::$dbtable . "` WHERE `id` = ? LIMIT 1");
                 $r->execute([$this->id]);
                 
                 if ($r->rowCount() == 1) 

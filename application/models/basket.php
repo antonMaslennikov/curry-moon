@@ -1140,22 +1140,7 @@
             $this->logs = array();
             
             foreach ($r->fetchAll() AS $l)
-            {
-                if ($l['action'] == 'printer_comment') 
-                {
-                    $l['action']  = 'admin_comment';
-                    $l['printer'] = TRUE;
-                }
-                elseif ($l['action'] == 'courier_comment') 
-                {
-                    $l['action']  = 'admin_comment';
-                    $l['courier'] = TRUE;
-                }
-                else
-                {
-                    $l['admin'] = TRUE;
-                }
-                
+            {   
                 $this->logs[$l['action']][] = $l;
             }
             

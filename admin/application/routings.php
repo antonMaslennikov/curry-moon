@@ -347,7 +347,7 @@
             ],
             
             'orders_view'=>[
-		        'pattern'=>'/admin/orders/(view|print)',
+		        'pattern'=>'/admin/orders/(view|print|edit)',
 		        'action'=> 'Controller_orders:action_view',
 		        'schemas' => 'GET|POST|FILES'
             ],
