@@ -167,7 +167,9 @@
 
             tinymce.init({
                 selector: '.tinymce-textarea',
-                menubar: false
+                menubar: false,
+                plugins: "code",
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code"
             });
 
             var timer,

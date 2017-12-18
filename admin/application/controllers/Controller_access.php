@@ -17,7 +17,7 @@ class Controller_access extends Controller_ {
 	public function action_login()
 	{
 		if ($this->user->authorized) {
-			$this->page->go('/admin/');
+			$this->page->go('/admin/orders/list');
 		}
 
 		$this->page->index_tpl = 'login.tpl';
