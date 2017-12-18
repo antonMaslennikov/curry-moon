@@ -1,6 +1,6 @@
 <div class="form-group {if isset($model.error.$attr)}has-error{/if}">
     <label for="{$model.id.$attr}">
-        {$model.label.$attr}
+        {$model.label.$attr} {if isset($required)}<span class="text-danger">*</span>{/if}
     </label>
                                     <textarea
                                             type="text"

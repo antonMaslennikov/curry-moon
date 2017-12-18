@@ -10,8 +10,8 @@
             <thead>
             <tr>
                 <th>Дата</th>
-                <th>Отправитель</th>
-                <th>Тема</th>
+                <th>Данные отправителя</th>
+                <th>Обработано</th>
                 <th>Сообщение</th>
                 <th class="col-sm-2"></th>
             </tr>
@@ -25,14 +25,14 @@
                             <a href="admin/user/profile?id={$i.feedback_user}" target="_blank">{$i.feedback_email}</a>
                         {else}
                             {$i.feedback_email}
-                        {/if}
+                        {/if}<br>
+                        {$i.feedback_topic|crop_str:20}
                     </td>
-                    <td>{$i.feedback_topic|crop_str:20}</td>
-                    <td>{$i.feedback_text|crop_str:50}</td>
+                    <td>{$i.feedback_reply_date|date2ru_format}</td>
+                    <td>{$i.feedback_reply}</td>
                     <td><span class="pull-right">
-                            <a href="cut?id={$record.id}" class="btn btn-warning btn-xs" title="Пропустить"><i class="fa fa-fw fa-cut"></i></a>
-                            <a href="send?id={$record.id}" class="btn btn-info btn-xs" title="Ответить"><i class="fa fa-fw fa-pencil"></i></a>
-                            <a href="delete?id={$record.id}" class="btn btn-danger btn-xs delete-js" title="Удалить"><i class="fa fa-fw fa-times"></i></a>
+                            <a href="view?id={$i.id}" class="btn btn-info btn-xs" title="Просмотреть"><i class="fa fa-fw fa-eye"></i></a>
+                            <a href="delete?id={$i.id}" class="btn btn-danger btn-xs delete-js" title="Удалить"><i class="fa fa-fw fa-times"></i></a>
                         </span></td>
                 </tr>
             {/foreach}
