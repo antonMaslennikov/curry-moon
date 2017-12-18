@@ -7,7 +7,19 @@
      
     class Page
     {
-        /**
+	    const FLASH_ERROR = 'alert-danger';
+
+	    const FLASH_DANGER = 'alert-danger';
+
+	    const FLASH_WARNING = 'alert-warning';
+
+	    const FLASH_SUCCESS = 'alert-success';
+
+	    const FLASH_INFO = 'alert-info';
+
+	    public $flashList = [self::FLASH_ERROR, self::FLASH_DANGER, self::FLASH_WARNING, self::FLASH_SUCCESS, self::FLASH_ERROR];
+
+	    /**
          * @var string url запроса с образанными GET параметрами 
          */
         public $url;
@@ -361,25 +373,62 @@
                 }
             }
         }
-        
-        public function setFlashMessage($m)
+
+	    public function setFlashMessage($message)
+	    {
+		    $this->setFlashAlert('default', $message);
+		}
+
+	    public function getFlashMessage() {
+
+		    return $this->getFlashAlert('default');
+		}
+
+
+		public function setFlashAlert($key, $message)
         {
-            if (!empty($m))
+            if (!empty($message))
             {
-                $_SESSION['mj-flash-message'] = $m;
+	            $_SESSION['flash-message'][$key] = $message;
             }
         }
-        
-        public function getFlashMessage()
+
+	    public function getFlashAlert($key)
         {
-            if (!empty($_SESSION['mj-flash-message']))
+            if (!empty($_SESSION['flash-message'][$key]) && !$this->isAjax)
             {
-                $m = $_SESSION['mj-flash-message'];
-                unset($_SESSION['mj-flash-message']);
+                $flash = $_SESSION['flash-message'][$key];
+                unset($_SESSION['flash-message'][$key]);
+	            return $flash;
             }
-            
-            return $m;
-        }
+
+	        return null;
+		}
+
+	    public function setFlashError($message)
+	    {
+		    $this->setFlashAlert(self::FLASH_ERROR, $message);
+	    }
+
+	    public function setFlashDanger($message)
+	    {
+		    $this->setFlashAlert(self::FLASH_DANGER, $message);
+	    }
+
+	    public function setFlashWarning($message)
+	    {
+		    $this->setFlashAlert(self::FLASH_WARNING, $message);
+	    }
+
+	    public function setFlashSuccess($message)
+	    {
+		    $this->setFlashAlert(self::FLASH_SUCCESS, $message);
+	    }
+
+	    public function setFlashInfo($message)
+	    {
+		    $this->setFlashAlert(self::FLASH_INFO, $message);
+	    }
         
         public function page404()
         {
