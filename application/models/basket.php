@@ -332,28 +332,12 @@
             unset($data['comment']);
             unset($data['city_name']);
                             
-            // Проверка на уникальность адреса
-            // построение хеша адреса
             $fs   = implode("`, `", array_keys($data));
             $vs   = implode("','", $data);
 
-            $hash = substr(md5(implode('', array(
-                $this->user_id,
-                $data['region'],
-                $data['name'],
-                $data['postal_code'],
-                $data['country'],
-                $data['kray'],
-                $data['city'],
-                $data['raion'],
-                $data['address'],
-                $data['delivery_point'],
-                $data['metro'],
-                $data['phone'],
-                $data['skype']
-            ))), 0, 30);
-            
-            $r = App::db()->query("INSERT IGNORE INTO `" . basketAddress::$dbtable . "` (`$fs`, `user_id`, `hash`) VALUES ('$vs', '" . $this->user_id . "', '" . $hash . "') ON DUPLICATE KEY UPDATE `order_date` = '" . NOW . "'");
+            $r = App::db()->query("INSERT IGNORE INTO `" . basketAddress::$dbtable . "` 
+                                  (`$fs`, `user_id`) VALUES ('$vs', '" . $this->user_id . "') 
+                                  ON DUPLICATE KEY UPDATE `order_date` = '" . NOW . "'");
                 
             $this->basketChange(array(
                 'user_basket_delivery_address' => App::db()->lastInsertId(),
