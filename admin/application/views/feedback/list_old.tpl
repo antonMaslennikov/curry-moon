@@ -66,7 +66,7 @@
 
                 $('table').on('click', '.delete-js',  function(e){
 
-                    if (!confirm('Вы действительно желаете удалить страницу?')) {
+                    if (!confirm('Вы действительно желаете удалить сообщение?')) {
 
                         e.preventDefault();
                         return false;

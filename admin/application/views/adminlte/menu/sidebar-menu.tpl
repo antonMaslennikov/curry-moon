@@ -1,10 +1,12 @@
 <ul class="sidebar-menu" data-widget="tree">
+    {*
     <li class="">
         <a href="/admin/dashboard">
             <i class="fa fa-dashboard"></i>
             <span>Dashboard</span>
         </a>
     </li>
+    *}
     <li class="treeview {if $PAGE->reqUrl.1 == "cart"}active{/if}">
         <a href="#">
             <i class="fa fa-fw fa-shopping-cart"></i>
