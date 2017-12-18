@@ -27,6 +27,8 @@
             $this->view = new View;
             
             $this->page = new Page;
+
+	        $this->getFlashAlerts();
         }
         
         /**
@@ -71,5 +73,21 @@
 
             $this->view->generate($this->page->index_tpl);
         }
-    }
+
+
+	    protected function getFlashAlerts() {
+
+		    $alerts = [];
+
+			foreach ($this->page->flashList as $key) {
+
+				if (($message = $this->page->getFlashAlert($key))!== null) {
+
+					$alerts[$key] = $message;
+				}
+			}
+
+		    $this->view->setVar('flashMessages', $alerts);
+	    }
+	}
 ?>

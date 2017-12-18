@@ -49,6 +49,8 @@ class Controller_feedback extends Controller_ {
 
 		$feedback->setSpam($this->user->id);
 
+		$this->page->setFlashWarning('Сообщение перенесено в отправленные без обработки!');
+
 		$this->page->go('/admin/feedback/list');
 	}
 
@@ -120,6 +122,8 @@ class Controller_feedback extends Controller_ {
 				if ($feedback->send($this->user->id)) {
 
 					App::mail()->send([$feedback->feedback_email], 18, ['feedback' => $feedback]);
+
+					$this->page->setFlashSuccess('Сообщение успешно отправлено!');
 				};
 
 				$this->page->go('/admin/feedback/list');
