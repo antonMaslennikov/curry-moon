@@ -43,3 +43,4 @@
     define('LOG_FILE_PATH', '');
 
     define('RECAPTCHA_SECRET', '6LdVqj0UAAAAANjfUlp8nPEmGuHjlB6ZFtx2fFO6');
+    //define('RECAPTCHA_SECRET', '6Lf7qD0UAAAAAP7zsmYDcl5NzRQE3bBM1itVYhpp');

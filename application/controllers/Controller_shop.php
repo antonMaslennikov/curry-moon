@@ -84,8 +84,7 @@
             }
             
             // список товаров
-            //$onpage = 18;
-            $onpage = 1;
+            $onpage = 18;
             
             $trans_id = uniqid();
             

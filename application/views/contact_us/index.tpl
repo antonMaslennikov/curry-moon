@@ -74,7 +74,7 @@
                         CAPTCHA<span class="star">&nbsp;*</span></label>
                         </dt>
                         <dd>
-                            <div id="jform_captcha" class="g-recaptcha  required" data-sitekey="6LdUhxwTAAAAAIH2NNLdSM2SQv079eAidSABPt6k" data-theme="light" data-size="normal"><div style="width: 304px; height: 78px;"><div><iframe src="https://www.google.com/recaptcha/api2/anchor?k=6LdUhxwTAAAAAIH2NNLdSM2SQv079eAidSABPt6k&amp;co=aHR0cHM6Ly93d3cuY3VycnktbW9vbi5jb206NDQz&amp;hl=ru&amp;v=r20171115120512&amp;theme=light&amp;size=normal&amp;cb=26pkuzsiqn69" width="304" height="78" role="presentation" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;  display: none; "></textarea></div></div>
+                            <div class="g-recaptcha" data-sitekey="6LdVqj0UAAAAAH8r0RnFeNQVxQni7qMniZI_LU6v"></div>
                         </dd>
 
                     </dl>
@@ -99,3 +99,6 @@
 
     </div>
 </section>
+
+
+<script src='https://www.google.com/recaptcha/api.js'></script>

@@ -5,7 +5,7 @@
     use \smashEngine\core\exception\appException;
     use \application\models\feedback;
 
-    use \ReCaptcha;
+    use \ReCaptcha\ReCaptcha;
 
     class Controller_contact_us extends Controller_
     {
@@ -14,9 +14,6 @@
             $this->page->tpl = 'contact_us/index.tpl';
             $this->page->addBreadCrump('Контакты');
             $this->page->title = 'Контакты';
-            
-            new \Routing;
-            printr(new \ReCaptcha(RECAPTCHA_SECRET));
             
             if ($_POST['jform'])
             {
@@ -30,13 +27,10 @@
                         throw new appException('Вы отправляете сообщения слишком часто', 2);
                     }
                     
-                    if ($_POST["g-recaptcha-response"]) {
-                        $response = (new ReCaptcha(RECAPTCHA_SECRET))->verifyResponse(
-                            $_SERVER["REMOTE_ADDR"],
-                            $_POST["g-recaptcha-response"]
-                        );
+                    if ($_POST['g-recaptcha-response']) {
+                        $response = (new ReCaptcha(RECAPTCHA_SECRET))->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
                         
-                        if (!$response->success) {
+                        if (!$response->isSuccess()) {
                             throw new appException('Доступ запрещён', 3);
                         }
                     }
