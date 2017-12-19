@@ -292,6 +292,16 @@ div.tag a,
                     
                     {include file="flashMessage.tpl"}
                     
+                    {if count($flashMessages)}
+                        {foreach from=$flashMessages key="typeFlash" item="messageFlash"}
+                            
+                            {if $typeFlash == "alert-success"}
+                                <div class="successMessage">{$messageFlash}</div>
+                            {/if}
+                            
+                        {/foreach}
+                    {/if}
+                    
                     {if $PAGE->tpl} 
                         {include file=$PAGE->tpl}
                     {else}

@@ -40,11 +40,7 @@
             <form id="contact-form" action="/ru/contact-us" method="post" class="form-validate clearfix" style="margin-bottom: 40px;">
                 <fieldset>
                     <legend>Отправить сообщение. Все поля, отмеченные звёздочкой, являются обязательными.</legend>
-                    
-                    {if $feedback_accepted}
-                    <div class="successMessage">Ваш вопрос отправлен. Скоро Вам ответят. Спасибо.</div>
-                    {/if}
-                    
+                                        
                     <dl>
                         <dt>
                             <label id="jform_contact_name-lbl" for="jform_contact_name" class="hasPopover required" title="" data-content="Ваше имя" data-original-title="Имя">

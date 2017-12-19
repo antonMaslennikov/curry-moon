@@ -150,7 +150,8 @@
         
         public function action_products()
         {
-            exit((string) $this->basket->getGoodsCount());
+            echo (int) $this->basket->getGoodsCount();
+            exit();
         }
         
         

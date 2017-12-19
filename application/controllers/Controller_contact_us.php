@@ -1,6 +1,7 @@
 <?php
     namespace application\controllers;
     
+    use \smashEngine\core\App;
     use \smashEngine\core\exception\appException;
     use \application\models\feedback;
 
@@ -33,10 +34,12 @@
                     // отправить копию письма на свой же адрес
                     if ($_POST['jform']['contact_email_copy']) 
                     {
-                        
+                        App::mail()->send($_POST['jform']['feedback_email'], 19, ['message' => $f]);
                     }
                     
                     $_SESSION['feedback_accepted'] = time();
+                    
+                    $this->page->setFlashSuccess('Ваш вопрос отправлен. Скоро Вам ответят. Спасибо.');
                     
                     $this->page->refresh();
                 }
