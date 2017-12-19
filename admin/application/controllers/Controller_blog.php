@@ -11,6 +11,8 @@ namespace admin\application\controllers;
 use admin\application\models\blog;
 use admin\application\models\post;
 use admin\application\models\PostFormModel;
+use PDO;
+use smashEngine\core\App;
 use smashEngine\core\helpers\Html;
 
 class Controller_blog extends Controller_ {

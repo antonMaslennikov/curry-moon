@@ -45,7 +45,7 @@ class post extends Model {
 	 */
 	public function getList() {
 
-		$sql = 'SELECT * FROM '.self::db().' ORDER BY publish_date';
+		$sql = 'SELECT * FROM '.self::db().' ORDER BY publish_date DESC';
 
 		$stmt = App::db()->prepare($sql);
 		$stmt->execute();
@@ -60,5 +60,13 @@ class post extends Model {
 			self::SPECIAL_STOCK => '<span class="label label-primary">Акция</span>',
 			self::SPECIAL_LOOKBOOK => '<span class="label label-success">LookBook</span>',
 		];
+	}
+
+	public function saveContent($id, $content) {
+
+		$sql = 'UPDATE '.self::db().' SET content = :content WHERE id = :id';
+
+		$stmt = App::db()->prepare($sql);
+		$stmt->execute([':content'=>$content, ':id'=>(int) $id]);
 	}
 }

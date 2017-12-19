@@ -11,6 +11,9 @@
     {
         public function action_index()
         {
+	        $this->page->go('/admin/orders/list');
+	        die();
+
             $this->page->index_tpl = 'index.tpl';
             $this->page->tpl = 'dashboard/index.tpl';
         
