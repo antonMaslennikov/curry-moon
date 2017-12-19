@@ -11,7 +11,8 @@
         "phpmailer/phpmailer": "dev-master",
         "itlessons/php-routing":"dev-master",
         "symfony/console": "^3.3",
-		"imagine/imagine": "~0.6.0"
+		"imagine/imagine": "~0.6.0",
+        "google/recaptcha": "^1.1"
     },
     "autoload": {
         "psr-4": { 

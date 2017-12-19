@@ -30,5 +30,7 @@
                 
             </div>
         </div>
+        
+        {include file="pagination.tpl"}
     </div>
 </section>

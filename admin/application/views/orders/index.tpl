@@ -1,4 +1,65 @@
 <div class="col-xs-12">
+
+    <form class="box box-info  box-solid order-filter">
+        <div class="box-header with-border">
+            <h3 class="box-title">Фильтр</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            </div>
+        </div>    
+        <div class="box-body">
+
+          <div class="form-group">
+              Заказы в статусе: &nbsp;&nbsp;&nbsp;&nbsp;
+              {foreach from=$orderStatuses key="k" item="s"}
+                  <label><input type="checkbox" name="filters[status][]" value="{$k}" {if in_array($k, $filters.status)}checked="checked"{/if} /> {$s}</label>
+              {/foreach}
+          </div>
+          
+          <div class="form-group">
+              Тип доставки: &nbsp;&nbsp;&nbsp;&nbsp;
+              {foreach from=$deliveryTypes key="k" item="s"}
+                  <label><input type="checkbox" name="filters[delivery][]" value="{$k}" {if in_array($k, $filters.delivery)}checked="checked"{/if} /> {$s.title}</label>
+              {/foreach}
+          </div>
+
+          <div class="form-group">
+              Тип оплаты: &nbsp;&nbsp;&nbsp;&nbsp;
+              {foreach from=$paymentTypes key="k" item="s"}
+                  <label><input type="checkbox" name="filters[payment][]" value="{$k}" {if in_array($k, $filters.payment)}checked="checked"{/if} /> {$s.title}</label>
+              {/foreach}
+          </div>
+          
+          <div class="row">
+              <div class="col-xs-2 form-group">
+                  <label>Дата заказа с:</label>
+                  <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control datepicker" name="filters[date][start]" value="{$filters.date.start}" style="width: 150px;">
+                  </div>
+              </div>
+              <div class="col-xs-2 form-group">
+                  <label>Дата заказа до:</label>
+                  <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control datepicker" name="filters[date][end]" value="{$filters.date.start}" style="width: 150px;">
+                  </div>
+              </div>
+          </div>
+          
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-info">Выбрать</button>
+        </div>
+    </form>
+    
+</div>
+
+<div class="col-xs-12">
     <div class="box">
         <div class="box-header">
             <h3 class="box-title">Все заказы</h3>
@@ -99,7 +160,24 @@
 
             $('form.search').submit();
         });
+        
+        $('.datepicker').datepicker({
+            autoclose: true,
+            language: 'ru',
+            format:"dd.mm.yyyy"
+        });
     })
 }(window.jQuery)
 </script>
+
+<style>
+    .order-filter input[type=checkbox] {
+        vertical-align: middle;
+        margin:0 3px 0 0;
+    }
+    
+    .order-filter label {
+        margin-right:20px;
+    }
+</style>
 {/literal}

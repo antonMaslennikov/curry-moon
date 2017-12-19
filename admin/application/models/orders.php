@@ -30,12 +30,44 @@ class orders extends \application\models\basket {
                     $fs[] = $s;
                 }
             }
-            $aq[] = "b.`user_basket_status` IN ('" . implode("', '", $fs) . "'";
+            $aq[] = "b.`user_basket_status` IN ('" . implode("', '", $fs) . "')";
         }
 
         if ($filters['statusNot'] && self::$orderStatus[$filters['statusNot']]) {
             $aq[] = "b.`user_basket_status` != '" . $filters['statusNot'] . "'";
         }
+        
+        if ($filters['payment']) {
+            $fs = [];
+            foreach ((array) $filters['payment'] AS $s) {
+                if (self::$paymentTypes[$s]) {
+                    $fs[] = $s;
+                }
+            }
+            $aq[] = "b.`user_basket_payment_type` IN ('" . implode("', '", $fs) . "')";
+        }
+        
+        if ($filters['delivery']) {
+            $fs = [];
+            foreach ((array) $filters['delivery'] AS $s) {
+                if (self::$deliveryTypes[$s]) {
+                    $fs[] = $s;
+                }
+            }
+            $aq[] = "b.`user_basket_delivery_type` IN ('" . implode("', '", $fs) . "')";
+        }
+        
+        if ($filters['date']['start']) {
+            $filters['date']['start'] = date('Y-m-d 00:00:00', strtotime($filters['date']['start']));
+            $aq[] = "b.`user_basket_date` >= '" . $filters['date']['start'] . "'";
+        }
+        
+        if ($filters['date']['end']) {
+            $filters['date']['end'] = date('Y-m-d 23:59:59', strtotime($filters['date']['end']));
+            $aq[] = "b.`user_basket_date` <= '" . $filters['date']['end'] . "'";
+        }
+        
+        
         
         $pagination_query = $q = "SELECT {select}
             FROM 
@@ -49,6 +81,8 @@ class orders extends \application\models\basket {
         
         $pagination_query = str_replace('{ljt}', '', $pagination_query);
         $pagination_query = str_replace('{select}', 'count(*)', $pagination_query);
+        
+        //printr($pagination_query);
         
         $smt = App::db()->prepare($pagination_query);
 		$smt->execute();
@@ -69,7 +103,6 @@ class orders extends \application\models\basket {
             // ёбаный стыд))) 
             $q .= " ORDER BY " . addslashes($filters['orderBy']) . ' ' . (in_array($filters['orderDir'], ['ASC', 'DESC']) ? $filters['orderDir'] : 'DESC');
         }
-
 
         $sth = App::db()->prepare($q . $this->pagination->applyLimit());
         $sth->execute();

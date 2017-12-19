@@ -36,7 +36,7 @@ class post extends Model {
 	 *
 	 * @return array
 	 */
-	public function getList($params) {
+	public function getList($params, $trans_id = null) {
 
         $data = [];
         
@@ -48,7 +48,7 @@ class post extends Model {
             array_push($data, $params['withtag']);
         }
         
-		$sql = 'SELECT t.*, p.`picture_path` 
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS t.*, p.`picture_path` 
                 FROM 
                     '.self::$dbtable.' t, 
                     `' . picture::$dbtable . '` p
@@ -71,9 +71,16 @@ class post extends Model {
                     '
                 ORDER BY ' . ($params['orderby'] ? $params['orderby'] : 'publish_date');
 
+        if ($params['limit']) {
+            $sql .= " LIMIT " . ($params['offset'] ? intval($params['offset']) : 0) . ", " . intval($params['limit']);
+        }
+        
 		$stmt = App::db()->prepare($sql);
 		$stmt->execute($data);
 
+        $foo = App::db()->query("SELECT FOUND_ROWS() AS s")->fetch();
+        $_SESSION['pages_total_' . $trans_id] = $foo['s'];
+        
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 

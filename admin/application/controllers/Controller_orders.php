@@ -31,14 +31,22 @@ class Controller_orders extends Controller_ {
         $this->page->import([
             '/public/plugins/iCheck/icheck.min.js',
             '/public/plugins/iCheck/all.css',
+            '/public/packages/bootstrap-datepicker/css/bootstrap-datepicker.css',
+			'/public/packages/bootstrap-datepicker/js/bootstrap-datepicker.js',
+			'/public/packages/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js',
         ]);
         
         if (count($_GET['filters']) == 0) {
-            $_GET['filters'] = ['statusNot' => 'active'];
+            $_GET['filters'] = ['status' => ['ordered', 'accepted', 'prepared']];
         }
         
 		$this->view->setVar('orders', orders::getAll($_GET['filters']));
-
+        
+        $this->view->setVar('orderStatuses', orders::$orderStatus);
+        $this->view->setVar('deliveryTypes', orders::$deliveryTypes);
+        $this->view->setVar('paymentTypes', orders::$paymentTypes);
+        $this->view->setVar('filters', $_GET['filters']);
+        
 		$this->render();
 	}
     
@@ -166,6 +174,15 @@ class Controller_orders extends Controller_ {
                 
                 $this->page->go('/admin/orders/view?id=' . $o->id);
             }
+            
+            if ($_GET['deletepos']) {
+                $item = new basketItem($_GET['deletepos']);
+                if ($item->user_basket_id == $o->id) {
+                    $item->delete();
+                }
+                $this->page->refresh();
+            }
+            
             
             foreach (array_merge((array) $o->logs['user_comment'], (array) $o->logs['admin_comment']) AS $k => $l) {
                 $comments[$l['id']] = $l;

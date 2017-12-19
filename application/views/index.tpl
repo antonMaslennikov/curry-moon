@@ -45,74 +45,6 @@
     <link href="/public/css/module_default.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/facebox.css?vmver=a30bd70d" rel="stylesheet" type="text/css" />
    
-    {literal}
-    <style type="text/css">
-
-        .childcontent .gkcol { width: 200px; }
-
-body,
-html, 
-body button, 
-body input, 
-body select, 
-body textarea,
-#gkBottom3 .box.bigtitle .header { font-family: 'Open Sans Condensed', Arial, sans-serif; }
-
-#gkLogo.text,
-.gkBanner > h2,
-.box.bigtitle .header,
-#gkMenuOverlayClose,
-#gkMenuOverlayHeader,
-.gkIsWrapper-gk_shop_and_buy .figcaption h3,
-.product-price span.PricesalesPrice,
-.gkTotal,
-.product_price,
-.product_special_price,
-.k2store .gkStep, .gkMenu > ul li div.childcontent li, { font-family: 'Open Sans Condensed', Arial, sans-serif; }
-
-#gkMainMenu,
-h1,h2,h3,h4,h5,h6,
-.gkMenu > ul li div.childcontent header,
-.result-title,
-.gkBanner > h2 > a > span,
-.gkBanner > strong,
-.box.bigtitle .header > small,
-#gkMenuOverlayContent,
-.gkIsWrapper-gk_shop_and_buy .figcaption p,
-div.tags a,
-div.tag a,
-.gk-newsletter input[type="button"],
-#k2storeCartPopup .componentheading,
-.k2store .checkout-content h2,
-.k2store #k2store-checkout-content h1,
-.k2store .checkout-heading,
-.k2store h3 { font-family: 'Open Sans Condensed', Arial, sans-serif; }
-
-.blank { font-family: 'Open Sans Condensed', Arial, sans-serif; }
-
-@media screen and (max-width: 630px) {
-	    	#k2Container .itemsContainer { width: 100%!important; } 
-	    	.cols-2 .column-1,
-	    	.cols-2 .column-2,
-	    	.cols-3 .column-1,
-	    	.cols-3 .column-2,
-	    	.cols-3 .column-3,
-	    	.demo-typo-col2,
-	    	.demo-typo-col3,
-	    	.demo-typo-col4 {width: 100%; }
-	    	}
-#gkContentWrap { width: 100%; }
-
-.gkPage { max-width: 1130px; }
-
-#menu1264 > div,
-#menu1264 > div > .childcontent-inner { width: 200px; }
-
-#menu1265 > div,
-#menu1265 > div > .childcontent-inner { width: 200px; }
-
-    </style>
-
     <script src="/public/packages/jquery/jquery.min.js" type="text/javascript"></script>
     <script src="/public/js/jquery-noconflict.js" type="text/javascript"></script>
     <script src="/public/js/jquery-migrate.min.js" type="text/javascript"></script>
@@ -132,8 +64,6 @@ div.tag a,
     <!--[if lt IE 9]><script src="/public/js/polyfill.event.js" type="text/javascript"></script><![endif]-->
     <script src="/public/js/acymailing_module.js" type="text/javascript"></script>
     <script src="/public/js/gk_shop_and_buy/engine.js" type="text/javascript"></script>
-    
-    {/literal}
    
     {foreach $PAGE->js item="path" name="jsforeach"}
         <script type='text/javascript' src="{$path}"></script>
@@ -156,6 +86,7 @@ div.tag a,
             ga('send', 'pageview');
         {/literal}
         {/if}
+         
         {literal}
          
         if (typeof RokBoxSettings == 'undefined') RokBoxSettings = {pc: '100'};
@@ -171,54 +102,16 @@ div.tag a,
             SqueezeBox.close();
         };
 
-        // Add extra modal close functionality for tinyMCE-based editors
-        document.onreadystatechange = function () {
-            if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
-            {
-                if (typeof window.jModalClose_no_tinyMCE === 'undefined')
-                {	
-                window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
-
-                jModalClose = function () {
-                if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
-                tinyMCE.activeEditor.windowManager.close();
-                };
-                }
-
-                if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
-                {
-                    if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
-                    window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
-
-                    SqueezeBox.close = function () {
-                    if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
-                    tinyMCE.activeEditor.windowManager.close();
-                    };
-                }
-            }
-        };
-
         $GKMenu = { height:true, width:false, duration: 250 };
-        $GK_TMPL_URL = "https://curry-moon.com/templates/gk_instyle";
+        $GK_TMPL_URL = "/templates/gk_instyle";
 
-        $GK_URL = "https://curry-moon.com/";
-
-        if(typeof acymailing == 'undefined'){
-            var acymailing = Array();
-        }
-        
-        acymailing['NAMECAPTION'] = 'Имя';
-        acymailing['NAME_MISSING'] = 'Пожалуйста, введите свое имя';
-        acymailing['EMAILCAPTION'] = 'Адрес эл. почты';
-        acymailing['VALID_EMAIL'] = 'Пожалуйста, введите корректный эл. адрес';
-        acymailing['ACCEPT_TERMS'] = 'Пожалуйста, ознакомьтесь с \'Условиями и положениями\'';
-        acymailing['CAPTCHA_MISSING'] = 'Пожалуйста, введите защитный код, отображаемый на картинке';
-        acymailing['NO_LIST_SELECTED'] = 'Пожалуйста, выберите рассылки, на которые вы хотите подписаться';
+        $GK_URL = "/";
 
         try {$Gavick;}catch(e){$Gavick = {};};$Gavick["gkIs-gk-is-682"] = { "anim_speed": 1000, "anim_interval": 6000, "autoanim": 1, "slide_links": 1 };
-        
+        {/literal}
+         
     </script>
-
+    
     <link rel="apple-touch-icon" href="/public/images/apple-touch-icon-120x120.png">
     <link rel="apple-touch-icon-precomposed" href="/public/images/apple-touch-icon-120x120.png">
 
@@ -249,8 +142,12 @@ div.tag a,
     <script type="text/javascript" src="/public/js/selectivizr.js"></script>
     <![endif]-->
 
+    {if $PAGE->canonical}
+		<link rel="canonical" href="{$PAGE->canonical}" />
+	{/if}
+    
 </head>
-{/literal}
+
 
 <body class="frontpage"  data-tablet-width="840" data-mobile-width="600" data-smoothscroll="1">	
 

@@ -31,6 +31,7 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         'R' => 
         array (
             'Routing\\' => 8,
+            'ReCaptcha\\' => 10,
         ),
         'P' => 
         array (
@@ -67,6 +68,10 @@ class ComposerStaticInitb40310e37915b0c32370293f384e069c
         'Routing\\' => 
         array (
             0 => __DIR__ . '/..' . '/itlessons/php-routing/src/Routing',
+        ),
+        'ReCaptcha\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
         'Psr\\Log\\' => 
         array (

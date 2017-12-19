@@ -62,7 +62,7 @@
     </div>
     {/if}
     
-    
+    {include file="pagination.tpl"}
 
 </section>
 

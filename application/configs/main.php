@@ -41,3 +41,5 @@
     define('sideDESCRIPTION', '');
     
     define('LOG_FILE_PATH', '');
+
+    define('RECAPTCHA_SECRET', '6LdVqj0UAAAAANjfUlp8nPEmGuHjlB6ZFtx2fFO6');

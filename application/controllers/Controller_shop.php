@@ -84,7 +84,8 @@
             }
             
             // список товаров
-            $onpage = 18;
+            //$onpage = 18;
+            $onpage = 1;
             
             $trans_id = uniqid();
             
@@ -107,6 +108,10 @@
             $this->view->setVar('pages', range(1, ceil($total / $onpage)));
             $this->view->setVar('page', $_GET['limitstart'] / $onpage + 1);
             $this->view->setVar('onpage', $onpage);
+            
+            if (!empty($_GET['limitstart'])) {
+                $this->page->canonical = $this->page->url;
+            }
             
             $this->view->generate($this->page->index_tpl);
         }
