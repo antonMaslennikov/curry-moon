@@ -7,6 +7,7 @@
     use \application\models\user;
     use \application\models\mailSubscription;
     
+    use \ReCaptcha\ReCaptcha;
 
     use \PDO;
     use \Exception;
@@ -297,6 +298,14 @@
                         {
                             if (validateEmail($_POST['jform']['email'])) 
                             {
+                                if ($_POST['g-recaptcha-response']) {
+                                    $response = (new ReCaptcha(RECAPTCHA_SECRET))->verify($_POST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
+
+                                    if (!$response->isSuccess()) {
+                                        throw new appException('Доступ запрещён', 3);
+                                    }
+                                }
+                                
                                 if ($U = user::findByEmail($_POST['jform']['email'])) {
                                     $U->sendRecoverEmail();
                                     $this->page->go('/ru/users/forgot-password/confirm/' . $U->id);

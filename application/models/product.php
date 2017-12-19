@@ -29,8 +29,8 @@ class product extends \smashEngine\core\Model {
 
     public static $manufacturers = [
         0 => ['name' => 'Мы'],
-        1 => ['name' => 'ZARA', 'email' => 'instyle@gavick.com'],
-        2 => ['name' => 'inStyle', 'email' => ''],
+        1 => ['name' => 'inStyle', 'email' => ''],
+        2 => ['name' => 'ZARA', 'email' => 'instyle@gavick.com'],
     ];
 
 
