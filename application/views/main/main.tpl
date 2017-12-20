@@ -9,21 +9,21 @@
                         <div class="gkIsImageScroll" data-amount="5">
 
                             <div class="figure active">
-                                <img class="gkIsSlide" style="z-index: 1" title="silk scarf" src="/public/images/banners/silk-scarf1.gif" data-url="http://curry-moon.com/ru/shop/scarves" alt="silk-scarf" />
+                                <img class="gkIsSlide" style="z-index: 1" title="silk scarf" src="/public/images/banners/silk-scarf1.gif" data-url="/ru/shop/scarves" alt="silk-scarf" />
                                 <div class="figcaption">
                                     <p><a href="/ru/shop/scarves"></a></p>
                                 </div>
                             </div>
 
                             <div class="figure">
-                                <div class="gkIsSlide" data-zindex="2" title="stilnie zenskie sumki iz zamshi" data-path="/public/images/banners/bags.gif" data-link="http://curry-moon.com/ru/shop/bags" data-alt="krasivie zamshevie sumki dlya devushek" ></div>
+                                <div class="gkIsSlide" data-zindex="2" title="stilnie zenskie sumki iz zamshi" data-path="/public/images/banners/bags.gif" data-link="/ru/shop/bags" data-alt="krasivie zamshevie sumki dlya devushek" ></div>
                                 <div class="figcaption">
                                     <p><a href="/ru/shop/bags"></a></p>
                                 </div>
                             </div>
 
                             <div class="figure">
-                                <div class="gkIsSlide" data-zindex="3" title="blue-scarf" data-path="/public/images/banners/blue-scarf1.gif" data-link="http://curry-moon.com/ru/shop/tippets" data-alt="palantini" ></div>
+                                <div class="gkIsSlide" data-zindex="3" title="blue-scarf" data-path="/public/images/banners/blue-scarf1.gif" data-link="/ru/shop/tippets" data-alt="palantini" ></div>
 
                                 <div class="figcaption">
                                     <p><a href="/ru/shop/tippets"></a></p>
@@ -31,14 +31,14 @@
                             </div>
 
                             <div class="figure">
-                                <div class="gkIsSlide" data-zindex="4" title="kashemir" data-path="/public/images/banners/blue-scarf-cashemere1.gif" data-link="http://curry-moon.com/ru/shop/scarves?limitstart=18" data-alt="kashemirovie-sharfi" ></div>
+                                <div class="gkIsSlide" data-zindex="4" title="kashemir" data-path="/public/images/banners/blue-scarf-cashemere1.gif" data-link="/ru/shop/scarves?limitstart=18" data-alt="kashemirovie-sharfi" ></div>
                                 <div class="figcaption">
                                 <p><a href="/ru/shop/scarves?limitstart=18"></a></p>
                                 </div>
                             </div>
 
                             <div class="figure">
-                                <div class="gkIsSlide" data-zindex="5" title="silver-rings-boho" data-path="/public/images/banners/silver.gif" data-link="http://curry-moon.com/ru/shop/jewellery/silver" data-alt="serebryanie-kolca-boho" ></div>
+                                <div class="gkIsSlide" data-zindex="5" title="silver-rings-boho" data-path="/public/images/banners/silver.gif" data-link="/ru/shop/jewellery/silver" data-alt="serebryanie-kolca-boho" ></div>
                                 <div class="figcaption">
                                     <p><a href="/ru/shop/jewellery/silver"></a></p>
                                 </div>

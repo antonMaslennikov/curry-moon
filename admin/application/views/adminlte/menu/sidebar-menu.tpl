@@ -72,4 +72,10 @@
             <li><a href="/admin/coupon/create"><i class="fa fa-plus"></i> Добавить купон</a></li>
         </ul>
     </li>
+    <li>
+        <a href="/admin/subscribers">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span>Подписки</span>
+        </a>
+    </li>
 </ul>

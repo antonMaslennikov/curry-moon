@@ -394,6 +394,19 @@
 		        'schemas' => 'GET',
 	        ],
             
+            'subscribers_index'=>[
+		        'pattern'=>'/admin/subscribers',
+		        'action'=> 'Controller_subscribers:action_index',
+		        'schemas' => 'GET',
+	        ],
+            
+            'subscribers_delete'=>[
+		        'pattern'=>'/admin/subscribers/delete',
+		        'action'=> 'Controller_subscribers:action_delete',
+		        'schemas' => 'GET',
+	        ],
+            
+            
             'db_mirgate'=>[
 		        'pattern'=>'/admin/db_mirgate',
 		        'action'=> 'Controller_db_migrate:action_index',

@@ -9,12 +9,6 @@
     {        
         protected static $dbtable = 'mail__subscribers';
         
-        protected $user;
-
-        public function __construct(user $user) {
-            $this->user = $user;
-        }
-        
         public function checkUserSubscriptionStatus() {
             
         }
