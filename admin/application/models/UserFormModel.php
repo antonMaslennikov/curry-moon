@@ -3,6 +3,7 @@ namespace admin\application\models;
 
 use PDO;
 use smashEngine\core\App;
+use smashEngine\core\helpers\Password;
 use smashEngine\core\models\FormModel;
 
 /**
@@ -55,7 +56,7 @@ class UserFormModel extends FormModel {
 
 		$attributes = $this->getAttributes();
 
-		if ($attributes['user_password']) $attributes['user_password'] = md5(SALT . $attributes['user_password']);
+		if ($attributes['user_password']) $attributes['user_password'] = Password::hash($attributes['user_password']);
 
 		if (is_string($attributes['user_city_id']) && $attributes['user_city_id']!=intval($attributes['user_city_id']))
 			$attributes['user_city_id'] = cityName2id($attributes['user_city_id'], $attributes['user_country_id'], 1);
