@@ -19,7 +19,7 @@ class product extends \application\models\product {
 
 	public static $dbtable = 'product';
 
-	protected $query_template = 'SELECT {select} FROM `product` {where} ORDER BY id ASC';
+	protected $query_template = 'SELECT {select} FROM `product` {where} ORDER BY status DESC, product_name ASC';
 
 	protected $pagination = 0;
 
@@ -37,7 +37,7 @@ class product extends \application\models\product {
 		$total = $smt->fetch();
 		$total = array_shift($total);
 
-		$this->pagination = new Pagination($total, isset($_GET['pageSize'])?$_GET['pageSize']:0);
+		$this->pagination = new Pagination($total, isset($_GET['pageSize'])?$_GET['pageSize']:50);
 
 		$sql .= $this->pagination->applyLimit();
 
