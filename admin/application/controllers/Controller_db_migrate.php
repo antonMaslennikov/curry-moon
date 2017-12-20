@@ -8,24 +8,42 @@ class Controller_db_migrate extends Controller_ {
 
 	public function action_index() {
         
-        exit('atop');
-        
         //$sth = App::db()->query("select * from `product__pictures` WHERE 1 and `thumb_id` = 0 limit 100");
         
         //$sthD1 = App::db()->prepare("delete from `product__pictures` WHERE `id` = ? LIMIT 1");
         //$sthD2 = App::db()->prepare("DELETE FROM pictures WHERE `picture_id` = ? LIMIT 1");
         
         //$sthU1 = App::db()->prepare("UPDATE `product__pictures` SET `thumb_id` = ? WHERE `id` = ? LIMIT 1");
-        $sthU2 = App::db()->prepare("UPDATE `product` SET `picture_id` = ? WHERE `id` = ? LIMIT 1");
+        //$sthU2 = App::db()->prepare("UPDATE `product` SET `picture_id` = ? WHERE `id` = ? LIMIT 1");
         
+        /*
         $sth = App::db()->query("SELECT p.* FROM  `product` p, `product__pictures` pp 
                                  WHERE p.`picture_id` = '0'  and p.`id` = pp.`product_id`
                                  group by p.`id`");
+        */
+        
+        $sth = App::db()->query("select `id`, `sefurl`, `origurl` from `v0dyf_sefurls` WHERE 1 GROUP BY `sefurl`");
         
         foreach ($sth->fetchAll() AS $row)
         {
             printr($row);
             
+            preg_match('/&virtuemart_product_id=([0-9]*)/', $row['origurl'], $matches);
+            
+            if (is_numeric($matches[1]))
+            {
+                printr('Товар: ' . $matches[1]);
+            
+                $p = new product($matches[1]);
+                
+                if ($p->id > 0) 
+                {
+                    $foo = explode('/', $row['sefurl']);
+                    $p->slug = implode('-', array_slice(explode('-', end($foo)), 0, -1));
+                    printr($p->slug);
+                    $p->save();
+                }
+            }
             /*
             if ($row['thumb_id'] > 0) {
                 $thumb_path = pictureId2path($row['thumb_id']);
@@ -36,8 +54,7 @@ class Controller_db_migrate extends Controller_ {
             }
             */
             
-            $p = new product($row['id']);
-
+            /*
             foreach ($p->pictures AS $pic)
             {
                 if (file_exists('../' . $pic['orig_path'])) {
@@ -48,7 +65,8 @@ class Controller_db_migrate extends Controller_ {
                     break;
                 }
             }
-
+            */
+            
             /*
             $tid = $p->createThumb($row['orig_id']);
             

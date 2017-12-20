@@ -26,6 +26,11 @@ class Controller_product extends Controller_
 			'/admin/product/list'=>'<i class="fa fa-fw fa-shopping-bag"></i> Товары',
 		]);
         
+        if (!$_GET['filter']['orderBy']) {
+            $_GET['filter']['orderBy'] = 'status';
+            $_GET['filter']['orderDir'] = 'DESC';
+        }
+        
         $this->view->setVar('products', product::getAll($_GET['filter']));
 
 		$this->render();
