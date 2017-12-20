@@ -3,7 +3,7 @@ namespace admin\application\helpers;
 
 class Pagination
 {
-	const DEFAULT_PAGE_SIZE=10;
+	const DEFAULT_PAGE_SIZE=50;
 
 	public $pageVar='page';
 
