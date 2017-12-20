@@ -7,7 +7,7 @@
                 <div class="productDetailsLeft">
                     <div class="main-image">
                         <a title="{$product->slug}" data-rokbox="" data-rokbox-album="ProdImage" href="{$product->pictures.0.orig_path}">
-                            <img itemprop="image" src="{$product->pictures.0.thumb_path}" alt="{$product->slug}">
+                            <img itemprop="image" src="{$product->pictures.0.orig_path}" alt="{$product->slug}">
                         </a>
                     </div>
                     <span itemprop="brand" itemscope="" itemtype="http://schema.org/Brand"><meta itemprop="name" content="CurryMoon"></span>

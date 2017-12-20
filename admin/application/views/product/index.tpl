@@ -21,10 +21,10 @@
                 {foreach from=$products item=node}
                 <tr>
                     <td>{$node.id}</td>
-                    <td>{$node.product_name}</td>
+                    <td><a href="update?id={$node.id}" title="Изменить данные">{$node.product_name}</a></td>
                     <td>
                         {if $node.picture_id}
-                        <img src="{$node.picture_id|pictureId2path}" style="width: 24px" />
+                        <a href="update?id={$node.id}" title="Изменить данные"><img src="{$node.picture_id|pictureId2path}" style="height: 50px" /></a>
                         {/if}
                     </td>
                     <td>

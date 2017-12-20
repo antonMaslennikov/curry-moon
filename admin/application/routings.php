@@ -387,5 +387,11 @@
 		        'action'=> 'Controller_feedback:action_view',
 		        'schemas' => 'GET',
 	        ],
+            
+            'db_mirgate'=>[
+		        'pattern'=>'/admin/db_mirgate',
+		        'action'=> 'Controller_db_migrate:action_index',
+		        'schemas' => 'GET'
+            ],
         ];
     }

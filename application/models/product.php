@@ -70,7 +70,7 @@ class product extends \smashEngine\core\Model {
 
     public function getPictures()
     {
-        $sth = App::db()->prepare("SELECT p.*, p1.`picture_path` AS orig_path, p1.`picture_path` AS thumb_path 
+        $sth = App::db()->prepare("SELECT p.*, p1.`picture_path` AS orig_path, p2.`picture_path` AS thumb_path 
                 FROM 
                     `" . self::$dbtable_pictures . "` p, 
                     `" . picture::$dbtable . "` p1, 
