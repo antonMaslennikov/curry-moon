@@ -23,10 +23,9 @@
                         Ваше имя пользователя: <?= $user->user_email ?><br>
                         Ваше показываемое имя: <?= $user->user_name ?><br>
                         Ваш пароль: <?= $user->password ?><br><br>
-                        Введенный Вами адрес: <br>
-                        Эл.почта: <a href="mailto:<?= $user->user_email ?>" target="_blank"><?= $user->user_email ?></a><br>
+                        Эл.почта: <?= $user->user_email ?><br>
+                        Телефон: <?= $user->user_phone ?><br>
                         Фамилия / Имя / Отчество: <?= $user->user_name ?><br>
-                        Адрес: <?= $user->user_address ?><br>
                         Почтовый индекс: <?= $user->user_zip ?><br>
                         Город: <?= cityId2name($user->user_city_id) ?><br>
                         Страна: <?= countryId2name($user->user_country_id) ?><br>		

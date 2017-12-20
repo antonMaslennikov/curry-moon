@@ -2,6 +2,8 @@
     namespace application\models;
     
     use \smashEngine\core\App AS App;
+    use \smashEngine\core\helpers\Password;
+
     use \PDO;
     use \stdClass;
     use \Exception;
@@ -282,7 +284,7 @@
             
             if (!$data['user_password'])
             {
-                $data['user_password'] = md5(SALT . $this->getPassword());
+                $data['user_password'] = Password::hash($this->getPassword());
             }
             
             $data['user_status'] = 'active';

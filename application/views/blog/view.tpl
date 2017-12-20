@@ -7,11 +7,13 @@
             <h1 itemprop="name">{$post->title}</h1>
         </header>
         
+        {if $post->image}
         <div class="itemImageBlock" itemscope="" itemtype="http://schema.org/ImageObject">
             <meta content="{$post->title}" itemprop="description">
             <img itemprop="contentUrl" src="{$post->image|pictureId2path}" alt={$post->title}" style="width:1280px; height:auto;">
         </div>
-
+        {/if}
+        
         <div itemprop="articleBody" class="itemBody"> 
             <div class="richsnippetsvote" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
                 <meta itemprop="ratingValue" content="5.0">

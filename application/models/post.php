@@ -40,12 +40,6 @@ class post extends Model {
 
         $data = [];
         
-        if ($params['category'] != 2) {
-            $at[] = '`' . picture::$dbtable . '` p';
-            $aq[] = 'p.`picture_id` = t.`image`';
-            $af[] = 'p.`picture_path`';
-        }
-        
         if ($params['withtag']) {
             $at[] = '`tags_relation` tr';
             $aq[] = 'tr.`tag_id` = ?';
@@ -54,10 +48,11 @@ class post extends Model {
             array_push($data, $params['withtag']);
         }
         
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS t.* ' . (count($af) > 0 ? ', ' . implode(', ', $af) : '') . '
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS t.*, p.`picture_path` ' . (count($af) > 0 ? ', ' . implode(', ', $af) : '') . '
                 FROM 
-                    '.self::$dbtable.' t
-                    ' . (count($at) > 0 ? ', ' . implode(', ', $at) : '') . '
+                    '.self::$dbtable.' t 
+                        LEFT JOIN `' . picture::$dbtable . '` p ON p.`picture_id` = t.`image`'
+                     . (count($at) > 0 ? ', ' . implode(', ', $at) : '') . '
                 WHERE 1
                     '
                     .
@@ -67,9 +62,9 @@ class post extends Model {
                     .
                     (isset($params['category']) ? " AND `category` = '" . (int) $params['category'] . "'" : '')
                     .
-                    ($params['datestart'] ? " AND `publish_date` >= '" . $params['datestart'] . "'" : '')
+                    ($params['datestart'] ? " AND `publish_date` >= '" . (date('Y-m-d 00:00:00', strtotime($params['datestart']))) . "'" : '')
                     .
-                    ($params['dateend'] ? " AND `publish_date` <= '" . $params['dateend'] . "'" : '')
+                    ($params['dateend'] ? " AND `publish_date` <= '" . (date('Y-m-d 23:59:59', strtotime($params['dateend']))) . "'" : '')
                     .
                     (count($aq) > 0 ? ' AND ' . implode(' AND ', $aq) : '') 
                     .

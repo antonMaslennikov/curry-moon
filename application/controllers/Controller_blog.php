@@ -47,9 +47,9 @@
                 'lang' => 'ru', 
                 'category' => 0, 
                 'status' => 1, 
-                'orderby' => 'publish_date',
+                'orderby' => 'publish_date DESC',
                 'limit' => $onpage,
-                 'offset' => intval($_GET['limitstart']),
+                'offset' => intval($_GET['limitstart']),
             ], $trans_id));
             
             $total = $_SESSION['pages_total_' . $trans_id];
@@ -75,7 +75,7 @@
             $this->page->title = 'Акции';
             $this->page->addBreadCrump($this->page->title);
             
-            $this->view->setVar('posts', post::getList(['lang' => 'ru', 'category' => 1, 'status' => 1, 'orderby' => 'publish_date']));
+            $this->view->setVar('posts', post::getList(['lang' => 'ru', 'category' => 1, 'status' => 1, 'orderby' => 'publish_date DESC']));
             
             $this->view->generate($this->page->index_tpl);
         }
@@ -95,8 +95,7 @@
                 'status' => 1, 
                 'orderby' => 'publish_date', 
                 'datestart' => $d . '-01', 
-                'dateend' => $d . '-31']
-                                                      ));
+                'dateend' => $d . '-31']));
             
             $this->view->generate($this->page->index_tpl);
         }

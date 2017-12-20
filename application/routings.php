@@ -96,7 +96,7 @@
             
             
             'activate' => [
-                'pattern' => '/((ru|en)/)?users/activate/(.*)', 
+                'pattern' => '/((ru|en)/)?users/activate(.*)', 
                 'action' => 'Controller_users:action_activate', 
                 'schemas' => 'GET'
             ],

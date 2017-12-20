@@ -28,23 +28,21 @@
                         </h2>
                         </header>
 
+                        {if $p.picture_path}
                         <div class="itemImageBlock"> 
                             <a class="itemImage" href="/ru/{if $p.category == 1}aktcii{elseif $p.category == 2}lookbook{else}blog{/if}/{$p.slug}" title="{$p.title}"> 
                                 <img src="{$p.picture_path}" alt="{$p.title}" style="width:1280px; height:auto;">
                             </a> 
                         </div>
-
-                        <div class="itemBody"> 
-                            <div class="richsnippetsvote" itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating">
-                                <meta itemprop="ratingValue" content="5.0">
-                                <meta itemprop="bestRating" content="5">
-                                <meta itemprop="ratingCount" content="2"> 
+                        {/if}
+                       
+                        {if $p.category == 2}
+                        <div class="itemBody nodate">  												
+                            <div class="itemIntroText"> 
+                                {$p.content}
                             </div>
-                           
-                            <div class="itemIntroText">  </div>
-
-                            <a class="button" href="/ru/{if $p.category == 1}aktcii{elseif $p.category == 2}lookbook{else}blog{/if}/{$p.slug}"> Подробнее ... </a>
                         </div>
+                        {/if}
 
 
                         </div>

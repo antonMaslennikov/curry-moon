@@ -3,6 +3,7 @@
     
     use \smashEngine\core\App AS App;
     use \smashEngine\core\exception\appException;
+    use \smashEngine\core\helpers\Password;
 
     use \application\models\user;
     use \application\models\mailSubscription;
@@ -33,31 +34,32 @@
             {
                 if (!empty($_POST['password']))
                 {   
-                    $sth = App::db()->prepare("SELECT `id`, `user_login`, `user_status`, `user_email`, `user_phone`, `user_activation`
+                    $sth = App::db()->prepare("SELECT `id`, `user_login`, `user_status`, `user_email`, `user_phone`, `user_activation`, `user_password`
                                       FROM `users` 
                                       WHERE 
                                             (`user_login` = :login OR `user_email` = :login OR `user_phone` = :login) 
-                                        AND `user_password` = :password
                                         AND `user_status` != 'deleted' 
                                       LIMIT 1");
 
                     $sth->execute(array(
                         'login' => $_POST['login'],
-                        'password' => md5(SALT . $_POST['password']),
                     ));
 
                     if (!$row = $sth->fetch())
                     {
-                        $this->page->setFlashMessage('Указан неправильный логин или пароль');
-
+                        $this->page->setFlashMessage('Указан неправильный логин');
                         $this->page->refresh();
                     } 
                     else 
                     {
+                        if (!Password::verify($_POST['password'], $row['user_password'])) {
+                            $this->page->setFlashMessage('Указан неправильный пароль');
+                            $this->page->refresh();
+                        }
+                        
                         if ($row['user_status'] == 'banned')
                         {
                             $this->page->setFlashMessage('Данный пользователь забанен');
-
                             $this->page->refresh();
                         }
                         else
