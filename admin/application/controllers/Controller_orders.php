@@ -68,6 +68,7 @@ class Controller_orders extends Controller_ {
             $sth = App::db()->query("SELECT * FROM `countries` ORDER BY `raiting` ASC, `country_name`");
             $countries = $sth->fetchAll();
             
+            
             if (isset($_POST['save']))
             {
                 if ($_POST['delivery_type'] && $_POST['delivery_type'] != $o->user_basket_delivery_type && orders::$deliveryTypes[$_POST['delivery_type']]) {
@@ -113,22 +114,20 @@ class Controller_orders extends Controller_ {
             {
                 if (orders::$orderStatus[$_POST['ch-status']]) 
                 {
-                    $o->user_basket_status = $_POST['ch-status'];
-                    
-                    switch ($_GET['ch-status'])
+                    switch ($_POST['ch-status'])
                     {
                         case 'prepared':
+                            $o->setprepared();
                             break;
 
                         case 'canceled':
+                            $o->cancel();
                             break;
 
                         case 'delivered':
-                            $o->pay($o->basketSum - $o->alreadyPayed);
+                            $o->setdelivered();
                             break;
                     }
-                    
-                    $o->save();
                     
                     $this->page->setFlashSuccess('Статус заказа изменён на ' . orders::$orderStatus[$_POST['ch-status']]);
                     

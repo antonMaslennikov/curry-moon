@@ -5,6 +5,7 @@
             <th>Наименование</th>
             <th>Цена</th>
             <th>Кол-во</th>
+            <th>Статус</th>
             <th></th>
         </tr>
     </thead>
@@ -15,6 +16,13 @@
             <td><a href="/admin/product/update?id={$p.id}" target="_blank">{$p.product_name}</a></td>
             <td>{$p.product_price}</td>
             <td>{$p.quantity}</td>
+            <td>
+                {if $p.status}
+                    <span class="label label-success">Активена</span>
+                {else}
+                    <span class="label label-danger">Не активена</span>
+                {/if}
+            </td>
             <td><a href="javascript:void(0)" data-rel="{$p.id}" class="remove-related">Удалить</a></td>
         </tr>
         {/foreach}
