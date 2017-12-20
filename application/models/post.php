@@ -40,6 +40,12 @@ class post extends Model {
 
         $data = [];
         
+        if ($params['category'] != 2) {
+            $at[] = '`' . picture::$dbtable . '` p';
+            $aq[] = 'p.`picture_id` = t.`image`';
+            $af[] = 'p.`picture_path`';
+        }
+        
         if ($params['withtag']) {
             $at[] = '`tags_relation` tr';
             $aq[] = 'tr.`tag_id` = ?';
@@ -48,12 +54,11 @@ class post extends Model {
             array_push($data, $params['withtag']);
         }
         
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS t.*, p.`picture_path` 
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS t.* ' . (count($af) > 0 ? ', ' . implode(', ', $af) : '') . '
                 FROM 
-                    '.self::$dbtable.' t, 
-                    `' . picture::$dbtable . '` p
+                    '.self::$dbtable.' t
                     ' . (count($at) > 0 ? ', ' . implode(', ', $at) : '') . '
-                WHERE p.`picture_id` = t.`image`
+                WHERE 1
                     '
                     .
                     (in_array($params['lang'], ['ru', 'en']) ? " AND `lang` = '" . $params['lang'] . "'" : '')

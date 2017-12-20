@@ -163,13 +163,13 @@ class product extends \smashEngine\core\Model {
 	}
 
 
-	public function listProductRelated() {
+	public function listProductRelated($catalog = false) {
 
-		$sth = App::db()->prepare("SELECT t.id, t.product_name, t.quantity, t.product_price, t.product_discount, p.picture_path as src, r.related_id as related
+		$sth = App::db()->prepare("SELECT t.id, t.product_name, t.quantity, t.product_price, t.product_discount, t.`status`, p.picture_path as src, r.related_id as related
                 FROM `" . self::$dbtable . "` AS t
                 INNER JOIN  `" . self::$dbtable_related ."` AS r ON (t.id = r.related_id AND r.product_id = :id )
                 LEFT JOIN `pictures` AS p ON (t.picture_id = p.picture_id)
-                WHERE t.`id` != :id
+                WHERE t.`id` != :id " . ($catalog ? "AND t.`status` = '1' AND t.`quantity` > '0'" : '') . "
                 ORDER BY t.product_name ASC
             ");
 

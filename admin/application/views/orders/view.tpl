@@ -206,9 +206,12 @@
                                 {if $order->user_basket_status == 'delivered' || $order->user_basket_status == 'canceled'}
                                 <button type="submit" class="btn btn-block btn-success" name="ch-status" value="ordered">Откатить заказ</button>
                                 {/if}
-                                
-                                <br><br>
-                                
+                             </form>    
+                               
+                             <br><br>
+                            
+                             <form action="" method="post">   
+                                        
                                 {if $order->user_basket_status != 'canceled' && $order->user_basket_payment_confirm == 'false'}
                                 {* <button type="submit" class="btn btn-block btn-info">Оплатить заказ</button> *}
                                 <div class="input-group">

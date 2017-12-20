@@ -100,7 +100,7 @@
                         <span class="pull-right">
                             <a href="/admin/orders/view?id={$node.id}" class="btn btn-info btn-xs" title="Просмотреть данные"><i class="fa fa-fw fa-eye"></i></a>
                             &nbsp;&nbsp;&nbsp;
-                            <a href="/admin/orders/print?id={$node.id}" class="btn btn-info btn-xs" title="Распечатать"><i class="fa fa-fw fa-print"></i></a>
+                            <a href="/ru/orders/{$node.id}?print=true" class="btn btn-info btn-xs" target="_blank" title="Распечатать"><i class="fa fa-fw fa-print"></i></a>
                         </span>
                     </td>
                 </tr>

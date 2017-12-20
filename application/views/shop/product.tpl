@@ -118,7 +118,7 @@
             <div class="product-related-products">
                 <h4>Сопутствующие товары</h4>
                 
-                {foreach from=$product->listProductRelated() item="r"}
+                {foreach from=$product->listProductRelated(true) item="r"}
                 <div class="product-field product-field-type-R"> 
                     <span class="product-field-display">
                         <div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product">

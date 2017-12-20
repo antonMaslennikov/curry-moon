@@ -24,7 +24,14 @@ class Controller_templates extends Controller_ {
 		$this->setTemplate('templates/index.tpl');
 		$this->setTitle('<i class="fa fa-fw fa-files-o"></i> Шаблоны писем');
 
-		$this->view->setVar('list', mailTemplate::getAll());
+        $templates = [];
+        
+        foreach (mailTemplate::getAll() AS $t) {
+            $templates[$t['mail_template_order']]['title'] = $t['category'];
+            $templates[$t['mail_template_order']]['tpls'][] = $t;
+        }
+        
+		$this->view->setVar('list', $templates);
 
 		$this->render();
 	}
