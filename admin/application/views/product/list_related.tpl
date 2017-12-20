@@ -12,7 +12,7 @@
         {foreach from=$listRelated item="p"}
         <tr>
             <td><img src="{$p.src}" width="50px"/></td>
-            <td>{$p.product_name}</td>
+            <td><a href="/admin/product/update?id={$p.id}" target="_blank">{$p.product_name}</a></td>
             <td>{$p.product_price}</td>
             <td>{$p.quantity}</td>
             <td><a href="javascript:void(0)" data-rel="{$p.id}" class="remove-related">Удалить</a></td>

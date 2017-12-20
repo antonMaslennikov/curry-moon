@@ -16,6 +16,8 @@
                     {/if}
                     <li><a href="#meta" data-toggle="tab">META данные</a></li>
                 </ul>
+                
+                
 
                 <div class="tab-content">
 
@@ -60,6 +62,9 @@
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
                     <a href="/admin/product/list" class="btn btn-default">Отмена</a>
+                    {if $product->id > 0}
+                    <a href="/ru/shop/openproduct/{$product->id}" class="btn btn-success pull-right">Посмотреть на сайте</a>
+                    {/if}
                 </div>
 
             </div>
