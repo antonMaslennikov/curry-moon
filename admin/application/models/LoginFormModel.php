@@ -9,6 +9,7 @@
 namespace admin\application\models;
 
 use application\models\user;
+use smashEngine\core\helpers\Password;
 use smashEngine\core\models\FormModel;
 
 class LoginFormModel extends FormModel{
@@ -57,7 +58,7 @@ class LoginFormModel extends FormModel{
 
 	public function checkPassword($attribute, $params) {
 
-		if (md5(SALT.$this->password) !== self::$user->user_password) {
+		if (!Password::verify($this->password, self::$user->user_password)) {
 
 			$this->addError('email', 'Указан неправильный логин или пароль');
 		}
