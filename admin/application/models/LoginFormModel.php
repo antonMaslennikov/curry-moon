@@ -8,7 +8,6 @@
 
 namespace admin\application\models;
 
-use application\models\user;
 use smashEngine\core\helpers\Password;
 use smashEngine\core\models\FormModel;
 
