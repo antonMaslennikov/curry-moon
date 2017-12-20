@@ -10,7 +10,8 @@ namespace admin\application\controllers;
 
 use \application\models\certificate;
 use admin\application\models\couponFormModel;
-use smashEngine\core\helpers\Html;
+use \smashEngine\core\helpers\Html;
+use \smashEngine\core\exception\appException;
 
 class Controller_coupon extends Controller_ {
 

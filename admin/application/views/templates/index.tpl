@@ -38,6 +38,7 @@
                             <td>{$node.mail_template_send}</td>
                             <td>
                                 <span class="pull-right">
+                                    <a href="/admin/templates/view?id={$node.id}" class="btn btn-info btn-xs" title="Просмотреть шаблон"><i class="fa fa-fw fa-eye"></i></a>
                                     <a href="/admin/templates/update?id={$node.id}" class="btn btn-warning btn-xs" title="Изменить данные"><i class="fa fa-fw fa-pencil"></i></a>
                                     <a href="/admin/templates/delete?id={$node.id}" class="btn btn-danger btn-xs delete-js" title="Удалить категорию"><i class="fa fa-fw fa-times"></i></a>
                                 </span>

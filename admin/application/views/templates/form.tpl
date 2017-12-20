@@ -79,6 +79,10 @@
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
                     <a href="/admin/templates" class="btn btn-default">Отмена</a>
+                    
+                    {if $model.value.id > 0}
+                    <a href="/admin/templates/view?id={$model.value.id}" class="btn btn-info pull-right">Просмотреть</a>
+                    {/if}
                 </div>
             </div>
 

@@ -696,7 +696,7 @@
                 $row['discount'] = $row['d'] + $this->user_basket_discount;
                 
                 if ($this->user_basket_status == 'active') {
-                    $row['tprice'] = ($row['price'] - $row['price'] / 100 * $row['discount']) * $row['quantity'];
+                    $row['tprice'] = round($row['price'] - $row['price'] / 100 * $row['discount']) * $row['quantity'];
                 } else {
                     $row['tprice'] = $row['tp'];
                 }
@@ -1254,6 +1254,8 @@
                     'order'   => $this,
                     'reasone' => $params['reason'],
                 ));
+                
+                // снимаем резер с товаров
             }
             else 
             {
@@ -1301,12 +1303,14 @@
             
             $this->log('change_status', 'delivered', $args['code']);
             
-            $o->pay($o->basketSum - $o->alreadyPayed);
+            $this->pay($this->basketSum - $this->alreadyPayed);
             
             // Отправка почты
-            App::mail()->send($this->user_id, 21, array(
+            App::mail()->send($this->user_id, ($this->user_basket_delivery_type == 'user' ? 22 : 21), array(
                 'order'   => $this,
             ));
+            
+            // списываем товары со склада
             
             return true;
         }

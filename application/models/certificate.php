@@ -123,7 +123,8 @@
          */
         public function delete()
         {
-             App::db()->query("DELETE FROM  `" . self::$dbtable . "` WHERE `id` = '" . $this->id . "' LIMIT 1");
+            App::db()->query("DELETE FROM  `" . self::$dbtable . "` WHERE `id` = '" . $this->id . "' LIMIT 1");
+            return true;
         }
         
         /**

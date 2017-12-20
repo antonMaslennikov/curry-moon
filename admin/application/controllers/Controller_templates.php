@@ -3,7 +3,7 @@ namespace admin\application\controllers;
 
 use \application\models\mailTemplate;
 use admin\application\models\mailTemplateFormModel;
-use smashEngine\core\helpers\Html;
+use \smashEngine\core\helpers\Html;
 use \smashEngine\core\exception\appException;
 
 class Controller_templates extends Controller_ {
@@ -15,7 +15,7 @@ class Controller_templates extends Controller_ {
         parent::__construct($r);
         
         $this->setBreadCrumbs([
-			'/admin/coupon/list'=>'<i class="fa fa-fw fa-files-o"></i> Шаблоны писем',
+			'/admin/templates/list'=>'<i class="fa fa-fw fa-files-o"></i> Шаблоны писем',
 		]);
     }
     
@@ -44,7 +44,7 @@ class Controller_templates extends Controller_ {
 		$this->setTitle('Новый шаблон');
 
 		$this->setBreadCrumbs([
-			'/admin/templates'=>'<i class="fa fa-fw fa-files-o"></i> Создать новый',
+			'/admin/templates/list'=>'<i class="fa fa-fw fa-files-o"></i> Создать новый',
 		]);
         
 		$model = new mailTemplateFormModel();
@@ -82,7 +82,7 @@ class Controller_templates extends Controller_ {
 		$this->setTitle(sprintf('Шаблон: "%s"', $item->id));
 
 		$this->setBreadCrumbs([
-			'/admin/blog/list'=>'<i class="fa fa-fw fa-files-o"></i> Редактировать',
+			'/admin/templates/list'=>'<i class="fa fa-fw fa-files-o"></i> Редактировать',
 		]);
         
 
@@ -127,4 +127,14 @@ class Controller_templates extends Controller_ {
 			throw new appException('Неизвестная ошибка');
 		}
 	}
+    
+    public function action_view()
+    {
+        $t = new mailTemplate((int) $_GET['id']);
+        
+        if (!empty($_GET['id']))
+		{
+			exit('<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>' . $t->view() . '</body></html>');
+		}
+    }
 }

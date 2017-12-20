@@ -119,7 +119,7 @@
                                             <span>{$order->address.country}</span>
                                             <select name="address[country]" id="">
                                                 {foreach from=$countries key="k" item="c"}
-                                                <option value="{$c.country_id}" {if $c.country_id == $order->address.country}selected="selected"{/if}>{$c.country_name}</option>
+                                                <option value="{$c.country_id}" {if $c.country_id == $order->address.country_id}selected="selected"{/if}>{$c.country_name}</option>
                                                 {/foreach}
                                             </select>
                                         </td>
@@ -189,22 +189,24 @@
                             
                             <form action="" method="post">
                                 
-                                <p><b>Операции с заказом</b></p>
-                                
-                                {if $order->user_basket_status != 'delivered' && $order->user_basket_status != 'prepared' && $order->user_basket_status != 'canceled'}
-                                <button type="submit" class="btn btn-block btn-primary" name="ch-status" value="prepared">Заказ подготовлен</button>
-                                {/if}
-                                
                                 {if $order->user_basket_status != 'delivered' && $order->user_basket_status != 'canceled'}
-                                <button type="submit" class="btn btn-block btn-success" name="ch-status" value="delivered">Заказ доставлен</button>
-                                {/if}
-                                
-                                {if $order->user_basket_status != 'delivered' && $order->user_basket_status != 'canceled'}
-                                <button type="submit" class="btn btn-block btn-danger" name="ch-status" value="canceled" onclick="return confirm('Вы уверены?');">Отменить заказ</button>
-                                {/if}
-                                
-                                {if $order->user_basket_status == 'delivered' || $order->user_basket_status == 'canceled'}
-                                <button type="submit" class="btn btn-block btn-success" name="ch-status" value="ordered">Откатить заказ</button>
+                                    <p><b>Операции с заказом</b></p>
+
+                                    {if $order->user_basket_status != 'delivered' && $order->user_basket_status != 'prepared' && $order->user_basket_status != 'canceled'}
+                                    <button type="submit" class="btn btn-block btn-primary" name="ch-status" value="prepared">Заказ подготовлен</button>
+                                    {/if}
+
+                                    {if $order->user_basket_status != 'delivered' && $order->user_basket_status != 'canceled'}
+                                    <button type="submit" class="btn btn-block btn-success" name="ch-status" value="delivered">Заказ доставлен</button>
+                                    {/if}
+
+                                    {if $order->user_basket_status != 'delivered' && $order->user_basket_status != 'canceled'}
+                                    <button type="submit" class="btn btn-block btn-danger" name="ch-status" value="canceled" onclick="return confirm('Вы уверены?');">Отменить заказ</button>
+                                    {/if}
+
+                                    {if $order->user_basket_status == 'delivered' || $order->user_basket_status == 'canceled'}
+                                    {* <button type="submit" class="btn btn-block btn-success" name="ch-status" value="ordered">Откатить заказ</button>*}
+                                    {/if}
                                 {/if}
                              </form>    
                                

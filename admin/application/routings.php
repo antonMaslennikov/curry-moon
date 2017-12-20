@@ -309,9 +309,9 @@
 		        'schemas' => 'GET|POST'
 	        ],
 
-	        'templates_delete'=>[
-		        'pattern'=>'/admin/templates/delete',
-		        'action'=> 'Controller_templates:action_delete',
+	        'coupon_delete'=>[
+		        'pattern'=>'/admin/coupon/delete',
+		        'action'=> 'Controller_coupon:action_delete',
 		        'schemas' => 'GET',
 	        ],
             
@@ -337,6 +337,12 @@
 	        'templates_delete'=>[
 		        'pattern'=>'/admin/templates/delete',
 		        'action'=> 'Controller_templates:action_delete',
+		        'schemas' => 'GET',
+	        ],
+            
+            'templates_view'=>[
+		        'pattern'=>'/admin/templates/view',
+		        'action'=> 'Controller_templates:action_view',
 		        'schemas' => 'GET',
 	        ],
   

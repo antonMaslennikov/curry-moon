@@ -128,7 +128,7 @@
             
             extract($args);
 
-            require_once (ROOTDIR . '/' . ltrim(self::$tpl_folder, '/') . $this->mail_template_file);
+            require_once (ltrim(self::$tpl_folder, '/') . $this->mail_template_file);
             $text = ob_get_contents();
             
             ob_end_clean();
