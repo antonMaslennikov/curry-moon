@@ -1,4 +1,5 @@
     <div class="box">
+        <form class="search" method="get" action="{currenturl page=0}">
         <div class="box-header">
             <h3 class="box-title">Список товаров</h3>
             <div class="box-tools">
@@ -11,14 +12,25 @@
         <div class="box-body table-responsive no-padding">
 
             <table class="table table-hover">
-                <tbody><tr>
+                <thead>
+                <tr>
                     <th>ID</th>
                     <th>Название</th>
                     <th>Изображение</th>
                     <th>Статус</th>
                     <th></th>
                 </tr>
-                {foreach from=$products item=node}
+                <tr>
+                    <th></th>
+                    <th><input type="text" name="search[product_name]" class="form-control input-sm" value="{$products.search.product_name}"></th>
+                    <th colspan="3">
+                        <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-search"></i>&nbsp;Поиск</button>&nbsp;
+                        <a href="list" class="btn btn-default btn-sm">Очистить</a>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {foreach from=$products.data item=node}
                 <tr>
                     <td>{$node.id}</td>
                     <td><a href="update?id={$node.id}" title="Изменить данные">{$node.product_name}</a></td>
@@ -46,6 +58,22 @@
             </table>
         </div>
         <!-- /.box-body -->
+        <div class="box-footer">
+            <div class="row">
+                <div class="col-sm-3">Показаны {$products.page.offset+1} - {$products.page.offset + count($products.data)} из {$products.page.itemCount}</div>
+                <div class="col-sm-3">
+                    <label>Показать <select name="pageSize" class="input-search input-sm">
+                            {foreach from=$products.page.pageSizeList item=option}
+                                <option {if $option==$products.page.pageSize}selected{/if} value="{$option}">{$option}</option>
+                            {/foreach}
+                        </select> записей</label>
+                </div>
+                <div class="col-sm-6">
+                    {include file='adminlte/paginator.tpl' pagination=$products.page}
+                </div>
+            </div>
+        </div>
+        </form>
     </div>
     <!-- /.box -->
 {literal}
@@ -62,6 +90,11 @@
             }
 
             return true;
+        })
+
+        $('div.box').on('change', '.input-search', function() {
+
+            $('form.search').submit();
         })
     })
 }(window.jQuery)

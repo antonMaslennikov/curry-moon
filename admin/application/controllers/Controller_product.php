@@ -9,6 +9,7 @@
 namespace admin\application\controllers;
 
 
+use admin\application\models\product as adminProduct;
 use application\models\product;
 use admin\application\models\ProductFormModel;
 use smashEngine\core\helpers\Html;
@@ -31,7 +32,7 @@ class Controller_product extends Controller_
             $_GET['filter']['orderDir'] = 'DESC';
         }
         
-        $this->view->setVar('products', product::getAll($_GET['filter']));
+        $this->view->setVar('products', (new adminProduct())->getList());
 
 		$this->render();
 	}

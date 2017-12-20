@@ -12,11 +12,14 @@ use admin\application\models\user;
 use admin\application\models\UserAccessFormModel;
 use admin\application\models\userEmployees;
 use admin\application\models\UserFormModel;
+use smashEngine\core\App;
 use smashEngine\core\helpers\Html;
 
 class Controller_user extends Controller_ {
 
 	protected $layout = 'index.tpl';
+
+	protected $query_template = 'SELECT {select} FROM {table} {where} ORDER BY user_name ASC';
 
 	public function action_city() {
 
