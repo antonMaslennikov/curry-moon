@@ -29,7 +29,6 @@ class LoginFormModel extends FormModel{
 		return [
 			[['email', 'password'], 'required'],
 
-			['email', 'email'],
 			['email', 'findEmail'],
 
 			['rememberMe', 'safe'],

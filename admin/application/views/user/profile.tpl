@@ -116,7 +116,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th colspan="2"><a href="" target="_blank">Заказы</a></th>
+                        <th colspan="2"><a href="/admin/orders/list?filters[user_id]={$user.info.id}" target="_blank">Заказы</a></th>
                     </tr>
                     </tbody>
                 </table>

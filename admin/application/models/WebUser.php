@@ -39,9 +39,9 @@ class WebUser extends \application\models\user {
 		{
 			$search = addslashes($search);
 
-			$r = App::db()->prepare("SELECT `id` FROM `" . self::$dbtable . "` WHERE `user_email` LIKE ? LIMIT 1");
+			$r = App::db()->prepare("SELECT `id` FROM `" . self::$dbtable . "` WHERE `user_email` = :search OR `user_login` = :search LIMIT 1");
 
-			$r->execute([$search]);
+			$r->execute([':search'=>$search]);
 
 			if ($r->rowCount() == 1)
 			{
