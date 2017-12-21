@@ -35,8 +35,9 @@
                         <td>{$record.user_phone}</td>
                         <td>{if isset($statusList[$record.user_status])}{$statusList[$record.user_status]}{else}<span class="label label-default">не известно</span>{/if}</td>
                         <td>{if isset($activationList[$record.user_activation])}{$activationList[$record.user_activation]}{else}<span class="label label-default">не известно</span>{/if}</td>
-                        <td class="col-sm-1">
+                        <td class="col-sm-2">
                         <span class="pull-right">
+                            <a href="profile?id={$record.id}" class="btn btn-info btn-xs" title="Просмотреть запись"><i class="fa fa-fw fa-eye"></i></a>
                             <a href="update?id={$record.id}" class="btn btn-warning btn-xs" title="Изменить запись"><i class="fa fa-fw fa-pencil"></i></a>
                             <a href="delete?id={$record.id}" class="btn btn-danger btn-xs delete-js" title="Удалить запись"><i class="fa fa-fw fa-times"></i></a>
                         </span>

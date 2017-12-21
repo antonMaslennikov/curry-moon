@@ -412,5 +412,11 @@
 		        'action'=> 'Controller_db_migrate:action_index',
 		        'schemas' => 'GET'
             ],
-        ];
+
+	        'user_profile'=>[
+		        'pattern'=>'/admin/user/profile',
+		        'action'=> 'Controller_user:action_profile',
+		        'schemas' => 'GET'
+	        ],
+	    ];
     }

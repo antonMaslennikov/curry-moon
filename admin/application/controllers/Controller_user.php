@@ -19,8 +19,6 @@ class Controller_user extends Controller_ {
 
 	protected $layout = 'index.tpl';
 
-	protected $query_template = 'SELECT {select} FROM {table} {where} ORDER BY user_name ASC';
-
 	public function action_city() {
 
 		die(json_encode((new user())->cityList($_GET['data'], true)));
@@ -46,6 +44,41 @@ class Controller_user extends Controller_ {
 			'done' => '<span class="label label-success">Выполнена</span>',
 			'waiting' => '<span class="label label-warning">Ожидает выполнения</span>',
 			'failed' => '<span class="label label-danger">Провалена</span>',
+		]);
+
+		$this->render();
+	}
+
+
+	public function action_profile() {
+
+		$user = new user($_GET['id']);
+
+		if (!$user->id) $this->page->go('/admin/user/list');
+
+		$this->setBreadCrumbs([
+			'<i class="fa fa-fw fa-users"></i> Пользователи',
+		]);
+
+		$this->setTemplate('user/profile.tpl');
+		$this->setTitle('<i class="fa fa-fw fa-users"></i> Просмотр пользователя "'.$user->user_email.'"');
+
+		$this->view->setVar('user', $user->getInfo());
+
+		$this->view->setVar('statusList', [
+			'active'=>'<span class="label label-success">Активный</span>',
+			'banned'=>'<span class="label label-danger">Заблокированный</span>',
+			'deleted'=>'<span class="label label-warning">Удаленный</span>',
+		]);
+		$this->view->setVar('activationList', [
+			'done' => '<span class="label label-success">Выполнена</span>',
+			'waiting' => '<span class="label label-warning">Ожидает выполнения</span>',
+			'failed' => '<span class="label label-danger">Провалена</span>',
+		]);
+
+		$this->view->setVar('subscribeList', [
+			'active' => '<span class="label label-success">Оформлена</span>',
+			'canceled' => '<span class="label label-warning">Отменена</span>',
 		]);
 
 		$this->render();

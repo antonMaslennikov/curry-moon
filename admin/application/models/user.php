@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Паштет
- * Date: 08.12.2017
- * Time: 22:19
- */
-
 namespace admin\application\models;
 
 use admin\application\helpers\Pagination;
@@ -13,6 +6,25 @@ use PDO;
 use smashEngine\core\App;
 use smashEngine\core\Model;
 
+/**
+ * Class user
+ * @package admin\application\models
+ *
+ * @property string $user_password
+ * @property string $user_name
+ * @property string $user_email
+ * @property string $user_phone
+ * @property string $user_birthday
+ * @property string $user_description
+ * @property string $user_status
+ * @property string $user_activation
+ * @property string $user_is_fake
+ * @property string $user_subscription_status
+ * @property string $user_address
+ * @property string $user_zip
+ * @property int $user_country_id
+ * @property int $user_city_id
+ */
 class user extends Model {
 
 	protected static $dbtable = 'users';
@@ -56,6 +68,31 @@ class user extends Model {
 
 			$data[$v['id']] = $v;
 		}
+
+		return $data;
+	}
+
+	public function getInfo() {
+
+		$data = [
+			'info'=>$this->info,
+		];
+
+		$r = App::db()->prepare("SELECT country_name FROM `countries` WHERE country_id = :country LIMIT 1");
+
+		$r->execute([':country'=>$this->user_country_id]);
+
+		$temp = $r->fetch();
+
+		$data['country'] = array_shift($temp);
+
+		$r = App::db()->prepare("SELECT name FROM `city` WHERE id = :id LIMIT 1");
+
+		$r->execute([':id'=>$this->user_city_id]);
+
+		$temp = $r->fetch();
+
+		$data['city'] = array_shift($temp);
 
 		return $data;
 	}

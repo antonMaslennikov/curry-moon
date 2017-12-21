@@ -2067,7 +2067,9 @@
         return $pathInfo;
     }
 
-	function date2ru_format($date) {
+	function date2ru_format($date, $mysql_format = 'Y-m-d H:i:s',$ru_format = 'd.m.Y  H:i:s' ) {
 
-		return DateTime::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y  H:i:s');
+		if (empty($date)) return '';
+
+		return DateTime::createFromFormat($mysql_format, $date)->format($ru_format);
 	}
