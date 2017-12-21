@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../header.php' ?>
+  
 <div style="background:#f2f2f2;word-wrap:break-word">
     <div style="background-color:#e6e6e6" width="100%">
     
