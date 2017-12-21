@@ -14,7 +14,7 @@
 
 <form method="post">
     <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email" name="{$model.name.email}">
+        <input type="text" class="form-control" placeholder="Email" name="{$model.name.email}">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
     </div>
     <div class="form-group has-feedback">
