@@ -31,8 +31,8 @@ class Controller_product extends Controller_
             $_GET['filter']['orderBy'] = 'status';
             $_GET['filter']['orderDir'] = 'DESC';
         }
-        
-        $this->view->setVar('products', (new adminProduct())->getList());
+
+		$this->view->setVar('products', (new adminProduct())->getList($_GET['filter']));
 
 		$this->render();
 	}

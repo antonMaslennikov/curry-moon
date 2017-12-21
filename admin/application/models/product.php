@@ -19,7 +19,7 @@ class product extends \application\models\product {
 
 	public static $dbtable = 'product';
 
-	protected $query_template = 'SELECT {select} FROM `product` {where} ORDER BY status DESC, product_name ASC';
+	protected $query_template = 'SELECT {select} FROM `product` AS pr {at} {where} ORDER BY pr.status DESC, pr.product_name ASC';
 
 	protected $pagination = 0;
 
@@ -27,9 +27,9 @@ class product extends \application\models\product {
 
 	protected $search = null;
 
-	public function getList() {
+	public function getList($filter = null) {
 
-		$sql = $this->createQuery(isset($_GET['search'])?$_GET['search']:null);
+		$sql = $this->createQuery(isset($_GET['search'])?$_GET['search']:null, $filter);
 
 		$smt = App::db()->prepare(str_replace('{select}', 'count(*)', $sql));
 		$smt->execute($this->bind_array);
@@ -62,7 +62,7 @@ class product extends \application\models\product {
 	}
 
 
-	protected function createQuery($search = null) {
+	protected function createQuery($search = null, $filter = null) {
 
 		$query = $this->query_template;
 		$where = [];
@@ -77,8 +77,8 @@ class product extends \application\models\product {
 				if (isset($this->modified_data[$param])) {
 
 					$where[] = ($this->modified_data[$param]===false)
-						?sprintf('`%s` LIKE :%s', $param, $param)
-						:sprintf('`%s` = :%s', $param, $param);
+						?sprintf('pr.`%s` LIKE :%s', $param, $param)
+						:sprintf('pr.`%s` = :%s', $param, $param);
 
 					$array[':'.$param] = $this->modified_data[$param]===false
 						?'%'.$value.'%'
@@ -89,6 +89,44 @@ class product extends \application\models\product {
 				}
 			}
 		}
+
+
+		if ($filter['categoryfull'])
+		{
+			$cats = [$filter['categoryfull']];
+			foreach ((new category)->getAllChildren($filter['categoryfull']) AS $c) {
+				$cats[] = $c['id'];
+			}
+
+			$where[] = "pr.`category` IN ('" . implode("', '", $cats) . "')";
+		}
+
+		if ($filter['category'])
+		{
+			$where[] = "pr.`category` = '" . intval($filters['category']) . "'";
+		}
+
+		if ($filter['status'] == 'active')
+		{
+			$where[] = "pr.`status` = '1'";
+		}
+
+		$at = [];
+		if ($filter['picture'])
+		{
+			$where[] = "p.`picture_id` = pr.`picture_id`";
+			$at[] = 'pictures AS p';
+		}
+
+
+		if (count($at)) {
+
+			$query = str_replace('{at}', ', ' . implode(', ', $at), $query);
+		} else {
+
+			$query = str_replace('{at}', '', $query);
+		}
+
 
 		if (count($where)) {
 

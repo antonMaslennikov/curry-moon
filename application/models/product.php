@@ -276,7 +276,8 @@ class product extends \smashEngine\core\Model {
         {
             $aq[] = "pr.`status` = '1'";
         }
-        
+
+	    $at = [];
         if ($filters['picture'])
         {
             $aq[] = "p.`picture_id` = pr.`picture_id`";
