@@ -1,3 +1,5 @@
+{assign var="reserved" value=false}
+
 <section id="gkMainbody" style="font-size: 100%;">
     <div id="vmMainPageOPC">
         <div class="opc_unlogged_wrapper" id="opc_unlogged_wrapper">
@@ -51,6 +53,12 @@
                                     <div class="opc_PricesalesPrice vm-display vm-price-value"><span class="opc_PricesalesPrice">{$p.tprice} руб</span></div>
                                 </td>
                             </tr>
+                            {if $p.position_reserved}
+                                {$reserved = true}
+                            <tr>
+                                <td class="reserved-position" colspan="20">Товар зарезервирован другим покупателем.</td>
+                            </tr>
+                            {/if}
                             {foreachelse}
                             <tr>
                                 <td colspan="20" style="text-align: center"><br />Ваша корзина пуста<br /><br /></td>
@@ -133,61 +141,55 @@
                 <!-- main onepage div, set to hidden and will reveal after javascript test -->
 
                 <!-- start of checkout form -->
-                <form action="" method="post" id="adminForm" name="adminForm" class="form-valid2ate" novalidate="novalidate" autocomplete="on">
-
-                    <div style="display: none;"><input type="submit" onclick="return Onepage.formSubmit(event, this);" name="hidden_submit" value="hidden_submit"></div>
-
+                
                     <div class="dob1" id="dob1" style="min-height: 520px;">
                        
                         <div class="op_inner">
 
-
                         <!-- login box -->
-
                         {if !$USER->authorized}
-                        <div id="tab_selector">
-                            <fieldset>
-                                <input name="regtypesel" type="radio" id="op_login_btn" onclick="javascript: jQuery('#logintab').show();" style="border: none;" class="styled"><label for="op_login_btn" class="radio" id="op_round_and_separator">Постоянный покупатель</label>
-                                <br style="clear: both;">
-                                <input class="styled" name="regtypesel" type="radio" checked="checked" id="op_register_btn" onclick="javascript: jQuery('#logintab').hide();" style="border: none;"><label for="op_register_btn" class="radio">Новый покупатель</label>
-                            </fieldset>
-                        </div>
-                        
-                        <div>
-                            <div>
-                                <div id="logintab" style="display: none;">
+                           
+                            <div id="tab_selector">
+                                <fieldset>
+                                    <input name="regtypesel" type="radio" id="op_login_btn" onclick="javascript: jQuery('#logintab').show();" style="border: none;" class="styled"><label for="op_login_btn" class="radio" id="op_round_and_separator">Постоянный покупатель</label>
+                                    <br style="clear: both;">
+                                    <input class="styled" name="regtypesel" type="radio" checked="checked" id="op_register_btn" onclick="javascript: jQuery('#logintab').hide();" style="border: none;"><label for="op_register_btn" class="radio">Новый покупатель</label>
+                                </fieldset>
+                            </div>
 
+                            <div id="logintab" style="display: none;">
+
+                                <form action="/ru/users/login" method="post">
                                     <div class="formField">
-                                        <input type="text" id="username_login" placeholder="Имя пользователя" name="username_login" value="" class="inputbox" size="20" autocomplete="off">				
-                                        <input type="hidden" id="saved_username_login_field" name="savedtitle" value="Имя пользователя">			
+                                        <input type="text" id="username_login" placeholder="Имя пользователя" name="login" value="" class="inputbox" size="20" autocomplete="off">	
                                     </div>
 
                                     <div class="formField">
-                                        <input type="password" id="passwd_login" name="passwd" placeholder="Пароль" value="" class="inputbox" size="20" onkeypress="return Onepage.submitenter(this,event)" autocomplete="off">				
-                                        <input type="hidden" id="saved_password_field" name="savedtitle" value="Пароль">			
+                                        <input type="password" id="passwd_login" name="password" placeholder="Пароль" value="" class="inputbox" size="20" autocomplete="off">		
                                     </div>
-                                    
+
                                     <input type="hidden" name="remember" value="yes">
-                                    
+
                                     <div style="width: 100%;">
                                         <span style="float: left;">
                                         (<a title="Забыли свой пароль?" href="/ru/users/forgot-password">Забыли свой пароль?</a>)
                                         </span>
                                         <div style="clear: both;">
                                         </div>	
-                                        <input type="button" name="LoginSubmit" class="btn btn-small" value="Вход" onclick="javascript: return Onepage.op_login();">
+                                        <input type="submit" name="LoginSubmit" class="btn btn-small" value="Вход">
 
                                         <input type="hidden" name="csrf_token" value="{$csrf_token}" />
                                         <br style="clear: both;">
                                     </div>
+                                </form>
 
-                                </div>
                             </div>
-                        </div>
-                        {/if}
                         
+                        {/if}
                         <!-- user registration and fields -->
-
+                        
+                        <form action="" method="post" id="adminForm" name="adminForm" class="form-valid2ate" novalidate="novalidate" autocomplete="on">
+                        
                         <h4>1. Данные покупателя </h4>
 
                         {if $USER->authorized}
@@ -368,34 +370,28 @@
                             </div>
                             
                             <div id="rbsubmit" style="width: 100%; float: right;">
-                                <!-- show total amount at the bottom of checkout and payment information, don't change ids as javascript will not find them and OPC will not function -->
+                                
                                 <div id="onepage_info_above_button">
-                                <div id="onepage_total_inc_sh">
-                                </div>
-
-                                <!-- content of next div will be changed by javascript, please don't change it's id -->
-
-                                <!-- end of total amount and payment info -->
-                                <!-- submit button -->
-
-
-                                <!-- show TOS and checkbox before button -->
-                                <div id="agreed_div" class="formLabel fullwidth" style="text-align: left;">
-                                    <div class="left_checkbox">
-                                        <input value="1" type="checkbox" id="agreed_field" name="tosAccepted" checked="checked" class="terms-of-service" required="required" autocomplete="off">
+                                    <div id="onepage_total_inc_sh">
                                     </div>
-                                    <div class="right_label">
-                                        <label for="agreed_field">Я согласен с Условиями обслуживания<a target="_blank" rel="{ldelim}handler: 'iframe', size: {ldelim}x: 500, y: 400{rdelim}{rdelim}" class="opcmodal" id="terms-of-service" href="/ru/cart/terms-of-service"><br>
-                                        (Условия обслуживания)
-                                        </a></label>
-                                    </div>		
-                                </div>
-                                <div class="formField" id="agreed_input">
-                                </div>
 
-                                <!-- end show TOS and checkbox before button -->
+                                    <!-- show TOS and checkbox before button -->
+                                    <div id="agreed_div" class="formLabel fullwidth" style="text-align: left;">
+                                        <div class="left_checkbox">
+                                            <input value="1" type="checkbox" id="agreed_field" name="tosAccepted" checked="checked" class="terms-of-service" required="required" autocomplete="off">
+                                        </div>
+                                        <div class="right_label">
+                                            <label for="agreed_field">Я согласен с Условиями обслуживания<a target="_blank" rel="{ldelim}handler: 'iframe', size: {ldelim}x: 500, y: 400{rdelim}{rdelim}" class="opcmodal" id="terms-of-service" href="/ru/cart/terms-of-service"><br>
+                                            (Условия обслуживания)
+                                            </a></label>
+                                        </div>		
+                                    </div>
+                                    <div class="formField" id="agreed_input">
+                                    </div>
 
-                                <br style="clear: both;">
+                                    <!-- end show TOS and checkbox before button -->
+
+                                    <br style="clear: both;">
                                 </div>
                                 <!-- end of submit button -->
                             </div>
@@ -406,15 +402,12 @@
 
                         <div class="bottom_button">
                             <div id="payment_info"></div>
-                            <button class="btn btn-success btn-block btn-large" type="submit" autocomplete="off"><span>Подтвердить заказ</span></button>
+                            <button class="btn btn-success btn-block btn-large" type="submit" {if $reserved}disabled="disabled"{/if}><span>Подтвердить заказ</span></button>
                         </div>
 
                     </div>
-                    <!-- end of tricks -->
 
                 </form>
-                <!-- end of checkout form -->
-                <!-- end of main onepage div, set to hidden and will reveal after javascript test -->
 
             </div>
 
@@ -457,6 +450,17 @@
     </form>
     
     {literal}
+    <style>
+        .reserved-position {
+            background:#fce0e0;
+        }
+        
+        .bottom_button button[disabled=disabled] {
+            background:#f7f7f7;
+            color:#ccc;
+            border:#f7f7f7;
+        }
+    </style>
     <script id="box_js" type="text/javascript">//<![CDATA[ 
         jQuery(document).ready(function($) {
             jQuery('div#full-tos').hide();

@@ -40,6 +40,7 @@
                         {/foreach}
                     </ul>
                 </div>
+                {*
                 <div class="itemRatingBlock"> <span>Оцените материал</span>
                     <div class="itemRatingForm">
                         <ul class="itemRatingList">
@@ -53,6 +54,7 @@
                         <div id="itemRatingLog374" class="itemRatingLog"> (2 голосов) </div>
                     </div>
                 </div>
+                *}
             </div>
 
             {* БЛОК С ШАРОЙ В СОЦ СЕТИ *}

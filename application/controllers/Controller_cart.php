@@ -176,7 +176,7 @@
                     
                     $product = new product($_POST['product_id']);
                     
-                    if ($product->quantity <= 0) {
+                    if ($product->quantity +- $product->quantity_reserved <= 0) {
                         throw new appException('Данный товар закончился на складе');
                     }
                     

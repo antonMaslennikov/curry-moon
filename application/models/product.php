@@ -267,6 +267,11 @@ class product extends \smashEngine\core\Model {
             $aq[] = "pr.`category` IN ('" . implode("', '", $cats) . "')";
         }
         
+        if ($filters['avalible'])
+        {
+            $aq[] = "pr.`quantity` +- pr.`quantity_reserved` > 0";
+        }
+        
         if ($filters['category'])
         {
             $aq[] = "pr.`category` = '" . intval($filters['category']) . "'";

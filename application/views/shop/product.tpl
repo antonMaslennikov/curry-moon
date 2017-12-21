@@ -44,7 +44,7 @@
                                 <span class="price-crossed"></span>				
                             </div>
 
-                            {if $product->quantity > 0}
+                            {if $product->quantity +- $product->quantity_reserved > 0}
                                 <div class="addtocart-area">
                                     <form method="post" class="product js-recalculate" id="add2cartForm" action="/ru/cart/add">
                                         

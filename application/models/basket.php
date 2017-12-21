@@ -669,6 +669,8 @@
                                 ubg.`user_basket_good_time`,
                                 g.`id` AS product_id,
                                 g.`product_name`,
+                                g.`quantity` AS quantity_onstock,
+                                g.`quantity_reserved`,
                                 g.`product_sku`,
                                 p.`picture_path`
                               FROM 
@@ -711,6 +713,10 @@
                     $row['price']  = round($row['price'] / $usdRate, 1);
                     $row['tprice'] = round($row['tprice'] / $usdRate, 1);
                     $row['tp']     = round($row['tp'] / $usdRate, 1);
+                }
+                
+                if ($row['quantity_onstock'] +- $row['quantity_reserved'] <= 0) {
+                    $row['position_reserved'] = true;
                 }
                 
                 $this->basketGoods[$row['id']]  = $row;
@@ -988,9 +994,6 @@
         {   
             $total_q = $bb = $tprice = 0;
 
-            $goods = array();
-            $gifts = array();
-
             $sth1 = App::db()->prepare("UPDATE
                                             `" . basketItem::$dbtable . "`
                                        SET
@@ -1015,7 +1018,10 @@
                     'id'            => intval($row['id']),
                 ]);
                 
-                $goods[] = $row;
+                // ставим товар в резерв
+                $p = new product($row['good_id']);
+                $p->quantity_reserved += $row['quantity'];
+                $p->save();
             }
 
             // Меняем статус корзины
@@ -1031,27 +1037,16 @@
 
             $this->save();
 
-            /*
-             * ОТПРАВКА ПИСЬМА С ДАННЫМИ О ЗАКАЗЕ
-             */
-            $reparray['deliveryAddress'] = $this->address['country'] . (!empty($this->address['city']) ? ', г. ' . $this->address['city'] : '') . ((!empty($this->address['address'])) ? ', ул. ' . $this->address['address'] : '');
-
-            if (!empty($this->address['postal_code'])) $reparray['deliveryAddress'] .= ', (' . $this->address['postal_code'] . ')';
-            if (!empty($this->address['metro'])) $reparray['deliveryAddress'] .= ', м. ' . metroId2metroName($this->address['metro']);
-            
-            $reparray['order']            = $this;
-            $reparray['orderStatus']      = self::$orderStatus[$status];
-            $reparray['phone']            = $this->address['phone'];
-            $reparray['orderPhoneNumber'] = substr($this->address['phone'], -4);
-            $reparray['deliveryType']     = self::$deliveryTypes[$this->user_basket_delivery_type]['title'] . (($dp) ? ' (' . $dp->address . '. ' . $dp->schema . ')' : '');
-            $reparray['paymentType']      = self::$paymentTypes[$this->user_basket_payment_type]['title'];
-            $reparray['orderSum']         = $tprice;
-            $reparray['total']            = $tprice + $this->user_basket_delivery_cost - $this->user_basket_payment_partical;
-            $reparray['user']             = $this->user;
-            
-            App::mail()->send(array($this->user_id), 4, $reparray);
-
             $this->log('change_status', $status);
+            
+            // ОТПРАВКА ПИСЬМА С ДАННЫМИ О ЗАКАЗЕ
+            App::mail()->send(array($this->user_id), 4, [
+                'order' => $this,
+                'deliveryAddress' => $this->address['country'] . (!empty($this->address['city']) ? ', г. ' . $this->address['city'] : '') . ((!empty($this->address['address'])) ? ', ул. ' . $this->address['address'] : '') . ($this->address['postal_code'] ? ', (' . $this->address['postal_code'] . ')' : '') . ($this->address['metro'] ? ', м. ' . metroId2metroName($this->address['metro']) : ''),
+            ]);
+
+            // уведомление администратору о новом заказе
+            App::mail()->send([989, 990], 23, ['order' => $this, 'id' => $this->id]);
             
             $this->user->setSessionValue(['user_basket_id' => 0]);
             
@@ -1256,6 +1251,11 @@
                 ));
                 
                 // снимаем резер с товаров
+                foreach ($this->basketGoods AS $row) {
+                    $p = new product($row['good_id']);
+                    $p->quantity_reserved -= $row['quantity'];
+                    $p->save();
+                }
             }
             else 
             {
@@ -1311,6 +1311,12 @@
             ));
             
             // списываем товары со склада
+            foreach ($this->basketGoods AS $row) {
+                $p = new product($row['good_id']);
+                $p->quantity -= $p->quantity_reserved;
+                $p->quantity_reserved = 0;
+                $p->save();
+            }
             
             return true;
         }

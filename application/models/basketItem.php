@@ -32,4 +32,21 @@
                     throw new Exception (__CLASS__ . ' ' . $this->id . ' not found');
             }
         }
+        
+        public function getbasket()
+        {
+            return new basket($this->user_basket_id);
+        }
+        
+        public function delete()
+        {
+            // снимаем резерв с позиции
+            if (!in_array($this->basket->user_basket_status, ['active', 'delivered', 'canceled'])) {
+                $p = new product($this->good_id);
+                $p->quantity_reserved -= $this->user_basket_good_quantity;
+                $p->save();
+            }
+            
+            parent::delete();
+        }
     }

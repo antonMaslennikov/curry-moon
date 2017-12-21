@@ -90,6 +90,7 @@
             
             $products = product::getAll([
                 'category' => $category->id, 
+                'avalible' => true,
                 'status' => 'active', 
                 'picture' => true,
                 'limit' => $onpage,

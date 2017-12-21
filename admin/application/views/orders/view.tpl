@@ -250,21 +250,21 @@
                                     <td width="100"><a href="/admin/product/update?id={$g.product_id}" target="_blank"><img src="{$g.picture_path}" alt="{$g.product_name}" width="100" /></a></td>
                                     <td><a href="/admin/product/update?id={$g.product_id}" target="_blank">{$g.product_name}</a><br />{$g.product_sku}</td>
                                     <td>
-                                        {if $PAGE->reqUrl.2 == 'edit'}
+                                        {if $PAGE->reqUrl.2 == 'edit' && $order->user_basket_status != "delivered" && $order->user_basket_status != "canceled"}
                                             <input type="text" name="pos[{$g.id}][quantity]" size="4" value="{$g.quantity}">
                                         {else}
                                             {$g.quantity}
                                         {/if}
                                     </td>
                                     <td>
-                                        {if $PAGE->reqUrl.2 == 'edit'}
+                                        {if $PAGE->reqUrl.2 == 'edit' && $order->user_basket_status != "delivered" && $order->user_basket_status != "canceled" && $order->user_basket_status != "delivered" && $order->user_basket_status != "canceled"}
                                             <input type="text" name="pos[{$g.id}][price]" size="4" value="{$g.price}">
                                         {else}
                                             {$g.price}
                                         {/if}
                                     </td>
                                     <td>
-                                        {if $PAGE->reqUrl.2 == 'edit'}
+                                        {if $PAGE->reqUrl.2 == 'edit' && $order->user_basket_status != "delivered" && $order->user_basket_status != "canceled"}
                                             <input type="text" name="pos[{$g.id}][discount]" size="4"     value="{$g.discount}">
                                         {else}
                                             {$g.discount}
@@ -308,7 +308,7 @@
                                 </tr>
                                 
                                
-                                {if $PAGE->reqUrl.2 == 'edit'}
+                                {if $PAGE->reqUrl.2 == 'edit' && $order->user_basket_status != "delivered" && $order->user_basket_status != "canceled"}
                                 <tfoot>
                                     <tr>
                                         <td colspan="20" style="text-align: right">

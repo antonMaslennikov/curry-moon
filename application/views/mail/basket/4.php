@@ -7,7 +7,7 @@
     <? endforeach; ?>
 </ul>
 <p>Доставка: <b><?= $order->user_basket_delivery_type_rus ?></b></p>
-<?= if ($order->user_basket_delivery_type != 'user'): ?>
+<? if ($order->user_basket_delivery_type != 'user'): ?>
     <p>Адрес доставки: <b><?= $deliveryAddress ?></b></p>
 <? endif; ?>
 <p>Оплата: <b><?= $order->user_basket_payment_type_rus ?></b></p>

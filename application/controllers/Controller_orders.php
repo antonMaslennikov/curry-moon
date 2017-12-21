@@ -12,7 +12,7 @@
     class Controller_orders extends Controller_
     {
         public function action_index()
-        {   
+        {
             if (!$this->user->authorized) {
                 $this->page404();
             }
@@ -50,7 +50,7 @@
             if ($order->user_id != $this->user->id) {
                 $this->page404();
             }
-            //printr($order->basketGoods);
+            
             $this->view->setVar('order', $order);
             
             $this->view->generate($this->page->index_tpl);

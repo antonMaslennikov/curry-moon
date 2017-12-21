@@ -4,6 +4,7 @@ namespace admin\application\controllers;
 use \application\models\basket;
 use \application\models\basketAddress;
 use \application\models\basketItem;
+use \application\models\product;
 use admin\application\models\orders;
 use admin\application\models\ordersFormModel;
 use smashEngine\core\helpers\Html;
@@ -100,6 +101,7 @@ class Controller_orders extends Controller_ {
                 $this->page->refresh();
             }
             
+            
             if (isset($_POST['pay']))
             {
                 if ($_POST['pay'] > 0) {
@@ -109,6 +111,7 @@ class Controller_orders extends Controller_ {
                 
                 $this->page->refresh();
             }
+            
             
             if ($_POST['ch-status']) 
             {
@@ -138,6 +141,7 @@ class Controller_orders extends Controller_ {
                 $this->page->refresh();
             }
             
+            
             if (isset($_POST['addcomment'])) 
             {    
                 if (!empty($_POST['comment'])) {
@@ -151,16 +155,34 @@ class Controller_orders extends Controller_ {
                 $this->page->refresh();
             }
             
+            
             if (isset($_POST['savepos']))
             {
-                foreach ($_POST['pos'] AS $k => $p) {
+                foreach ($_POST['pos'] AS $k => $p) 
+                {
                     $item = new basketItem($k);
                     
                     if (!empty($p['price']))
                         $item->user_basket_good_price = $p['price'];
                     
-                    if (!empty($p['quantity']))
-                        $item->user_basket_good_quantity = $p['quantity'];
+                    // изменили количество
+                    if ($item->user_basket_good_quantity != $p['quantity'] && $p['quantity'] > 0) {
+                        
+                        $product = new product($item->good_id);
+
+                        if ($p['quantity'] > $product->quantity) {
+                            $this->page->setFlashError('На складе недостаточно количества данного товара. Доступно ' . ($product->quantity) . ' шт.');
+                        } else {
+
+                            // изменяем резер
+                            $product->quantity_reserved += $p['quantity'] - $item->user_basket_good_quantity;
+                            $product->save();
+
+                        
+                            $item->user_basket_good_quantity = $p['quantity'];
+                        }
+                    }
+                    
                     
                     $item->user_basket_good_discount = $p['discount'];
                     
@@ -174,7 +196,9 @@ class Controller_orders extends Controller_ {
                 $this->page->go('/admin/orders/view?id=' . $o->id);
             }
             
-            if ($_GET['deletepos']) {
+            
+            if ($_GET['deletepos']) 
+            {
                 $item = new basketItem($_GET['deletepos']);
                 if ($item->user_basket_id == $o->id) {
                     $item->delete();
