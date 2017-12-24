@@ -3,6 +3,7 @@
     
     use \smashEngine\core\App AS App;
     use \application\models\product;
+    use \application\models\staticPage;
 
     use \PDO;
     use \Exception;
@@ -15,15 +16,17 @@
             $this->page->index_tpl = 'index.tpl';
             $this->page->ogUrl = '/';
             $this->page->title = 'Интернет-магазин одежды и украшений';
+            $this->page->tpl = 'main/main.tpl';
             
-            if (($this->user->client->ismobiledevice == '1' && $this->user->client->istablet == 0) || $_COOKIE['MobilePageVersion']) {
-                $this->page->tpl = 'main/main.mobile.tpl';
-            } else {
-                $this->page->tpl = 'main/main.tpl';
-            }
+            $page = new staticPage(7);
+                
+            $this->page->title = $page->h1;
+            $this->page->keywords = $page->meta_keywords;
+            $this->page->description = $page->meta_description;
+
+            $this->view->setVar('sPage', $page);
+            $this->view->setVar('PAGE', $this->page);
             
-            $this->page->import(array(
-            ));
             
             $products = product::getAll([
                 'status' => 'active', 

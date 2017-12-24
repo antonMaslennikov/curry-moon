@@ -144,9 +144,9 @@
          * @var способы доставки
          */     
         public static $deliveryTypes = array (
-            'user'  => array('title' => 'Самовывоз'),
-            'post'  => array('title' => 'Почта России'),
-            'major' => ['title' => 'MAJOR EXPRESS'],
+            'user'  => array('title' => 'Самовывоз', 'price' => 0),
+            'post'  => array('title' => 'Почта России', 'price' => 400),
+            'major' => ['title' => 'MAJOR EXPRESS', 'price' => 0],
         );
 
         
@@ -1033,6 +1033,7 @@
             
             $this->user_basket_status = $status;
             $this->user_basket_date   = NOW;
+            $this->user_basket_delivery_cost = self::$deliveryTypes[$this->user_basket_delivery_type]['price'];
             $this->user_id            = $this->user->id;
 
             $this->save();

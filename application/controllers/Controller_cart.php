@@ -104,6 +104,8 @@
                 }
             }
             
+            $this->view->setVar('deliveryTypes', basket::$deliveryTypes);
+            
             $this->view->generate($this->page->index_tpl);
         }
         

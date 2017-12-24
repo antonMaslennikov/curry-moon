@@ -105,7 +105,9 @@
 
                 tinymce.init({
                     selector: '.tinymce-textarea',
-                    menubar: false
+                    menubar: false,
+                    plugins: "code,link",
+                    toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code"
                 });
 
                 var timer,

@@ -24,7 +24,16 @@
                 <div class="ProdTitleBlock">
                     <h3 class="catProductTitle"><a href="{$base}{$p.slug}-{$p.product_sku|lower}">{$p.product_name}</a></h3>
                     <div class="catProductPrice" id="productPrice{$p.id}">
-                        <div class="PricesalesPrice vm-display vm-price-value"><span class="vm-price-desc">Цена: </span><span class="PricesalesPrice">{if $p.product_price != $p.total_price}<s>{$p.product_price}</s>{/if} {$p.total_price} руб</span></div>
+                        <div class="PricesalesPrice vm-display vm-price-value">
+                            <span class="vm-price-desc">Цена: </span>
+                            <span class="PricesalesPrice">{$p.total_price} руб</span>
+                        </div>
+                        {if $p.product_price != $p.total_price}
+                        <div class="PricebasePrice vm-display vm-price-value">
+                           <span class="vm-price-desc">Cтарая цена: </span>
+                           <span class="PricebasePrice">{$p.product_price} руб</span>
+                        </div>
+                        {/if}
                     </div>
                 </div>
             </div>

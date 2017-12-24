@@ -41,6 +41,10 @@ class Controller_orders extends Controller_ {
             $_GET['filters'] = ['status' => ['ordered', 'accepted', 'prepared']];
         }
         
+        if (!$_GET['filters']['orderBy']) {
+            $_GET['filters']['orderBy'] = 'id';
+        }
+        
 		$this->view->setVar('orders', orders::getAll($_GET['filters']));
         
         $this->view->setVar('orderStatuses', orders::$orderStatus);

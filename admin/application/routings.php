@@ -91,6 +91,12 @@
 		        'schemas' => 'GET'
 	        ],
             
+            'save_pic_data' => [
+		        'pattern'=>'/admin/product/save_pic_data',
+		        'action'=> 'Controller_product:action_save_pic_data',
+		        'schemas' => 'GET|POST'
+	        ],
+            
             
 	        'category_list' => [
 		        'pattern'=>'/admin/product_category/list',

@@ -13,6 +13,7 @@ use admin\application\models\product as adminProduct;
 use application\models\product;
 use admin\application\models\ProductFormModel;
 use smashEngine\core\helpers\Html;
+use smashEngine\core\App;
 
 class Controller_product extends Controller_ 
 {
@@ -217,4 +218,27 @@ class Controller_product extends Controller_
 
 		return (new product((int) $_GET['product']))->deletePicture($thumb_img);
 	}
+    
+    public function action_save_pic_data() {
+        
+        $sth = App::db()->prepare("UPDATE " . product::$dbtable_pictures . " 
+            SET 
+                `alt` = :alt,
+                `title` = :title
+            WHERE 
+                `id` = :id
+            LIMIT 1");
+        
+        $sth->execute([
+           'alt' => $_POST['alt'],
+           'title' => $_POST['title'],
+           'id' => $_POST['id'],
+        ]);
+        
+        if (!$this->page->isAjax) {
+            $this->page->refresh();
+        }
+        
+        exit();
+    }
 }

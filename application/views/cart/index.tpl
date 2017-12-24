@@ -87,7 +87,7 @@
                                 Стоимость обработки и доставки:
                                 </td>
                                 <td colspan="2">
-                                <div id="tt_shipping_rate_basket" style="text-align: right">0 <span class="currency_format">руб</span></div>
+                                    <div id="tt_shipping_rate_basket" style="text-align: right"><span id="delivery-sum">0</span> <span class="currency_format">руб</span></div>
                                 </td>
                             </tr>
                             <tr>
@@ -95,7 +95,9 @@
                                 Всего:
                                 </td>
                                 <td colspan="2">
-                                <div id="tt_total_basket" style="text-align: right">{$basket->basketSum} <span class="currency_format">руб</span></div>
+                                    <div id="tt_total_basket" style="text-align: right"><span id="total-sum" baseSum="{$basket->basketSum}"
+
+>{$basket->basketSum}</span> <span class="currency_format">руб</span></div>
                                 </td>
                             </tr>
                             </tbody>
@@ -414,40 +416,11 @@
             {/if}
 
             <br style="end_br">
-
-            <br style="clear: both; float: none;">
-            <br style="clear: both; float: left;">
         </div>
     </div>
     
     <script> if (typeof sessMin == 'undefined') var sessMin = 15; </script>
-    
-    <form action="#" name="hidden_form">
-
-        <div style="display: none;">
-            <input type="text" name="fool" value="1" required="required" class="required hasTip" title="">
-            <select class="vm-chzn-select " name="hidden">
-            <option value="1">test</option>
-            </select>
-        </div>
-
-        <input type="hidden" name="opc_min_pov" id="opc_min_pov" value="">
-
-        <div style="display: none;">
-            {literal}
-            <a href="#" rel="{handler: 'iframe', size: {x: 500, y: 400}}" class="opcmodal">a</a>
-            <a href="#" rel="{handler: 'iframe', size: {x: 500, y: 400}}" class="pfdmodal">a</a>
-            {/literal}
-        </div>
-
-        <div style="display: none;"><select id="no_states" name="no_states"><option value="">-- Выберите --</option></select></div>
-
-        <script type="text/javascript">
-            var selected_bt_state = '';
-            var selected_st_state = '';
-        </script>
-        
-    </form>
+ 
     
     {literal}
     <style>
@@ -461,7 +434,7 @@
             border:#f7f7f7;
         }
     </style>
-    <script id="box_js" type="text/javascript">//<![CDATA[ 
+    <script type="text/javascript">//<![CDATA[ 
         jQuery(document).ready(function($) {
             jQuery('div#full-tos').hide();
             var con = jQuery('div#full-tos').html();
@@ -499,6 +472,11 @@
                     if (jQuery('#payment_id_8').attr('checked'))
                         jQuery('input[name=paymentmethod_id]:visible').eq(0).attr('checked', 'checked');
                 }
+                
+                var p = parseInt($(this).attr('_price'));
+                
+                $('#delivery-sum').text(p);
+                $('#total-sum').text(parseInt($('#total-sum').attr('baseSum')) + p);
                 
             });
         }); //]]>

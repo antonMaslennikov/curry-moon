@@ -25,8 +25,7 @@
                  'lang' => 'ru', 
                  'category' => 2, 
                  'status' => 1, 
-                 'orderby' => 
-                 'publish_date',
+                 'orderby' => 'publish_date DESC',
                  'limit' => $onpage,
                  'offset' => intval($_GET['limitstart']),
                 ], $trans_id));

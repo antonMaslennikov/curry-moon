@@ -85,7 +85,7 @@ class mail extends \smashEngine\core\Model
      * @param int $raiting приоритет отправки письма
      * @param mixed $attachments вложения
      */
-    function send($userarray, $templateid, $reparray = null, $from = 'info@xxx.ru', $raiting = 10, $attachments = null)
+    function send($userarray, $templateid, $reparray = null, $from, $raiting = 10, $attachments = null)
     {
         if (!self::$templates[$templateid]) {
             $tpl = App::db()->query("SELECT * FROM `mail__templates` WHERE `id` = '" . $templateid . "'")->fetch();
@@ -100,7 +100,7 @@ class mail extends \smashEngine\core\Model
             $text = $tpl['mail_template_text'];
 
         if (empty($from))
-            $from = 'info@maryjane.ru';
+            $from = getVariableValue('contactEmail');
 
         preg_match_all ("/%(.*)%/U", $subject, $vararrays);
 

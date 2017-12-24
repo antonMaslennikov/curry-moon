@@ -169,8 +169,8 @@
                 selector: '.tinymce-textarea',
                 menubar: false,
                 convert_urls: false,
-                plugins: "code",
-                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | code"
+                plugins: "code,link",
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code"
             });
 
             var timer,

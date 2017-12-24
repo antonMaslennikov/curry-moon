@@ -4,6 +4,7 @@
     //define('appMode', 'producton');
     
     define('adminEmail', 'anton.maslennikov@gmail.com');
+    define('contactEmail', 'info@curry-moon.com');
     
     define('AppDomain', '.curry-moon.loc');
 

@@ -72,6 +72,50 @@
 
     </div>
 </div>
+
+
+<div class="modal fade" id="product-alt-modal">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/admin/product/save_pic_data" id="product-pic-form" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Title и alt изображения</h4>
+                </div>
+                <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                               <div class="form-group">
+                                   <label for="pic-edit-title">Title</label>
+                                   <input type="text" class="form-control" name="title"> 
+                               </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                               <div class="form-group">
+                                   <label for="pic-edit-alt">Alt</label>
+                                       <input type="text" class="form-control" name="alt">
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="id">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Закрыть</button>
+                    <button class="btn btn-success pull-right" type="submit">Сохранить</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
 {literal}
 <script src="/public/packages/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
@@ -85,7 +129,9 @@
 
             tinymce.init({
                 selector: '.tinymce-textarea',
-                menubar: false
+                menubar: false,
+                plugins: "code,link",
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code"
             });
 
             var timer,

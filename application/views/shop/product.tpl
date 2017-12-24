@@ -7,7 +7,7 @@
                 <div class="productDetailsLeft">
                     <div class="main-image">
                         <a title="{$product->slug}" data-rokbox="" data-rokbox-album="ProdImage" href="{$product->pictures.0.orig_path}">
-                            <img itemprop="image" src="{$product->pictures.0.orig_path}" alt="{$product->slug}">
+                            <img itemprop="image" src="{$product->pictures.0.orig_path}" title="{if $product->pictures.0.title}{$product->pictures.0.title}{/if}" alt="{if $product->pictures.0.alt}{$product->pictures.0.alt}{else}{$product->slug}{/if}">
                         </a>
                     </div>
                     <span itemprop="brand" itemscope="" itemtype="http://schema.org/Brand"><meta itemprop="name" content="CurryMoon"></span>
@@ -15,7 +15,7 @@
                     <div class="additional-images">
                         {foreach from=$product->pictures key="k" item="p"}
                         <a href="{$p.orig_path}" class="product-image image-{$k}" title="{$product->slug}" data-rokbox="" data-rokbox-album="ProdImage">       
-                            <img src="{$p.thumb_path}" alt="{$product->slug}" class="product-image" style="cursor: pointer">
+                            <img src="{$p.thumb_path}" title="{if $p.title}{$p.title}{/if}" alt="{if $p.alt}{$p.alt}{else}{$product->slug}{/if}" class="product-image" style="cursor: pointer">
                         </a>
                         {/foreach}
                     </div>	   	
