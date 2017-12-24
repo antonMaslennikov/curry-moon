@@ -131,7 +131,9 @@
             $product = new product($this->product);
             
             $this->page->title = $product->product_name;
-            
+            $this->page->keywords = $product->meta_keywords;
+            $this->page->description = $product->meta_description;
+                
             $base = '/ru/shop';
             
             foreach ($product->getCategorysChain() AS $c) {
