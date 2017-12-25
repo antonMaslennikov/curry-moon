@@ -8,7 +8,6 @@
 
 namespace admin\application\models;
 
-use application\models\product;
 use smashEngine\core\App;
 use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\UploadedFile;
@@ -32,6 +31,7 @@ class ProductFormModel extends FormModel {
 	public $id;
     protected $old_slug;
 	protected $all_tags;
+	public $old_category;
     
 	public $picture_id;
     public $picture_temp;
@@ -58,7 +58,7 @@ class ProductFormModel extends FormModel {
 	protected $productModel;
 
 	public $tags;
-   
+
 	public function setUpdate() {
 
 		$this->newRecord = false;
@@ -68,6 +68,8 @@ class ProductFormModel extends FormModel {
 		$this->product_discount = ($this->product_discount)?$this->setDiscount($this->product_price, $this->product_discount):'';
 
 		$this->productModel = new product($this->id);
+
+		$this->old_category = $this->category;
 	}
 
 	protected function setDiscount($price, $discount) {

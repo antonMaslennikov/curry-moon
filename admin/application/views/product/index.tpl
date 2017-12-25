@@ -18,6 +18,9 @@
                     <th>Название</th>
                     <th>Изображение</th>
                     <th>Статус</th>
+                 {if isset($smarty.get.filter.categoryfull)}
+                     <th>Сортировка</th>
+                 {/if}
                     <th></th>
                 </tr>
                 <tr>
@@ -46,6 +49,15 @@
                             <span class="label label-danger">Не активен</span>
                         {/if}
                     </td>
+                    {if isset($smarty.get.filter.categoryfull)}
+                        <td>
+                            <input type="hidden" name="filter[categoryfull]" value="{$smarty.get.filter.categoryfull}">
+                            <button name="moveTo[{$node.id}]" value="up" class="btn-link btn-xs"><i class="fa fa-arrow-up"></i></button>
+                            <button name="moveTo[{$node.id}]" value="down" class="btn-link btn-xs"><i class="fa fa-arrow-down"></i></button>
+                            <input name="move[{$node.id}]" type="text" value="{$node.sorting%1000}" style="width: 50px; text-align:center">
+                            <button name="moveTo[{$node.id}]" value="value" class="btn-link"><i class="fa fa-check"></i></button>
+                        </td>
+                    {/if}
                     <td>
                         <span class="pull-right">
                             <a href="update?id={$node.id}" class="btn btn-warning btn-xs" title="Изменить данные"><i class="fa fa-fw fa-pencil"></i></a>
@@ -100,3 +112,4 @@
 }(window.jQuery)
 </script>
 {/literal}
+{$smarty.get|printr}

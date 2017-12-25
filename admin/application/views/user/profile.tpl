@@ -109,9 +109,9 @@
                         <th>Тип регистрации:</th>
                         <td>
                             {if $user.info.user_is_fake == 'true'}
-                                <label class="label label-success">Обычная регистрация</span>
+                                <span class="label label-success">Обычная регистрация</span>
                             {else}
-                                <label class="label label-warning">Регистрация через заказ</span>
+                                <span class="label label-warning">Регистрация через заказ</span>
                             {/if}
                         </td>
                     </tr>

@@ -19,8 +19,56 @@ class Controller_product extends Controller_
 {
     protected $layout = 'index.tpl';
 
+    protected function setSortValue() {
+
+        $move = $_GET['moveTo'];
+        $id = key($move);
+        $value = array_shift($move);
+
+        switch ($value) {
+
+            case 'up':
+
+                (new adminProduct($id))->setUpSorting();
+
+                break;
+
+            case 'down':
+
+                (new adminProduct($id))->setDownSorting();
+
+                break;
+
+            case 'value':
+
+                if (!empty($_GET['move'][$id])) {
+
+                    (new adminProduct($id))->setValueSorting((int) $_GET['move'][$id]);
+                }
+                break;
+        }
+
+        unset($_GET['moveTo']);
+        unset($_GET['move']);
+
+        $link = '/admin/product/list?'.http_build_query($_GET, 'flags_');
+
+        $this->page->go($link);
+
+        die();
+    }
+
 	public function action_index()
 	{
+	    //Раскоментировать для установки значений сортировок
+	    //printr((new adminProduct())->updateAllSorting(), 1);
+
+        if (isset($_GET['moveTo'])) {
+
+            $this->setSortValue();
+            printr($_GET, 1);
+        }
+
 		$this->setTemplate('product/index.tpl');
 		$this->setTitle("Товары");
 
@@ -48,7 +96,7 @@ class Controller_product extends Controller_
 			'/admin/product/create'=>'<i class="fa fa-fw fa-shopping-bag"></i> Добавить новый',
 		]);
         
-        $product = new product;
+        $product = new adminProduct();
         
         $model = new ProductFormModel();
 		$postModel = Html::modelName($model);
@@ -69,6 +117,9 @@ class Controller_product extends Controller_
 	                }
 
                     $product->picture_id = $product->pictures[0]['thumb_id'];
+
+                    $product->sorting = $product->setNewSorting();
+
                     $product->save();
                 }
                 
@@ -131,7 +182,7 @@ class Controller_product extends Controller_
 
     public function action_update() 
     {
-        $product = new product($_GET['id']);
+        $product = new adminProduct($_GET['id']);
         
         $this->setTemplate('product/form.tpl');
 		$this->setTitle('Товар "'.$product->product_name.'"');
@@ -164,9 +215,17 @@ class Controller_product extends Controller_
 				if (!$product->picture_id && count($product->picture_temp)) {
 					$product->picture_id = $product->pictures[0]['thumb_id'];
 				}
-                
+
+				if ($model->old_category != $product->category) {
+
+                    $product->sorting = $product->setNewSorting();
+                }
+
                 $product->save();
-                
+
+                $product->fixSorting($model->old_category);
+
+
                 if (isset($_POST['apply'])) {
                     $this->page->refresh();
                 } else {
@@ -191,9 +250,11 @@ class Controller_product extends Controller_
 
 	public function action_delete() {
 
-		$product = new product((int) $_GET['id']);
+		$product = new adminProduct((int) $_GET['id']);
 
 		if ($product->delete()) {
+
+		    $product->fixSorting($product->category);
 
 			$this->page->go('/admin/product/list');
 		} else {
