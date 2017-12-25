@@ -115,10 +115,13 @@
             </div>
 
 
+            {assign var="rp" value=$product->listProductRelated(true)}
+            
+            {if $rp|count > 0}
             <div class="product-related-products">
                 <h4>Сопутствующие товары</h4>
                 
-                {foreach from=$product->listProductRelated(true) item="r"}
+                {foreach from=$rp item="r"}
                 <div class="product-field product-field-type-R"> 
                     <span class="product-field-display">
                         <div class="product-field-display" itemprop="isRelatedTo" itemscope="" itemtype="http://schema.org/Product">
@@ -132,7 +135,8 @@
                 </div>
                 {/foreach}
             </div>
-
+            {/if}
+            
             <script id="popups_js" type="text/javascript">//<![CDATA[ 
                 
                 jQuery("a[rel=vm-additional-images]").fancybox({

@@ -314,6 +314,7 @@ class product extends \smashEngine\core\Model {
         $rows = $sth->fetchAll();
         
         foreach ($rows AS $k => $p) {
+            $rows[$k]['isNew'] = $p['added_date'] != '0000-00-00 00:00:00' && getDateDiff($p['added_date']) < 14 * 24 * 3600 ? true : false;
             $rows[$k]['total_price'] = round($p['product_price'] - $p['product_price'] / 100 * $p['product_discount']);
         }
         

@@ -1035,6 +1035,9 @@
             $this->user_basket_date   = NOW;
             $this->user_basket_delivery_cost = self::$deliveryTypes[$this->user_basket_delivery_type]['price'];
             $this->user_id            = $this->user->id;
+            
+            $this->user_basket_delivery_type_rus = self::$deliveryTypes[$this->user_basket_delivery_type]['title'];
+            $this->user_basket_payment_type_rus = self::$paymentTypes[$this->user_basket_payment_type]['title'];
 
             $this->save();
 
@@ -1047,7 +1050,7 @@
             ]);
 
             // уведомление администратору о новом заказе
-            App::mail()->send([989, 990], 23, ['order' => $this, 'id' => $this->id]);
+            App::mail()->send(['info@curry-moon.com'], 23, ['order' => $this, 'id' => $this->id]);
             
             $this->user->setSessionValue(['user_basket_id' => 0]);
             
