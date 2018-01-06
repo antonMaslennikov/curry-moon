@@ -46,6 +46,9 @@ class product extends \smashEngine\core\Model {
     {
         parent::__construct($id);
         
+        // вызываем здесь так как конструктор из примеси не выполнится
+        $this->info['tags'] = self::getTags($this->id);
+        
         $this->total_price = round($this->product_price - $this->product_price / 100 * $this->product_discount);
     }
     

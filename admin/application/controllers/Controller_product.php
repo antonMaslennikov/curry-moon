@@ -124,7 +124,7 @@ class Controller_product extends Controller_
                 }
                 
 				if (isset($_POST['apply'])) {
-                    $this->page->refresh();
+                    $this->page->go('/admin/product/update?id=' . $product->id);
                 } else {
 				    $this->page->go('/admin/product/list');
                 }
