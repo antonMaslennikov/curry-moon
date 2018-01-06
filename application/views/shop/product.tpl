@@ -7,7 +7,12 @@
                 <div class="productDetailsLeft">
                     <div class="main-image">
                         <a title="{$product->slug}" data-rokbox="" data-rokbox-album="ProdImage" href="{$product->pictures.0.orig_path}">
-                            <img itemprop="image" src="{$product->pictures.0.orig_path}" title="{if $product->pictures.0.title}{$product->pictures.0.title}{/if}" alt="{if $product->pictures.0.alt}{$product->pictures.0.alt}{else}{$product->slug}{/if}">
+                            {foreach from=$product->pictures key="k" item="p"}
+                                {if $p.thumb_id == $product->picture_id}
+                                    <img itemprop="image" src="{$p.orig_path}" title="{if $p.title}{$p.title}{/if}" alt="{if $p.alt}{$p.alt}{else}{$product->slug}{/if}">
+                                {/if}
+                            {/foreach}
+                            
                         </a>
                     </div>
                     <span itemprop="brand" itemscope="" itemtype="http://schema.org/Brand"><meta itemprop="name" content="CurryMoon"></span>
@@ -32,16 +37,20 @@
                             <br>				
                             <div class="product-price" id="productPrice389">
                                 <div class="PricesalesPrice vm-display vm-price-value">
-                                    <span class="vm-price-desc">Цена </span>
+                                    <span class="vm-price-desc">Цена: </span>
                                     <span class="PricesalesPrice">
                                         <span itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
-                                            <span itemprop="price">{if $product->total_price != $product->product_price}<s>{$product->product_price}</s>{/if} {$product->total_price} руб</span>
+                                            <span itemprop="price">{$product->total_price} руб</span>
                                             <meta itemprop="priceCurrency" content="RUB">
                                             <meta itemprop="availability" content="http://schema.org/InStock">
                                         </span>
                                     </span>
                                 </div>
-                                <span class="price-crossed"></span>				
+                                {if $product->total_price != $product->product_price}
+                                <span class="price-crossed">
+                                	Старая цена: <s>{$product->product_price}</s> руб
+                                </span>	
+                                {/if}			
                             </div>
 
                             {if $product->quantity +- $product->quantity_reserved > 0}

@@ -66,7 +66,7 @@ class Controller_product extends Controller_
         if (isset($_GET['moveTo'])) {
 
             $this->setSortValue();
-            printr($_GET, 1);
+            //printr($_GET, 1);
         }
 
 		$this->setTemplate('product/index.tpl');

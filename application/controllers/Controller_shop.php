@@ -93,8 +93,7 @@
                 'avalible' => true,
                 'status' => 'active', 
                 'picture' => true,
-                'orderBy' => 'pr.`id`',
-                'orderDir' => 'DESC',
+                'orderBy' => 'pr.`sorting`, pr.`id` DESC',
                 'limit' => $onpage,
                 'offset' => intval($_GET['limitstart']),
             ], $trans_id);

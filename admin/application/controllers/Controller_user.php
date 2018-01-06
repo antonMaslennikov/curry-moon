@@ -319,4 +319,12 @@ class Controller_user extends Controller_ {
 
 		$this->render();
 	}
+    
+    public function action_delete()
+    {
+        $u = new user($_GET['id']);
+        $u->delete();
+        
+        $this->page->refresh();
+    }
 }

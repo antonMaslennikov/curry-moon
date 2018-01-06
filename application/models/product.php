@@ -295,7 +295,7 @@ class product extends \smashEngine\core\Model {
         
         if ($filters['orderBy']) {
             // ёбаный стыд))) 
-            $q .= " ORDER BY " . addslashes($filters['orderBy']) . ' ' . (in_array($filters['orderDir'], ['ASC', 'DESC']) ? $filters['orderDir'] : 'DESC');
+            $q .= " ORDER BY " . addslashes($filters['orderBy']);
         }
         
         if ($filters['limit']) {

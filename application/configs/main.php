@@ -10,9 +10,9 @@
 
     // DB
     define('DBHOST', 'localhost');
-    define('DBNAME', 'shop.loc');
-    define('DBUSER', 'shop');
-    define('DBPASS', 'root');
+    define('DBNAME', 'curry-moon');
+    define('DBUSER', 'curry-moon');
+    define('DBPASS', 'dvSIjyMmL1NHKTbw');
     define('DB_CHARSET', 'utf-8');
     define('DB_PREFIX', 'se_');
     

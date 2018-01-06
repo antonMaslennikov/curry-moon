@@ -37,7 +37,7 @@
     <link href="/public/css/template.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/menu/menu.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/gk.stuff.css" rel="stylesheet" type="text/css" />
-    <link href="/public/css/vm.css?v4" rel="stylesheet" type="text/css" />
+    <link href="/public/css/vm.css?v7" rel="stylesheet" type="text/css" />
     <link href="/public/css/style3.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/typography/typography.style3.css" rel="stylesheet" type="text/css" />
     

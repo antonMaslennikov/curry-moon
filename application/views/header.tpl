@@ -17,6 +17,7 @@
                     <option  value="/ru/shop/jewellery/silver">&mdash;&mdash; Серебро</option>
                     <option  value="/ru/shop/jewellery/bijouterie">&mdash;&mdash; Бижутерия</option>
                     <option  value="/ru/shop/bags">&mdash; Сумки</option>
+                    <option  value="/ru/shop/accessories">&mdash; Аксессуары</option>
                     <option  value="/ru/shop/tippets">&mdash; Палантины</option>
                     <option  value="/ru/shop/clothing">&mdash; Одежда</option>
                     <option  value="/ru/aktcii">Акции</option>

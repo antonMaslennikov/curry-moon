@@ -130,8 +130,11 @@
             tinymce.init({
                 selector: '.tinymce-textarea',
                 menubar: false,
-                plugins: "code,link",
-                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code"
+                plugins: "code,link,spellchecker",
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code | spellchecker",
+                spellchecker_languages: "Russian=ru,English=en",    
+                spellchecker_language: 'ru',
+                spellchecker_rpc_url: "http://speller.yandex.net/services/tinyspell"
             });
 
             var timer,

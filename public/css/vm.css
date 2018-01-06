@@ -699,7 +699,7 @@ fieldset .userfields_info {
 	display: table;
 	width: 100%
 }
-.row .product.width50, .row .product.width33, .row .product.width25, .row .product.width20 { padding: 0; min-height: 451px; }
+.row .product.width50, .row .product.width33, .row .product.width25, .row .product.width20 { padding: 0; min-height: 500px; }
 .row > div {
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
@@ -783,6 +783,12 @@ fieldset .userfields_info {
 	line-height: 19px;
 	text-align: center;
 	text-transform: uppercase
+}
+
+.vm-button-correct { 
+	background: #d2332b !important;
+	border: none!important;
+	color: #fff!important;
 }
 .vm-button-correct:hover, .catProductDetails:hover {
 	background: #b06339;

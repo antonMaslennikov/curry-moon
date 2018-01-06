@@ -158,6 +158,8 @@ iframe { max-width: 100%!important; }
 	float: left;
 	font-size: 12px;
 	margin-top: -64px;
+    max-width: 30%;
+    text-align: left;
 }
 #gkUserArea > a {
 	color: #c1c1c1;
