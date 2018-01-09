@@ -1,3 +1,4 @@
+{if $products|count > 0 || $filters}
 <div class="clearfix">
 
     <h1>{$parentCategory->title}</h1>
@@ -61,3 +62,4 @@
     {include file="pagination.tpl"}
 
 </div>
+{/if}

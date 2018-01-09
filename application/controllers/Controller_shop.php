@@ -116,7 +116,8 @@
             $this->view->setVar('childrenCategorys', $childrens);
             $this->view->setVar('products', $products);
             $this->view->setVar('options', $options);
-            
+            $this->view->setVar('filters', $filters);
+                
             if ($total > 0) {
                 $this->view->setVar('pages', range(1, ceil($total / $onpage)));
                 $this->view->setVar('page', $_GET['limitstart'] / $onpage + 1);
