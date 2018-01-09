@@ -39,8 +39,13 @@ class Controller_blog extends Controller_ {
 
 		$post = new post();
 
-		$this->setTemplate('blog/form.tpl');
-		$this->setTitle('Новая запись блога');
+        if ($_GET['lookbook']) {
+            $this->setTemplate('blog/form.lookbook.tpl');
+            $this->setTitle('Новый lookbook');
+        } else {
+            $this->setTemplate('blog/form.tpl');
+            $this->setTitle('Новая запись блога');
+        }
 
 		$this->setBreadCrumbs([
 			'/admin/blog/list'=>'<i class="fa fa-fw fa-files-o"></i> Блог',

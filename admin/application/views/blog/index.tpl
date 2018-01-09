@@ -3,6 +3,8 @@
         <h3 class="box-title">Блог</h3>
         <div class="box-tools">
             <a href="/admin/blog/create" class="btn btn-success btn-sm">Добавить запись</a>
+            
+            <a href="/admin/blog/create?lookbook=true" class="btn btn-danger btn-sm">Добавить lookbook</a>
         </div>
     </div>
     <!-- /.box-header -->
