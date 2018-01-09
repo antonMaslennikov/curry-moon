@@ -10,6 +10,7 @@
                     <li class="active"><a href="#main" data-toggle="tab">Основные данные</a></li>
                     <li><a href="#image" data-toggle="tab">Изображение</a></li>
                     <li><a href="#meta" data-toggle="tab">META данные</a></li>
+                    <li><a href="#fields" data-toggle="tab">Дополнительные характеристики</a></li>
                 </ul>
 
                 <div class="tab-content">
@@ -115,6 +116,41 @@
 
                     </div>
 
+                    <div class="tab-pane" id="fields">
+                       
+                       <p>
+                           <a href="/admin/product_category/field_save?category={$category->id}" data-toggle="modal" data-target="#category-field-modal" class="edit-field" style="border-bottom: 1px dashed">Добавить <i class="fa fa-long-arrow-right"></i></a>
+                       </p>
+                       
+                       <br />
+                       
+                       <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                           <tr>
+                               <th>Название</th>
+                               <th>Slug</th>
+                               <th>Возможные значения</th>
+                               <th></th>
+                           </tr>
+                           {foreach from=$category->getAdditionFields() item="af"}
+                           <tr>
+                                <td>{$af.name}</td>
+                                <td style="color:#ccc">{$af.slug}</td>
+                                <td>{$af.value}</td>
+                                <td>
+                                    <span class="pull-right">
+                                        <a href="/admin/product_category/field_save?id={$af.id}&category={$category->id}" data-toggle="modal" data-target="#category-field-modal-{$af.id}" class="btn btn-warning btn-xs " title="Изменить данные"><i class="fa fa-fw fa-pencil"></i></a>
+                                        <a href="field_delete?id={$af.id}" class="btn btn-danger btn-xs delete-js" title="Удалить поле"><i class="fa fa-fw fa-times"></i></a>
+                                    </span>
+                                </td>
+                           </tr>
+                           {foreachelse}
+                           <tr>
+                               <td colspan="10">Отсутствуют</td>
+                           </tr>
+                           {/foreach}
+                       </table>
+                       
+                    </div>
                 </div>
 
                 <div class="box-footer">
@@ -126,6 +162,21 @@
         </form>
     </div>
 </div>
+
+
+<div class="modal fade" id="category-field-modal">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+{foreach from=$category->getAdditionFields() item="af"}
+<div class="modal fade" id="category-field-modal-{$af.id}">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+{/foreach}
 
 {literal}
     <script src="/public/packages/tinymce/tinymce.min.js"></script>
@@ -171,6 +222,41 @@
                 targetField.on('change', function () {
                     editable = $(this).val().length == 0;
                 });
+                 
+             
+                 /*
+                $('.edit-field').click(function() {
+
+                    $('#category-field-form input[name=data\\\[name\\\]]').val($(this).attr('data-name'));
+                    $('#category-field-form input[name=data\\\[slug\\\]]').val($(this).attr('data-slug'));
+                    $('#category-field-form input[name=data\\\[value\\\]]').val($(this).attr('data-value'));
+                    $('#category-field-form input[name=id]').val($(this).attr('data-id'));
+                    
+                    $('#category-field-modal').modal({
+                        keyboard: false
+                    });
+
+                    return false;
+                });*/
+                /*
+                $('#category-field-form').submit(function(){
+
+                    f = $(this);
+
+                    $.post($(this).attr('action'), $(this).serialize(), function() {
+                        id = f.find('input[name=id]').val();
+                        $('a[data-id=' + id + ']').attr('data-name', f.find('input[name=name]').val());
+                        $('a[data-id=' + id + ']').attr('data-slug', f.find('input[name=slug]').val());
+                        $('a[data-id=' + id + ']').attr('data-value', f.find('input[name=value]').val());
+
+                        $('#category-field-modal').modal('hide');
+                    });
+
+                    location.reload();
+                    
+                    return false;
+
+                });*/
             })
         }(window.jQuery)
     </script>

@@ -1,18 +1,21 @@
-{if $products|count > 0}
+<div class="clearfix">
+
     <h1>{$parentCategory->title}</h1>
+
+    {include file="shop/index.sidebar.tpl"}
 
     <div class="row">
 
         {foreach from=$products item="p"}
         <div class="product floatleft width33 vertical-separator">
             <div class="spacer">
-               
+
                 {if $p.isNew}
                 <div class="bit_badge_new" style="top:270px;left:260px;">
                     <img src="/public/images/new_blue.png" alt="badge_new">
                 </div>
                 {/if}
-                
+
                 {if $p.product_discount > 0}
                 <div id="{$p.id}_bvmpb_com" class="product_badge">
                     <div class="bit_badge_discount" style="top:-12px;left:260px;">
@@ -20,7 +23,7 @@
                     </div>
                 </div>
                 {/if}
-                
+
                 <div>
                     <a title="{$p.product_name}" href="{$base}{$p.slug}-{$p.product_sku|lower}">
                         <img src="{$p.picture_path}" alt="{$p.slug}" class="browseProductImage">					 
@@ -44,10 +47,17 @@
                 </div>
             </div>
         </div>
+        {foreachelse}
+        
+        <p>
+            Товаров по выбранным параметрам не найдено
+        </p>
+        
         {/foreach}
 
         <div class="clear"></div>
     </div>
 
     {include file="pagination.tpl"}
-{/if}
+
+</div>

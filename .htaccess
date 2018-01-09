@@ -1,5 +1,7 @@
 DirectoryIndex index.php index.html
 
+AddDefaultCharset UTF-8
+
 ErrorDocument 403 /403/
 ErrorDocument 404 /404/
 

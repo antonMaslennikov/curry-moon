@@ -11,6 +11,7 @@ namespace admin\application\controllers;
 
 use admin\application\models\product as adminProduct;
 use application\models\product;
+use application\models\productOption;
 use admin\application\models\ProductFormModel;
 use smashEngine\core\helpers\Html;
 use smashEngine\core\App;
@@ -126,7 +127,7 @@ class Controller_product extends Controller_
 				if (isset($_POST['apply'])) {
                     $this->page->go('/admin/product/update?id=' . $product->id);
                 } else {
-				    $this->page->go('/admin/product/list');
+				    $this->page->go('/admin/product/list?filter[categoryfull]=' . $product->category);
                 }
 			}
 		}
@@ -225,18 +226,28 @@ class Controller_product extends Controller_
 
                 $product->fixSorting($model->old_category);
 
-
+                foreach ($_POST['options'] AS $o => $v) {
+                    if (!empty($o) && !empty($v)) {
+                        $opt = new productOption;
+                        $opt->product_id = $product->id;
+                        $opt->option = $o;
+                        $opt->value = $v;
+                        $opt->save();
+                    }
+                }
+                
                 if (isset($_POST['apply'])) {
                     $this->page->refresh();
                 } else {
-				    $this->page->go('/admin/product/list');
+				    $this->page->go('/admin/product/list?filter[categoryfull]=' . $product->category);
                 }
 			}
 		}
-
+        
 		$this->view->setVar('model', $model->getDataForTemplate());
         $this->view->setVar('manufacturers', product::$manufacturers);
         $this->view->setVar('product', $product);
+        $this->view->setVar('productOptions', $product->getOptions());
 
 	    $this->page->import([
 		    '/public/packages/select2/css/select2.min.css',

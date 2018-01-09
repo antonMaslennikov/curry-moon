@@ -61,9 +61,12 @@
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
-                    <a href="/admin/product/list" class="btn btn-default">Отмена</a>
+                    
                     {if $product->id > 0}
-                    <a href="/ru/shop/openproduct/{$product->id}" class="btn btn-success pull-right">Посмотреть на сайте</a>
+                        <a href="/admin/product/list?filter[categoryfull]={$product->category}" class="btn btn-default">Отмена</a>
+                        <a href="/ru/shop/openproduct/{$product->id}" class="btn btn-success pull-right">Посмотреть на сайте</a>
+                    {else}
+                        <a href="/admin/product/list" class="btn btn-default">Отмена</a>
                     {/if}
                 </div>
 

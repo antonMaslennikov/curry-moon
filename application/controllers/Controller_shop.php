@@ -83,6 +83,15 @@
                 $this->page->addBreadCrump($c['title'], $base);
             }
             
+            // фильтры по доп.полям
+            $options = $category->getAdditionFields(false);
+            
+            foreach ($options AS $o) {
+                if ($_GET[$o['slug']]) {
+                    $filters[$o['slug']] = $_GET[$o['slug']];
+                }
+            }
+            
             // список товаров
             $onpage = 18;
             
@@ -94,6 +103,7 @@
                 'status' => 'active', 
                 'picture' => true,
                 'orderBy' => 'pr.`sorting`, pr.`id` DESC',
+                'options' => $filters,
                 'limit' => $onpage,
                 'offset' => intval($_GET['limitstart']),
             ], $trans_id);
@@ -105,10 +115,13 @@
             $this->view->setVar('parentCategory', $category);
             $this->view->setVar('childrenCategorys', $childrens);
             $this->view->setVar('products', $products);
+            $this->view->setVar('options', $options);
             
-            $this->view->setVar('pages', range(1, ceil($total / $onpage)));
-            $this->view->setVar('page', $_GET['limitstart'] / $onpage + 1);
-            $this->view->setVar('onpage', $onpage);
+            if ($total > 0) {
+                $this->view->setVar('pages', range(1, ceil($total / $onpage)));
+                $this->view->setVar('page', $_GET['limitstart'] / $onpage + 1);
+                $this->view->setVar('onpage', $onpage);
+            }
             
             if (!empty($_GET['limitstart'])) {
                 $this->page->canonical = $this->page->url;

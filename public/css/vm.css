@@ -1361,3 +1361,29 @@ script[id^="vm"] + h2 {
 	font-size: 12px;
 	padding: 5px 0;
 }
+
+.catalog-sidebar {
+    float:left;
+    width:16%;
+}
+
+.shop-with-sidebar .row {
+    width: 83%;
+    float: right;
+}
+
+.option {
+    margin-bottom: 25px;
+}
+
+.option .option-values {
+    margin-left:10px;
+}
+
+.option .option-values input[type=checkbox] {
+    margin-right:7px;
+}
+
+.catalog-sidebar input.addtocart-button {
+    min-width: 80px;
+}

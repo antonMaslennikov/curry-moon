@@ -127,6 +127,18 @@
 		        'action'=> 'Controller_category:action_delete',
 		        'schemas' => 'GET'
 	        ],
+            
+            'category_field_delete' =>[
+		        'pattern'=>'/admin/product_category/field_delete',
+		        'action'=> 'Controller_category:action_field_delete',
+		        'schemas' => 'GET'
+	        ],
+            
+            'category_field_save' =>[
+		        'pattern'=>'/admin/product_category/field_save',
+		        'action'=> 'Controller_category:action_field_save',
+		        'schemas' => 'GET|POST'
+	        ],
 
 	        'page_list' =>[
 		        'pattern'=>'/admin/page',

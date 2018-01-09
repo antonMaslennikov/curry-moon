@@ -23,4 +23,22 @@
             
             return $foo['id'];
         }
+        
+        public function getAdditionFields($imploded = true) {
+            $sth = App::db()->prepare("SELECT * FROM `" . categoryField::db() . "` WHERE `category_id` = ?");
+            $sth->execute([$this->id]);
+            foreach ($sth->fetchAll() AS $f) {
+                if ($imploded) {
+                    $values = [];
+                    foreach (json_decode($f['value'], 1) AS $v) {
+                        $values[] = $v['value'];
+                    }
+                    $f['value'] = implode(', ', $values);
+                } else {
+                    $f['value'] = json_decode($f['value'], 1);
+                }
+                $rows[] = $f;
+            }
+            return $rows;
+        }
     }

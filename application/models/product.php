@@ -6,6 +6,8 @@ use smashEngine\core\App;
 use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\Thumbnailer;
 
+use \PDO;
+
 /**
  * Class product
  * @package application\models
@@ -260,6 +262,8 @@ class product extends \smashEngine\core\Model {
      */
     public function getAll($filters = null, $trans_id = null) {
         
+        $at = $aq = [];
+        
         if ($filters['categoryfull'])
         {
             $cats = [$filters['categoryfull']];
@@ -285,11 +289,15 @@ class product extends \smashEngine\core\Model {
             $aq[] = "pr.`status` = '1'";
         }
 
-	    $at = [];
         if ($filters['picture'])
         {
             $aq[] = "p.`picture_id` = pr.`picture_id`";
             $at[] = 'pictures AS p';
+        }
+        
+        if ($filters['options'])
+        {
+            $aq[] = "pr.`id` IN ('" . implode("','", productOption::getAllProducts($filters['options'])) . "')";
         }
         
         $q = "SELECT SQL_CALC_FOUND_ROWS * 
@@ -339,5 +347,18 @@ class product extends \smashEngine\core\Model {
         $chain = $cat->getChain($cat->getNode($this->category));
         array_shift($chain);
         return $chain;
+    }
+    
+    public function getCat()
+    {
+        $this->info['cat'] = new category($this->category);
+        return $this->info['cat'];
+    }
+    
+    public function getOptions()
+    {
+        $sth = App::db()->prepare("SELECT `option`, `value` FROM `" . productOption::db() . "` WHERE `product_id` = ?");
+        $sth->execute([$this->id]);
+        return $sth->fetchAll(PDO::FETCH_KEY_PAIR);
     }
 }

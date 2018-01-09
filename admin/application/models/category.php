@@ -21,7 +21,7 @@ use smashEngine\core\App;
  * @property string $meta_keywords
  * @property string $meta_description
  */
-class category extends \smashEngine\core\models\NSModel {
+class category extends \application\models\category {
 
 	/**
 	 * @var имя таблицы в БД для хранения экземпляров класса

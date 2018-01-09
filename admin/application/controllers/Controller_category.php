@@ -11,6 +11,7 @@ namespace admin\application\controllers;
 
 use admin\application\models\category;
 use admin\application\models\CategoryFormModel;
+use \application\models\categoryField;
 use smashEngine\core\helpers\Html;
 
 class Controller_category extends Controller_ {
@@ -119,6 +120,7 @@ class Controller_category extends Controller_ {
 		}
 
 		$this->view->setVar('model', $model->getDataForTemplate());
+        $this->view->setVar('category', $category);
 		$this->view->setVar('button', 'Изменить');
 
 		$this->render();
@@ -180,4 +182,34 @@ class Controller_category extends Controller_ {
 
 		$this->render();
 	}
+
+    
+    public function action_field_save() {
+        
+        if ($_POST['data']) {
+            if ($_POST['data']['category_id']) {
+                $f = new categoryField($_POST['id']);
+                $f->setAttributes($_POST['data']);
+                $f->save();
+            }
+            $this->page->refresh();
+        } else {
+            $f = new categoryField($_GET['id']);
+            $this->view->setVar('field', $f);
+            $this->view->setVar('category', $_GET['category']);
+            $this->view->setVar('range', range(0, 4));
+            $this->view->generate('category/field-form.tpl');
+        }
+        
+        exit();
+    }
+
+    public function action_field_delete() {
+        if ($_GET['id']) {
+            $f = new categoryField($_GET['id']);
+            $f->delete();
+        }
+        
+        $this->page->refresh();
+    }
 }
