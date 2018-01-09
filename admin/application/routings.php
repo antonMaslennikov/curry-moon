@@ -235,6 +235,12 @@
 		        'action'=> 'Controller_blog:action_delete',
 		        'schemas' => 'GET',
 	        ],
+            
+            'blog_lookbook_rebuild'=>[
+		        'pattern'=>'/admin/blog/lookbook_rebuild',
+		        'action'=> 'Controller_blog:action_lookbook_rebuild',
+		        'schemas' => 'GET',
+	        ],
 
 	        'user_list'=>[
 		        'pattern'=>'/admin/user/list',

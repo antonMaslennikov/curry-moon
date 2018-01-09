@@ -43,9 +43,13 @@ class post extends Model {
 	 *
 	 * @return array
 	 */
-	public function getList() {
+	public function getList($params = null) {
 
-		$sql = 'SELECT * FROM '.self::db().' ORDER BY publish_date DESC';
+        if ($params['category'] && is_numeric($params['category'])) {
+            $aq .= "AND `category` = '" . (int) $params['category'] . "'";
+        }
+        
+		$sql = 'SELECT * FROM '.self::db().' WHERE 1 ' . $aq . ' ORDER BY publish_date DESC';
 
 		$stmt = App::db()->prepare($sql);
 		$stmt->execute();

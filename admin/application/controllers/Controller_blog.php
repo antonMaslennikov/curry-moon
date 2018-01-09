@@ -12,6 +12,7 @@ use admin\application\models\blog;
 use admin\application\models\post;
 use admin\application\models\PostFormModel;
 use PDO;
+use Imagick;
 use smashEngine\core\App;
 use smashEngine\core\helpers\Html;
 
@@ -156,4 +157,36 @@ class Controller_blog extends Controller_ {
 		$this->render();
 	}
 
+    public function action_lookbook_rebuild()
+    {
+        $root = str_replace('\admin\application\controllers', '', __DIR__);
+        
+        foreach ((new post())->getList(['category' => post::SPECIAL_LOOKBOOK]) AS $p) {
+            printr($p['id']);
+            preg_match_all('/src="([a-zA-Z0-9-_\.\/]*)"/', $p['content'], $matches);
+            printr($matches[1]);
+            
+            foreach ($matches[1] AS $p) {
+                if (is_file('..' . $p)) {
+                    $i = new Imagick();
+                    $i->readImage($root . $p);
+                    $old_name = explode('.',basename($p));
+                    $ext = array_pop($old_name);
+                    array_push($old_name, 'thumb');
+                    array_push($old_name, $ext);
+                    $new_path = dirname($p) . '/' . implode('.', $old_name);
+                    $i->thumbnailImage(null,279,false);
+                    $i->writeImage($root . $new_path);
+                    
+                    // заменить пути до картинок в посте
+                    
+                }
+                
+                break;
+            }
+            
+            break;
+        }
+        exit('stop');
+    }
 }
