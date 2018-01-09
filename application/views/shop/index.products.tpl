@@ -60,6 +60,6 @@
     </div>
 
     {include file="pagination.tpl"}
- 
+  
 </div>
 {/if}
