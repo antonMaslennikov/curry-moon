@@ -161,14 +161,23 @@ class Controller_blog extends Controller_ {
     {
         $root = str_replace('\admin\application\controllers', '', __DIR__);
         
-        foreach ((new post())->getList(['category' => post::SPECIAL_LOOKBOOK]) AS $p) {
-            printr($p['id']);
-            preg_match_all('/src="([a-zA-Z0-9-_\.\/]*)"/', $p['content'], $matches);
+        $sth = App::db()->prepare("UPDATE `" . post::db() . "` SET `content` = ?, `rebuilded` = 1 WHERE `id` = ? LIMIT 1");
+        
+        foreach ((new post())->getList(['category' => post::SPECIAL_LOOKBOOK]) AS $kk => $row) {
+            
+            if ($row['rebuilded'] > 0) {
+                continue;
+            }
+            
+            printr($row['id']);
+            preg_match_all('/src="([a-zA-Zа-яА-ЯёЁ0-9-_\.\/]*)"/u', $row['content'], $matches);
             printr($matches[1]);
             
             foreach ($matches[1] AS $p) {
-                if (is_file('..' . $p)) {
+                printr($p);
+                //if (is_file($root . $p)) {
                     $i = new Imagick();
+                printr($i);
                     $i->readImage($root . $p);
                     $old_name = explode('.',basename($p));
                     $ext = array_pop($old_name);
@@ -178,14 +187,21 @@ class Controller_blog extends Controller_ {
                     $i->thumbnailImage(null,279,false);
                     $i->writeImage($root . $new_path);
                     
-                    // заменить пути до картинок в посте
+                    printr($new_path);
                     
-                }
-                
-                break;
+                    // заменить пути до картинок в посте
+                    $row['content'] = str_replace("src=\"" . $p . "\"", "src=\"" . $new_path . "\"", $row['content']);
+               /* } else {
+                    exit('not readed');
+                }*/
             }
             
-            break;
+            $sth->execute([$row['content'], $row['id']]);
+            
+            printr($row);
+            
+            //if ($kk > 1) 
+                break;
         }
         exit('stop');
     }
