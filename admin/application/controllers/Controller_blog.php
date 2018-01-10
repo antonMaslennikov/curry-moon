@@ -11,6 +11,7 @@ namespace admin\application\controllers;
 use admin\application\models\blog;
 use admin\application\models\post;
 use admin\application\models\PostFormModel;
+use admin\application\models\LookbookFormModel;
 use PDO;
 use Imagick;
 use smashEngine\core\App;
@@ -52,7 +53,12 @@ class Controller_blog extends Controller_ {
 			'/admin/blog/list'=>'<i class="fa fa-fw fa-files-o"></i> Блог',
 		]);
 
-		$model = new PostFormModel();
+        if ($_GET['lookbook']) {
+            $model = new LookbookFormModel();
+        } else {
+            $model = new PostFormModel();
+        }
+        
 		$postModel = Html::modelName($model);
 
 		if (isset($_POST[$postModel])) {
@@ -62,14 +68,12 @@ class Controller_blog extends Controller_ {
 			if ($model->validate()) {
 
 				$post->setAttributes($model->getData());
-
+                
 				$post->save();
 
 				if (isset($_POST['apply'])) {
-
 					$this->page->go('/admin/blog/update?id='.$post->id);
 				} else {
-
 					$this->page->go('/admin/blog/list');
 				}
 			}
@@ -109,13 +113,21 @@ class Controller_blog extends Controller_ {
 
 		$post = new post((int) $_GET['id']);
 
-		$this->setTemplate('blog/form.tpl');
+        //if ($post->category == post::SPECIAL_LOOKBOOK) {
+        //    $this->setTemplate('blog/form.lookbook.tpl');
+        //} else {
+            $this->setTemplate('blog/form.tpl');
+        //}
+        
 		$this->setTitle(sprintf('Запись: "%s"', $post->title));
 
 		$this->setBreadCrumbs([
 			'/admin/blog/list'=>'<i class="fa fa-fw fa-files-o"></i> Блог',
 		]);
-
+        
+        // preg_match_all("/<a (.*)>(.*)<\/a>/u", $post->content, $matches);
+        // printr($matches);
+        
 		$model = new PostFormModel();
 		$model->setAttributes($post->info, false);
 		$model->setUpdate();
@@ -133,10 +145,8 @@ class Controller_blog extends Controller_ {
 				$post->save();
 
 				if (isset($_POST['apply'])) {
-
 					$this->page->go('/admin/blog/update?id='.$post->id);
 				} else {
-
 					$this->page->go('/admin/blog/list');
 				}
 			}
@@ -174,10 +184,8 @@ class Controller_blog extends Controller_ {
             printr($matches[1]);
             
             foreach ($matches[1] AS $p) {
-                printr($p);
                 //if (is_file($root . $p)) {
                     $i = new Imagick();
-                printr($i);
                     $i->readImage($root . $p);
                     $old_name = explode('.',basename($p));
                     $ext = array_pop($old_name);

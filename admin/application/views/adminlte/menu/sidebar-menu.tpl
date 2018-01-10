@@ -57,6 +57,7 @@
         <ul class="treeview-menu">
             <li><a href="/admin/blog/list"><i class="fa fa-list-alt"></i> Список</a></li>
             <li><a href="/admin/blog/create"><i class="fa fa-plus"></i> Добавить блог</a></li>
+            <li><a href="/admin/blog/create?lookbook=true"><i class="fa fa-plus"></i> Добавить lookbook</a></li>
         </ul>
     </li>
     <li class="treeview {if $PAGE->reqUrl.1 == "coupon"}active{/if}">

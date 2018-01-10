@@ -26,7 +26,7 @@
     // Paths
     define('UPLOADTODAY', DS . 'public' . DS . 'uploaded' . date(DS . 'Y' . DS . 'm' . DS . 'd' . DS));
     
-    define('ROOTDIR', DS . 'home' . DS . 'vhosts' . DS . 'www.maryjane.ru' . DS . 'public_html');
+    define('ROOTDIR', __DIR__);
     
     define('mainUrl', 'http://www.curry-moon.loc');
     define('siteName', 'curry-moon.com');

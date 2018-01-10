@@ -52,7 +52,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="form-group {if isset($model.error.tags)}has-error{/if}">
                                     <label for="{$model.id.tags}">
                                         {$model.label.tags}
@@ -76,6 +76,39 @@
                             <input type="hidden" value="2" name="admin_application_models_PostFormModel[category]" />
                             
                         </div>
+                       
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {include file="adminlte/form/input.tpl" attr="lb_link" required="1"}
+                            </div>
+                            <div class="col-sm-6">
+                                {include file="adminlte/form/input.tpl" attr="lb_name" required="1"}
+                            </div>
+                        </div>
+                        
+                         <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group {if isset($model.error.lb_pictures)}has-error{/if}">
+                                    <label for="{$model.id.lb_pictures}">
+                                        {$model.label.lb_pictures}
+                                    </label>
+                                    <input
+                                            type="file"
+                                            id="{$model.id.lb_pictures}"
+                                            name="{$model.name.lb_pictures}[]"
+                                            multiple
+                                            accept="image/jpeg,image/png,image/jpg,image/gif"
+                                            value="">
+                                    {if isset($model.error.lb_pictures)}
+                                        <p class="help-block">{' '|implode:$model.error.lb_pictures}</p>
+                                    {else}
+                                        <p class="help-block">Выберите все загружаемые файлы одновременно</p>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
 
                     </div>
 
@@ -102,7 +135,7 @@
                     <button type="submit" class="btn btn-info" name="apply">Применить</button>
                     <a href="/admin/blog/list" class="btn btn-default">Отмена</a>
                 </div>
-
+            </div>
         </form>
     </div>
 </div>
