@@ -1,6 +1,6 @@
 <section id="gkMainbody" style="font-size: 100%;">
 
-<div class="{if !$products}category{else}browse{/if}-view {if $options}shop-with-sidebar{/if}">
+<div class="{if !$products && !$filters}category{else}browse{/if}-view {if $options}shop-with-sidebar{/if}">
 
     {include file="shop/index.products.tpl"}
    

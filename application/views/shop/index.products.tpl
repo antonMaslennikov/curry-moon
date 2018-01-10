@@ -1,8 +1,9 @@
-{if $products|count > 0 || $filters}
 <div class="clearfix">
 
     <h1>{$parentCategory->title}</h1>
 
+    {if $products|count > 0 || $filters}
+   
     {include file="shop/index.sidebar.tpl"}
 
     <div class="row">
@@ -60,6 +61,5 @@
     </div>
 
     {include file="pagination.tpl"}
-    
+    {/if}
 </div>
-{/if}
