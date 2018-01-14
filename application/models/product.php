@@ -368,6 +368,6 @@ class product extends \smashEngine\core\Model {
         }
         $chain[] = $this->slug . '-'. $this->product_sku;
         
-        return '/' . implode('/', $chain);
+        return '/ru/shop/' . implode('/', $chain);
     }
 }

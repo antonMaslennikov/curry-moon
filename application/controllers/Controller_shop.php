@@ -211,7 +211,7 @@
             if ($this->page->reqUrl[3]) 
             {
                 $product = new product($this->page->reqUrl[3]);
-                $this->page->go('/ru/shop' . $product->getShopLink(), 301);
+                $this->page->go($product->getShopLink(), 301);
             }
         }
     }
