@@ -8,7 +8,6 @@
 
 namespace admin\application\models;
 
-use application\models\product;
 use smashEngine\core\App;
 use smashEngine\core\helpers\File;
 use smashEngine\core\helpers\UploadedFile;
@@ -120,7 +119,7 @@ class LookbookFormModel extends FormModel {
 			$tag = trim($tag,  " \t\n\r\0\x0B,");
 			if (!isset($all_tags[$tag])) {
 
-				$this->tags[$key] = product::createTag($tag);
+				$this->tags[$key] = application\models\product::createTag($tag);
 				$this->all_tags[$key] = $tag;
 			}
 		}
@@ -217,10 +216,22 @@ class LookbookFormModel extends FormModel {
 		    File::checkPath(File::uploadedPath());
 
 		    foreach (UploadedFile::getInstances($this, 'lb_pictures') as $instance) {
-
+                
 			    $imgPath = File::uploadedPath() . DS. date('His_') . $instance->name;
 			    $instance->saveAs($imgPath);
 
+                // гифы переконвертируем в Jpeg так как на сервере есть проблемы с памятью 
+                if ($instance->type == 'image/gif') {
+                    $imagine = new \Imagine\Imagick\Imagine();
+                    $imagine
+                        ->open($imgPath)
+                        ->save(str_replace('.gif', '.jpg', $imgPath));
+                    
+                    unlink($imgPath);
+                    
+                    $imgPath = str_replace('.gif', '.jpg', $imgPath);
+                }
+                
 			    $attributes['lb_pictures_temp'][] = [
                     'big' => File::getUrlForAbsolutePath($imgPath),
                     'thumb' => (new Thumbnailer())->thumbnail($imgPath, File::uploadedPath(), 214, 279),

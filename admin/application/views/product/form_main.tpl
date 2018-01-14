@@ -66,22 +66,24 @@
         </div>
     </div>
     
-    {assign var="options" value=$product->cat->getAdditionFields(false)}
+    {if $product}
+        {assign var="options" value=$product->cat->getAdditionFields(false)}
 
-    {if $options|count > 0}
-        <div class="col-sm-6">
-            {foreach from=$options item="af"}
-            <div class="form-group">
-                <label>{$af.name}</label>
-                <select name="options[{$af.slug}]" class="form-control">
-                    <option value=""></option>
-                    {foreach from=$af.value item="v"}
-                    <option value="{$v.slug}" {if $productOptions.{$af.slug} == $v.slug}selected="selected"{/if}>{$v.value}</option>
-                    {/foreach}
-                </select>
+        {if $options|count > 0}
+            <div class="col-sm-6">
+                {foreach from=$options item="af"}
+                <div class="form-group">
+                    <label>{$af.name}</label>
+                    <select name="options[{$af.slug}]" class="form-control">
+                        <option value=""></option>
+                        {foreach from=$af.value item="v"}
+                        <option value="{$v.slug}" {if $productOptions.{$af.slug} == $v.slug}selected="selected"{/if}>{$v.value}</option>
+                        {/foreach}
+                    </select>
+                </div>
+                {/foreach}
             </div>
-            {/foreach}
-        </div>
+        {/if}
     {/if}
 </div>
 

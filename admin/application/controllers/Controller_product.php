@@ -18,6 +18,8 @@ use smashEngine\core\App;
 
 class Controller_product extends Controller_ 
 {
+    use SpellerTrait;
+    
     protected $layout = 'index.tpl';
 
     protected function setSortValue() {

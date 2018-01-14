@@ -10,7 +10,7 @@
             
             ini_set('display_errors', true);
             
-            set_error_handler([$this, 'errorHandler'], E_ALL & ~E_NOTICE);
+            set_error_handler([$this, 'errorHandler'], E_ALL);
             register_shutdown_function([$this, 'fatalErrorHandler']);
             set_exception_handler([$this, 'exceptionHandler']);
         }

@@ -10,6 +10,7 @@ namespace admin\application\controllers;
 
 use admin\application\models\blog;
 use admin\application\models\post;
+use admin\application\models\product;
 use admin\application\models\PostFormModel;
 use admin\application\models\LookbookFormModel;
 use PDO;
@@ -44,6 +45,11 @@ class Controller_blog extends Controller_ {
         if ($_GET['lookbook']) {
             $this->setTemplate('blog/form.lookbook.tpl');
             $this->setTitle('Новый lookbook');
+            
+            if ($_GET['product']) {
+                $p = new product($_GET['product']);
+            }
+            
         } else {
             $this->setTemplate('blog/form.tpl');
             $this->setTitle('Новая запись блога');
@@ -78,6 +84,11 @@ class Controller_blog extends Controller_ {
 				}
 			}
 		}
+        
+        if ($p) {
+            $model->lb_link = $p->getShopLink();
+            $model->lb_name = $p->product_name;
+        }
 
 		$this->view->setVar('model', $model->getDataForTemplate());
 		$this->view->setVar('button', 'Создать');

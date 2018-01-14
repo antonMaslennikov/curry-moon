@@ -1380,7 +1380,7 @@ script[id^="vm"] + h2 {
     margin-left:10px;
 }
 
-.option .option-values input[type=checkbox] {
+.option .option-values input[type=checkbox], .option .option-values input[type=radio] {
     margin-right:7px;
 }
 

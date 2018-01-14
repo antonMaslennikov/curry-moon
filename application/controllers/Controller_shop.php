@@ -97,12 +97,19 @@
             
             $trans_id = uniqid();
             
+            // порядок сортировки
+            if ($_GET['price'] && in_array($_GET['price'], ['asc', 'desc'])) {
+                $orderby = '(pr.`product_price` - pr.`product_price` / 100 * pr.`product_discount`) ' . $_GET['price'];
+            } else {
+                $orderby = 'pr.`sorting`, pr.`id` DESC';
+            }
+            
             $products = product::getAll([
                 'category' => $category->id, 
                 'avalible' => true,
                 'status' => 'active', 
                 'picture' => true,
-                'orderBy' => 'pr.`sorting`, pr.`id` DESC',
+                'orderBy' => $orderby,
                 'options' => $filters,
                 'limit' => $onpage,
                 'offset' => intval($_GET['limitstart']),
@@ -204,13 +211,7 @@
             if ($this->page->reqUrl[3]) 
             {
                 $product = new product($this->page->reqUrl[3]);
-                
-                foreach ($product->getCategorysChain() AS $c) {
-                    $chain[] = $c['slug'];
-                }
-                $chain[] = $product->slug . '-'. $product->product_sku;
+                $this->page->go('/ru/shop' . $product->getShopLink(), 301);
             }
-            
-            $this->page->go('/ru/shop/' . implode('/', $chain), 301);
         }
     }

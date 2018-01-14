@@ -65,6 +65,7 @@
                     {if $product->id > 0}
                         <a href="/admin/product/list?filter[categoryfull]={$product->category}" class="btn btn-default">Отмена</a>
                         <a href="/ru/shop/openproduct/{$product->id}" class="btn btn-success pull-right">Посмотреть на сайте</a>
+                        <a href="/admin/blog/create?lookbook=true&product={$product->id}" class="btn btn-danger pull-right" style="margin-right: 50px">Создать Lookbook</a>
                     {else}
                         <a href="/admin/product/list" class="btn btn-default">Отмена</a>
                     {/if}
@@ -137,6 +138,7 @@
                 toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | code | spellchecker",
                 spellchecker_languages: "Russian=ru,English=en",    
                 spellchecker_language: 'ru',
+                //spellchecker_rpc_url: "/admin/product/spellchecker"
                 spellchecker_rpc_url: "http://speller.yandex.net/services/tinyspell"
             });
 

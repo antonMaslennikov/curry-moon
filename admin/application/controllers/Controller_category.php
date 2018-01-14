@@ -197,7 +197,7 @@ class Controller_category extends Controller_ {
             $f = new categoryField($_GET['id']);
             $this->view->setVar('field', $f);
             $this->view->setVar('category', $_GET['category']);
-            $this->view->setVar('range', range(0, 4));
+            $this->view->setVar('range', range(0, 5));
             $this->view->generate('category/field-form.tpl');
         }
         

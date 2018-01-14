@@ -91,6 +91,12 @@
 		        'schemas' => 'GET'
 	        ],
             
+            'product_spellcheck' =>[
+		        'pattern'=>'/admin/product/spellchecker',
+		        'action'=> 'Controller_product:action_spellchecker',
+		        'schemas' => 'GET|POST'
+	        ],
+            
             'save_pic_data' => [
 		        'pattern'=>'/admin/product/save_pic_data',
 		        'action'=> 'Controller_product:action_save_pic_data',

@@ -361,4 +361,13 @@ class product extends \smashEngine\core\Model {
         $sth->execute([$this->id]);
         return $sth->fetchAll(PDO::FETCH_KEY_PAIR);
     }
+    
+    public function getShopLink() {
+        foreach ($this->getCategorysChain() AS $c) {
+            $chain[] = $c['slug'];
+        }
+        $chain[] = $this->slug . '-'. $this->product_sku;
+        
+        return '/' . implode('/', $chain);
+    }
 }

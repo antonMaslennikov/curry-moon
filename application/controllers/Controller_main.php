@@ -31,8 +31,7 @@
             $products = product::getAll([
                 'status' => 'active', 
                 'picture' => true,
-                'orderBy' => 'pr.`id`',
-                'orderDir' => 'DESC',
+                'orderBy' => 'pr.`id` DESC',
                 'limit' => 4,
             ]);
             
