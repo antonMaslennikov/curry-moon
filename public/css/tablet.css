@@ -310,3 +310,21 @@ article header li:last-child {
 	display: block;
 	overflow: hidden;
 }
+
+.catalog-sidebar {
+    display:none;
+    position: absolute;
+    background: #fff;
+    z-index: 1000;
+    width: 175px;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+.shop-with-sidebar .row {
+    width:95%;
+}
+
+.sidebar-toggler {
+    display: block;
+}

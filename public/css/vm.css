@@ -1362,6 +1362,10 @@ script[id^="vm"] + h2 {
 	padding: 5px 0;
 }
 
+.sidebar-toggler {
+    display: none;
+}
+
 .catalog-sidebar {
     float:left;
     width:16%;

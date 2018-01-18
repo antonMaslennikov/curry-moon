@@ -12,25 +12,21 @@
         <div class="product floatleft width33 vertical-separator">
             <div class="spacer">
 
-                {if $p.isNew}
-                <div class="bit_badge_new" style="top:270px;left:260px;">
-                    <img src="/public/images/new_blue.png" alt="badge_new">
-                </div>
-                {/if}
+                <a title="{$p.product_name}" href="{$base}{$p.slug}-{$p.product_sku|lower}" style="position:relative;display:block">
+                    <img src="{$p.picture_path}" alt="{$p.slug}" class="browseProductImage">
 
-                {if $p.product_discount > 0}
-                <div id="{$p.id}_bvmpb_com" class="product_badge">
-                    <div class="bit_badge_discount" style="top:-12px;left:260px;">
+                    {if $p.isNew}
+                    <div class="bit_badge_new" style="top:270px;right: 0px;">
+                        <img src="/public/images/new_blue.png" alt="badge_new">
+                    </div>
+                    {/if}
+
+                    {if $p.product_discount > 0}
+                    <div class="bit_badge_discount" style="top:-12px;right: 0px;">
                         <img src="/public/images/sale_red.png" alt="badge_discount">
                     </div>
-                </div>
-                {/if}
-
-                <div>
-                    <a title="{$p.product_name}" href="{$base}{$p.slug}-{$p.product_sku|lower}">
-                        <img src="{$p.picture_path}" alt="{$p.slug}" class="browseProductImage">					 
-                    </a>
-                </div>
+                    {/if}				 
+                </a>
 
                 <div class="ProdTitleBlock">
                     <h3 class="catProductTitle"><a href="{$base}{$p.slug}-{$p.product_sku|lower}">{$p.product_name}</a></h3>

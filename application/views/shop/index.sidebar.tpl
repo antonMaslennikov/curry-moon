@@ -1,4 +1,7 @@
-{* if $options *}
+{if $products|count > 0 || $smarty.get|count > 0}
+
+<i class="sidebar-toggler fa fa-bars" onclick="jQuery('.catalog-sidebar').toggle()"></i>
+
 <div class="catalog-sidebar">
     
     <form action="">
@@ -27,4 +30,4 @@
     </form>
     
 </div>
-{* /if *}
+{/if}

@@ -37,7 +37,7 @@
     <link href="/public/css/template.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/menu/menu.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/gk.stuff.css" rel="stylesheet" type="text/css" />
-    <link href="/public/css/vm.css?v9" rel="stylesheet" type="text/css" />
+    <link href="/public/css/vm.css?v10" rel="stylesheet" type="text/css" />
     <link href="/public/css/style3.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/typography/typography.style3.css" rel="stylesheet" type="text/css" />
     
@@ -116,7 +116,7 @@
     <link rel="apple-touch-icon-precomposed" href="/public/images/apple-touch-icon-120x120.png">
 
     <link rel="stylesheet" href="/public/css/small.desktop.css" media="(max-width: 1130px)" />
-    <link rel="stylesheet" href="/public/css/tablet.css" media="(max-width: 840px)" />
+    <link rel="stylesheet" href="/public/css/tablet.css?v1" media="(max-width: 840px)" />
     <link rel="stylesheet" href="/public/css/small.tablet.css" media="(max-width: 800px)" />
     <link rel="stylesheet" href="/public/css/mobile.css" media="(max-width: 600px)" />
     <link rel="stylesheet" href="/public/css/override.css" />

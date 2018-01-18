@@ -135,6 +135,9 @@
                 $this->page->canonical = $this->page->url;
             }
             
+            unset($_GET['limitstart']);
+            $this->view->setVar('get', count($_GET) > 0 ? '&' . http_build_query($_GET) : '');
+            
             $this->view->generate($this->page->index_tpl);
         }
     
